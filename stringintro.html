@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>String Program with Explanation</title>
+<style>
+  body {
+    font-family: Consolas, monospace;
+    background-color: white;
+    color: black;
+    padding: 20px;
+  }
+  table {
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: auto;
+  }
+  td.code {
+    background: #f0f8ff; /* light blue for code */
+    font-size: 16px;
+    white-space: pre;
+    vertical-align: top;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  td.explanation {
+    background: #fffacd; /* light yellow for explanation */
+    font-size: 16px;
+    white-space: pre;
+    vertical-align: top;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  td.blank {
+    width: 150px; /* blank space for student input */
+    background: transparent;
+    border: none;
+  }
+  button {
+    font-size: 16px;
+    margin-right: 10px;
+    padding: 8px 15px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background-color: #0078d7;
+    color: white;
+    cursor: pointer;
+  }
+  button:hover { background-color: #005fa3; }
+  .hint { color: #555; font-size: 14px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<h2>String Handling Program in C (Explanation Below Code)</h2>
+
+<table id="codeTable">
+  <tbody>
+  </tbody>
+</table>
+
+<button onclick="showNext()">Next Line</button>
+<button onclick="showPrev()">Previous Line</button>
+<button onclick="resetCode()">Reset</button>
+<p class="hint">💡 Press any key to reveal the next code line and explanation. Students can write in the blank column.</p>
+
+<script>
+const lines = [
+  "#include <stdio.h>",
+  "#include <string.h>",
+  "",
+  "int main() {",
+  "    char str1[] = \"Hello World\";",
+  "    char str2[20] = \"C Programming\";",
+  "    char str3[] = {'s','e','c','t','i','o','n','\\0'};",
+  "    char str4[30];",
+  "    strcpy(str4, \"String Functions in C\");",
+  "    const char *str5 = \"Pointer String\";",
+  "    char input[50];",
+  "    printf(\"Enter your own string: \");",
+  "    fgets(input, sizeof(input), stdin);",
+  "    input[strcspn(input, \"\\n\")] = '\\0';",
+  "    printf(\"\\n--- Output Section ---\\n\");",
+  "    printf(\"1. str1 : %s\\n\", str1);",
+  "    printf(\"2. str2 : %s\\n\", str2);",
+  "    printf(\"3. str3 : %s\\n\", str3);",
+  "    printf(\"4. str4 : %s\\n\", str4);",
+  "    printf(\"5. str5 : %s\\n\", str5);",
+  "    printf(\"6. User Input (printf): %s\\n\", input);",
+  "    printf(\"\\nUsing puts() function:\\n\");",
+  "    puts(str1);",
+  "    puts(str2);",
+  "    puts(str3);",
+  "    puts(str4);",
+  "    puts(str5);",
+  "    puts(input);",
+  "    return 0;",
+  "}"
+];
+
+const explanations = [
+  "Include standard input/output library.",
+  "Include string library for strcpy(), strcspn().",
+  "",
+  "Start of main function.",
+  "Declare and initialize string directly using double quotes.",
+  "Declare fixed size string and partially initialize.",
+  "Declare string character by character with null terminator.",
+  "Declare empty string array to assign later.",
+  "Copy string into str4 using strcpy().",
+  "Pointer to string literal stored in read-only memory.",
+  "Declare array to take user input.",
+  "Prompt user to enter string.",
+  "Read string safely using fgets().",
+  "Remove trailing newline character added by fgets().",
+  "Print heading for output section.",
+  "Print str1 using printf.",
+  "Print str2 using printf.",
+  "Print str3 using printf.",
+  "Print str4 using printf.",
+  "Print str5 using printf.",
+  "Print user input using printf.",
+  "Print heading for puts() output.",
+  "Print str1 using puts().",
+  "Print str2 using puts().",
+  "Print str3 using puts().",
+  "Print str4 using puts().",
+  "Print str5 using puts().",
+  "Print user input using puts().",
+  "Return 0 to end program.",
+  "End of main function."
+];
+
+let index = 0;
+
+function showNext() {
+  if (index < lines.length) {
+    const table = document.getElementById("codeTable").querySelector("tbody");
+
+    // Code row
+    const codeRow = table.insertRow();
+    const codeCell = codeRow.insertCell(0);
+    codeCell.className = "code";
+    codeCell.textContent = lines[index];
+
+    const blankCell1 = codeRow.insertCell(1);
+    blankCell1.className = "blank";
+
+    // Explanation row
+    const expRow = table.insertRow();
+    const expCell = expRow.insertCell(0);
+    expCell.className = "explanation";
+    expCell.textContent = explanations[index];
+
+    const blankCell2 = expRow.insertCell(1);
+    blankCell2.className = "blank";
+
+    index++;
+  }
+}
+
+function showPrev() {
+  if (index > 0) {
+    const table = document.getElementById("codeTable").querySelector("tbody");
+    table.deleteRow(table.rows.length - 1); // explanation row
+    table.deleteRow(table.rows.length - 1); // code row
+    index--;
+  }
+}
+
+function resetCode() {
+  index = 0;
+  const table = document.getElementById("codeTable").querySelector("tbody");
+  table.innerHTML = "";
+}
+
+// Keyboard interaction
+document.addEventListener("keydown", function(event) {
+  if (event.ctrlKey || event.altKey || event.metaKey) return;
+  showNext();
+});
+</script>
+
+</body>
+</html>

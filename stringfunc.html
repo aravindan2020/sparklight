@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>String Handling Functions Interactive</title>
+<style>
+  body {
+    font-family: Consolas, monospace;
+    background-color: white;
+    color: black;
+    padding: 20px;
+  }
+  select, button {
+    font-size: 16px;
+    margin-right: 10px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    cursor: pointer;
+  }
+  table {
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: auto;
+  }
+  td.code {
+    background: #f0f8ff;
+    font-size: 16px;
+    white-space: pre;
+    vertical-align: top;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  td.explanation {
+    background: #fffacd;
+    font-size: 16px;
+    white-space: pre;
+    vertical-align: top;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  td.sample {
+    background: #d0f0c0;
+    font-size: 16px;
+    white-space: pre;
+    vertical-align: top;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  td.blank {
+    width: 150px;
+    background: transparent;
+    border: none;
+  }
+</style>
+</head>
+<body>
+
+<h2>String Handling Functions Interactive</h2>
+
+<label>Select Function:</label>
+<select id="functionSelect">
+  <option value="">--Select--</option>
+  <option value="strlen">strlen()</option>
+  <option value="strcpy">strcpy()</option>
+  <option value="strncpy">strncpy()</option>
+  <option value="strcat">strcat()</option>
+  <option value="strncat">strncat()</option>
+  <option value="strcmp">strcmp()</option>
+  <option value="strncmp">strncmp()</option>
+  <option value="strchr">strchr()</option>
+  <option value="strrchr">strrchr()</option>
+  <option value="strstr">strstr()</option>
+  <option value="strtok">strtok()</option>
+  <option value="strerror">strerror()</option>
+  <option value="memset">memset()</option>
+  <option value="memcpy">memcpy()</option>
+  <option value="memcmp">memcmp()</option>
+  <option value="strdup">strdup()</option>
+  <option value="strrev">strrev()</option>
+</select>
+<button onclick="loadFunction()">Show Code & Explanation</button>
+<button onclick="showSample()">Show Sample I/O</button>
+
+<table id="codeTable">
+  <tbody></tbody>
+</table>
+
+<script>
+const functions = {
+  strlen: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str[] = "Hello";
+    printf("Length: %lu\\n", strlen(str));
+    return 0;
+}`,
+    explanation: "strlen(str) returns the number of characters in the string, excluding the null terminator.",
+    sample: "Input: \"Hello\"\nOutput: Length: 5"
+  },
+  strcpy: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char src[] = "Hello";
+    char dest[10];
+    strcpy(dest, src);
+    printf("Copied: %s\\n", dest);
+    return 0;
+}`,
+    explanation: "strcpy(dest, src) copies contents of src string to dest.",
+    sample: "Input: src=\"Hello\"\nOutput: Copied: Hello"
+  },
+  strncpy: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char src[] = "HelloWorld";
+    char dest[6];
+    strncpy(dest, src, 5);
+    dest[5]='\\0';
+    printf("Copied: %s\\n", dest);
+    return 0;
+}`,
+    explanation: "strncpy(dest, src, n) copies up to n characters from src to dest.",
+    sample: "Input: src=\"HelloWorld\", n=5\nOutput: Copied: Hello"
+  },
+  strcat: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str1[20] = "Hello ";
+    char str2[] = "World";
+    strcat(str1, str2);
+    printf("%s\\n", str1);
+    return 0;
+}`,
+    explanation: "strcat(dest, src) appends src string to the end of dest.",
+    sample: "Input: str1=\"Hello \", str2=\"World\"\nOutput: Hello World"
+  },
+  strncat: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str1[20] = "Hello ";
+    char str2[] = "World";
+    strncat(str1, str2, 3);
+    printf("%s\\n", str1);
+    return 0;
+}`,
+    explanation: "strncat(dest, src, n) appends up to n characters from src to dest.",
+    sample: "Input: str1=\"Hello \", str2=\"World\", n=3\nOutput: Hello Wor"
+  },
+  strcmp: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str1[]="abc";
+    char str2[]="abc";
+    if(strcmp(str1,str2)==0)
+        printf("Equal\\n");
+    else
+        printf("Not Equal\\n");
+    return 0;
+}`,
+    explanation: "strcmp(str1, str2) compares two strings and returns 0 if equal.",
+    sample: "Input: str1=\"abc\", str2=\"abc\"\nOutput: Equal"
+  },
+  strncmp: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str1[]="abcdef";
+    char str2[]="abcxyz";
+    if(strncmp(str1,str2,3)==0)
+        printf("First 3 chars are equal\\n");
+    return 0;
+}`,
+    explanation: "strncmp(str1, str2, n) compares up to n characters of two strings.",
+    sample: "Input: str1=\"abcdef\", str2=\"abcxyz\", n=3\nOutput: First 3 chars are equal"
+  },
+  strchr: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str[]="hello";
+    char *p = strchr(str,'l');
+    printf("First 'l' at position: %ld\\n", p-str);
+    return 0;
+}`,
+    explanation: "strchr(str, ch) finds the first occurrence of character ch in string.",
+    sample: "Input: str=\"hello\", ch='l'\nOutput: First 'l' at position: 2"
+  },
+  strrchr: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str[]="hello";
+    char *p = strrchr(str,'l');
+    printf("Last 'l' at position: %ld\\n", p-str);
+    return 0;
+}`,
+    explanation: "strrchr(str, ch) finds the last occurrence of character ch in string.",
+    sample: "Input: str=\"hello\", ch='l'\nOutput: Last 'l' at position: 3"
+  },
+  strstr: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str[]="hello world";
+    char *p = strstr(str,"world");
+    if(p) printf("Found at position: %ld\\n", p-str);
+    return 0;
+}`,
+    explanation: "strstr(str, substr) finds the first occurrence of substring in string.",
+    sample: "Input: str=\"hello world\", substr=\"world\"\nOutput: Found at position: 6"
+  },
+  strtok: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str[]="Hello,World,Test";
+    char *token = strtok(str,",");
+    while(token) {
+        printf("%s\\n", token);
+        token = strtok(NULL,",");
+    }
+    return 0;
+}`,
+    explanation: "strtok(str, delim) splits string into tokens using delimiter.",
+    sample: "Input: str=\"Hello,World,Test\", delim=','\nOutput: Hello\\nWorld\\nTest"
+  },
+  strerror: {
+    code: `#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+int main() {
+    FILE *f = fopen("no_file.txt","r");
+    if(!f) printf("Error: %s\\n", strerror(errno));
+    return 0;
+}`,
+    explanation: "strerror(errno) returns the string description of an error code.",
+    sample: "Input: fopen(\"no_file.txt\") fails\nOutput: Error: No such file or directory"
+  },
+  memset: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str[10];
+    memset(str,'A',10);
+    printf("%.*s\\n",10,str);
+    return 0;
+}`,
+    explanation: "memset(ptr, val, n) fills memory with a specified value.",
+    sample: "Output: AAAAAAAAAA"
+  },
+  memcpy: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char src[]="Hello";
+    char dest[6];
+    memcpy(dest,src,6);
+    printf("%s\\n",dest);
+    return 0;
+}`,
+    explanation: "memcpy(dest, src, n) copies n bytes from src to dest.",
+    sample: "Input: src=\"Hello\"\nOutput: Hello"
+  },
+  memcmp: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str1[]="abc";
+    char str2[]="abd";
+    int res = memcmp(str1,str2,3);
+    printf("%d\\n",res);
+    return 0;
+}`,
+    explanation: "memcmp(ptr1, ptr2, n) compares n bytes of two memory blocks.",
+    sample: "Input: str1=\"abc\", str2=\"abd\"\nOutput: -1 (since 'c'-'d'=-1)"
+  },
+  strdup: {
+    code: `#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main() {
+    char str[]="Hello";
+    char *copy = strdup(str);
+    printf("%s\\n", copy);
+    free(copy);
+    return 0;
+}`,
+    explanation: "strdup(str) returns a new duplicate of the input string. (Non-standard)",
+    sample: "Input: str=\"Hello\"\nOutput: Hello"
+  },
+  strrev: {
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str[]="Hello";
+    strrev(str);
+    printf("%s\\n", str);
+    return 0;
+}`,
+    explanation: "strrev(str) reverses the string in place. (Non-standard)",
+    sample: "Input: str=\"Hello\"\nOutput: olleH"
+  }
+};
+
+let currentFunction = "";
+
+function loadFunction() {
+  const select = document.getElementById('functionSelect');
+  const key = select.value;
+  currentFunction = key;
+  const table = document.getElementById("codeTable").querySelector("tbody");
+  table.innerHTML = "";
+
+  if(functions[key]) {
+    // Code row
+    const codeRow = table.insertRow();
+    const codeCell = codeRow.insertCell(0);
+    codeCell.className = "code";
+    codeCell.textContent = functions[key].code;
+    codeRow.insertCell(1).className = "blank";
+
+    // Explanation row
+    const expRow = table.insertRow();
+    const expCell = expRow.insertCell(0);
+    expCell.className = "explanation";
+    expCell.textContent = functions[key].explanation;
+    expRow.insertCell(1).className = "blank";
+  }
+}
+
+function showSample() {
+  if(currentFunction && functions[currentFunction]) {
+    const table = document.getElementById("codeTable").querySelector("tbody");
+
+    // Sample Input/Output row
+    const sampleRow = table.insertRow();
+    const sampleCell = sampleRow.insertCell(0);
+    sampleCell.className = "sample";
+    sampleCell.textContent = functions[currentFunction].sample;
+    sampleRow.insertCell(1).className = "blank";
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Palindrome Program with Explanation</title>
+<style>
+  body {
+    font-family: Consolas, monospace;
+    background-color: white;
+    color: black;
+    padding: 20px;
+  }
+  table {
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: auto; /* table only as wide as content */
+  }
+  td.code {
+    background: #f0f8ff; /* light blue for code */
+    font-size: 16px;
+    white-space: pre;
+    vertical-align: top;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  td.explanation {
+    background: #fffacd; /* light yellow for explanation */
+    font-size: 16px;
+    white-space: pre;
+    vertical-align: top;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  td.blank {
+    width: 150px; /* small blank column for student input */
+    background: transparent;
+    border: none;
+  }
+  button {
+    font-size: 16px;
+    margin-right: 10px;
+    padding: 8px 15px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background-color: #0078d7;
+    color: white;
+    cursor: pointer;
+  }
+  button:hover { background-color: #005fa3; }
+  .hint { color: #555; font-size: 14px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<h2>Palindrome Program (Explanation Below Code, Right Blank)</h2>
+
+<table id="codeTable">
+  <tbody>
+  </tbody>
+</table>
+
+<button onclick="showNext()">Next Line</button>
+<button onclick="showPrev()">Previous Line</button>
+<button onclick="resetCode()">Reset</button>
+<p class="hint">💡 Press any key to reveal the next code line and its explanation. Students can write in the blank column.</p>
+
+<script>
+const lines = [
+  "#include <stdio.h>",
+  "#include <string.h>",
+  "",
+  "int main() {",
+  "    char str[100];",
+  "    int i, len, flag = 0;",
+  "",
+  "    printf(\"Enter a string: \");",
+  "    fgets(str, sizeof(str), stdin);",
+  "",
+  "// Remove newline character if present",
+  "    len = strlen(str);",
+  "    if (str[len - 1] == '\\n')",
+  "        str[len - 1] = '\\0';",
+  "",
+  "    len = strlen(str);",
+  "",
+  "    for (i = 0; i < len / 2; i++) {",
+  "        if (str[i] != str[len - i - 1]) {",
+  "            flag = 1;",
+  "            break;",
+  "        }",
+  "    }",
+  "",
+  "    if (flag == 0)",
+  "        printf(\"The string is a palindrome.\\n\");",
+  "    else",
+  "        printf(\"The string is not a palindrome.\\n\");",
+  "",
+  "    return 0;",
+  "}"
+];
+
+const explanations = [
+  "Include standard input/output library.",
+  "Include string library for strlen() function.",
+  "",
+  "Start of main function.",
+  "Declare a string array to hold input.",
+  "Declare loop index, length variable, and flag for palindrome check.",
+  "",
+  "Prompt user to enter a string.",
+  "Read string from user safely using fgets().",
+  "",
+  "Comment explaining next step.",
+  "Get the length of the string.",
+  "Check if the last character is newline.",
+  "Replace newline with null character.",
+  "",
+  "Update length after removing newline.",
+  "",
+  "Loop from start to middle of string.",
+  "Compare character from start with corresponding character from end.",
+  "If not equal, set flag to indicate not palindrome.",
+  "Exit loop early if mismatch found.",
+  "End of loop.",
+  "",
+  "If flag is still 0, string is palindrome.",
+  "Print palindrome message.",
+  "Else, string is not palindrome.",
+  "Print not palindrome message.",
+  "",
+  "Return 0 to indicate successful execution.",
+  "End of main function."
+];
+
+let index = 0;
+
+function showNext() {
+  if (index < lines.length) {
+    const table = document.getElementById("codeTable").querySelector("tbody");
+
+    // Code row
+    const codeRow = table.insertRow();
+    const codeCell = codeRow.insertCell(0);
+    codeCell.className = "code";
+    codeCell.textContent = lines[index];
+
+    const blankCell1 = codeRow.insertCell(1);
+    blankCell1.className = "blank";
+
+    // Explanation row
+    const expRow = table.insertRow();
+    const expCell = expRow.insertCell(0);
+    expCell.className = "explanation";
+    expCell.textContent = explanations[index];
+
+    const blankCell2 = expRow.insertCell(1);
+    blankCell2.className = "blank";
+
+    index++;
+  }
+}
+
+function showPrev() {
+  if (index > 0) {
+    const table = document.getElementById("codeTable").querySelector("tbody");
+    table.deleteRow(table.rows.length - 1); // explanation row
+    table.deleteRow(table.rows.length - 1); // code row
+    index--;
+  }
+}
+
+function resetCode() {
+  index = 0;
+  const table = document.getElementById("codeTable").querySelector("tbody");
+  table.innerHTML = "";
+}
+
+// Keyboard interaction
+document.addEventListener("keydown", function(event) {
+  if (event.ctrlKey || event.altKey || event.metaKey) return;
+  showNext();
+});
+</script>
+
+</body>
+</html>

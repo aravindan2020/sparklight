@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Count Vowels and Consonants Program</title>
+<style>
+  body {
+    font-family: Consolas, monospace;
+    background-color: white;
+    color: black;
+    padding: 20px;
+  }
+  table {
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: auto;
+  }
+  td.code {
+    background: #f0f8ff; /* light blue for code */
+    font-size: 16px;
+    white-space: pre;
+    vertical-align: top;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  td.explanation {
+    background: #fffacd; /* light yellow for explanation */
+    font-size: 16px;
+    white-space: pre;
+    vertical-align: top;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  td.blank {
+    width: 150px; /* blank space for student input */
+    background: transparent;
+    border: none;
+  }
+  button {
+    font-size: 16px;
+    margin-right: 10px;
+    padding: 8px 15px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background-color: #0078d7;
+    color: white;
+    cursor: pointer;
+  }
+  button:hover { background-color: #005fa3; }
+  .hint { color: #555; font-size: 14px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<h2>Count Vowels, Consonants, Digits, and Special Characters</h2>
+
+<table id="codeTable">
+  <tbody>
+  </tbody>
+</table>
+
+<button onclick="showNext()">Next Line</button>
+<button onclick="showPrev()">Previous Line</button>
+<button onclick="resetCode()">Reset</button>
+<p class="hint">💡 Press any key to reveal the next code line and explanation. Students can write in the blank column.</p>
+
+<script>
+const lines = [
+  "#include <stdio.h>",
+  "#include <ctype.h>",
+  "#include <string.h>",
+  "",
+  "int main() {",
+  "    char str[100];",
+  "    int vowels=0, consonants=0, digits=0, special=0;",
+  "",
+  "    printf(\"Enter a string: \");",
+  "    fgets(str, sizeof(str), stdin);",
+  "",
+  "    for(int i=0; str[i]!='\\0'; i++) {",
+  "        char ch = str[i];",
+  "        if(ch=='\\n') continue;",
+  "        if(isalpha(ch)) {",
+  "            char lower = tolower(ch);",
+  "            if(lower=='a'||lower=='e'||lower=='i'||lower=='o'||lower=='u')",
+  "                vowels++;",
+  "            else",
+  "                consonants++;",
+  "        } else if(isdigit(ch))",
+  "            digits++;",
+  "        else",
+  "            special++;",
+  "    }",
+  "",
+  "    printf(\"Vowels: %d\\n\", vowels);",
+  "    printf(\"Consonants: %d\\n\", consonants);",
+  "    printf(\"Digits: %d\\n\", digits);",
+  "    printf(\"Special Characters: %d\\n\", special);",
+  "",
+  "    return 0;",
+  "}"
+];
+
+const explanations = [
+  "Include standard input/output library.",
+  "Include ctype library for isalpha(), isdigit(), tolower().",
+  "Include string library for string handling.",
+  "",
+  "Start of main function.",
+  "Declare string and counters for vowels, consonants, digits, special chars.",
+  "",
+  "Prompt user to enter a string.",
+  "Read string safely using fgets().",
+  "",
+  "Loop through each character of the string.",
+  "Store current character in variable ch.",
+  "Ignore newline character added by fgets().",
+  "Check if character is alphabet.",
+  "Convert character to lowercase for comparison.",
+  "If vowel, increment vowels counter.",
+  "Else it is consonant, increment consonants counter.",
+  "If character is digit, increment digits counter.",
+  "Else it is special character, increment special counter.",
+  "",
+  "Print the number of vowels.",
+  "Print the number of consonants.",
+  "Print the number of digits.",
+  "Print the number of special characters.",
+  "",
+  "Return 0 to indicate successful execution.",
+  "End of main function."
+];
+
+let index = 0;
+
+function showNext() {
+  if (index < lines.length) {
+    const table = document.getElementById("codeTable").querySelector("tbody");
+
+    // Code row
+    const codeRow = table.insertRow();
+    const codeCell = codeRow.insertCell(0);
+    codeCell.className = "code";
+    codeCell.textContent = lines[index];
+
+    const blankCell1 = codeRow.insertCell(1);
+    blankCell1.className = "blank";
+
+    // Explanation row
+    const expRow = table.insertRow();
+    const expCell = expRow.insertCell(0);
+    expCell.className = "explanation";
+    expCell.textContent = explanations[index];
+
+    const blankCell2 = expRow.insertCell(1);
+    blankCell2.className = "blank";
+
+    index++;
+  }
+}
+
+function showPrev() {
+  if (index > 0) {
+    const table = document.getElementById("codeTable").querySelector("tbody");
+    table.deleteRow(table.rows.length - 1); // explanation row
+    table.deleteRow(table.rows.length - 1); // code row
+    index--;
+  }
+}
+
+function resetCode() {
+  index = 0;
+  const table = document.getElementById("codeTable").querySelector("tbody");
+  table.innerHTML = "";
+}
+
+// Keyboard interaction
+document.addEventListener("keydown", function(event) {
+  if (event.ctrlKey || event.altKey || event.metaKey) return;
+  showNext();
+});
+</script>
+
+</body>
+</html>
