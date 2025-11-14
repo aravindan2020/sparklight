@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Programs 51-75 with Explanations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+        .nav-link {
+            display: block;
+            text-align: center;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .nav-link:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>C Programs 51-75: Strings, Recursion, and More</h1>
+    <a href="program.html" class="nav-link">View Programs 1-10</a>
+    <a href="program1.html" class="nav-link">View Programs 11-20</a>
+    <a href="program2.html" class="nav-link">View Programs 21-30</a>
+    <a href="program3.html" class="nav-link">View Programs 31-40</a>
+    <a href="program4.html" class="nav-link">View Programs 41-50</a>
+    <ul id="program-list">
+        <li data-program="51">51. Program to convert string to uppercase</li>
+        <li data-program="52">52. Program to convert string to lowercase</li>
+        <li data-program="53">53. Program to count vowels in a string</li>
+        <li data-program="54">54. Program to count consonants in a string</li>
+        <li data-program="55">55. Program to find substring in a string</li>
+        <li data-program="56">56. Program to remove spaces from a string</li>
+        <li data-program="57">57. Program to convert string to integer</li>
+        <li data-program="58">58. Program to check anagram strings</li>
+        <li data-program="59">59. Program to count word occurrences in a string</li>
+        <li data-program="60">60. Program to find factorial using recursion</li>
+        <li data-program="61">61. Program to print Fibonacci using recursion</li>
+        <li data-program="62">62. Program to find power using recursion</li>
+        <li data-program="63">63. Program to find GCD using recursion</li>
+        <li data-program="64">64. Program to find sum of digits using recursion</li>
+        <li data-program="65">65. Program to reverse number using recursion</li>
+        <li data-program="66">66. Program to check prime number using recursion</li>
+        <li data-program="67">67. Program to print array using recursion</li>
+        <li data-program="68">68. Program to find sum of array using recursion</li>
+        <li data-program="69">69. Program to find maximum element in array using recursion</li>
+        <li data-program="70">70. Program to convert decimal to binary using recursion</li>
+        <li data-program="71">71. Program to calculate length of string using recursion</li>
+        <li data-program="72">72. Program to reverse string using recursion</li>
+        <li data-program="73">73. Program to check palindrome string using recursion</li>
+        <li data-program="74">74. Program to print numbers from 1 to n using recursion</li>
+        <li data-program="75">75. Program to find sum of n natural numbers using recursion</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        // Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, attaching event listeners...'); // Debug log
+
+            const programs = {
+                51: {
+                    title: "51. Program to convert string to uppercase",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include standard input/output header.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' char str[100];', explanation: 'Declare string array.' },
+                        { code: ' int i = 0;', explanation: 'Initialize index.' },
+                        { code: ' printf("Enter string: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%s", str);', explanation: 'Read string.' },
+                        { code: ' while (str[i] != \'\\0\') {', explanation: 'Loop until null terminator.' },
+                        { code: ' if (str[i] >= \'a\' && str[i] <= \'z\')', explanation: 'Check if lowercase.' },
+                        { code: ' str[i] = str[i] - 32;', explanation: 'Convert to uppercase.' },
+                        { code: ' i++;', explanation: 'Increment index.' },
+                        { code: ' }', explanation: 'End loop.' },
+                        { code: ' printf("Uppercase: %s\\n", str);', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                52: {
+                    title: "52. Program to convert string to lowercase",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' char str[100];', explanation: 'Declare string array.' },
+                        { code: ' int i = 0;', explanation: 'Initialize index.' },
+                        { code: ' printf("Enter string: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%s", str);', explanation: 'Read string.' },
+                        { code: ' while (str[i] != \'\\0\') {', explanation: 'Loop until null.' },
+                        { code: ' if (str[i] >= \'A\' && str[i] <= \'Z\')', explanation: 'Check if uppercase.' },
+                        { code: ' str[i] = str[i] + 32;', explanation: 'Convert to lowercase.' },
+                        { code: ' i++;', explanation: 'Increment index.' },
+                        { code: ' }', explanation: 'End loop.' },
+                        { code: ' printf("Lowercase: %s\\n", str);', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                53: {
+                    title: "53. Program to count vowels in a string",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' char str[100];', explanation: 'Declare string.' },
+                        { code: ' int i = 0, vowels = 0;', explanation: 'Initialize index and count.' },
+                        { code: ' printf("Enter string: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%s", str);', explanation: 'Read string.' },
+                        { code: ' while (str[i] != \'\\0\') {', explanation: 'Loop until null.' },
+                        { code: ' if (str[i] == \'a\' || str[i] == \'e\' || str[i] == \'i\' || str[i] == \'o\' || str[i] == \'u\' || str[i] == \'A\' || str[i] == \'E\' || str[i] == \'I\' || str[i] == \'O\' || str[i] == \'U\')', explanation: 'Check for vowels.' },
+                        { code: ' vowels++;', explanation: 'Increment vowel count.' },
+                        { code: ' i++;', explanation: 'Increment index.' },
+                        { code: ' }', explanation: 'End loop.' },
+                        { code: ' printf("Vowels: %d\\n", vowels);', explanation: 'Print count.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                54: {
+                    title: "54. Program to count consonants in a string",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' char str[100];', explanation: 'Declare string.' },
+                        { code: ' int i = 0, consonants = 0;', explanation: 'Initialize index and count.' },
+                        { code: ' printf("Enter string: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%s", str);', explanation: 'Read string.' },
+                        { code: ' while (str[i] != \'\\0\') {', explanation: 'Loop until null.' },
+                        { code: ' if ((str[i] >= \'a\' && str[i] <= \'z\') || (str[i] >= \'A\' && str[i] <= \'Z\')) {', explanation: 'Check if letter.' },
+                        { code: ' if (!(str[i] == \'a\' || str[i] == \'e\' || str[i] == \'i\' || str[i] == \'o\' || str[i] == \'u\' || str[i] == \'A\' || str[i] == \'E\' || str[i] == \'I\' || str[i] == \'O\' || str[i] == \'U\'))', explanation: 'Check if not vowel.' },
+                        { code: ' consonants++;', explanation: 'Increment consonant count.' },
+                        { code: ' }', explanation: 'End inner if.' },
+                        { code: ' i++;', explanation: 'Increment index.' },
+                        { code: ' }', explanation: 'End loop.' },
+                        { code: ' printf("Consonants: %d\\n", consonants);', explanation: 'Print count.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                55: {
+                    title: "55. Program to find substring in a string",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' char str[100], sub[100];', explanation: 'Declare strings.' },
+                        { code: ' int i = 0, j, found = 0;', explanation: 'Initialize variables.' },
+                        { code: ' printf("Enter string: ");', explanation: 'Prompt main string.' },
+                        { code: ' scanf("%s", str);', explanation: 'Read string.' },
+                        { code: ' printf("Enter substring: ");', explanation: 'Prompt substring.' },
+                        { code: ' scanf("%s", sub);', explanation: 'Read substring.' },
+                        { code: ' while (str[i] != \'\\0\') {', explanation: 'Loop through string.' },
+                        { code: ' j = 0;', explanation: 'Initialize substring index.' },
+                        { code: ' if (str[i] == sub[j]) {', explanation: 'Check if characters match.' },
+                        { code: ' while (sub[j] != \'\\0\' && str[i + j] == sub[j])', explanation: 'Check substring match.' },
+                        { code: ' j++;', explanation: 'Increment substring index.' },
+                        { code: ' if (sub[j] == \'\\0\') {', explanation: 'Check if substring ended.' },
+                        { code: ' found = 1;', explanation: 'Set found flag.' },
+                        { code: ' break;', explanation: 'Exit loop.' },
+                        { code: ' }', explanation: 'End inner if.' },
+                        { code: ' }', explanation: 'End outer if.' },
+                        { code: ' i++;', explanation: 'Increment string index.' },
+                        { code: ' }', explanation: 'End loop.' },
+                        { code: ' if (found)', explanation: 'Check flag.' },
+                        { code: ' printf("Substring found\\n");', explanation: 'Print if found.' },
+                        { code: ' else', explanation: 'Else not found.' },
+                        { code: ' printf("Substring not found\\n");', explanation: 'Print not found.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                56: {
+                    title: "56. Program to remove spaces from a string",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' char str[100];', explanation: 'Declare string.' },
+                        { code: ' int i = 0, j = 0;', explanation: 'Initialize indices.' },
+                        { code: ' printf("Enter string: ");', explanation: 'Prompt input.' },
+                        { code: ' gets(str);', explanation: 'Read string with spaces.' },
+                        { code: ' while (str[i] != \'\\0\') {', explanation: 'Loop through string.' },
+                        { code: ' if (str[i] != \' \') {', explanation: 'Check if not space.' },
+                        { code: ' str[j] = str[i];', explanation: 'Copy non-space char.' },
+                        { code: ' j++;', explanation: 'Increment destination index.' },
+                        { code: ' }', explanation: 'End if.' },
+                        { code: ' i++;', explanation: 'Increment source index.' },
+                        { code: ' }', explanation: 'End loop.' },
+                        { code: ' str[j] = \'\\0\';', explanation: 'Add null terminator.' },
+                        { code: ' printf("String without spaces: %s\\n", str);', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                57: {
+                    title: "57. Program to convert string to integer",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' char str[100];', explanation: 'Declare string.' },
+                        { code: ' int num = 0, i = 0;', explanation: 'Initialize variables.' },
+                        { code: ' printf("Enter numeric string: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%s", str);', explanation: 'Read string.' },
+                        { code: ' while (str[i] != \'\\0\') {', explanation: 'Loop through string.' },
+                        { code: ' num = num * 10 + (str[i] - \'0\');', explanation: 'Convert char to int.' },
+                        { code: ' i++;', explanation: 'Increment index.' },
+                        { code: ' }', explanation: 'End loop.' },
+                        { code: ' printf("Integer: %d\\n", num);', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                58: {
+                    title: "58. Program to check anagram strings",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' char str1[100], str2[100];', explanation: 'Declare strings.' },
+                        { code: ' int count[26] = {0}, i = 0, anagram = 1;', explanation: 'Initialize array and flag.' },
+                        { code: ' printf("Enter first string: ");', explanation: 'Prompt first string.' },
+                        { code: ' scanf("%s", str1);', explanation: 'Read first string.' },
+                        { code: ' printf("Enter second string: ");', explanation: 'Prompt second string.' },
+                        { code: ' scanf("%s", str2);', explanation: 'Read second string.' },
+                        { code: ' while (str1[i] != \'\\0\') {', explanation: 'Count chars in str1.' },
+                        { code: ' count[str1[i] - \'a\']++;', explanation: 'Increment count.' },
+                        { code: ' i++;', explanation: 'Increment index.' },
+                        { code: ' }', explanation: 'End loop.' },
+                        { code: ' i = 0;', explanation: 'Reset index.' },
+                        { code: ' while (str2[i] != \'\\0\') {', explanation: 'Count chars in str2.' },
+                        { code: ' count[str2[i] - \'a\']--;', explanation: 'Decrement count.' },
+                        { code: ' i++;', explanation: 'Increment index.' },
+                        { code: ' }', explanation: 'End loop.' },
+                        { code: ' for (i = 0; i < 26; i++)', explanation: 'Check counts.' },
+                        { code: ' if (count[i] != 0) {', explanation: 'If any count non-zero.' },
+                        { code: ' anagram = 0;', explanation: 'Not anagram.' },
+                        { code: ' break;', explanation: 'Exit loop.' },
+                        { code: ' }', explanation: 'End if.' },
+                        { code: ' if (anagram)', explanation: 'Check flag.' },
+                        { code: ' printf("Anagram\\n");', explanation: 'Print if anagram.' },
+                        { code: ' else', explanation: 'Else not anagram.' },
+                        { code: ' printf("Not anagram\\n");', explanation: 'Print not anagram.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                59: {
+                    title: "59. Program to count word occurrences in a string",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' char str[100], word[100];', explanation: 'Declare strings.' },
+                        { code: ' int i = 0, j, count = 0, match;', explanation: 'Initialize variables.' },
+                        { code: ' printf("Enter string: ");', explanation: 'Prompt string.' },
+                        { code: ' gets(str);', explanation: 'Read string with spaces.' },
+                        { code: ' printf("Enter word: ");', explanation: 'Prompt word.' },
+                        { code: ' scanf("%s", word);', explanation: 'Read word.' },
+                        { code: ' while (str[i] != \'\\0\') {', explanation: 'Loop through string.' },
+                        { code: ' j = 0; match = 1;', explanation: 'Initialize word index and flag.' },
+                        { code: ' if (str[i] == word[0]) {', explanation: 'Check if word starts.' },
+                        { code: ' while (word[j] != \'\\0\') {', explanation: 'Check word match.' },
+                        { code: ' if (str[i + j] != word[j]) {', explanation: 'If chars differ.' },
+                        { code: ' match = 0;', explanation: 'No match.' },
+                        { code: ' break;', explanation: 'Exit inner loop.' },
+                        { code: ' }', explanation: 'End if.' },
+                        { code: ' j++;', explanation: 'Increment word index.' },
+                        { code: ' }', explanation: 'End inner loop.' },
+                        { code: ' if (match && word[j] == \'\\0\')', explanation: 'Check if word ended.' },
+                        { code: ' count++;', explanation: 'Increment count.' },
+                        { code: ' }', explanation: 'End outer if.' },
+                        { code: ' i++;', explanation: 'Increment string index.' },
+                        { code: ' }', explanation: 'End outer loop.' },
+                        { code: ' printf("Occurrences: %d\\n", count);', explanation: 'Print count.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                60: {
+                    title: "60. Program to find factorial using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'unsigned long factorial(int n) {', explanation: 'Recursive function.' },
+                        { code: ' if (n == 0 || n == 1)', explanation: 'Base case.' },
+                        { code: ' return 1;', explanation: 'Return 1 for 0 or 1.' },
+                        { code: ' return n * factorial(n - 1);', explanation: 'Recursive call.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' int n;', explanation: 'Declare variable.' },
+                        { code: ' printf("Enter number: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                        { code: ' if (n < 0)', explanation: 'Check negative input.' },
+                        { code: ' printf("Factorial not defined\\n");', explanation: 'Print error.' },
+                        { code: ' else', explanation: 'Else calculate.' },
+                        { code: ' printf("Factorial: %lu\\n", factorial(n));', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                61: {
+                    title: "61. Program to print Fibonacci using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int fib(int n) {', explanation: 'Recursive function.' },
+                        { code: ' if (n <= 1)', explanation: 'Base case.' },
+                        { code: ' return n;', explanation: 'Return n for 0 or 1.' },
+                        { code: ' return fib(n - 1) + fib(n - 2);', explanation: 'Recursive call.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' int n, i;', explanation: 'Declare variables.' },
+                        { code: ' printf("Enter number of terms: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                        { code: ' printf("Fibonacci: ");', explanation: 'Print label.' },
+                        { code: ' for (i = 0; i < n; i++)', explanation: 'Loop for terms.' },
+                        { code: ' printf("%d ", fib(i));', explanation: 'Print term.' },
+                        { code: ' printf("\\n");', explanation: 'New line.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                62: {
+                    title: "62. Program to find power using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'long power(int base, int exp) {', explanation: 'Recursive function.' },
+                        { code: ' if (exp == 0)', explanation: 'Base case.' },
+                        { code: ' return 1;', explanation: 'Return 1 for exp 0.' },
+                        { code: ' return base * power(base, exp - 1);', explanation: 'Recursive call.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' int base, exp;', explanation: 'Declare variables.' },
+                        { code: ' printf("Enter base and exponent: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%d %d", &base, &exp);', explanation: 'Read inputs.' },
+                        { code: ' printf("%d^%d = %ld\\n", base, exp, power(base, exp));', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                63: {
+                    title: "63. Program to find GCD using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int gcd(int a, int b) {', explanation: 'Recursive function.' },
+                        { code: ' if (b == 0)', explanation: 'Base case.' },
+                        { code: ' return a;', explanation: 'Return a when b is 0.' },
+                        { code: ' return gcd(b, a % b);', explanation: 'Recursive call.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' int a, b;', explanation: 'Declare variables.' },
+                        { code: ' printf("Enter two numbers: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%d %d", &a, &b);', explanation: 'Read numbers.' },
+                        { code: ' printf("GCD: %d\\n", gcd(a, b));', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                64: {
+                    title: "64. Program to find sum of digits using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int sumDigits(int n) {', explanation: 'Recursive function.' },
+                        { code: ' if (n == 0)', explanation: 'Base case.' },
+                        { code: ' return 0;', explanation: 'Return 0 for 0.' },
+                        { code: ' return (n % 10) + sumDigits(n / 10);', explanation: 'Recursive call.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' int n;', explanation: 'Declare variable.' },
+                        { code: ' printf("Enter number: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                        { code: ' printf("Sum of digits: %d\\n", sumDigits(n));', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                65: {
+                    title: "65. Program to reverse number using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int reverse(int n, int rev) {', explanation: 'Recursive function.' },
+                        { code: ' if (n == 0)', explanation: 'Base case.' },
+                        { code: ' return rev;', explanation: 'Return reversed number.' },
+                        { code: ' return reverse(n / 10, rev * 10 + n % 10);', explanation: 'Recursive call.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' int n;', explanation: 'Declare variable.' },
+                        { code: ' printf("Enter number: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                        { code: ' printf("Reverse: %d\\n", reverse(n, 0));', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                66: {
+                    title: "66. Program to check prime number using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int isPrime(int n, int i) {', explanation: 'Recursive function.' },
+                        { code: ' if (n <= 1)', explanation: 'Base case for non-prime.' },
+                        { code: ' return 0;', explanation: 'Return false.' },
+                        { code: ' if (i == 1)', explanation: 'Base case for prime.' },
+                        { code: ' return 1;', explanation: 'Return true.' },
+                        { code: ' if (n % i == 0)', explanation: 'Check divisibility.' },
+                        { code: ' return 0;', explanation: 'Return false if divisible.' },
+                        { code: ' return isPrime(n, i - 1);', explanation: 'Recursive call.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' int n;', explanation: 'Declare variable.' },
+                        { code: ' printf("Enter number: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                        { code: ' if (isPrime(n, n / 2))', explanation: 'Call recursive function.' },
+                        { code: ' printf("Prime\\n");', explanation: 'Print if prime.' },
+                        { code: ' else', explanation: 'Else not prime.' },
+                        { code: ' printf("Not prime\\n");', explanation: 'Print if not prime.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                67: {
+                    title: "67. Program to print array using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'void printArray(int arr[], int n, int i) {', explanation: 'Recursive function.' },
+                        { code: ' if (i >= n)', explanation: 'Base case.' },
+                        { code: ' return;', explanation: 'Return if index exceeds size.' },
+                        { code: ' printf("%d ", arr[i]);', explanation: 'Print current element.' },
+                        { code: ' printArray(arr, n, i + 1);', explanation: 'Recursive call.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' int arr[5], i;', explanation: 'Declare array and variable.' },
+                        { code: ' printf("Enter 5 numbers: ");', explanation: 'Prompt input.' },
+                        { code: ' for (i = 0; i < 5; i++)', explanation: 'Loop to read elements.' },
+                        { code: ' scanf("%d", &arr[i]);', explanation: 'Read element.' },
+                        { code: ' printf("Array: ");', explanation: 'Print label.' },
+                        { code: ' printArray(arr, 5, 0);', explanation: 'Call recursive function.' },
+                        { code: ' printf("\\n");', explanation: 'New line.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                68: {
+                    title: "68. Program to find sum of array using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int sumArray(int arr[], int n) {', explanation: 'Recursive function.' },
+                        { code: ' if (n <= 0)', explanation: 'Base case.' },
+                        { code: ' return 0;', explanation: 'Return 0 for empty array.' },
+                        { code: ' return arr[n - 1] + sumArray(arr, n - 1);', explanation: 'Recursive call.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' int arr[5], i;', explanation: 'Declare array and variable.' },
+                        { code: ' printf("Enter 5 numbers: ");', explanation: 'Prompt input.' },
+                        { code: ' for (i = 0; i < 5; i++)', explanation: 'Loop to read elements.' },
+                        { code: ' scanf("%d", &arr[i]);', explanation: 'Read element.' },
+                        { code: ' printf("Sum: %d\\n", sumArray(arr, 5));', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                69: {
+                    title: "69. Program to find maximum element in array using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int maxArray(int arr[], int n) {', explanation: 'Recursive function.' },
+                        { code: ' if (n == 1)', explanation: 'Base case.' },
+                        { code: ' return arr[0];', explanation: 'Return single element.' },
+                        { code: ' int max = maxArray(arr, n - 1);', explanation: 'Recursive call.' },
+                        { code: ' return (max > arr[n - 1]) ? max : arr[n - 1];', explanation: 'Compare and return max.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' int arr[5], i;', explanation: 'Declare array and variable.' },
+                        { code: ' printf("Enter 5 numbers: ");', explanation: 'Prompt input.' },
+                        { code: ' for (i = 0; i < 5; i++)', explanation: 'Loop to read elements.' },
+                        { code: ' scanf("%d", &arr[i]);', explanation: 'Read element.' },
+                        { code: ' printf("Maximum: %d\\n", maxArray(arr, 5));', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                70: {
+                    title: "70. Program to convert decimal to binary using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'void decToBin(int n) {', explanation: 'Recursive function.' },
+                        { code: ' if (n == 0)', explanation: 'Base case.' },
+                        { code: ' return;', explanation: 'Return if 0.' },
+                        { code: ' decToBin(n / 2);', explanation: 'Recursive call.' },
+                        { code: ' printf("%d", n % 2);', explanation: 'Print binary digit.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' int n;', explanation: 'Declare variable.' },
+                        { code: ' printf("Enter decimal number: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                        { code: ' printf("Binary: ");', explanation: 'Print label.' },
+                        { code: ' if (n == 0)', explanation: 'Handle zero case.' },
+                        { code: ' printf("0");', explanation: 'Print 0 for input 0.' },
+                        { code: ' else', explanation: 'Else convert.' },
+                        { code: ' decToBin(n);', explanation: 'Call recursive function.' },
+                        { code: ' printf("\\n");', explanation: 'New line.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                71: {
+                    title: "71. Program to calculate length of string using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int strLength(char str[], int i) {', explanation: 'Recursive function.' },
+                        { code: ' if (str[i] == \'\\0\')', explanation: 'Base case.' },
+                        { code: ' return 0;', explanation: 'Return 0 at null.' },
+                        { code: ' return 1 + strLength(str, i + 1);', explanation: 'Recursive call.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' char str[100];', explanation: 'Declare string.' },
+                        { code: ' printf("Enter string: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%s", str);', explanation: 'Read string.' },
+                        { code: ' printf("Length: %d\\n", strLength(str, 0));', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                72: {
+                    title: "72. Program to reverse string using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'void reverseStr(char str[], int i, int j) {', explanation: 'Recursive function.' },
+                        { code: ' if (i >= j)', explanation: 'Base case.' },
+                        { code: ' return;', explanation: 'Return if indices cross.' },
+                        { code: ' char temp = str[i];', explanation: 'Store current char.' },
+                        { code: ' str[i] = str[j];', explanation: 'Swap with end char.' },
+                        { code: ' str[j] = temp;', explanation: 'Complete swap.' },
+                        { code: ' reverseStr(str, i + 1, j - 1);', explanation: 'Recursive call.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' char str[100];', explanation: 'Declare string.' },
+                        { code: ' int i = 0;', explanation: 'Initialize index.' },
+                        { code: ' printf("Enter string: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%s", str);', explanation: 'Read string.' },
+                        { code: ' while (str[i] != \'\\0\')', explanation: 'Find length.' },
+                        { code: ' i++;', explanation: 'Increment index.' },
+                        { code: ' reverseStr(str, 0, i - 1);', explanation: 'Call recursive function.' },
+                        { code: ' printf("Reversed string: %s\\n", str);', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                73: {
+                    title: "73. Program to check palindrome string using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int isPalindrome(char str[], int i, int j) {', explanation: 'Recursive function.' },
+                        { code: ' if (i >= j)', explanation: 'Base case.' },
+                        { code: ' return 1;', explanation: 'Return true if indices cross.' },
+                        { code: ' if (str[i] != str[j])', explanation: 'Check if chars differ.' },
+                        { code: ' return 0;', explanation: 'Return false.' },
+                        { code: ' return isPalindrome(str, i + 1, j - 1);', explanation: 'Recursive call.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' char str[100];', explanation: 'Declare string.' },
+                        { code: ' int i = 0;', explanation: 'Initialize index.' },
+                        { code: ' printf("Enter string: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%s", str);', explanation: 'Read string.' },
+                        { code: ' while (str[i] != \'\\0\')', explanation: 'Find length.' },
+                        { code: ' i++;', explanation: 'Increment index.' },
+                        { code: ' if (isPalindrome(str, 0, i - 1))', explanation: 'Call recursive function.' },
+                        { code: ' printf("Palindrome\\n");', explanation: 'Print if palindrome.' },
+                        { code: ' else', explanation: 'Else not palindrome.' },
+                        { code: ' printf("Not palindrome\\n");', explanation: 'Print not palindrome.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                74: {
+                    title: "74. Program to print numbers from 1 to n using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'void printNumbers(int n) {', explanation: 'Recursive function.' },
+                        { code: ' if (n < 1)', explanation: 'Base case.' },
+                        { code: ' return;', explanation: 'Return if n < 1.' },
+                        { code: ' printNumbers(n - 1);', explanation: 'Recursive call.' },
+                        { code: ' printf("%d ", n);', explanation: 'Print current number.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' int n;', explanation: 'Declare variable.' },
+                        { code: ' printf("Enter n: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                        { code: ' printNumbers(n);', explanation: 'Call recursive function.' },
+                        { code: ' printf("\\n");', explanation: 'New line.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                },
+                75: {
+                    title: "75. Program to find sum of n natural numbers using recursion",
+                    lines: [
+                        { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                        { code: 'int sumNatural(int n) {', explanation: 'Recursive function.' },
+                        { code: ' if (n <= 0)', explanation: 'Base case.' },
+                        { code: ' return 0;', explanation: 'Return 0 for n <= 0.' },
+                        { code: ' return n + sumNatural(n - 1);', explanation: 'Recursive call.' },
+                        { code: '}', explanation: 'End function.' },
+                        { code: 'int main() {', explanation: 'Main function.' },
+                        { code: ' int n;', explanation: 'Declare variable.' },
+                        { code: ' printf("Enter n: ");', explanation: 'Prompt input.' },
+                        { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                        { code: ' printf("Sum: %d\\n", sumNatural(n));', explanation: 'Print result.' },
+                        { code: ' return 0;', explanation: 'Return 0.' },
+                        { code: '}', explanation: 'End main.' }
+                    ]
+                }
+            };
+
+            let currentLineIndex = -1; // Track the current line (-1 means none shown yet)
+
+            // Event listener for program list items
+            const programListItems = document.querySelectorAll('#program-list li');
+            console.log(`Found ${programListItems.length} program items`); // Debug log
+
+            programListItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    console.log('Program clicked!'); // Debug log
+                    const programId = item.getAttribute('data-program');
+                    console.log(`Program ID: ${programId}`); // Debug log
+
+                    const program = programs[programId];
+                    if (!program) {
+                        console.error(`Program ${programId} not found in programs object`);
+                        return;
+                    }
+                    console.log(`Program found: ${program.title}`); // Debug log
+
+                    // Reset line index
+                    currentLineIndex = -1;
+
+                    // Set modal title
+                    const programTitle = document.getElementById('program-title');
+                    programTitle.textContent = program.title;
+
+                    // Clear previous content
+                    const details = document.getElementById('program-details');
+                    details.innerHTML = '';
+
+                    // Create all code lines (initially hidden)
+                    program.lines.forEach((line, index) => {
+                        const lineDiv = document.createElement('div');
+                        lineDiv.className = 'code-line';
+                        lineDiv.innerHTML = `
+                            <code>${line.code}</code>
+                            <div class="explanation">${line.explanation}</div>
+                        `;
+                        details.appendChild(lineDiv);
+                    });
+
+                    // Show modal
+                    const modal = document.getElementById('modal');
+                    modal.classList.add('show');
+                    console.log('Modal shown'); // Debug log
+
+                    // Show first line immediately
+                    showNextLine();
+                });
+            });
+
+            // Function to show the next line
+            function showNextLine() {
+                const codeLines = document.querySelectorAll('#program-details .code-line');
+                console.log(`Total lines: ${codeLines.length}, current index: ${currentLineIndex}`); // Debug log
+
+                if (currentLineIndex < codeLines.length - 1) {
+                    currentLineIndex++;
+                    codeLines[currentLineIndex].classList.add('active');
+                    console.log(`Showing line ${currentLineIndex}`); // Debug log
+                }
+                // Hide "Next Line" button when all lines are shown
+                if (currentLineIndex === codeLines.length - 1) {
+                    const nextBtn = document.getElementById('next-btn');
+                    if (nextBtn) nextBtn.style.display = 'none';
+                }
+            }
+
+            // Click event for "Next Line" button
+            const nextBtn = document.getElementById('next-btn');
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    showNextLine();
+                });
+            } else {
+                console.error('Next button not found'); // Debug log
+            }
+
+            // Close modal on background click
+            const modal = document.getElementById('modal');
+            modal.addEventListener('click', (e) => {
+                if (e.target.id === 'modal') {
+                    modal.classList.remove('show');
+                    // Reset button visibility
+                    const nextBtn = document.getElementById('next-btn');
+                    if (nextBtn) nextBtn.style.display = 'block';
+                }
+            });
+
+            // Close modal on close button click
+            const closeBtn = document.getElementById('close-btn');
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('show');
+                // Reset button visibility
+                const nextBtn = document.getElementById('next-btn');
+                if (nextBtn) nextBtn.style.display = 'block';
+            });
+
+            // Prevent modal close on content click
+            const modalContent = document.getElementById('modal-content');
+            modalContent.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            console.log('Event listeners attached'); // Debug log
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Programs 41-50 with Explanations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+        .nav-link {
+            display: block;
+            text-align: center;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .nav-link:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>C Programs 41-50: Matrix and String Operations</h1>
+    <a href="program.html" class="nav-link">View Programs 1-10</a>
+    <a href="program1.html" class="nav-link">View Programs 11-20</a>
+    <a href="program2.html" class="nav-link">View Programs 21-30</a>
+    <a href="program3.html" class="nav-link">View Programs 31-40</a>
+    <ul id="program-list">
+        <li data-program="41">41. Program to transpose a matrix</li>
+        <li data-program="42">42. Program to check if matrix is symmetric</li>
+        <li data-program="43">43. Program to find determinant of 2x2 matrix</li>
+        <li data-program="44">44. Program to check sparse matrix</li>
+        <li data-program="45">45. Program to find length of string</li>
+        <li data-program="46">46. Program to copy one string to another</li>
+        <li data-program="47">47. Program to concatenate two strings</li>
+        <li data-program="48">48. Program to compare two strings</li>
+        <li data-program="49">49. Program to reverse a string</li>
+        <li data-program="50">50. Program to check palindrome string</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        const programs = {
+            41: {
+                title: "41. Program to transpose a matrix",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include standard input/output header file.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int a[3][3], t[3][3], i, j;', explanation: 'Declare matrices and variables.' },
+                    { code: ' printf("Enter 9 numbers for matrix:\\n");', explanation: 'Prompt for input.' },
+                    { code: ' for (i = 0; i < 3; i++) {', explanation: 'Loop for rows.' },
+                    { code: ' for (j = 0; j < 3; j++) {', explanation: 'Loop for columns.' },
+                    { code: ' scanf("%d", &a[i][j]);', explanation: 'Read element.' },
+                    { code: ' }', explanation: 'End inner loop.' },
+                    { code: ' }', explanation: 'End outer loop.' },
+                    { code: ' for (i = 0; i < 3; i++) {', explanation: 'Loop to transpose matrix.' },
+                    { code: ' for (j = 0; j < 3; j++) {', explanation: 'Loop for columns.' },
+                    { code: ' t[j][i] = a[i][j];', explanation: 'Swap row and column indices.' },
+                    { code: ' }', explanation: 'End inner loop.' },
+                    { code: ' }', explanation: 'End outer loop.' },
+                    { code: ' printf("Transpose matrix:\\n");', explanation: 'Print label.' },
+                    { code: ' for (i = 0; i < 3; i++) {', explanation: 'Loop to print transpose.' },
+                    { code: ' for (j = 0; j < 3; j++) {', explanation: 'Loop for columns.' },
+                    { code: ' printf("%d ", t[i][j]);', explanation: 'Print element.' },
+                    { code: ' }', explanation: 'End inner loop.' },
+                    { code: ' printf("\\n");', explanation: 'New line.' },
+                    { code: ' }', explanation: 'End outer loop.' },
+                    { code: ' return 0;', explanation: 'Return 0 to indicate success.' },
+                    { code: '}', explanation: 'End of main function.' }
+                ]
+            },
+            42: {
+                title: "42. Program to check if matrix is symmetric",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int a[3][3], i, j, symmetric = 1;', explanation: 'Declare matrix and flag.' },
+                    { code: ' printf("Enter 9 numbers for matrix:\\n");', explanation: 'Prompt input.' },
+                    { code: ' for (i = 0; i < 3; i++) {', explanation: 'Loop for rows.' },
+                    { code: ' for (j = 0; j < 3; j++) {', explanation: 'Loop for columns.' },
+                    { code: ' scanf("%d", &a[i][j]);', explanation: 'Read element.' },
+                    { code: ' }', explanation: 'End inner loop.' },
+                    { code: ' }', explanation: 'End outer loop.' },
+                    { code: ' for (i = 0; i < 3; i++) {', explanation: 'Loop to check symmetry.' },
+                    { code: ' for (j = 0; j < 3; j++) {', explanation: 'Loop for columns.' },
+                    { code: ' if (a[i][j] != a[j][i]) {', explanation: 'Compare with transpose.' },
+                    { code: ' symmetric = 0;', explanation: 'Set flag to false.' },
+                    { code: ' break;', explanation: 'Exit inner loop.' },
+                    { code: ' }', explanation: 'End if.' },
+                    { code: ' }', explanation: 'End inner loop.' },
+                    { code: ' if (!symmetric) break;', explanation: 'Exit outer loop if not symmetric.' },
+                    { code: ' }', explanation: 'End outer loop.' },
+                    { code: ' if (symmetric)', explanation: 'Check flag.' },
+                    { code: ' printf("Matrix is symmetric\\n");', explanation: 'Print if symmetric.' },
+                    { code: ' else', explanation: 'Else not symmetric.' },
+                    { code: ' printf("Matrix is not symmetric\\n");', explanation: 'Print not symmetric.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            43: {
+                title: "43. Program to find determinant of 2x2 matrix",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int a[2][2], det, i, j;', explanation: 'Declare matrix and variables.' },
+                    { code: ' printf("Enter 4 numbers for 2x2 matrix:\\n");', explanation: 'Prompt input.' },
+                    { code: ' for (i = 0; i < 2; i++) {', explanation: 'Loop for rows.' },
+                    { code: ' for (j = 0; j < 2; j++) {', explanation: 'Loop for columns.' },
+                    { code: ' scanf("%d", &a[i][j]);', explanation: 'Read element.' },
+                    { code: ' }', explanation: 'End inner loop.' },
+                    { code: ' }', explanation: 'End outer loop.' },
+                    { code: ' det = a[0][0] * a[1][1] - a[0][1] * a[1][0];', explanation: 'Calculate determinant.' },
+                    { code: ' printf("Determinant: %d\\n", det);', explanation: 'Print determinant.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            44: {
+                title: "44. Program to check sparse matrix",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int a[3][3], i, j, zeros = 0, total = 9;', explanation: 'Declare matrix and variables.' },
+                    { code: ' printf("Enter 9 numbers for 3x3 matrix:\\n");', explanation: 'Prompt input.' },
+                    { code: ' for (i = 0; i < 3; i++) {', explanation: 'Loop for rows.' },
+                    { code: ' for (j = 0; j < 3; j++) {', explanation: 'Loop for columns.' },
+                    { code: ' scanf("%d", &a[i][j]);', explanation: 'Read element.' },
+                    { code: ' if (a[i][j] == 0)', explanation: 'Check for zero.' },
+                    { code: ' zeros++;', explanation: 'Increment zero count.' },
+                    { code: ' }', explanation: 'End inner loop.' },
+                    { code: ' }', explanation: 'End outer loop.' },
+                    { code: ' if (zeros > total / 2)', explanation: 'Check if zeros exceed half.' },
+                    { code: ' printf("Sparse matrix\\n");', explanation: 'Print if sparse.' },
+                    { code: ' else', explanation: 'Else not sparse.' },
+                    { code: ' printf("Not sparse matrix\\n");', explanation: 'Print not sparse.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            45: {
+                title: "45. Program to find length of string",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' char str[100];', explanation: 'Declare string array.' },
+                    { code: ' int len = 0;', explanation: 'Initialize length.' },
+                    { code: ' printf("Enter string: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%s", str);', explanation: 'Read string.' },
+                    { code: ' while (str[len] != \'\\0\') {', explanation: 'Loop until null terminator.' },
+                    { code: ' len++;', explanation: 'Increment length.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("Length: %d\\n", len);', explanation: 'Print length.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            46: {
+                title: "46. Program to copy one string to another",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' char src[100], dest[100];', explanation: 'Declare source and destination strings.' },
+                    { code: ' int i = 0;', explanation: 'Initialize index.' },
+                    { code: ' printf("Enter string: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%s", src);', explanation: 'Read source string.' },
+                    { code: ' while (src[i] != \'\\0\') {', explanation: 'Loop until null terminator.' },
+                    { code: ' dest[i] = src[i];', explanation: 'Copy character.' },
+                    { code: ' i++;', explanation: 'Increment index.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' dest[i] = \'\\0\';', explanation: 'Add null terminator.' },
+                    { code: ' printf("Copied string: %s\\n", dest);', explanation: 'Print copied string.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            47: {
+                title: "47. Program to concatenate two strings",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' char str1[100], str2[100];', explanation: 'Declare two strings.' },
+                    { code: ' int i = 0, j = 0;', explanation: 'Initialize indices.' },
+                    { code: ' printf("Enter first string: ");', explanation: 'Prompt first string.' },
+                    { code: ' scanf("%s", str1);', explanation: 'Read first string.' },
+                    { code: ' printf("Enter second string: ");', explanation: 'Prompt second string.' },
+                    { code: ' scanf("%s", str2);', explanation: 'Read second string.' },
+                    { code: ' while (str1[i] != \'\\0\')', explanation: 'Find end of first string.' },
+                    { code: ' i++;', explanation: 'Increment index.' },
+                    { code: ' while (str2[j] != \'\\0\') {', explanation: 'Loop to append second string.' },
+                    { code: ' str1[i] = str2[j];', explanation: 'Copy character.' },
+                    { code: ' i++;', explanation: 'Increment first index.' },
+                    { code: ' j++;', explanation: 'Increment second index.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' str1[i] = \'\\0\';', explanation: 'Add null terminator.' },
+                    { code: ' printf("Concatenated string: %s\\n", str1);', explanation: 'Print result.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            48: {
+                title: "48. Program to compare two strings",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' char str1[100], str2[100];', explanation: 'Declare two strings.' },
+                    { code: ' int i = 0, equal = 1;', explanation: 'Initialize index and flag.' },
+                    { code: ' printf("Enter first string: ");', explanation: 'Prompt first string.' },
+                    { code: ' scanf("%s", str1);', explanation: 'Read first string.' },
+                    { code: ' printf("Enter second string: ");', explanation: 'Prompt second string.' },
+                    { code: ' scanf("%s", str2);', explanation: 'Read second string.' },
+                    { code: ' while (str1[i] != \'\\0\' && str2[i] != \'\\0\') {', explanation: 'Loop to compare.' },
+                    { code: ' if (str1[i] != str2[i]) {', explanation: 'Check if characters differ.' },
+                    { code: ' equal = 0;', explanation: 'Set flag to false.' },
+                    { code: ' break;', explanation: 'Exit loop.' },
+                    { code: ' }', explanation: 'End if.' },
+                    { code: ' i++;', explanation: 'Increment index.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' if (str1[i] != str2[i]) equal = 0;', explanation: 'Check if lengths differ.' },
+                    { code: ' if (equal)', explanation: 'Check flag.' },
+                    { code: ' printf("Strings are equal\\n");', explanation: 'Print if equal.' },
+                    { code: ' else', explanation: 'Else not equal.' },
+                    { code: ' printf("Strings are not equal\\n");', explanation: 'Print not equal.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            49: {
+                title: "49. Program to reverse a string",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' char str[100], temp;', explanation: 'Declare string and temp.' },
+                    { code: ' int i = 0, j;', explanation: 'Declare indices.' },
+                    { code: ' printf("Enter string: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%s", str);', explanation: 'Read string.' },
+                    { code: ' while (str[i] != \'\\0\')', explanation: 'Find length.' },
+                    { code: ' i++;', explanation: 'Increment index.' },
+                    { code: ' j = i - 1;', explanation: 'Set j to last index.' },
+                    { code: ' for (i = 0; i < j; i++, j--) {', explanation: 'Loop to reverse.' },
+                    { code: ' temp = str[i];', explanation: 'Store current char.' },
+                    { code: ' str[i] = str[j];', explanation: 'Swap with end char.' },
+                    { code: ' str[j] = temp;', explanation: 'Complete swap.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("Reversed string: %s\\n", str);', explanation: 'Print reversed.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            50: {
+                title: "50. Program to check palindrome string",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' char str[100];', explanation: 'Declare string.' },
+                    { code: ' int i = 0, j, palindrome = 1;', explanation: 'Declare indices and flag.' },
+                    { code: ' printf("Enter string: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%s", str);', explanation: 'Read string.' },
+                    { code: ' while (str[i] != \'\\0\')', explanation: 'Find length.' },
+                    { code: ' i++;', explanation: 'Increment index.' },
+                    { code: ' j = i - 1;', explanation: 'Set j to last index.' },
+                    { code: ' for (i = 0; i < j; i++, j--) {', explanation: 'Loop to check palindrome.' },
+                    { code: ' if (str[i] != str[j]) {', explanation: 'Compare characters.' },
+                    { code: ' palindrome = 0;', explanation: 'Set flag to false.' },
+                    { code: ' break;', explanation: 'Exit loop.' },
+                    { code: ' }', explanation: 'End if.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' if (palindrome)', explanation: 'Check flag.' },
+                    { code: ' printf("Palindrome\\n");', explanation: 'Print if palindrome.' },
+                    { code: ' else', explanation: 'Else not palindrome.' },
+                    { code: ' printf("Not palindrome\\n");', explanation: 'Print not palindrome.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1; // Track the current line (-1 means none shown yet)
+
+        // Event listener for program list items
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                // Reset line index
+                currentLineIndex = -1;
+
+                // Set modal title
+                document.getElementById('program-title').textContent = program.title;
+
+                // Clear previous content
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                // Create all code lines (initially hidden)
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                // Show modal
+                document.getElementById('modal').classList.add('show');
+
+                // Show first line immediately
+                showNextLine();
+            });
+        });
+
+        // Function to show the next line
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            // Hide "Next Line" button when all lines are shown
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        // Click event for "Next Line" button
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        // Close modal on background click
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block'; // Reset button visibility
+            }
+        });
+
+        // Close modal on close button click
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block'; // Reset button visibility
+        });
+
+        // Prevent modal close on content click
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

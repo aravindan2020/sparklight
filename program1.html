@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Programs 11-20 with Explanations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>C Programs 11-20: Loops and Patterns</h1>
+    <ul id="program-list">
+        <li data-program="11">11. Program to print even numbers using while loop</li>
+        <li data-program="12">12. Program to print odd numbers using do-while loop</li>
+        <li data-program="13">13. Program to find factorial using for loop</li>
+        <li data-program="14">14. Program to check prime number using for loop</li>
+        <li data-program="15">15. Program to print Fibonacci series using for loop</li>
+        <li data-program="16">16. Program to reverse a number using while loop</li>
+        <li data-program="17">17. Program to check palindrome number using while loop</li>
+        <li data-program="18">18. Program to print square pattern using nested for loop</li>
+        <li data-program="19">19. Program to print triangle pattern using nested for loop</li>
+        <li data-program="20">20. Program to print pyramid pattern using nested for loop</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        const programs = {
+            11: {
+                title: "11. Program to print even numbers using while loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include standard input/output header file.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int i = 2;', explanation: 'Initialize i to first even number.' },
+                    { code: ' while (i <= 20) {', explanation: 'Loop while i <= 20.' },
+                    { code: ' printf("%d ", i);', explanation: 'Print even number.' },
+                    { code: ' i += 2;', explanation: 'Increment i by 2 for next even.' },
+                    { code: ' }', explanation: 'End of while loop.' },
+                    { code: ' printf("\\n");', explanation: 'Print new line.' },
+                    { code: ' return 0;', explanation: 'Return 0 to indicate success.' },
+                    { code: '}', explanation: 'End of main function.' }
+                ]
+            },
+            12: {
+                title: "12. Program to print odd numbers using do-while loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int i = 1;', explanation: 'Initialize i to first odd number.' },
+                    { code: ' do {', explanation: 'Start do-while loop.' },
+                    { code: ' printf("%d ", i);', explanation: 'Print odd number.' },
+                    { code: ' i += 2;', explanation: 'Increment i by 2 for next odd.' },
+                    { code: ' } while (i <= 19);', explanation: 'Continue until i > 19.' },
+                    { code: ' printf("\\n");', explanation: 'Print new line.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            13: {
+                title: "13. Program to find factorial using for loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int n, i;', explanation: 'Declare variables for number and loop.' },
+                    { code: ' unsigned long fact = 1;', explanation: 'Initialize factorial (use unsigned long for larger values).' },
+                    { code: ' printf("Enter number: ");', explanation: 'Prompt for input.' },
+                    { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                    { code: ' if (n < 0) {', explanation: 'Check for negative input.' },
+                    { code: ' printf("Factorial not defined\\n");', explanation: 'Print error.' },
+                    { code: ' } else {', explanation: 'Else calculate factorial.' },
+                    { code: ' for (i = 1; i <= n; i++) {', explanation: 'Loop from 1 to n.' },
+                    { code: ' fact *= i;', explanation: 'Multiply fact by i.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("Factorial: %lu\\n", fact);', explanation: 'Print factorial.' },
+                    { code: ' }', explanation: 'End else.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            14: {
+                title: "14. Program to check prime number using for loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int n, i, flag = 1;', explanation: 'Declare number, loop var, and flag.' },
+                    { code: ' printf("Enter number: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                    { code: ' if (n <= 1) flag = 0;', explanation: '1 or less is not prime.' },
+                    { code: ' for (i = 2; i <= n / 2; i++) {', explanation: 'Loop to check divisibility.' },
+                    { code: ' if (n % i == 0) {', explanation: 'If divisible, not prime.' },
+                    { code: ' flag = 0;', explanation: 'Set flag to 0.' },
+                    { code: ' break;', explanation: 'Exit loop.' },
+                    { code: ' }', explanation: 'End if.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' if (flag) printf("Prime\\n");', explanation: 'Print if prime.' },
+                    { code: ' else printf("Not prime\\n");', explanation: 'Print if not prime.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            15: {
+                title: "15. Program to print Fibonacci series using for loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int n, i, a = 0, b = 1, next;', explanation: 'Declare variables.' },
+                    { code: ' printf("Enter number of terms: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%d", &n);', explanation: 'Read number of terms.' },
+                    { code: ' printf("Fibonacci: ");', explanation: 'Print series label.' },
+                    { code: ' for (i = 1; i <= n; i++) {', explanation: 'Loop for n terms.' },
+                    { code: ' printf("%d ", a);', explanation: 'Print current term.' },
+                    { code: ' next = a + b;', explanation: 'Calculate next term.' },
+                    { code: ' a = b;', explanation: 'Update a.' },
+                    { code: ' b = next;', explanation: 'Update b.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("\\n");', explanation: 'New line.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            16: {
+                title: "16. Program to reverse a number using while loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int n, rev = 0, digit;', explanation: 'Declare variables.' },
+                    { code: ' printf("Enter number: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                    { code: ' while (n != 0) {', explanation: 'Loop until n is 0.' },
+                    { code: ' digit = n % 10;', explanation: 'Extract last digit.' },
+                    { code: ' rev = rev * 10 + digit;', explanation: 'Build reversed number.' },
+                    { code: ' n /= 10;', explanation: 'Remove last digit.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("Reverse: %d\\n", rev);', explanation: 'Print reversed number.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            17: {
+                title: "17. Program to check palindrome number using while loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int n, temp, rev = 0, digit;', explanation: 'Declare variables.' },
+                    { code: ' printf("Enter number: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                    { code: ' temp = n;', explanation: 'Store original number.' },
+                    { code: ' while (n != 0) {', explanation: 'Loop to reverse.' },
+                    { code: ' digit = n % 10;', explanation: 'Get last digit.' },
+                    { code: ' rev = rev * 10 + digit;', explanation: 'Build reverse.' },
+                    { code: ' n /= 10;', explanation: 'Remove last digit.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' if (temp == rev)', explanation: 'Check if palindrome.' },
+                    { code: ' printf("Palindrome\\n");', explanation: 'Print if palindrome.' },
+                    { code: ' else', explanation: 'Else not palindrome.' },
+                    { code: ' printf("Not palindrome\\n");', explanation: 'Print not palindrome.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            18: {
+                title: "18. Program to print square pattern using nested for loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int i, j, n = 5;', explanation: 'Declare variables, set size to 5.' },
+                    { code: ' for (i = 1; i <= n; i++) {', explanation: 'Outer loop for rows.' },
+                    { code: ' for (j = 1; j <= n; j++) {', explanation: 'Inner loop for columns.' },
+                    { code: ' printf("* ");', explanation: 'Print star.' },
+                    { code: ' }', explanation: 'End inner loop.' },
+                    { code: ' printf("\\n");', explanation: 'New line after row.' },
+                    { code: ' }', explanation: 'End outer loop.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            19: {
+                title: "19. Program to print triangle pattern using nested for loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int i, j, n = 5;', explanation: 'Declare variables, set size to 5.' },
+                    { code: ' for (i = 1; i <= n; i++) {', explanation: 'Outer loop for rows.' },
+                    { code: ' for (j = 1; j <= i; j++) {', explanation: 'Inner loop for stars.' },
+                    { code: ' printf("* ");', explanation: 'Print star.' },
+                    { code: ' }', explanation: 'End inner loop.' },
+                    { code: ' printf("\\n");', explanation: 'New line after row.' },
+                    { code: ' }', explanation: 'End outer loop.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            20: {
+                title: "20. Program to print pyramid pattern using nested for loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int i, j, k, n = 5;', explanation: 'Declare variables, set size to 5.' },
+                    { code: ' for (i = 1; i <= n; i++) {', explanation: 'Outer loop for rows.' },
+                    { code: ' for (j = 1; j <= n - i; j++) {', explanation: 'Loop for spaces.' },
+                    { code: ' printf(" ");', explanation: 'Print space.' },
+                    { code: ' }', explanation: 'End space loop.' },
+                    { code: ' for (k = 1; k <= i; k++) {', explanation: 'Loop for stars.' },
+                    { code: ' printf("* ");', explanation: 'Print star.' },
+                    { code: ' }', explanation: 'End star loop.' },
+                    { code: ' printf("\\n");', explanation: 'New line after row.' },
+                    { code: ' }', explanation: 'End outer loop.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1; // Track the current line (-1 means none shown yet)
+
+        // Event listener for program list items
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                // Reset line index
+                currentLineIndex = -1;
+
+                // Set modal title
+                document.getElementById('program-title').textContent = program.title;
+
+                // Clear previous content
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                // Create all code lines (initially hidden)
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                // Show modal
+                document.getElementById('modal').classList.add('show');
+
+                // Show first line immediately
+                showNextLine();
+            });
+        });
+
+        // Function to show the next line
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            // Hide "Next Line" button when all lines are shown
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        // Click event for "Next Line" button
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        // Close modal on background click
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block'; // Reset button visibility
+            }
+        });
+
+        // Close modal on close button click
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block'; // Reset button visibility
+        });
+
+        // Prevent modal close on content click
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+<a href="program2.html" class="nav-link">View Programs 21-30</a>
+</body>
+</html>

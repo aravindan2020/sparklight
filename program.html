@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>75 C Programs with Explanations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>75 C Programs: From If Statements to Command Line Arguments</h1>
+    <ul id="program-list">
+        <li data-program="1">1. Program to check if a number is positive using if statement</li>
+        <li data-program="2">2. Program to check even or odd using if-else</li>
+        <li data-program="3">3. Program to find largest of three numbers using nested if</li>
+        <li data-program="4">4. Program to check leap year using if-else</li>
+        <li data-program="5">5. Program to calculate grade using if-else ladder</li>
+        <li data-program="6">6. Program to check vowel or consonant using switch</li>
+        <li data-program="7">7. Program to print day of week using switch</li>
+        <li data-program="8">8. Program to perform arithmetic operations using switch</li>
+        <li data-program="9">9. Program to print numbers 1 to 10 using for loop</li>
+        <li data-program="10">10. Program to find sum of first n natural numbers using for loop</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        const programs = {
+            1: {
+                title: "1. Program to check if a number is positive using if statement",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include standard input/output header file.' },
+                    { code: 'int main() {', explanation: 'Main function where program execution begins.' },
+                    { code: ' int num;', explanation: 'Declare an integer variable num.' },
+                    { code: ' printf("Enter a number: ");', explanation: 'Prompt user to enter a number.' },
+                    { code: ' scanf("%d", &num);', explanation: 'Read the input number.' },
+                    { code: ' if (num > 0) {', explanation: 'Check if num is greater than 0.' },
+                    { code: ' printf("Number is positive.\\n");', explanation: 'Print if positive.' },
+                    { code: ' }', explanation: 'End of if block.' },
+                    { code: ' return 0;', explanation: 'Return 0 to indicate successful execution.' },
+                    { code: '}', explanation: 'End of main function.' }
+                ]
+            },
+            2: {
+                title: "2. Program to check even or odd using if-else",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include standard input/output header file.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int num;', explanation: 'Declare integer num.' },
+                    { code: ' printf("Enter a number: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%d", &num);', explanation: 'Read input.' },
+                    { code: ' if (num % 2 == 0) {', explanation: 'Check if even.' },
+                    { code: ' printf("Even\\n");', explanation: 'Print even.' },
+                    { code: ' } else {', explanation: 'Else block for odd.' },
+                    { code: ' printf("Odd\\n");', explanation: 'Print odd.' },
+                    { code: ' }', explanation: 'End of if-else.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            3: {
+                title: "3. Program to find largest of three numbers using nested if",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int a, b, c;', explanation: 'Declare three integers.' },
+                    { code: ' printf("Enter three numbers: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%d %d %d", &a, &b, &c);', explanation: 'Read inputs.' },
+                    { code: ' if (a > b) {', explanation: 'Check if a > b.' },
+                    { code: ' if (a > c) {', explanation: 'Nested: if a > c.' },
+                    { code: ' printf("Largest: %d\\n", a);', explanation: 'a is largest.' },
+                    { code: ' } else {', explanation: 'Else c is larger.' },
+                    { code: ' printf("Largest: %d\\n", c);', explanation: 'Print c.' },
+                    { code: ' }', explanation: 'End nested if.' },
+                    { code: ' } else {', explanation: 'Else b >= a.' },
+                    { code: ' if (b > c) {', explanation: 'Check if b > c.' },
+                    { code: ' printf("Largest: %d\\n", b);', explanation: 'b is largest.' },
+                    { code: ' } else {', explanation: 'Else c is largest.' },
+                    { code: ' printf("Largest: %d\\n", c);', explanation: 'Print c.' },
+                    { code: ' }', explanation: 'End nested.' },
+                    { code: ' }', explanation: 'End outer if.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            4: {
+                title: "4. Program to check leap year using if-else",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int year;', explanation: 'Declare year.' },
+                    { code: ' printf("Enter year: ");', explanation: 'Prompt.' },
+                    { code: ' scanf("%d", &year);', explanation: 'Read year.' },
+                    { code: ' if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {', explanation: 'Leap year condition.' },
+                    { code: ' printf("Leap year\\n");', explanation: 'Print if leap.' },
+                    { code: ' } else {', explanation: 'Else not leap.' },
+                    { code: ' printf("Not leap year\\n");', explanation: 'Print not leap.' },
+                    { code: ' }', explanation: 'End if.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            5: {
+                title: "5. Program to calculate grade using if-else ladder",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main.' },
+                    { code: ' float marks;', explanation: 'Declare marks.' },
+                    { code: ' printf("Enter marks: ");', explanation: 'Prompt.' },
+                    { code: ' scanf("%f", &marks);', explanation: 'Read marks.' },
+                    { code: ' if (marks >= 90) {', explanation: 'Check for A.' },
+                    { code: ' printf("Grade A\\n");', explanation: 'Print A.' },
+                    { code: ' } else if (marks >= 80) {', explanation: 'Check for B.' },
+                    { code: ' printf("Grade B\\n");', explanation: 'Print B.' },
+                    { code: ' } else if (marks >= 70) {', explanation: 'Check for C.' },
+                    { code: ' printf("Grade C\\n");', explanation: 'Print C.' },
+                    { code: ' } else if (marks >= 60) {', explanation: 'Check for D.' },
+                    { code: ' printf("Grade D\\n");', explanation: 'Print D.' },
+                    { code: ' } else {', explanation: 'Else F.' },
+                    { code: ' printf("Grade F\\n");', explanation: 'Print F.' },
+                    { code: ' }', explanation: 'End ladder.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            6: {
+                title: "6. Program to check vowel or consonant using switch",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main.' },
+                    { code: ' char ch;', explanation: 'Declare char.' },
+                    { code: ' printf("Enter character: ");', explanation: 'Prompt.' },
+                    { code: ' scanf("%c", &ch);', explanation: 'Read char.' },
+                    { code: ' switch (ch) {', explanation: 'Switch on ch.' },
+                    { code: ' case \'a\':', explanation: 'Case a.' },
+                    { code: ' case \'e\':', explanation: 'Case e.' },
+                    { code: ' case \'i\':', explanation: 'Case i.' },
+                    { code: ' case \'o\':', explanation: 'Case o.' },
+                    { code: ' case \'u\':', explanation: 'Case u.' },
+                    { code: ' case \'A\':', explanation: 'Case A.' },
+                    { code: ' case \'E\':', explanation: 'Case E.' },
+                    { code: ' case \'I\':', explanation: 'Case I.' },
+                    { code: ' case \'O\':', explanation: 'Case O.' },
+                    { code: ' case \'U\':', explanation: 'Case U.' },
+                    { code: ' printf("Vowel\\n");', explanation: 'Print vowel.' },
+                    { code: ' break;', explanation: 'Break.' },
+                    { code: ' default:', explanation: 'Default case.' },
+                    { code: ' printf("Consonant\\n");', explanation: 'Print consonant.' },
+                    { code: ' }', explanation: 'End switch.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            7: {
+                title: "7. Program to print day of week using switch",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main.' },
+                    { code: ' int day;', explanation: 'Declare day.' },
+                    { code: ' printf("Enter day number (1-7): ");', explanation: 'Prompt.' },
+                    { code: ' scanf("%d", &day);', explanation: 'Read day.' },
+                    { code: ' switch (day) {', explanation: 'Switch on day.' },
+                    { code: ' case 1: printf("Monday\\n"); break;', explanation: 'Monday.' },
+                    { code: ' case 2: printf("Tuesday\\n"); break;', explanation: 'Tuesday.' },
+                    { code: ' case 3: printf("Wednesday\\n"); break;', explanation: 'Wednesday.' },
+                    { code: ' case 4: printf("Thursday\\n"); break;', explanation: 'Thursday.' },
+                    { code: ' case 5: printf("Friday\\n"); break;', explanation: 'Friday.' },
+                    { code: ' case 6: printf("Saturday\\n"); break;', explanation: 'Saturday.' },
+                    { code: ' case 7: printf("Sunday\\n"); break;', explanation: 'Sunday.' },
+                    { code: ' default: printf("Invalid\\n");', explanation: 'Invalid.' },
+                    { code: ' }', explanation: 'End switch.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            8: {
+                title: "8. Program to perform arithmetic operations using switch",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main.' },
+                    { code: ' char op;', explanation: 'Declare operator.' },
+                    { code: ' float a, b;', explanation: 'Declare operands.' },
+                    { code: ' printf("Enter operator (+,-,*,/): ");', explanation: 'Prompt op.' },
+                    { code: ' scanf(" %c", &op);', explanation: 'Read op (space before %c to consume newline).' },
+                    { code: ' printf("Enter two numbers: ");', explanation: 'Prompt numbers.' },
+                    { code: ' scanf("%f %f", &a, &b);', explanation: 'Read numbers.' },
+                    { code: ' switch (op) {', explanation: 'Switch on op.' },
+                    { code: ' case \'+\': printf("%f\\n", a + b); break;', explanation: 'Addition.' },
+                    { code: ' case \'-\': printf("%f\\n", a - b); break;', explanation: 'Subtraction.' },
+                    { code: ' case \'*\': printf("%f\\n", a * b); break;', explanation: 'Multiplication.' },
+                    { code: ' case \'/\': if (b != 0) printf("%f\\n", a / b); else printf("Error\\n"); break;', explanation: 'Division with check.' },
+                    { code: ' default: printf("Invalid\\n");', explanation: 'Invalid.' },
+                    { code: ' }', explanation: 'End switch.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            9: {
+                title: "9. Program to print numbers 1 to 10 using for loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main.' },
+                    { code: ' int i;', explanation: 'Declare loop variable.' },
+                    { code: ' for (i = 1; i <= 10; i++) {', explanation: 'For loop from 1 to 10.' },
+                    { code: ' printf("%d ", i);', explanation: 'Print i.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("\\n");', explanation: 'New line.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            10: {
+                title: "10. Program to find sum of first n natural numbers using for loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main.' },
+                    { code: ' int n, sum = 0, i;', explanation: 'Declare variables.' },
+                    { code: ' printf("Enter n: ");', explanation: 'Prompt.' },
+                    { code: ' scanf("%d", &n);', explanation: 'Read n.' },
+                    { code: ' for (i = 1; i <= n; i++) {', explanation: 'Loop to sum.' },
+                    { code: ' sum += i;', explanation: 'Add i to sum.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("Sum: %d\\n", sum);', explanation: 'Print sum.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1; // Track the current line (-1 means none shown yet)
+
+        // Event listener for program list items
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                // Reset line index
+                currentLineIndex = -1;
+
+                // Set modal title
+                document.getElementById('program-title').textContent = program.title;
+
+                // Clear previous content
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                // Create all code lines (initially hidden)
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                // Show modal
+                document.getElementById('modal').classList.add('show');
+
+                // Show first line immediately
+                showNextLine();
+            });
+        });
+
+        // Function to show the next line
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            // Optionally hide "Next Line" button when all lines are shown
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        // Click event for "Next Line" button
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        // Close modal on background click
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block'; // Reset button visibility
+            }
+        });
+
+        // Close modal on close button click
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block'; // Reset button visibility
+        });
+
+        // Prevent modal close on content click
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+<a href="program1.html" class="nav-link">View Programs 11-20</a>
+</body>
+</html>

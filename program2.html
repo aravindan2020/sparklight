@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Programs 21-30 with Explanations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+        .nav-link {
+            display: block;
+            text-align: center;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .nav-link:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>C Programs 21-30: Mathematical and Array Operations</h1>
+    <a href="program.html" class="nav-link">View Programs 1-10</a>
+    <a href="program1.html" class="nav-link">View Programs 11-20</a>
+    <ul id="program-list">
+        <li data-program="21">21. Program to find GCD using while loop</li>
+        <li data-program="22">22. Program to find LCM using for loop</li>
+        <li data-program="23">23. Program to check Armstrong number</li>
+        <li data-program="24">24. Program to print sum of digits</li>
+        <li data-program="25">25. Program to count digits in a number</li>
+        <li data-program="26">26. Program to find power of a number</li>
+        <li data-program="27">27. Program to swap two numbers without third variable</li>
+        <li data-program="28">28. Program to find sum of array elements</li>
+        <li data-program="29">29. Program to find largest element in array</li>
+        <li data-program="30">30. Program to reverse an array</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        const programs = {
+            21: {
+                title: "21. Program to find GCD using while loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include standard input/output header file.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int a, b, temp;', explanation: 'Declare variables for numbers and temp.' },
+                    { code: ' printf("Enter two numbers: ");', explanation: 'Prompt for input.' },
+                    { code: ' scanf("%d %d", &a, &b);', explanation: 'Read two numbers.' },
+                    { code: ' while (b != 0) {', explanation: 'Loop until b becomes 0.' },
+                    { code: ' temp = b;', explanation: 'Store b in temp.' },
+                    { code: ' b = a % b;', explanation: 'Set b to remainder of a/b.' },
+                    { code: ' a = temp;', explanation: 'Set a to previous b.' },
+                    { code: ' }', explanation: 'End of while loop.' },
+                    { code: ' printf("GCD: %d\\n", a);', explanation: 'Print GCD (a when b is 0).' },
+                    { code: ' return 0;', explanation: 'Return 0 to indicate success.' },
+                    { code: '}', explanation: 'End of main function.' }
+                ]
+            },
+            22: {
+                title: "22. Program to find LCM using for loop",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int a, b, max, lcm, i;', explanation: 'Declare variables.' },
+                    { code: ' printf("Enter two numbers: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%d %d", &a, &b);', explanation: 'Read numbers.' },
+                    { code: ' max = (a > b) ? a : b;', explanation: 'Find larger number.' },
+                    { code: ' for (i = max; ; i += max) {', explanation: 'Loop starting from max.' },
+                    { code: ' if (i % a == 0 && i % b == 0) {', explanation: 'Check if i is multiple of both.' },
+                    { code: ' lcm = i;', explanation: 'Set LCM to i.' },
+                    { code: ' break;', explanation: 'Exit loop.' },
+                    { code: ' }', explanation: 'End if.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("LCM: %d\\n", lcm);', explanation: 'Print LCM.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            23: {
+                title: "23. Program to check Armstrong number",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int n, temp, sum = 0, digit;', explanation: 'Declare variables.' },
+                    { code: ' printf("Enter number: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                    { code: ' temp = n;', explanation: 'Store original number.' },
+                    { code: ' while (n > 0) {', explanation: 'Loop to process digits.' },
+                    { code: ' digit = n % 10;', explanation: 'Extract last digit.' },
+                    { code: ' sum += digit * digit * digit;', explanation: 'Add cube of digit.' },
+                    { code: ' n /= 10;', explanation: 'Remove last digit.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' if (sum == temp)', explanation: 'Check if Armstrong.' },
+                    { code: ' printf("Armstrong number\\n");', explanation: 'Print if Armstrong.' },
+                    { code: ' else', explanation: 'Else not Armstrong.' },
+                    { code: ' printf("Not Armstrong\\n");', explanation: 'Print not Armstrong.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            24: {
+                title: "24. Program to print sum of digits",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int n, sum = 0, digit;', explanation: 'Declare variables.' },
+                    { code: ' printf("Enter number: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                    { code: ' while (n > 0) {', explanation: 'Loop to sum digits.' },
+                    { code: ' digit = n % 10;', explanation: 'Extract last digit.' },
+                    { code: ' sum += digit;', explanation: 'Add digit to sum.' },
+                    { code: ' n /= 10;', explanation: 'Remove last digit.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("Sum of digits: %d\\n", sum);', explanation: 'Print sum.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            25: {
+                title: "25. Program to count digits in a number",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int n, count = 0;', explanation: 'Declare variables.' },
+                    { code: ' printf("Enter number: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%d", &n);', explanation: 'Read number.' },
+                    { code: ' while (n > 0) {', explanation: 'Loop to count digits.' },
+                    { code: ' n /= 10;', explanation: 'Remove last digit.' },
+                    { code: ' count++;', explanation: 'Increment count.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("Number of digits: %d\\n", count);', explanation: 'Print count.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            26: {
+                title: "26. Program to find power of a number",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int base, exp, i;', explanation: 'Declare variables.' },
+                    { code: ' long result = 1;', explanation: 'Initialize result.' },
+                    { code: ' printf("Enter base and exponent: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%d %d", &base, &exp);', explanation: 'Read base and exponent.' },
+                    { code: ' for (i = 1; i <= exp; i++) {', explanation: 'Loop exp times.' },
+                    { code: ' result *= base;', explanation: 'Multiply base to result.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("%d^%d = %ld\\n", base, exp, result);', explanation: 'Print result.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            27: {
+                title: "27. Program to swap two numbers without third variable",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int a, b;', explanation: 'Declare variables.' },
+                    { code: ' printf("Enter two numbers: ");', explanation: 'Prompt input.' },
+                    { code: ' scanf("%d %d", &a, &b);', explanation: 'Read numbers.' },
+                    { code: ' printf("Before swap: a=%d, b=%d\\n", a, b);', explanation: 'Print original values.' },
+                    { code: ' a = a + b;', explanation: 'Add b to a.' },
+                    { code: ' b = a - b;', explanation: 'Subtract original b to get a.' },
+                    { code: ' a = a - b;', explanation: 'Subtract new b to get original b.' },
+                    { code: ' printf("After swap: a=%d, b=%d\\n", a, b);', explanation: 'Print swapped values.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            28: {
+                title: "28. Program to find sum of array elements",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int arr[5], i, sum = 0;', explanation: 'Declare array and variables.' },
+                    { code: ' printf("Enter 5 numbers: ");', explanation: 'Prompt input.' },
+                    { code: ' for (i = 0; i < 5; i++) {', explanation: 'Loop to read elements.' },
+                    { code: ' scanf("%d", &arr[i]);', explanation: 'Read element.' },
+                    { code: ' sum += arr[i];', explanation: 'Add to sum.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("Sum: %d\\n", sum);', explanation: 'Print sum.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            29: {
+                title: "29. Program to find largest element in array",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int arr[5], i, max;', explanation: 'Declare array and variables.' },
+                    { code: ' printf("Enter 5 numbers: ");', explanation: 'Prompt input.' },
+                    { code: ' for (i = 0; i < 5; i++) {', explanation: 'Loop to read elements.' },
+                    { code: ' scanf("%d", &arr[i]);', explanation: 'Read element.' },
+                    { code: ' }', explanation: 'End input loop.' },
+                    { code: ' max = arr[0];', explanation: 'Initialize max to first element.' },
+                    { code: ' for (i = 1; i < 5; i++) {', explanation: 'Loop to find max.' },
+                    { code: ' if (arr[i] > max)', explanation: 'Check if current is larger.' },
+                    { code: ' max = arr[i];', explanation: 'Update max.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("Largest: %d\\n", max);', explanation: 'Print largest.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            },
+            30: {
+                title: "30. Program to reverse an array",
+                lines: [
+                    { code: '#include <stdio.h>', explanation: 'Include stdio.h.' },
+                    { code: 'int main() {', explanation: 'Main function.' },
+                    { code: ' int arr[5], i, temp;', explanation: 'Declare array and variables.' },
+                    { code: ' printf("Enter 5 numbers: ");', explanation: 'Prompt input.' },
+                    { code: ' for (i = 0; i < 5; i++) {', explanation: 'Loop to read elements.' },
+                    { code: ' scanf("%d", &arr[i]);', explanation: 'Read element.' },
+                    { code: ' }', explanation: 'End input loop.' },
+                    { code: ' for (i = 0; i < 5 / 2; i++) {', explanation: 'Loop to reverse array.' },
+                    { code: ' temp = arr[i];', explanation: 'Store current element.' },
+                    { code: ' arr[i] = arr[4 - i];', explanation: 'Swap with opposite end.' },
+                    { code: ' arr[4 - i] = temp;', explanation: 'Complete swap.' },
+                    { code: ' }', explanation: 'End loop.' },
+                    { code: ' printf("Reversed array: ");', explanation: 'Print label.' },
+                    { code: ' for (i = 0; i < 5; i++)', explanation: 'Loop to print array.' },
+                    { code: ' printf("%d ", arr[i]);', explanation: 'Print element.' },
+                    { code: ' printf("\\n");', explanation: 'New line.' },
+                    { code: ' return 0;', explanation: 'Return 0.' },
+                    { code: '}', explanation: 'End main.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1; // Track the current line (-1 means none shown yet)
+
+        // Event listener for program list items
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                // Reset line index
+                currentLineIndex = -1;
+
+                // Set modal title
+                document.getElementById('program-title').textContent = program.title;
+
+                // Clear previous content
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                // Create all code lines (initially hidden)
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                // Show modal
+                document.getElementById('modal').classList.add('show');
+
+                // Show first line immediately
+                showNextLine();
+            });
+        });
+
+        // Function to show the next line
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            // Hide "Next Line" button when all lines are shown
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        // Click event for "Next Line" button
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        // Close modal on background click
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block'; // Reset button visibility
+            }
+        });
+
+        // Close modal on close button click
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block'; // Reset button visibility
+        });
+
+        // Prevent modal close on content click
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+<a href="program3.html" class="nav-link">View Programs 21-30</a>
+</body>
+</html>
