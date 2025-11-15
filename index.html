@@ -3,68 +3,113 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>String Programs Navigation</title>
+  <title>Animated Landing Page</title>
+
   <style>
     body {
-      font-family: "Segoe UI", sans-serif;
-      background-color: #f9f9f9;
       margin: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
       height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: white;
+    }
+
+    .container {
+      text-align: center;
+      animation: fadeIn 1.5s ease-in-out;
     }
 
     h1 {
-      color: #333;
-      margin-bottom: 30px;
+      font-size: 42px;
+      margin-bottom: 20px;
+      animation: slideDown 1.5s ease-in-out;
     }
 
-    .nav-container {
-      background: #fff;
-      padding: 25px 40px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    a {
+    .btn {
       display: block;
       text-decoration: none;
-      background-color: #007bff;
+      width: 280px;
+      margin: 13px auto;
+      padding: 14px 20px;
+      font-size: 20px;
+      font-weight: bold;
       color: white;
-      padding: 12px 25px;
-      margin: 10px 0;
-      border-radius: 8px;
-      transition: 0.3s;
-      font-size: 18px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+      transition: 0.4s;
+      opacity: 0;
+      transform: translateY(25px);
     }
 
-    a:hover {
-      background-color: #0056b3;
-      transform: scale(1.05);
+    .btn:hover {
+      transform: scale(1.07);
+      background: rgba(255, 255, 255, 0.35);
+      box-shadow: 0px 0px 18px rgb(255, 255, 255);
     }
+
+    /* Animation Delay for highlighting */
+    .btn.cjava { animation: fadeUp 1s ease forwards; }
+    .btn.cjava:nth-child(1) { animation-delay: 0.8s; }
+    .btn.cjava:nth-child(2) { animation-delay: 1.2s; }
+
+    .btn.string { animation: fadeUp 1s ease forwards; }
+    .btn.string:nth-child(1) { animation-delay: 1.8s; }
+    .btn.string:nth-child(2) { animation-delay: 2.2s; }
+    .btn.string:nth-child(3) { animation-delay: 2.6s; }
+    .btn.string:nth-child(4) { animation-delay: 3.0s; }
 
     footer {
-      margin-top: 40px;
-      font-size: 14px;
-      color: #555;
+      margin-top: 25px;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
+      animation-delay: 3.5s;
+      font-size: 15px;
+    }
+
+    /* Keyframes */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
+
 <body>
-  <div class="nav-container">
-    <h1>String Programs</h1>
-    <a href="stringintro.html">String Introduction</a>
-    <a href="vowels.html">Count Vowels</a>
-    <a href="palindrome.html">Palindrome Check</a>
-    <a href="stringfunc.html">String Functions</a>
-    <a href="program.html">other c program</a>
-     <a href="index1.html">core java exercise</a>
-    <footer>© 2025 String Program Collection</footer>
+
+  <div class="container">
+    <h1>Welcome to Practice Zone</h1>
+
+    <!-- Highlighted First: C & Java -->
+    <a href="program.html" class="btn cjava">C Program Exercises</a>
+    <a href="index1.html" class="btn cjava">Core Java Exercises</a>
+
+    <!-- Highlighted Next: String Links -->
+    <a href="stringintro.html" class="btn string">String Introduction</a>
+    <a href="vowels.html" class="btn string">Count Vowels</a>
+    <a href="palindrome.html" class="btn string">Palindrome Check</a>
+    <a href="stringfunc.html" class="btn string">String Functions</a>
+
+    <footer>© 2025 Learning Hub</footer>
+  </div>
+
 </body>
 </html>
-
-
-
