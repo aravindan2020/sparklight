@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counting Sort Sliding Window</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        section {
+            background-color: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        pre {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        ul#program-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+        #step-by-step .slide {
+            display: none;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        #step-by-step .slide.active {
+            display: block;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        #step-by-step .pass-step p {
+            margin: 5px 0;
+        }
+        #next-step-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-step-btn:hover {
+            background-color: #218838;
+        }
+        .highlight {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Counting Sort</h1>
+    
+    <section id="definition">
+        <h2>Definition</h2>
+        <p>Counting Sort is a non-comparison-based sorting algorithm that sorts elements by counting the frequency of each distinct element in the input array and using these counts to place elements in their correct positions in the output array. It is stable, with a time complexity of O(n + k), where n is the number of elements and k is the range of input values. Counting Sort is efficient for small integer ranges but requires extra space for the count and output arrays. It is not an in-place algorithm.</p>
+    </section>
+    
+    <section id="step-by-step">
+        <h2>Step-by-Step Sorting (Sample Array: 8, 7, 6, 5, 4, 3, 2, 1)</h2>
+        <div id="slides-container"></div>
+        <button id="next-step-btn">Next Step</button>
+    </section>
+    
+    <section id="program">
+        <h2>Java Program for Counting Sort</h2>
+        <ul id="program-list">
+            <li data-program="1">Click to view Counting Sort Program line by line</li>
+        </ul>
+    </section>
+    
+    <section id="output">
+        <h2>Output with Counting Steps</h2>
+        <pre id="output-pre">
+Initial array:
+8 7 6 5 4 3 2 1 
+Count array:
+[0, 1, 1, 1, 1, 1, 1, 1, 1]
+Cumulative count array:
+[0, 1, 2, 3, 4, 5, 6, 7, 8]
+Output array:
+1 2 3 4 5 6 7 8 
+        </pre>
+    </section>
+    
+    <section id="real-world">
+        <h2>Real-World Examples</h2>
+        <ul>
+            <li>Educational purposes: Used to teach non-comparison sorting algorithms due to its simplicity and efficiency for small ranges. <a href="https://www.geeksforgeeks.org/counting-sort/">(GeeksforGeeks)</a></li>
+            <li>Small integer ranges: Efficient for sorting data with a limited range, such as grades or ages. <a href="https://www.programiz.com/dsa/counting-sort">(Programiz)</a></li>
+            <li>Radix sort component: Used as a subroutine in radix sort for sorting digits in large numbers. <a href="https://www.javatpoint.com/counting-sort">(JavatPoint)</a></li>
+            <li>Database systems: Applied in scenarios requiring stable sorting of small-range keys, like indexing. <a href="https://www.tutorialspoint.com/data_structures_algorithms/counting_sort.htm">(TutorialsPoint)</a></li>
+            <li>Real-life analogies: Similar to sorting items into bins based on their type before arranging them. <a href="https://www.quora.com/What-are-some-real-world-applications-of-counting-sort">(Quora)</a></li>
+        </ul>
+    </section>
+    
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    
+    <script>
+        const steps = [
+            {
+                title: "Initial Array",
+                array: [8, 7, 6, 5, 4, 3, 2, 1],
+                operations: [],
+                explanation: "This is the starting array, in reverse order (descending). Counting Sort will count the frequency of each element, compute cumulative counts, and place elements in sorted order in an output array."
+            },
+            {
+                title: "Count Frequencies",
+                array: [8, 7, 6, 5, 4, 3, 2, 1],
+                operations: [
+                    { indices: [7], array: [8, 7, 6, 5, 4, 3, 2, 1], desc: "Count 1: Increment count[1] to 1." },
+                    { indices: [6], array: [8, 7, 6, 5, 4, 3, 2, 1], desc: "Count 2: Increment count[2] to 1." },
+                    { indices: [5], array: [8, 7, 6, 5, 4, 3, 2, 1], desc: "Count 3: Increment count[3] to 1." },
+                    { indices: [4], array: [8, 7, 6, 5, 4, 3, 2, 1], desc: "Count 4: Increment count[4] to 1." },
+                    { indices: [3], array: [8, 7, 6, 5, 4, 3, 2, 1], desc: "Count 5: Increment count[5] to 1." },
+                    { indices: [2], array: [8, 7, 6, 5, 4, 3, 2, 1], desc: "Count 6: Increment count[6] to 1." },
+                    { indices: [1], array: [8, 7, 6, 5, 4, 3, 2, 1], desc: "Count 7: Increment count[7] to 1." },
+                    { indices: [0], array: [8, 7, 6, 5, 4, 3, 2, 1], desc: "Count 8: Increment count[8] to 1." }
+                ],
+                explanation: "Create a count array (size 9, for values 0 to 8). Iterate through the input array from left to right, incrementing count[element] for each element. Result: count = [0, 1, 1, 1, 1, 1, 1, 1, 1], indicating one occurrence of each value 1 to 8."
+            },
+            {
+                title: "Cumulative Counts",
+                array: [8, 7, 6, 5, 4, 3, 2, 1],
+                operations: [
+                    { indices: [], array: [0, 1, 2, 3, 4, 5, 6, 7, 8], desc: "Compute cumulative counts: count[i] += count[i-1] for i from 1 to 8. Result: count = [0, 1, 2, 3, 4, 5, 6, 7, 8]." }
+                ],
+                explanation: "Modify the count array to store cumulative counts: each index i holds the number of elements ≤ i. Starting from count = [0, 1, 1, 1, 1, 1, 1, 1, 1], compute count[i] += count[i-1]: count = [0, 1, 2, 3, 4, 5, 6, 7, 8]. This indicates where each element should be placed in the output array."
+            },
+            {
+                title: "Build Output Array",
+                array: [1, 2, 3, 4, 5, 6, 7, 8],
+                operations: [
+                    { indices: [7], array: [1, 0, 0, 0, 0, 0, 0, 0], desc: "Place 1: count[1]=1, place 1 at output[0], decrement count[1] to 0." },
+                    { indices: [6], array: [1, 2, 0, 0, 0, 0, 0, 0], desc: "Place 2: count[2]=2, place 2 at output[1], decrement count[2] to 1." },
+                    { indices: [5], array: [1, 2, 3, 0, 0, 0, 0, 0], desc: "Place 3: count[3]=3, place 3 at output[2], decrement count[3] to 2." },
+                    { indices: [4], array: [1, 2, 3, 4, 0, 0, 0, 0], desc: "Place 4: count[4]=4, place 4 at output[3], decrement count[4] to 3." },
+                    { indices: [3], array: [1, 2, 3, 4, 5, 0, 0, 0], desc: "Place 5: count[5]=5, place 5 at output[4], decrement count[5] to 4." },
+                    { indices: [2], array: [1, 2, 3, 4, 5, 6, 0, 0], desc: "Place 6: count[6]=6, place 6 at output[5], decrement count[6] to 5." },
+                    { indices: [1], array: [1, 2, 3, 4, 5, 6, 7, 0], desc: "Place 7: count[7]=7, place 7 at output[6], decrement count[7] to 6." },
+                    { indices: [0], array: [1, 2, 3, 4, 5, 6, 7, 8], desc: "Place 8: count[8]=8, place 8 at output[7], decrement count[8] to 7." }
+                ],
+                explanation: "Iterate through the input array from right to left to maintain stability. For each element, use count[element] to determine its position in the output array (index count[element]-1), place the element, and decrement count[element]. Result: output = [1, 2, 3, 4, 5, 6, 7, 8]."
+            },
+            {
+                title: "Final Sorted Array",
+                array: [1, 2, 3, 4, 5, 6, 7, 8],
+                operations: [],
+                explanation: "After counting frequencies, computing cumulative counts, and placing elements in the output array, the array is fully sorted in ascending order. Counting Sort’s non-comparison approach is efficient for small integer ranges."
+            }
+        ];
+
+        let currentStepIndex = 0;
+
+        function renderSlides() {
+            const container = document.getElementById('slides-container');
+            container.innerHTML = '';
+            steps.forEach((step, index) => {
+                const slide = document.createElement('div');
+                slide.className = `slide ${index === currentStepIndex ? 'active' : ''}`;
+                let content = `<p><strong>${step.title}:</strong> [`;
+                step.array.forEach((num, i) => {
+                    content += i === 0 ? `${num}` : `, ${num}`;
+                });
+                content += ']</p>';
+                if (step.operations.length > 0) {
+                    content += '<p><em>Counting or Placement Operations:</em></p>';
+                    step.operations.forEach(op => {
+                        let arrayStr = '[';
+                        op.array.forEach((num, i) => {
+                            const isHighlighted = op.indices.includes(i);
+                            arrayStr += i === 0 ? '' : ', ';
+                            arrayStr += isHighlighted ? `<span class="highlight">${num}</span>` : num;
+                        });
+                        arrayStr += ']';
+                        content += `<p>${op.desc} → ${arrayStr}</p>`;
+                    });
+                }
+                content += `<p><em>Positioning:</em> ${step.explanation}</p>`;
+                slide.innerHTML = content;
+                container.appendChild(slide);
+            });
+        }
+
+        document.getElementById('next-step-btn').addEventListener('click', () => {
+            currentStepIndex = (currentStepIndex + 1) % steps.length;
+            renderSlides();
+        });
+
+        renderSlides();
+
+        const programs = {
+            1: {
+                title: "Counting Sort Program in Java (with Sample Array and Counting Outputs)",
+                lines: [
+                    { code: 'public class CountingSortExample {', explanation: 'Defines the public class CountingSortExample. This class contains the main logic for the counting sort demonstration. In Java, classes organize code into reusable units.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Declares the main method, the entry point of the program. It is static to be callable without an instance. String[] args handles command-line arguments.' },
+                    { code: '        int[] arr = {8, 7, 6, 5, 4, 3, 2, 1};', explanation: 'Initializes the integer array arr with the sample elements. Sets up the reverse-sorted array for demonstration.' },
+                    { code: '        System.out.println("Initial array:");', explanation: 'Prints a header for the initial array state. Uses println to add a newline for readability.' },
+                    { code: '        printArray(arr);', explanation: 'Calls the printArray method to display the initial array. Separates printing logic for reusability.' },
+                    { code: '        int[] output = countingSort(arr);', explanation: 'Calls countingSort to sort the array and store the result in output. Returns the sorted array.' },
+                    { code: '        System.out.println("Output array:");', explanation: 'Prints a header for the sorted output array.' },
+                    { code: '        printArray(output);', explanation: 'Calls printArray to display the sorted output array.' },
+                    { code: '    }', explanation: 'Closes the main method. Encapsulates the entry point logic.' },
+                    { code: '    public static int[] countingSort(int[] arr) {', explanation: 'Defines the countingSort method. Takes the input array and returns the sorted output array.' },
+                    { code: '        int n = arr.length;', explanation: 'Stores the array length in n. Used for iteration and array sizing.' },
+                    { code: '        int max = arr[0];', explanation: 'Initializes max to the first element to find the maximum value in the array.' },
+                    { code: '        for (int i = 1; i < n; i++) {', explanation: 'Loop to find the maximum element in the array.' },
+                    { code: '            if (arr[i] > max) {', explanation: 'Checks if the current element is greater than max.' },
+                    { code: '                max = arr[i];', explanation: 'Updates max if a larger element is found.' },
+                    { code: '            }', explanation: 'Closes the if block for max comparison.' },
+                    { code: '        }', explanation: 'Closes the loop for finding max.' },
+                    { code: '        int[] count = new int[max + 1];', explanation: 'Creates a count array of size max+1 (to include 0 to max). Initialized to zeros.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to count the frequency of each element in the input array.' },
+                    { code: '            count[arr[i]]++;', explanation: 'Increments count[element] for each element in the input array.' },
+                    { code: '        }', explanation: 'Closes the loop for counting frequencies.' },
+                    { code: '        System.out.println("Count array:");', explanation: 'Prints a header for the count array.' },
+                    { code: '        printArray(count);', explanation: 'Calls printArray to display the count array.' },
+                    { code: '        for (int i = 1; i <= max; i++) {', explanation: 'Loop to compute cumulative counts in the count array.' },
+                    { code: '            count[i] += count[i - 1];', explanation: 'Adds count[i-1] to count[i] to store the number of elements ≤ i.' },
+                    { code: '        }', explanation: 'Closes the loop for cumulative counts.' },
+                    { code: '        System.out.println("Cumulative count array:");', explanation: 'Prints a header for the cumulative count array.' },
+                    { code: '        printArray(count);', explanation: 'Calls printArray to display the cumulative count array.' },
+                    { code: '        int[] output = new int[n];', explanation: 'Creates an output array of size n to store the sorted elements.' },
+                    { code: '        for (int i = n - 1; i >= 0; i--) {', explanation: 'Loop through the input array from right to left to maintain stability.' },
+                    { code: '            output[count[arr[i]] - 1] = arr[i];', explanation: 'Places arr[i] at index count[arr[i]]-1 in the output array.' },
+                    { code: '            count[arr[i]]--;', explanation: 'Decrements count[arr[i]] to account for the placed element.' },
+                    { code: '        }', explanation: 'Closes the loop for building the output array.' },
+                    { code: '        return output;', explanation: 'Returns the sorted output array.' },
+                    { code: '    }', explanation: 'Closes the countingSort method. Completes the sorting logic.' },
+                    { code: '    private static void printArray(int[] arr) {', explanation: 'Defines a private static helper method printArray. Takes int[] arr as parameter.' },
+                    { code: '        for (int num : arr) {', explanation: 'Enhanced for loop to iterate array. num takes each element value.' },
+                    { code: '            System.out.print(num + " ");', explanation: 'Prints each num followed by a space.' },
+                    { code: '        }', explanation: 'Closes the enhanced for loop.' },
+                    { code: '        System.out.println();', explanation: 'Prints a newline after the array for clean formatting.' },
+                    { code: '    }', explanation: 'Closes the printArray method. Ends helper logic.' },
+                    { code: '}', explanation: 'Closes the class definition. Encapsulates all methods. Program is complete.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

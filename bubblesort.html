@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Sort Sliding Window</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        section {
+            background-color: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        pre {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        ul#program-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+        #step-by-step .slide {
+            display: none;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        #step-by-step .slide.active {
+            display: block;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        #step-by-step .pass-step p {
+            margin: 5px 0;
+        }
+        #next-step-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-step-btn:hover {
+            background-color: #218838;
+        }
+        .highlight {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Bubble Sort</h1>
+    
+    <section id="definition">
+        <h2>Definition</h2>
+        <p>Bubble Sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. The pass through the list is repeated until no more swaps are needed, indicating that the list is sorted. It gets its name because smaller elements "bubble" to the top of the list. This algorithm is stable and works in-place, but it has a time complexity of O(n²), making it inefficient for large datasets. It is primarily used for educational purposes to introduce the concept of sorting algorithms.</p>
+    </section>
+    
+    <section id="step-by-step">
+        <h2>Step-by-Step Sorting (Sample Array: 8, 7, 6, 5, 4, 3, 2, 1)</h2>
+        <div id="slides-container"></div>
+        <button id="next-step-btn">Next Step</button>
+    </section>
+    
+    <section id="program">
+        <h2>Java Program for Bubble Sort</h2>
+        <ul id="program-list">
+            <li data-program="1">Click to view Bubble Sort Program line by line</li>
+        </ul>
+    </section>
+    
+    <section id="output">
+        <h2>Output with All Passes</h2>
+        <pre id="output-pre">
+Initial array:
+8 7 6 5 4 3 2 1 
+After pass 1:
+7 6 5 4 3 2 1 8 
+After pass 2:
+6 5 4 3 2 1 7 8 
+After pass 3:
+5 4 3 2 1 6 7 8 
+After pass 4:
+4 3 2 1 5 6 7 8 
+After pass 5:
+3 2 1 4 5 6 7 8 
+After pass 6:
+2 1 3 4 5 6 7 8 
+After pass 7:
+1 2 3 4 5 6 7 8 
+        </pre>
+    </section>
+    
+    <section id="real-world">
+        <h2>Real-World Examples</h2>
+        <ul>
+            <li>Educational and academic purposes: Primarily used to teach sorting concepts due to its simplicity. <a href="https://www.geeksforgeeks.org/dsa/bubble-sort-algorithm/">(GeeksforGeeks)</a></li>
+            <li>Sorting small datasets: Effective for small numbers of items, such as network nodes in a local area network. <a href="https://medium.com/@ambertham0211/advantages-complexity-and-application-scenarios-of-bubble-sort-algorithm-in-local-area-network-98e650a7e9f0">(Medium)</a></li>
+            <li>Real-life analogies: Similar to cars sorting on a two-lane road or sorting playing cards by hand. <a href="https://www.quora.com/Have-you-ever-used-the-Bubble-Sort-in-real-life-as-opposed-to-just-as-a-computer-algorithm">(Quora)</a> <a href="https://www.reddit.com/r/leetcode/comments/1ifqfrl/real_life_use_of_bubble_sort_algorithm/">(Reddit)</a></li>
+            <li>Sequential access scenarios: Useful when sequential access is faster than random access and memory is limited. <a href="https://stackoverflow.com/questions/276113/what-is-a-bubble-sort-good-for">(Stack Overflow)</a></li>
+            <li>Everyday applications: Analogous to sorting contact lists or files in alphabetical order (though more efficient algorithms are typically used in practice). <a href="https://www.freecodecamp.org/news/bubble-sort-algorithm-in-java-cpp-python-with-example-code/">(freeCodeCamp)</a></li>
+        </ul>
+    </section>
+    
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    
+    <script>
+        const steps = [
+            {
+                title: "Initial Array",
+                array: [8, 7, 6, 5, 4, 3, 2, 1],
+                swaps: [],
+                explanation: "This is the starting array, in reverse order (descending). Bubble Sort will compare and swap adjacent elements to arrange them in ascending order. The goal is to move larger elements to the right and smaller elements to the left over multiple passes."
+            },
+            {
+                title: "Pass 1",
+                array: [7, 6, 5, 4, 3, 2, 1, 8],
+                swaps: [
+                    { indices: [0, 1], array: [7, 8, 6, 5, 4, 3, 2, 1], desc: "Compare 8 and 7: 8 > 7, swap → 7 moves to position 0, 8 to position 1." },
+                    { indices: [1, 2], array: [7, 6, 8, 5, 4, 3, 2, 1], desc: "Compare 8 and 6: 8 > 6, swap → 6 to position 1, 8 to position 2." },
+                    { indices: [2, 3], array: [7, 6, 5, 8, 4, 3, 2, 1], desc: "Compare 8 and 5: 8 > 5, swap → 5 to position 2, 8 to position 3." },
+                    { indices: [3, 4], array: [7, 6, 5, 4, 8, 3, 2, 1], desc: "Compare 8 and 4: 8 > 4, swap → 4 to position 3, 8 to position 4." },
+                    { indices: [4, 5], array: [7, 6, 5, 4, 3, 8, 2, 1], desc: "Compare 8 and 3: 8 > 3, swap → 3 to position 4, 8 to position 5." },
+                    { indices: [5, 6], array: [7, 6, 5, 4, 3, 2, 8, 1], desc: "Compare 8 and 2: 8 > 2, swap → 2 to position 5, 8 to position 6." },
+                    { indices: [6, 7], array: [7, 6, 5, 4, 3, 2, 1, 8], desc: "Compare 8 and 1: 8 > 1, swap → 1 to position 6, 8 to position 7." }
+                ],
+                explanation: "The largest element, 8, has 'bubbled' to the last position (index 7). Each swap moved 8 one position right by exchanging it with a smaller element, ensuring it takes its correct final position in the sorted array."
+            },
+            {
+                title: "Pass 2",
+                array: [6, 5, 4, 3, 2, 1, 7, 8],
+                swaps: [
+                    { indices: [0, 1], array: [6, 7, 5, 4, 3, 2, 1, 8], desc: "Compare 7 and 6: 7 > 6, swap → 6 to position 0, 7 to position 1." },
+                    { indices: [1, 2], array: [6, 5, 7, 4, 3, 2, 1, 8], desc: "Compare 7 and 5: 7 > 5, swap → 5 to position 1, 7 to position 2." },
+                    { indices: [2, 3], array: [6, 5, 4, 7, 3, 2, 1, 8], desc: "Compare 7 and 4: 7 > 4, swap → 4 to position 2, 7 to position 3." },
+                    { indices: [3, 4], array: [6, 5, 4, 3, 7, 2, 1, 8], desc: "Compare 7 and 3: 7 > 3, swap → 3 to position 3, 7 to position 4." },
+                    { indices: [4, 5], array: [6, 5, 4, 3, 2, 7, 1, 8], desc: "Compare 7 and 2: 7 > 2, swap → 2 to position 4, 7 to position 5." },
+                    { indices: [5, 6], array: [6, 5, 4, 3, 2, 1, 7, 8], desc: "Compare 7 and 1: 7 > 1, swap → 1 to position 5, 7 to position 6." }
+                ],
+                explanation: "The second-largest element, 7, bubbles to position 6 (second-to-last). Each swap moved 7 right by exchanging it with a smaller element. Since 8 is already in place, this pass positions 7 correctly."
+            },
+            {
+                title: "Pass 3",
+                array: [5, 4, 3, 2, 1, 6, 7, 8],
+                swaps: [
+                    { indices: [0, 1], array: [5, 6, 4, 3, 2, 1, 7, 8], desc: "Compare 6 and 5: 6 > 5, swap → 5 to position 0, 6 to position 1." },
+                    { indices: [1, 2], array: [5, 4, 6, 3, 2, 1, 7, 8], desc: "Compare 6 and 4: 6 > 4, swap → 4 to position 1, 6 to position 2." },
+                    { indices: [2, 3], array: [5, 4, 3, 6, 2, 1, 7, 8], desc: "Compare 6 and 3: 6 > 3, swap → 3 to position 2, 6 to position 3." },
+                    { indices: [3, 4], array: [5, 4, 3, 2, 6, 1, 7, 8], desc: "Compare 6 and 2: 6 > 2, swap → 2 to position 3, 6 to position 4." },
+                    { indices: [4, 5], array: [5, 4, 3, 2, 1, 6, 7, 8], desc: "Compare 6 and 1: 6 > 1, swap → 1 to position 4, 6 to position 5." }
+                ],
+                explanation: "The third-largest element, 6, bubbles to position 5. Each swap moved 6 right, displacing smaller elements leftward. The last three elements (6, 7, 8) are now in their final sorted positions."
+            },
+            {
+                title: "Pass 4",
+                array: [4, 3, 2, 1, 5, 6, 7, 8],
+                swaps: [
+                    { indices: [0, 1], array: [4, 5, 3, 2, 1, 6, 7, 8], desc: "Compare 5 and 4: 5 > 4, swap → 4 to position 0, 5 to position 1." },
+                    { indices: [1, 2], array: [4, 3, 5, 2, 1, 6, 7, 8], desc: "Compare 5 and 3: 5 > 3, swap → 3 to position 1, 5 to position 2." },
+                    { indices: [2, 3], array: [4, 3, 2, 5, 1, 6, 7, 8], desc: "Compare 5 and 2: 5 > 2, swap → 2 to position 2, 5 to position 3." },
+                    { indices: [3, 4], array: [4, 3, 2, 1, 5, 6, 7, 8], desc: "Compare 5 and 1: 5 > 1, swap → 1 to position 3, 5 to position 4." }
+                ],
+                explanation: "The fourth-largest element, 5, bubbles to position 4. Each swap moved 5 right, pushing smaller elements left. The last four elements (5, 6, 7, 8) are now correctly placed."
+            },
+            {
+                title: "Pass 5",
+                array: [3, 2, 1, 4, 5, 6, 7, 8],
+                swaps: [
+                    { indices: [0, 1], array: [3, 4, 2, 1, 5, 6, 7, 8], desc: "Compare 4 and 3: 4 > 3, swap → 3 to position 0, 4 to position 1." },
+                    { indices: [1, 2], array: [3, 2, 4, 1, 5, 6, 7, 8], desc: "Compare 4 and 2: 4 > 2, swap → 2 to position 1, 4 to position 2." },
+                    { indices: [2, 3], array: [3, 2, 1, 4, 5, 6, 7, 8], desc: "Compare 4 and 1: 4 > 1, swap → 1 to position 2, 4 to position 3." }
+                ],
+                explanation: "The fifth-largest element, 4, bubbles to position 3. Swaps moved 4 right, displacing smaller elements. The last five elements (4, 5, 6, 7, 8) are now in their final sorted positions."
+            },
+            {
+                title: "Pass 6",
+                array: [2, 1, 3, 4, 5, 6, 7, 8],
+                swaps: [
+                    { indices: [0, 1], array: [2, 3, 1, 4, 5, 6, 7, 8], desc: "Compare 3 and 2: 3 > 2, swap → 2 to position 0, 3 to position 1." },
+                    { indices: [1, 2], array: [2, 1, 3, 4, 5, 6, 7, 8], desc: "Compare 3 and 1: 3 > 1, swap → 1 to position 1, 3 to position 2." }
+                ],
+                explanation: "The sixth-largest element, 3, bubbles to position 2. Swaps moved 3 right, pushing smaller elements left. The last six elements (3, 4, 5, 6, 7, 8) are correctly placed."
+            },
+            {
+                title: "Pass 7",
+                array: [1, 2, 3, 4, 5, 6, 7, 8],
+                swaps: [
+                    { indices: [0, 1], array: [1, 2, 3, 4, 5, 6, 7, 8], desc: "Compare 2 and 1: 2 > 1, swap → 1 to position 0, 2 to position 1." }
+                ],
+                explanation: "The seventh-largest element, 2, reaches position 1, and the smallest element, 1, takes position 0. This swap finalizes the sort, placing all elements in ascending order."
+            },
+            {
+                title: "Final Sorted Array",
+                array: [1, 2, 3, 4, 5, 6, 7, 8],
+                swaps: [],
+                explanation: "After seven passes, the array is fully sorted in ascending order. Each pass moved the next largest element to its correct position by repeatedly swapping it with smaller adjacent elements. The process stops when all elements are in their final positions."
+            }
+        ];
+
+        let currentStepIndex = 0;
+
+        function renderSlides() {
+            const container = document.getElementById('slides-container');
+            container.innerHTML = '';
+            steps.forEach((step, index) => {
+                const slide = document.createElement('div');
+                slide.className = `slide ${index === currentStepIndex ? 'active' : ''}`;
+                let content = `<p><strong>${step.title}:</strong> [`;
+                step.array.forEach((num, i) => {
+                    content += i === 0 ? `${num}` : `, ${num}`;
+                });
+                content += ']</p>';
+                if (step.swaps.length > 0) {
+                    content += '<p><em>Comparisons and Swaps:</em></p>';
+                    step.swaps.forEach(swap => {
+                        let arrayStr = '[';
+                        swap.array.forEach((num, i) => {
+                            const isHighlighted = swap.indices.includes(i);
+                            arrayStr += i === 0 ? '' : ', ';
+                            arrayStr += isHighlighted ? `<span class="highlight">${num}</span>` : num;
+                        });
+                        arrayStr += ']';
+                        content += `<p>${swap.desc} → ${arrayStr}</p>`;
+                    });
+                }
+                content += `<p><em>Positioning:</em> ${step.explanation}</p>`;
+                slide.innerHTML = content;
+                container.appendChild(slide);
+            });
+        }
+
+        document.getElementById('next-step-btn').addEventListener('click', () => {
+            currentStepIndex = (currentStepIndex + 1) % steps.length;
+            renderSlides();
+        });
+
+        renderSlides();
+
+        const programs = {
+            1: {
+                title: "Bubble Sort Program in Java (with Sample Array and Pass Outputs)",
+                lines: [
+                    { code: 'public class BubbleSortExample {', explanation: 'Defines the public class BubbleSortExample. This class contains the main logic for the bubble sort demonstration. In Java, classes organize code into reusable units. The public modifier allows access from outside. This sets the foundation for the program structure. The name is descriptive for clarity.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Declares the main method, the entry point of the program. It is static to be callable without an instance. String[] args handles command-line arguments. This method executes the sorting logic. Execution begins here. It encapsulates the core functionality.' },
+                    { code: '        int[] arr = {8, 7, 6, 5, 4, 3, 2, 1};', explanation: 'Initializes the integer array arr with the sample elements. Uses curly braces for direct initialization. This sets up the reverse-sorted array for demonstration. Arrays store multiple values of the same type. This prepares the data for sorting. The size is implicitly 8.' },
+                    { code: '        System.out.println("Initial array:");', explanation: 'Prints a header for the initial array state. Uses println to add a newline. System.out is the standard output stream. This provides context for the user. It enhances output readability. Prepares for displaying the array.' },
+                    { code: '        printArray(arr);', explanation: 'Calls the printArray method to display the array. Passes arr as argument. This separates printing logic for reusability. Method call invokes the helper function. It shows the initial state. Reused throughout for consistency.' },
+                    { code: '        int n = arr.length;', explanation: 'Stores the array length in n. arr.length returns the size dynamically. This is used in loop conditions. Avoids hardcoding the size. Prepares for iteration. Ensures flexibility if array changes.' },
+                    { code: '        for (int i = 0; i < n - 1; i++) {', explanation: 'Outer for loop for sorting passes. Initializes i to 0, runs until i < n-1. Increments i each pass. Each iteration represents one pass. Bubbles largest element to end. This structures the multiple passes needed.' },
+                    { code: '            for (int j = 0; j < n - 1 - i; j++) {', explanation: 'Inner for loop for comparisons. Initializes j to 0, runs to n-1-i. Increments j. Compares adjacent elements. Reduces range as sorted elements accumulate at end. This performs the bubbling action.' },
+                    { code: '                if (arr[j] > arr[j + 1]) {', explanation: 'Checks if arr[j] is greater than arr[j+1]. If true, they are out of order. Uses > for ascending sort. This is the core comparison. Triggers swap if needed. Ensures correct order.' },
+                    { code: '                    int temp = arr[j];', explanation: 'Stores arr[j] in temp variable. Temporary hold for swap. Prevents data loss during exchange. This is standard swap technique. Sets up the swap operation. Uses int as array type.' },
+                    { code: '                    arr[j] = arr[j + 1];', explanation: 'Assigns arr[j+1] to arr[j]. Moves smaller value left. Part of the swap process. Adjusts array positions. Continues the swap. Helps in bubbling larger values right.' },
+                    { code: '                    arr[j + 1] = temp;', explanation: 'Assigns temp to arr[j+1]. Completes the swap by placing larger value right. Finalizes the adjacent swap. Array is updated. This corrects local order. Essential for sorting.' },
+                    { code: '                }', explanation: 'Closes the if block for swap. Ends conditional logic. Inner loop continues to next pair. Maintains scope. Ensures only out-of-order pairs are swapped. Flow returns to loop.' },
+                    { code: '            }', explanation: 'Closes the inner for loop. Ends comparisons for current pass. Largest element is now at end. Scope is maintained. Outer loop proceeds to next pass. Progresses the sort.' },
+                    { code: '            System.out.println("After pass " + (i + 1) + ":");', explanation: 'Prints header for the pass result. Concatenates pass number (i+1). Uses println for newline. Informs user of pass completion. Enhances traceability. Prepares for array display.' },
+                    { code: '            printArray(arr);', explanation: 'Calls printArray to show array after pass. Passes arr. Displays current state. Reuses the helper method. Allows viewing intermediate results. Useful for understanding the process.' },
+                    { code: '        }', explanation: 'Closes the outer for loop. Ends all sorting passes. Array is now sorted. Scope is clear. Sorting is complete. Program moves to end.' },
+                    { code: '    }', explanation: 'Closes the main method. Encapsulates all execution logic. Required for method definition. Execution terminates here. Program structure is intact.' },
+                    { code: '    private static void printArray(int[] arr) {', explanation: 'Defines a private static helper method printArray. Takes int[] arr as parameter. Static for call from main. Private limits access. This method handles array printing. Separates concerns for cleanliness.' },
+                    { code: '        for (int num : arr) {', explanation: 'Enhanced for loop to iterate array. num takes each element value. Simplifies printing. Iterates over all elements. This is concise for read-only access. Avoids index management.' },
+                    { code: '            System.out.print(num + " ");', explanation: 'Prints each num followed by space. Uses print to stay on line. Concatenates int with string. Builds the array output. Ensures spaced elements. Part of display logic.' },
+                    { code: '        }', explanation: 'Closes the enhanced for loop. Ends element iteration. Printing for array complete. Scope maintained. Method proceeds to newline.' },
+                    { code: '        System.out.println();', explanation: 'Prints a newline after array. Ensures next output starts new line. Cleans up display. Standard for formatted output. Finalizes array print.' },
+                    { code: '    }', explanation: 'Closes the printArray method. Ends helper logic. Returns to caller. Required closure. Maintains program structure.' },
+                    { code: '}', explanation: 'Closes the class definition. Matches class opening. Encapsulates all methods. Ensures proper program unit. Compilation ready. Program is complete.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

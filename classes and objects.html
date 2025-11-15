@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Java Classes and Objects Exercises with Explanations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>10 Java Classes and Objects Exercises: Using Methods and Constructors</h1>
+    <ul id="program-list">
+        <li data-program="1">1. Program to create a Rectangle class with area calculation</li>
+        <li data-program="2">2. Program to create a Student class with display details method</li>
+        <li data-program="3">3. Program to create a Circle class with circumference calculation</li>
+        <li data-program="4">4. Program to create a Book class with update price method</li>
+        <li data-program="5">5. Program to create a Car class with speed increase method</li>
+        <li data-program="6">6. Program to create a BankAccount class with deposit and withdraw methods</li>
+        <li data-program="7">7. Program to create a Point class with distance calculation</li>
+        <li data-program="8">8. Program to create a Product class with discount application</li>
+        <li data-program="9">9. Program to create a Time class with add hours method</li>
+        <li data-program="10">10. Program to create a Box class with volume calculation</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        const programs = {
+            1: {
+                title: "1. Program to create a Rectangle class with area calculation",
+                lines: [
+                    { code: 'class Rectangle {', explanation: 'Defines the Rectangle class.' },
+                    { code: '    int length;', explanation: 'Declares length variable.' },
+                    { code: '    int width;', explanation: 'Declares width variable.' },
+                    { code: '    Rectangle(int l, int w) {', explanation: 'Constructor to initialize length and width.' },
+                    { code: '        length = l;', explanation: 'Assigns parameter l to length.' },
+                    { code: '        width = w;', explanation: 'Assigns parameter w to width.' },
+                    { code: '    }', explanation: 'Ends constructor.' },
+                    { code: '    int calculateArea() {', explanation: 'Method to calculate area.' },
+                    { code: '        return length * width;', explanation: 'Returns area as length times width.' },
+                    { code: '    }', explanation: 'Ends calculateArea method.' },
+                    { code: '}', explanation: 'Ends Rectangle class.' },
+                    { code: 'public class Main {', explanation: 'Defines the Main class.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method, program entry point.' },
+                    { code: '        Rectangle rect = new Rectangle(5, 3);', explanation: 'Creates Rectangle object.' },
+                    { code: '        System.out.println("Area: " + rect.calculateArea());', explanation: 'Prints area.' },
+                    { code: '    }', explanation: 'Ends main method.' },
+                    { code: '}', explanation: 'Ends Main class.' }
+                ]
+            },
+            2: {
+                title: "2. Program to create a Student class with display details method",
+                lines: [
+                    { code: 'class Student {', explanation: 'Defines the Student class.' },
+                    { code: '    String name;', explanation: 'Declares name variable.' },
+                    { code: '    int rollNo;', explanation: 'Declares rollNo variable.' },
+                    { code: '    Student(String n, int r) {', explanation: 'Constructor to initialize name and rollNo.' },
+                    { code: '        name = n;', explanation: 'Assigns parameter n to name.' },
+                    { code: '        rollNo = r;', explanation: 'Assigns parameter r to rollNo.' },
+                    { code: '    }', explanation: 'Ends constructor.' },
+                    { code: '    void displayDetails() {', explanation: 'Method to display student details.' },
+                    { code: '        System.out.println("Name: " + name + ", Roll No: " + rollNo);', explanation: 'Prints name and rollNo.' },
+                    { code: '    }', explanation: 'Ends displayDetails method.' },
+                    { code: '}', explanation: 'Ends Student class.' },
+                    { code: 'public class Main {', explanation: 'Defines the Main class.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        Student student = new Student("John", 101);', explanation: 'Creates Student object.' },
+                    { code: '        student.displayDetails();', explanation: 'Calls displayDetails method.' },
+                    { code: '    }', explanation: 'Ends main method.' },
+                    { code: '}', explanation: 'Ends Main class.' }
+                ]
+            },
+            3: {
+                title: "3. Program to create a Circle class with circumference calculation",
+                lines: [
+                    { code: 'class Circle {', explanation: 'Defines the Circle class.' },
+                    { code: '    double radius;', explanation: 'Declares radius variable.' },
+                    { code: '    Circle(double r) {', explanation: 'Constructor to initialize radius.' },
+                    { code: '        radius = r;', explanation: 'Assigns parameter r to radius.' },
+                    { code: '    }', explanation: 'Ends constructor.' },
+                    { code: '    double calculateCircumference() {', explanation: 'Method to calculate circumference.' },
+                    { code: '        return 2 * 3.14159 * radius;', explanation: 'Returns circumference using 2 * π * radius.' },
+                    { code: '    }', explanation: 'Ends calculateCircumference method.' },
+                    { code: '}', explanation: 'Ends Circle class.' },
+                    { code: 'public class Main {', explanation: 'Defines the Main class.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        Circle circle = new Circle(4.0);', explanation: 'Creates Circle object.' },
+                    { code: '        System.out.println("Circumference: " + circle.calculateCircumference());', explanation: 'Prints circumference.' },
+                    { code: '    }', explanation: 'Ends main method.' },
+                    { code: '}', explanation: 'Ends Main class.' }
+                ]
+            },
+            4: {
+                title: "4. Program to create a Book class with update price method",
+                lines: [
+                    { code: 'class Book {', explanation: 'Defines the Book class.' },
+                    { code: '    String title;', explanation: 'Declares title variable.' },
+                    { code: '    double price;', explanation: 'Declares price variable.' },
+                    { code: '    Book(String t, double p) {', explanation: 'Constructor to initialize title and price.' },
+                    { code: '        title = t;', explanation: 'Assigns parameter t to title.' },
+                    { code: '        price = p;', explanation: 'Assigns parameter p to price.' },
+                    { code: '    }', explanation: 'Ends constructor.' },
+                    { code: '    void updatePrice(double newPrice) {', explanation: 'Method to update price.' },
+                    { code: '        price = newPrice;', explanation: 'Sets price to newPrice.' },
+                    { code: '        System.out.println("Updated price of " + title + ": " + price);', explanation: 'Prints updated price.' },
+                    { code: '    }', explanation: 'Ends updatePrice method.' },
+                    { code: '}', explanation: 'Ends Book class.' },
+                    { code: 'public class Main {', explanation: 'Defines the Main class.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        Book book = new Book("Java Guide", 29.99);', explanation: 'Creates Book object.' },
+                    { code: '        book.updatePrice(34.99);', explanation: 'Calls updatePrice method.' },
+                    { code: '    }', explanation: 'Ends main method.' },
+                    { code: '}', explanation: 'Ends Main class.' }
+                ]
+            },
+            5: {
+                title: "5. Program to create a Car class with speed increase method",
+                lines: [
+                    { code: 'class Car {', explanation: 'Defines the Car class.' },
+                    { code: '    String model;', explanation: 'Declares model variable.' },
+                    { code: '    int speed;', explanation: 'Declares speed variable.' },
+                    { code: '    Car(String m, int s) {', explanation: 'Constructor to initialize model and speed.' },
+                    { code: '        model = m;', explanation: 'Assigns parameter m to model.' },
+                    { code: '        speed = s;', explanation: 'Assigns parameter s to speed.' },
+                    { code: '    }', explanation: 'Ends constructor.' },
+                    { code: '    void increaseSpeed(int increment) {', explanation: 'Method to increase speed.' },
+                    { code: '        speed += increment;', explanation: 'Adds increment to speed.' },
+                    { code: '        System.out.println(model + " speed: " + speed + " km/h");', explanation: 'Prints new speed.' },
+                    { code: '    }', explanation: 'Ends increaseSpeed method.' },
+                    { code: '}', explanation: 'Ends Car class.' },
+                    { code: 'public class Main {', explanation: 'Defines the Main class.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        Car car = new Car("Toyota", 60);', explanation: 'Creates Car object.' },
+                    { code: '        car.increaseSpeed(20);', explanation: 'Calls increaseSpeed method.' },
+                    { code: '    }', explanation: 'Ends main method.' },
+                    { code: '}', explanation: 'Ends Main class.' }
+                ]
+            },
+            6: {
+                title: "6. Program to create a BankAccount class with deposit and withdraw methods",
+                lines: [
+                    { code: 'class BankAccount {', explanation: 'Defines the BankAccount class.' },
+                    { code: '    String accountHolder;', explanation: 'Declares accountHolder variable.' },
+                    { code: '    double balance;', explanation: 'Declares balance variable.' },
+                    { code: '    BankAccount(String holder, double initialBalance) {', explanation: 'Constructor to initialize fields.' },
+                    { code: '        accountHolder = holder;', explanation: 'Assigns parameter holder to accountHolder.' },
+                    { code: '        balance = initialBalance;', explanation: 'Assigns parameter initialBalance to balance.' },
+                    { code: '    }', explanation: 'Ends constructor.' },
+                    { code: '    void deposit(double amount) {', explanation: 'Method to deposit money.' },
+                    { code: '        balance += amount;', explanation: 'Adds amount to balance.' },
+                    { code: '        System.out.println("Deposited: " + amount + ", New Balance: " + balance);', explanation: 'Prints deposit details.' },
+                    { code: '    }', explanation: 'Ends deposit method.' },
+                    { code: '    void withdraw(double amount) {', explanation: 'Method to withdraw money.' },
+                    { code: '        if (amount <= balance) {', explanation: 'Checks if sufficient balance.' },
+                    { code: '            balance -= amount;', explanation: 'Subtracts amount from balance.' },
+                    { code: '            System.out.println("Withdrawn: " + amount + ", New Balance: " + balance);', explanation: 'Prints withdrawal details.' },
+                    { code: '        } else {', explanation: 'Handles insufficient balance.' },
+                    { code: '            System.out.println("Insufficient balance");', explanation: 'Prints error message.' },
+                    { code: '        }', explanation: 'Ends if-else.' },
+                    { code: '    }', explanation: 'Ends withdraw method.' },
+                    { code: '}', explanation: 'Ends BankAccount class.' },
+                    { code: 'public class Main {', explanation: 'Defines the Main class.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        BankAccount account = new BankAccount("Alice", 1000.0);', explanation: 'Creates BankAccount object.' },
+                    { code: '        account.deposit(500.0);', explanation: 'Calls deposit method.' },
+                    { code: '        account.withdraw(200.0);', explanation: 'Calls withdraw method.' },
+                    { code: '    }', explanation: 'Ends main method.' },
+                    { code: '}', explanation: 'Ends Main class.' }
+                ]
+            },
+            7: {
+                title: "7. Program to create a Point class with distance calculation",
+                lines: [
+                    { code: 'class Point {', explanation: 'Defines the Point class.' },
+                    { code: '    double x;', explanation: 'Declares x coordinate.' },
+                    { code: '    double y;', explanation: 'Declares y coordinate.' },
+                    { code: '    Point(double xCoord, double yCoord) {', explanation: 'Constructor to initialize coordinates.' },
+                    { code: '        x = xCoord;', explanation: 'Assigns parameter xCoord to x.' },
+                    { code: '        y = yCoord;', explanation: 'Assigns parameter yCoord to y.' },
+                    { code: '    }', explanation: 'Ends constructor.' },
+                    { code: '    double calculateDistance(Point other) {', explanation: 'Method to calculate distance to another point.' },
+                    { code: '        double dx = x - other.x;', explanation: 'Computes difference in x coordinates.' },
+                    { code: '        double dy = y - other.y;', explanation: 'Computes difference in y coordinates.' },
+                    { code: '        return Math.sqrt(dx * dx + dy * dy);', explanation: 'Returns Euclidean distance.' },
+                    { code: '    }', explanation: 'Ends calculateDistance method.' },
+                    { code: '}', explanation: 'Ends Point class.' },
+                    { code: 'public class Main {', explanation: 'Defines the Main class.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        Point p1 = new Point(0.0, 0.0);', explanation: 'Creates first Point object.' },
+                    { code: '        Point p2 = new Point(3.0, 4.0);', explanation: 'Creates second Point object.' },
+                    { code: '        System.out.println("Distance: " + p1.calculateDistance(p2));', explanation: 'Prints distance.' },
+                    { code: '    }', explanation: 'Ends main method.' },
+                    { code: '}', explanation: 'Ends Main class.' }
+                ]
+            },
+            8: {
+                title: "8. Program to create a Product class with discount application",
+                lines: [
+                    { code: 'class Product {', explanation: 'Defines the Product class.' },
+                    { code: '    String name;', explanation: 'Declares name variable.' },
+                    { code: '    double price;', explanation: 'Declares price variable.' },
+                    { code: '    Product(String productName, double productPrice) {', explanation: 'Constructor to initialize fields.' },
+                    { code: '        name = productName;', explanation: 'Assigns parameter productName to name.' },
+                    { code: '        price = productPrice;', explanation: 'Assigns parameter productPrice to price.' },
+                    { code: '    }', explanation: 'Ends constructor.' },
+                    { code: '    void applyDiscount(double percentage) {', explanation: 'Method to apply discount.' },
+                    { code: '        double discount = price * percentage / 100;', explanation: 'Calculates discount amount.' },
+                    { code: '        price -= discount;', explanation: 'Reduces price by discount.' },
+                    { code: '        System.out.println(name + " new price: " + price);', explanation: 'Prints new price.' },
+                    { code: '    }', explanation: 'Ends applyDiscount method.' },
+                    { code: '}', explanation: 'Ends Product class.' },
+                    { code: 'public class Main {', explanation: 'Defines the Main class.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        Product product = new Product("Laptop", 1000.0);', explanation: 'Creates Product object.' },
+                    { code: '        product.applyDiscount(10.0);', explanation: 'Calls applyDiscount method.' },
+                    { code: '    }', explanation: 'Ends main method.' },
+                    { code: '}', explanation: 'Ends Main class.' }
+                ]
+            },
+            9: {
+                title: "9. Program to create a Time class with add hours method",
+                lines: [
+                    { code: 'class Time {', explanation: 'Defines the Time class.' },
+                    { code: '    int hours;', explanation: 'Declares hours variable.' },
+                    { code: '    int minutes;', explanation: 'Declares minutes variable.' },
+                    { code: '    Time(int h, int m) {', explanation: 'Constructor to initialize hours and minutes.' },
+                    { code: '        hours = h;', explanation: 'Assigns parameter h to hours.' },
+                    { code: '        minutes = m;', explanation: 'Assigns parameter m to minutes.' },
+                    { code: '    }', explanation: 'Ends constructor.' },
+                    { code: '    void addHours(int additionalHours) {', explanation: 'Method to add hours.' },
+                    { code: '        hours += additionalHours;', explanation: 'Adds additionalHours to hours.' },
+                    { code: '        System.out.println("Time: " + hours + "h " + minutes + "m");', explanation: 'Prints updated time.' },
+                    { code: '    }', explanation: 'Ends addHours method.' },
+                    { code: '}', explanation: 'Ends Time class.' },
+                    { code: 'public class Main {', explanation: 'Defines the Main class.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        Time time = new Time(10, 30);', explanation: 'Creates Time object.' },
+                    { code: '        time.addHours(2);', explanation: 'Calls addHours method.' },
+                    { code: '    }', explanation: 'Ends main method.' },
+                    { code: '}', explanation: 'Ends Main class.' }
+                ]
+            },
+            10: {
+                title: "10. Program to create a Box class with volume calculation",
+                lines: [
+                    { code: 'class Box {', explanation: 'Defines the Box class.' },
+                    { code: '    double length;', explanation: 'Declares length variable.' },
+                    { code: '    double width;', explanation: 'Declares width variable.' },
+                    { code: '    double height;', explanation: 'Declares height variable.' },
+                    { code: '    Box(double l, double w, double h) {', explanation: 'Constructor to initialize dimensions.' },
+                    { code: '        length = l;', explanation: 'Assigns parameter l to length.' },
+                    { code: '        width = w;', explanation: 'Assigns parameter w to width.' },
+                    { code: '        height = h;', explanation: 'Assigns parameter h to height.' },
+                    { code: '    }', explanation: 'Ends constructor.' },
+                    { code: '    double calculateVolume() {', explanation: 'Method to calculate volume.' },
+                    { code: '        return length * width * height;', explanation: 'Returns volume as length * width * height.' },
+                    { code: '    }', explanation: 'Ends calculateVolume method.' },
+                    { code: '}', explanation: 'Ends Box class.' },
+                    { code: 'public class Main {', explanation: 'Defines the Main class.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        Box box = new Box(2.0, 3.0, 4.0);', explanation: 'Creates Box object.' },
+                    { code: '        System.out.println("Volume: " + box.calculateVolume());', explanation: 'Prints volume.' },
+                    { code: '    }', explanation: 'Ends main method.' },
+                    { code: '}', explanation: 'Ends Main class.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radix Sort Sliding Window</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        section {
+            background-color: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        pre {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        ul#program-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+        #step-by-step .slide {
+            display: none;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        #step-by-step .slide.active {
+            display: block;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        #step-by-step .pass-step p {
+            margin: 5px 0;
+        }
+        #next-step-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-step-btn:hover {
+            background-color: #218838;
+        }
+        .highlight {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Radix Sort</h1>
+    
+    <section id="definition">
+        <h2>Definition</h2>
+        <p>Radix Sort is a non-comparison-based sorting algorithm that sorts integers by processing individual digits from least significant to most significant (or vice versa), using a stable sorting algorithm like Counting Sort for each digit. It is stable, with a time complexity of O(d(n + k)), where n is the number of elements, d is the number of digits, and k is the digit range (e.g., 10 for decimal). Radix Sort is efficient for large datasets with fixed-length integers but requires extra space for the stable sorting subroutine.</p>
+    </section>
+    
+    <section id="step-by-step">
+        <h2>Step-by-Step Sorting (Sample Array: 170, 45, 75, 90, 802, 24, 2, 66)</h2>
+        <div id="slides-container"></div>
+        <button id="next-step-btn">Next Step</button>
+    </section>
+    
+    <section id="program">
+        <h2>Java Program for Radix Sort</h2>
+        <ul id="program-list">
+            <li data-program="1">Click to view Radix Sort Program line by line</li>
+        </ul>
+    </section>
+    
+    <section id="output">
+        <h2>Output with Digit Sorting Steps</h2>
+        <pre id="output-pre">
+Initial array:
+170 45 75 90 802 24 2 66 
+After sorting by units digit:
+170 90 802 2 24 45 75 66 
+After sorting by tens digit:
+802 2 24 45 66 170 75 90 
+After sorting by hundreds digit:
+2 24 45 66 75 90 170 802 
+        </pre>
+    </section>
+    
+    <section id="real-world">
+        <h2>Real-World Examples</h2>
+        <ul>
+            <li>Educational purposes: Used to teach non-comparison sorting and the concept of digit-based processing. <a href="https://www.geeksforgeeks.org/radix-sort/">(GeeksforGeeks)</a></li>
+            <li>Large integer datasets: Efficient for sorting fixed-length integers, such as ZIP codes or phone numbers. <a href="https://www.programiz.com/dsa/radix-sort">(Programiz)</a></li>
+            <li>Database systems: Applied in multi-key sorting where keys are processed digit by digit. <a href="https://www.javatpoint.com/radix-sort">(JavatPoint)</a></li>
+            <li>String sorting: Used in suffix array construction or lexicographical sorting of fixed-length strings. <a href="https://www.tutorialspoint.com/data_structures_algorithms/radix_sort_algorithm.htm">(TutorialsPoint)</a></li>
+            <li>Real-life analogies: Similar to sorting mail by processing one digit of the ZIP code at a time. <a href="https://www.quora.com/What-are-some-real-world-applications-of-radix-sort">(Quora)</a></li>
+        </ul>
+    </section>
+    
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    
+    <script>
+        const steps = [
+            {
+                title: "Initial Array",
+                array: [170, 45, 75, 90, 802, 24, 2, 66],
+                operations: [],
+                explanation: "This is the starting array with multi-digit numbers (max 3 digits). Radix Sort will process digits from least significant (units) to most significant (hundreds), using Counting Sort for each digit to maintain stability."
+            },
+            {
+                title: "Sort by Units Digit",
+                array: [170, 90, 802, 2, 24, 45, 75, 66],
+                operations: [
+                    { indices: [0, 1, 2, 3, 4, 5, 6, 7], array: [170, 45, 75, 90, 802, 24, 2, 66], desc: "Units digits: 0, 5, 5, 0, 2, 4, 2, 6." },
+                    { indices: [0, 3], array: [170, 90], desc: "Count 0: Place 170, 90 (digit 0) at positions 0, 1." },
+                    { indices: [4, 6], array: [802, 2], desc: "Count 2: Place 802, 2 (digit 2) at positions 2, 3." },
+                    { indices: [5], array: [24], desc: "Count 4: Place 24 (digit 4) at position 4." },
+                    { indices: [1, 2], array: [45, 75], desc: "Count 5: Place 45, 75 (digit 5) at positions 5, 6." },
+                    { indices: [7], array: [66], desc: "Count 6: Place 66 (digit 6) at position 7." }
+                ],
+                explanation: "Apply Counting Sort on the units digit (0 to 9). Count frequencies (e.g., two 0s, two 2s), compute cumulative counts, and place elements in order: 170, 90 (0), 802, 2 (2), 24 (4), 45, 75 (5), 66 (6). Result: [170, 90, 802, 2, 24, 45, 75, 66]."
+            },
+            {
+                title: "Sort by Tens Digit",
+                array: [802, 2, 24, 45, 66, 170, 75, 90],
+                operations: [
+                    { indices: [0, 1, 2, 3, 4, 5, 6, 7], array: [170, 90, 802, 2, 24, 45, 75, 66], desc: "Tens digits: 7, 9, 0, 0, 2, 4, 7, 6 (0 for single-digit 2)." },
+                    { indices: [2, 3], array: [802, 2], desc: "Count 0: Place 802, 2 (digit 0) at positions 0, 1." },
+                    { indices: [4], array: [24], desc: "Count 2: Place 24 (digit 2) at position 2." },
+                    { indices: [5], array: [45], desc: "Count 4: Place 45 (digit 4) at position 3." },
+                    { indices: [7], array: [66], desc: "Count 6: Place 66 (digit 6) at position 4." },
+                    { indices: [0, 6], array: [170, 75], desc: "Count 7: Place 170, 75 (digit 7) at positions 5, 6." },
+                    { indices: [1], array: [90], desc: "Count 9: Place 90 (digit 9) at position 7." }
+                ],
+                explanation: "Apply Counting Sort on the tens digit (0 to 9, 0 for single-digit numbers). Count frequencies (e.g., two 0s, two 7s), compute cumulative counts, and place elements: 802, 2 (0), 24 (2), 45 (4), 66 (6), 170, 75 (7), 90 (9). Result: [802, 2, 24, 45, 66, 170, 75, 90]."
+            },
+            {
+                title: "Sort by Hundreds Digit",
+                array: [2, 24, 45, 66, 75, 90, 170, 802],
+                operations: [
+                    { indices: [0, 1, 2, 3, 4, 5, 6, 7], array: [802, 2, 24, 45, 66, 170, 75, 90], desc: "Hundreds digits: 8, 0, 0, 0, 0, 1, 0, 0 (0 for numbers < 100)." },
+                    { indices: [1, 2, 3, 4, 7], array: [2, 24, 45, 66, 90], desc: "Count 0: Place 2, 24, 45, 66, 90 (digit 0) at positions 0 to 4." },
+                    { indices: [5], array: [170], desc: "Count 1: Place 170 (digit 1) at position 5." },
+                    { indices: [6], array: [75], desc: "Count 0: Place 75 (digit 0) at position 6 (stable with previous 0s)." },
+                    { indices: [0], array: [802], desc: "Count 8: Place 802 (digit 8) at position 7." }
+                ],
+                explanation: "Apply Counting Sort on the hundreds digit (0 to 9, 0 for numbers < 100). Count frequencies (e.g., six 0s, one 1, one 8), compute cumulative counts, and place elements: 2, 24, 45, 66, 75, 90 (0), 170 (1), 802 (8). Result: [2, 24, 45, 66, 75, 90, 170, 802]."
+            },
+            {
+                title: "Final Sorted Array",
+                array: [2, 24, 45, 66, 75, 90, 170, 802],
+                operations: [],
+                explanation: "After sorting by units, tens, and hundreds digits using Counting Sort, the array is fully sorted in ascending order. Radix Sort’s digit-by-digit approach, with stable Counting Sort, ensures correct ordering of multi-digit numbers."
+            }
+        ];
+
+        let currentStepIndex = 0;
+
+        function renderSlides() {
+            const container = document.getElementById('slides-container');
+            container.innerHTML = '';
+            steps.forEach((step, index) => {
+                const slide = document.createElement('div');
+                slide.className = `slide ${index === currentStepIndex ? 'active' : ''}`;
+                let content = `<p><strong>${step.title}:</strong> [`;
+                step.array.forEach((num, i) => {
+                    content += i === 0 ? `${num}` : `, ${num}`;
+                });
+                content += ']</p>';
+                if (step.operations.length > 0) {
+                    content += '<p><em>Digit Sorting Operations:</em></p>';
+                    step.operations.forEach(op => {
+                        let arrayStr = '[';
+                        op.array.forEach((num, i) => {
+                            const isHighlighted = op.indices.includes(i);
+                            arrayStr += i === 0 ? '' : ', ';
+                            arrayStr += isHighlighted ? `<span class="highlight">${num}</span>` : num;
+                        });
+                        arrayStr += ']';
+                        content += `<p>${op.desc} → ${arrayStr}</p>`;
+                    });
+                }
+                content += `<p><em>Positioning:</em> ${step.explanation}</p>`;
+                slide.innerHTML = content;
+                container.appendChild(slide);
+            });
+        }
+
+        document.getElementById('next-step-btn').addEventListener('click', () => {
+            currentStepIndex = (currentStepIndex + 1) % steps.length;
+            renderSlides();
+        });
+
+        renderSlides();
+
+        const programs = {
+            1: {
+                title: "Radix Sort Program in Java (with Sample Array and Digit Sorting Outputs)",
+                lines: [
+                    { code: 'public class RadixSortExample {', explanation: 'Defines the public class RadixSortExample. This class contains the main logic for the radix sort demonstration.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Declares the main method, the entry point of the program. It is static to be callable without an instance.' },
+                    { code: '        int[] arr = {170, 45, 75, 90, 802, 24, 2, 66};', explanation: 'Initializes the integer array with multi-digit numbers for demonstration.' },
+                    { code: '        System.out.println("Initial array:");', explanation: 'Prints a header for the initial array state.' },
+                    { code: '        printArray(arr);', explanation: 'Calls printArray to display the initial array.' },
+                    { code: '        radixSort(arr);', explanation: 'Calls radixSort to sort the array in-place.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '    public static void radixSort(int[] arr) {', explanation: 'Defines the radixSort method to sort the array by processing digits.' },
+                    { code: '        int max = arr[0];', explanation: 'Initializes max to the first element to find the maximum value.' },
+                    { code: '        for (int i = 1; i < arr.length; i++) {', explanation: 'Loop to find the maximum element in the array.' },
+                    { code: '            if (arr[i] > max) {', explanation: 'Checks if the current element is greater than max.' },
+                    { code: '                max = arr[i];', explanation: 'Updates max if a larger element is found.' },
+                    { code: '            }', explanation: 'Closes the if block for max comparison.' },
+                    { code: '        }', explanation: 'Closes the loop for finding max.' },
+                    { code: '        for (int exp = 1; max / exp > 0; exp *= 10) {', explanation: 'Loop over digit positions (units, tens, hundreds) by powers of 10.' },
+                    { code: '            countingSortByDigit(arr, exp);', explanation: 'Calls countingSortByDigit to sort based on the current digit.' },
+                    { code: '            System.out.println("After sorting by digit (exp=" + exp + "):");', explanation: 'Prints a header for the array state after sorting the current digit.' },
+                    { code: '            printArray(arr);', explanation: 'Calls printArray to display the array after sorting the digit.' },
+                    { code: '        }', explanation: 'Closes the loop over digit positions.' },
+                    { code: '    }', explanation: 'Closes the radixSort method.' },
+                    { code: '    public static void countingSortByDigit(int[] arr, int exp) {', explanation: 'Defines countingSortByDigit to sort the array based on the digit at position exp.' },
+                    { code: '        int n = arr.length;', explanation: 'Stores the array length.' },
+                    { code: '        int[] output = new int[n];', explanation: 'Creates an output array for sorted elements.' },
+                    { code: '        int[] count = new int[10];', explanation: 'Creates a count array for digits 0 to 9.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to count frequencies of the current digit.' },
+                    { code: '            int digit = (arr[i] / exp) % 10;', explanation: 'Extracts the digit at position exp (e.g., units for exp=1).' },
+                    { code: '            count[digit]++;', explanation: 'Increments count for the extracted digit.' },
+                    { code: '        }', explanation: 'Closes the loop for counting frequencies.' },
+                    { code: '        for (int i = 1; i < 10; i++) {', explanation: 'Loop to compute cumulative counts.' },
+                    { code: '            count[i] += count[i - 1];', explanation: 'Adds count[i-1] to count[i] for positioning.' },
+                    { code: '        }', explanation: 'Closes the loop for cumulative counts.' },
+                    { code: '        for (int i = n - 1; i >= 0; i--) {', explanation: 'Loop from right to left for stability.' },
+                    { code: '            int digit = (arr[i] / exp) % 10;', explanation: 'Extracts the digit for the current element.' },
+                    { code: '            output[count[digit] - 1] = arr[i];', explanation: 'Places arr[i] at index count[digit]-1 in output.' },
+                    { code: '            count[digit]--;', explanation: 'Decrements count[digit] for the next occurrence.' },
+                    { code: '        }', explanation: 'Closes the loop for building the output array.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to copy the output array back to arr.' },
+                    { code: '            arr[i] = output[i];', explanation: 'Copies sorted elements to the original array.' },
+                    { code: '        }', explanation: 'Closes the loop for copying.' },
+                    { code: '    }', explanation: 'Closes the countingSortByDigit method.' },
+                    { code: '    private static void printArray(int[] arr) {', explanation: 'Defines a helper method to print the array.' },
+                    { code: '        for (int num : arr) {', explanation: 'Enhanced for loop to iterate array.' },
+                    { code: '            System.out.print(num + " ");', explanation: 'Prints each element followed by a space.' },
+                    { code: '        }', explanation: 'Closes the loop for printing.' },
+                    { code: '        System.out.println();', explanation: 'Prints a newline for formatting.' },
+                    { code: '    }', explanation: 'Closes the printArray method.' },
+                    { code: '}', explanation: 'Closes the class definition. Program is complete.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

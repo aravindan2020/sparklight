@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Java Programs on One-dimensional Arrays</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>10 Java Programs: One-dimensional Arrays</h1>
+    <ul id="program-list">
+        <li data-program="1">1. Program to initialize and display array elements</li>
+        <li data-program="2">2. Program to find sum of array elements</li>
+        <li data-program="3">3. Program to find maximum element in an array</li>
+        <li data-program="4">4. Program to count even numbers in an array</li>
+        <li data-program="5">5. Program to search an element in an array (Linear Search)</li>
+        <li data-program="6">6. Program to reverse an array</li>
+        <li data-program="7">7. Program to sort an array (Bubble Sort)</li>
+        <li data-program="8">8. Program to find average of array elements</li>
+        <li data-program="9">9. Program to copy one array to another</li>
+        <li data-program="10">10. Program to remove duplicates from a sorted array</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        const programs = {
+            1: {
+                title: "1. Program to initialize and display array elements",
+                lines: [
+                    { code: 'public class ArrayDisplay {', explanation: 'Declares a public class named ArrayDisplay. In Java, every program resides in a class. Public access allows it to be executed as the main program. The class encapsulates the array logic. This is the structural foundation. Naming is descriptive for clarity.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Defines the main method, the entry point for the program. It is static, so no object creation is needed. String[] args handles command-line arguments. This method contains the core logic. Execution starts here.' },
+                    { code: '        int[] arr = {10, 20, 30, 40, 50};', explanation: 'Initializes an integer array arr with five elements. The curly braces provide the values directly. Arrays in Java are fixed-size and store elements of the same type. This line sets up the data. It demonstrates array initialization.' },
+                    { code: '        System.out.println("Array elements:");', explanation: 'Prints a header to indicate output. Uses println for a newline after text. System.out is the console output stream. This improves readability for the user. It sets context for the array display.' },
+                    { code: '        for (int i = 0; i < arr.length; i++) {', explanation: 'Starts a for loop to iterate over the array. Initializes i to 0, continues until i is less than arr.length (5). Increments i each iteration. This accesses each element. arr.length gives the array size dynamically.' },
+                    { code: '            System.out.print(arr[i] + " ");', explanation: 'Prints the current array element arr[i] followed by a space. Uses print to stay on the same line. Concatenates the integer with a string for output. This displays each element. The loop ensures all elements are printed.' },
+                    { code: '        }', explanation: 'Closes the for loop block. Marks the end of iteration. Code after this runs once looping is complete. Proper brace matching ensures correct scope. This maintains program structure.' },
+                    { code: '        System.out.println();', explanation: 'Prints a newline after all elements. Ensures the next output (if any) starts on a new line. Enhances output formatting. This is a common practice for clean console display. It finalizes the output.' },
+                    { code: '    }', explanation: 'Closes the main method. All program logic is contained within. This is required for proper method definition. Execution ends here. The program is now complete.' },
+                    { code: '}', explanation: 'Closes the class definition. Matches the opening brace of the class. Ensures the program is fully encapsulated. This is necessary for compilation. The program is ready to run.' }
+                ]
+            },
+            2: {
+                title: "2. Program to find sum of array elements",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Imports the Scanner class for user input. Found in java.util package. Enables reading from the console. Necessary for dynamic array size input. This sets up interactive functionality.' },
+                    { code: 'public class ArraySum {', explanation: 'Defines a public class ArraySum. Classes organize code logically. Public access for execution. The name reflects the program’s purpose. This is the program’s container.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method, the program’s entry point. Static for direct call. String[] args for arguments. Contains the logic for summing array elements. Execution begins here.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Creates a Scanner object for input. Links to System.in (keyboard). Used to read array size and elements. This enables user interaction. Closing it later is good practice.' },
+                    { code: '        System.out.print("Enter size of array: ");', explanation: 'Prompts the user to enter the array size. Uses print to keep input on the same line. Guides the user clearly. System.out handles console output. Enhances usability.' },
+                    { code: '        int n = sc.nextInt();', explanation: 'Reads an integer for array size using nextInt(). Stores it in n. This determines the array’s length. Assumes valid input for simplicity. It prepares for array creation.' },
+                    { code: '        int[] arr = new int[n];', explanation: 'Creates an integer array of size n. Uses new to allocate memory. The array is initialized with zeros by default. This sets up the data structure. Ready for element input.' },
+                    { code: '        System.out.println("Enter " + n + " elements:");', explanation: 'Prompts for array elements. Concatenates n into the message. Informs the user how many numbers to input. Uses println for a new line. Clarifies input expectations.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to read n elements. Initializes i to 0, runs until i < n. Increments i each time. Iterates over array indices. Prepares to store user input.' },
+                    { code: '            arr[i] = sc.nextInt();', explanation: 'Reads an integer and stores it in arr[i]. nextInt() captures each element. Fills the array sequentially. This populates the array. Assumes valid integer input.' },
+                    { code: '        }', explanation: 'Closes the input loop. Ends element collection. Code after processes the array. Maintains proper scope. Brace matching is critical.' },
+                    { code: '        int sum = 0;', explanation: 'Initializes sum to 0. This variable accumulates the total of array elements. Declared before the loop to retain value. It’s the core for sum calculation. Integer type matches array.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Second loop to sum elements. Iterates from 0 to n-1. Accesses each arr[i]. Reuses i as it’s local to the loop. This performs the summation.' },
+                    { code: '            sum += arr[i];', explanation: 'Adds arr[i] to sum. Uses compound assignment for brevity. Accumulates the total incrementally. Each element contributes to the final sum. Core logic of the program.' },
+                    { code: '        }', explanation: 'Closes the sum loop. Ends iteration over elements. Sum now holds the total. Scope management is clear. Program moves to output.' },
+                    { code: '        System.out.println("Sum: " + sum);', explanation: 'Prints the sum. Concatenates sum with a label. Provides the final result to the user. println adds a newline. This completes the program’s goal.' },
+                    { code: '        sc.close();', explanation: 'Closes the Scanner. Frees system resources. Prevents potential leaks. Placed at the end. It’s a best practice for cleanup.' },
+                    { code: '    }', explanation: 'Closes main method. Encapsulates all logic. Required for method completion. Execution terminates here. Program structure is intact.' },
+                    { code: '}', explanation: 'Closes the class. Matches class opening. Ensures proper encapsulation. Program is fully defined. Ready for compilation and execution.' }
+                ]
+            },
+            3: {
+                title: "3. Program to find maximum element in an array",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Imports Scanner for user input. Part of java.util. Enables console reading. Needed for array size and elements. Supports dynamic input.' },
+                    { code: 'public class ArrayMax {', explanation: 'Public class ArrayMax defined. Organizes the code. Public for execution. Name indicates finding maximum. Forms the program’s structure.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method as entry point. Static for direct access. Args for parameters. Contains logic for finding max. Program starts here.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Creates Scanner for input. Tied to System.in. Reads user data. Essential for array creation. Close it at the end.' },
+                    { code: '        System.out.print("Enter size of array: ");', explanation: 'Prompts for array size. Print keeps input inline. Guides user clearly. Uses standard output. Enhances interactive experience.' },
+                    { code: '        int n = sc.nextInt();', explanation: 'Reads array size into n. Uses nextInt() for integer input. Sets array length. Assumes valid input. Prepares for array allocation.' },
+                    { code: '        int[] arr = new int[n];', explanation: 'Allocates array of size n. new int[n] creates space. Initialized to zeros. This is the data structure. Ready for element input.' },
+                    { code: '        System.out.println("Enter " + n + " elements:");', explanation: 'Prompts for elements. Includes n in message. Clarifies input count. println for newline. Sets up user expectation.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to input elements. Runs n times. i from 0 to n-1. Iterates array indices. Collects user-provided values.' },
+                    { code: '            arr[i] = sc.nextInt();', explanation: 'Stores input in arr[i]. nextInt() reads integers. Fills array sequentially. Builds the dataset. Assumes valid input.' },
+                    { code: '        }', explanation: 'Closes input loop. Ends data collection. Array is now populated. Scope is maintained. Moves to processing.' },
+                    { code: '        int max = arr[0];', explanation: 'Initializes max to first element. Starting point for comparison. Assumes array has at least one element. This sets the baseline. Avoids arbitrary initial value.' },
+                    { code: '        for (int i = 1; i < n; i++) {', explanation: 'Loop to find max. Starts at i=1 since max has arr[0]. Compares remaining elements. Iterates until end. This is the search logic.' },
+                    { code: '            if (arr[i] > max) {', explanation: 'Checks if arr[i] is greater than max. If true, updates max. Conditional logic for maximum. This compares each element. Core of the algorithm.' },
+                    { code: '                max = arr[i];', explanation: 'Updates max to arr[i]. Assigns new maximum value. Executes when condition is true. Tracks the largest element. Updates as needed.' },
+                    { code: '            }', explanation: 'Closes if block. Ends conditional update. Loop continues to next element. Scope is clear. Maintains flow.' },
+                    { code: '        }', explanation: 'Closes max loop. Ends search. max holds the largest value. Loop scope ends. Ready for output.' },
+                    { code: '        System.out.println("Maximum: " + max);', explanation: 'Prints the maximum value. Concatenates with label. Informs user of result. println for newline. Completes the program’s purpose.' },
+                    { code: '        sc.close();', explanation: 'Closes Scanner. Releases resources. Prevents leaks. Placed at end. Ensures clean program termination.' },
+                    { code: '    }', explanation: 'Closes main. Wraps all logic. Required for method. Execution ends. Program structure complete.' },
+                    { code: '}', explanation: 'Closes class. Encapsulates program. Matches opening brace. Ensures compilation. Program is ready.' }
+                ]
+            },
+            4: {
+                title: "4. Program to count even numbers in an array",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Imports Scanner class. From java.util. Allows console input. Needed for array size and elements. Enables user interaction.' },
+                    { code: 'public class CountEven {', explanation: 'Public class CountEven. Organizes code for counting evens. Public for execution. Descriptive name. Program’s structural base.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method entry. Static for direct call. Args for params. Contains logic for counting. Execution starts here.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Scanner object for input. Links to System.in. Reads size and elements. Key for interactivity. Close it later.' },
+                    { code: '        System.out.print("Enter size of array: ");', explanation: 'Prompts array size. Uses print for inline input. Guides user. Standard output. Improves user experience.' },
+                    { code: '        int n = sc.nextInt();', explanation: 'Reads size into n. nextInt() for integer. Defines array length. Assumes valid input. Sets up array creation.' },
+                    { code: '        int[] arr = new int[n];', explanation: 'Creates array of size n. new allocates memory. Defaults to zeros. Data structure ready. Awaits element input.' },
+                    { code: '        System.out.println("Enter " + n + " elements:");', explanation: 'Prompts for elements. Shows n in message. Clarifies input count. println for newline. Prepares user for input.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop for input. Iterates n times. i from 0 to n-1. Fills array indices. Collects user data.' },
+                    { code: '            arr[i] = sc.nextInt();', explanation: 'Reads integer into arr[i]. Uses nextInt(). Populates array. Sequential input. Assumes valid integers.' },
+                    { code: '        }', explanation: 'Closes input loop. Array is filled. Ready for processing. Scope maintained. Moves to counting logic.' },
+                    { code: '        int count = 0;', explanation: 'Initializes count to 0. Tracks number of even elements. Declared before loop. Integer matches logic. Sets up counter.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to check elements. Iterates over array. i from 0 to n-1. Examines each element. Performs even check.' },
+                    { code: '            if (arr[i] % 2 == 0) {', explanation: 'Checks if arr[i] is even. Modulo 2 equals 0 for evens. Conditional logic. Identifies even numbers. Core condition.' },
+                    { code: '                count++;', explanation: 'Increments count. Executes for even numbers. Tracks total evens. Simple counter update. Accumulates result.' },
+                    { code: '            }', explanation: 'Closes if block. Ends even check. Loop continues. Scope clear. Maintains control flow.' },
+                    { code: '        }', explanation: 'Closes counting loop. Ends iteration. count holds total evens. Loop scope done. Ready for output.' },
+                    { code: '        System.out.println("Even numbers: " + count);', explanation: 'Prints count of evens. Concatenates with label. Shows result. println for newline. Fulfills program goal.' },
+                    { code: '        sc.close();', explanation: 'Closes Scanner. Frees resources. Avoids leaks. End of program. Best practice.' },
+                    { code: '    }', explanation: 'Closes main method. Contains all logic. Required closure. Execution ends. Program complete.' },
+                    { code: '}', explanation: 'Closes class. Matches opening. Encapsulates code. Ensures compilation. Ready to run.' }
+                ]
+            },
+            5: {
+                title: "5. Program to search an element in an array (Linear Search)",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Imports Scanner for input. java.util package. Reads console data. Needed for size, elements, and key. Enables interactivity.' },
+                    { code: 'public class LinearSearch {', explanation: 'Public class LinearSearch. Organizes search logic. Public for execution. Name reflects purpose. Structural foundation.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method entry. Static call. Args for arguments. Contains search logic. Program execution starts.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Scanner object created. Tied to System.in. Reads inputs. Essential for array and key. Close at end.' },
+                    { code: '        System.out.print("Enter size of array: ");', explanation: 'Prompts for array size. Print for inline input. Guides user. Standard output. Enhances clarity.' },
+                    { code: '        int n = sc.nextInt();', explanation: 'Reads size into n. nextInt() for integer. Sets array length. Assumes valid input. Prepares array.' },
+                    { code: '        int[] arr = new int[n];', explanation: 'Creates array of size n. new allocates space. Initialized to zeros. Data structure set. Ready for elements.' },
+                    { code: '        System.out.println("Enter " + n + " elements:");', explanation: 'Prompts for elements. Includes n. Clarifies count. println for newline. Sets input expectation.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to read elements. Runs n times. i from 0 to n-1. Fills array. Collects user input.' },
+                    { code: '            arr[i] = sc.nextInt();', explanation: 'Stores integer in arr[i]. nextInt() reads input. Populates array. Sequential fill. Assumes valid.' },
+                    { code: '        }', explanation: 'Closes input loop. Array filled. Ready for search. Scope maintained. Moves to key input.' },
+                    { code: '        System.out.print("Enter element to search: ");', explanation: 'Prompts for search key. Print for inline. Guides user. Standard out. Prepares for search.' },
+                    { code: '        int key = sc.nextInt();', explanation: 'Reads key to search. nextInt() for integer. Stores value to find. Sets up search target. Assumes valid.' },
+                    { code: '        int index = -1;', explanation: 'Initializes index to -1. Indicates not found. Updated if key is found. -1 is default for failure. Sets up result.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop for linear search. Iterates array. i from 0 to n-1. Checks each element. Implements search logic.' },
+                    { code: '            if (arr[i] == key) {', explanation: 'Checks if arr[i] equals key. Equality test. If true, key found. Core search condition. Determines match.' },
+                    { code: '                index = i;', explanation: 'Stores index of match. Updates index to i. Records position. Stops at first match. Tracks result.' },
+                    { code: '                break;', explanation: 'Breaks loop on match. Exits early. Improves efficiency. No need to continue. Demonstrates jump statement.' },
+                    { code: '            }', explanation: 'Closes if block. Ends match check. Loop continues if no match. Scope clear. Flow maintained.' },
+                    { code: '        }', explanation: 'Closes search loop. Ends iteration. index holds result. Loop done. Ready for output.' },
+                    { code: '        if (index != -1) {', explanation: 'Checks if index changed. If not -1, key found. Conditional output. Prepares result display. Handles success case.' },
+                    { code: '            System.out.println("Element found at index: " + index);', explanation: 'Prints found index. Concatenates result. Informs user. println for newline. Shows success.' },
+                    { code: '        } else {', explanation: 'Else for index -1. Key not found. Alternative output. Handles failure case. Completes logic.' },
+                    { code: '            System.out.println("Element not found");', explanation: 'Prints not found. Informs user. No index. println for newline. Completes search result.' },
+                    { code: '        }', explanation: 'Closes if-else. Ends output logic. All cases handled. Scope clear. Flow complete.' },
+                    { code: '        sc.close();', explanation: 'Closes Scanner. Frees resources. Prevents leaks. End of program. Good practice.' },
+                    { code: '    }', explanation: 'Closes main. Encapsulates logic. Required closure. Execution ends. Program done.' },
+                    { code: '}', explanation: 'Closes class. Matches opening. Ensures encapsulation. Compilation ready. Program complete.' }
+                ]
+            },
+            6: {
+                title: "6. Program to reverse an array",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Imports Scanner for input. java.util package. Reads console data. Needed for array size and elements. Supports dynamic input.' },
+                    { code: 'public class ArrayReverse {', explanation: 'Public class ArrayReverse. Organizes reverse logic. Public for execution. Name reflects purpose. Program structure.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method entry. Static for call. Args for params. Contains reverse logic. Execution starts here.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Scanner object for input. Tied to System.in. Reads size and elements. Key for interactivity. Close later.' },
+                    { code: '        System.out.print("Enter size of array: ");', explanation: 'Prompts array size. Print for inline input. Guides user. Standard output. Enhances usability.' },
+                    { code: '        int n = sc.nextInt();', explanation: 'Reads size into n. nextInt() for integer. Sets array length. Assumes valid input. Prepares array.' },
+                    { code: '        int[] arr = new int[n];', explanation: 'Creates array of size n. new allocates space. Defaults to zeros. Data structure ready. Awaits elements.' },
+                    { code: '        System.out.println("Enter " + n + " elements:");', explanation: 'Prompts for elements. Includes n. Clarifies count. println for newline. Sets input expectation.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to read elements. Runs n times. i from 0 to n-1. Fills array. Collects user input.' },
+                    { code: '            arr[i] = sc.nextInt();', explanation: 'Stores integer in arr[i]. nextInt() reads input. Populates array. Sequential fill. Assumes valid.' },
+                    { code: '        }', explanation: 'Closes input loop. Array filled. Ready for reverse. Scope maintained. Moves to processing.' },
+                    { code: '        for (int i = 0; i < n / 2; i++) {', explanation: 'Loop to reverse array. Runs to n/2. Swaps elements from ends. i from 0 to half. Avoids redundant swaps.' },
+                    { code: '            int temp = arr[i];', explanation: 'Stores arr[i] in temp. Temporary variable for swap. Preserves value during exchange. Needed for correct swap. Sets up swap logic.' },
+                    { code: '            arr[i] = arr[n - 1 - i];', explanation: 'Assigns end element to arr[i]. n-1-i is opposite index. Moves end to front. Part of swap. Reverses position.' },
+                    { code: '            arr[n - 1 - i] = temp;', explanation: 'Assigns temp (original arr[i]) to end. Completes swap. Places front at end. Finalizes one swap. Array reverses incrementally.' },
+                    { code: '        }', explanation: 'Closes reverse loop. Ends swapping. Array is reversed. Scope clear. Ready for output.' },
+                    { code: '        System.out.println("Reversed array:");', explanation: 'Prints header for output. Indicates reversed array. println for newline. Enhances readability. Sets output context.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to display array. Iterates n times. i from 0 to n-1. Prints each element. Shows reversed result.' },
+                    { code: '            System.out.print(arr[i] + " ");', explanation: 'Prints arr[i] with space. Uses print for same line. Concatenates for output. Displays reversed array. Loop builds output.' },
+                    { code: '        }', explanation: 'Closes display loop. Ends output iteration. Array shown. Scope maintained. Output complete.' },
+                    { code: '        System.out.println();', explanation: 'Prints newline. After array output. Cleans console display. Standard practice. Finalizes output.' },
+                    { code: '        sc.close();', explanation: 'Closes Scanner. Frees resources. Prevents leaks. End of program. Best practice.' },
+                    { code: '    }', explanation: 'Closes main. Encapsulates logic. Required closure. Execution ends. Program done.' },
+                    { code: '}', explanation: 'Closes class. Matches opening. Ensures encapsulation. Compilation ready. Program complete.' }
+                ]
+            },
+            7: {
+                title: "7. Program to sort an array (Bubble Sort)",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Imports Scanner for input. java.util package. Reads console data. Needed for array size and elements. Enables dynamic input.' },
+                    { code: 'public class BubbleSort {', explanation: 'Public class BubbleSort. Organizes sorting logic. Public for execution. Name reflects algorithm. Program structure.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method entry. Static call. Args for params. Contains bubble sort logic. Execution starts here.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Scanner object for input. Tied to System.in. Reads size and elements. Key for interactivity. Close later.' },
+                    { code: '        System.out.print("Enter size of array: ");', explanation: 'Prompts array size. Print for inline input. Guides user. Standard output. Enhances usability.' },
+                    { code: '        int n = sc.nextInt();', explanation: 'Reads size into n. nextInt() for integer. Sets array length. Assumes valid input. Prepares array.' },
+                    { code: '        int[] arr = new int[n];', explanation: 'Creates array of size n. new allocates space. Defaults to zeros. Data structure ready. Awaits elements.' },
+                    { code: '        System.out.println("Enter " + n + " elements:");', explanation: 'Prompts for elements. Includes n. Clarifies count. println for newline. Sets input expectation.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to read elements. Runs n times. i from 0 to n-1. Fills array. Collects user input.' },
+                    { code: '            arr[i] = sc.nextInt();', explanation: 'Stores integer in arr[i]. nextInt() reads input. Populates array. Sequential fill. Assumes valid.' },
+                    { code: '        }', explanation: 'Closes input loop. Array filled. Ready for sorting. Scope maintained. Moves to sorting logic.' },
+                    { code: '        for (int i = 0; i < n - 1; i++) {', explanation: 'Outer loop for bubble sort. Runs n-1 passes. i from 0 to n-2. Each pass bubbles largest to end. Sets up sort structure.' },
+                    { code: '            for (int j = 0; j < n - 1 - i; j++) {', explanation: 'Inner loop for comparisons. Runs to n-1-i. j compares adjacent elements. Reduces range as largest elements sorted. Performs swaps.' },
+                    { code: '                if (arr[j] > arr[j + 1]) {', explanation: 'Checks if arr[j] > arr[j+1]. If true, swap needed. Compares adjacent elements. Core bubble sort condition. Ensures ascending order.' },
+                    { code: '                    int temp = arr[j];', explanation: 'Stores arr[j] in temp. Temporary for swap. Preserves value. Needed for correct exchange. Sets up swap logic.' },
+                    { code: '                    arr[j] = arr[j + 1];', explanation: 'Assigns arr[j+1] to arr[j]. Moves smaller element left. Part of swap. Adjusts array order. Continues swap process.' },
+                    { code: '                    arr[j + 1] = temp;', explanation: 'Assigns temp to arr[j+1]. Completes swap. Places larger element right. Finalizes one swap. Array moves toward sorted.' },
+                    { code: '                }', explanation: 'Closes if block. Ends swap logic. Inner loop continues. Scope clear. Maintains flow.' },
+                    { code: '            }', explanation: 'Closes inner loop. Ends comparisons for one pass. Largest element at end. Scope maintained. Outer loop continues.' },
+                    { code: '        }', explanation: 'Closes outer loop. Ends all passes. Array is sorted. Sorting complete. Ready for output.' },
+                    { code: '        System.out.println("Sorted array:");', explanation: 'Prints header for output. Indicates sorted array. println for newline. Enhances readability. Sets output context.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to display array. Iterates n times. i from 0 to n-1. Prints sorted elements. Shows final result.' },
+                    { code: '            System.out.print(arr[i] + " ");', explanation: 'Prints arr[i] with space. Uses print for same line. Concatenates for output. Displays sorted array. Loop builds output.' },
+                    { code: '        }', explanation: 'Closes display loop. Ends output iteration. Array shown. Scope maintained. Output complete.' },
+                    { code: '        System.out.println();', explanation: 'Prints newline. After array output. Cleans console display. Standard practice. Finalizes output.' },
+                    { code: '        sc.close();', explanation: 'Closes Scanner. Frees resources. Prevents leaks. End of program. Best practice.' },
+                    { code: '    }', explanation: 'Closes main. Encapsulates logic. Required closure. Execution ends. Program done.' },
+                    { code: '}', explanation: 'Closes class. Matches opening. Ensures encapsulation. Compilation ready. Program complete.' }
+                ]
+            },
+            8: {
+                title: "8. Program to find average of array elements",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Imports Scanner for input. java.util package. Reads console data. Needed for size and elements. Enables user interaction.' },
+                    { code: 'public class ArrayAverage {', explanation: 'Public class ArrayAverage. Organizes average logic. Public for execution. Name reflects purpose. Program structure.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method entry. Static call. Args for params. Contains average logic. Execution starts here.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Scanner object for input. Tied to System.in. Reads size and elements. Key for interactivity. Close later.' },
+                    { code: '        System.out.print("Enter size of array: ");', explanation: 'Prompts array size. Print for inline input. Guides user. Standard output. Enhances usability.' },
+                    { code: '        int n = sc.nextInt();', explanation: 'Reads size into n. nextInt() for integer. Sets array length. Assumes valid input. Prepares array.' },
+                    { code: '        int[] arr = new int[n];', explanation: 'Creates array of size n. new allocates space. Defaults to zeros. Data structure ready. Awaits elements.' },
+                    { code: '        System.out.println("Enter " + n + " elements:");', explanation: 'Prompts for elements. Includes n. Clarifies count. println for newline. Sets input expectation.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to read elements. Runs n times. i from 0 to n-1. Fills array. Collects user input.' },
+                    { code: '            arr[i] = sc.nextInt();', explanation: 'Stores integer in arr[i]. nextInt() reads input. Populates array. Sequential fill. Assumes valid.' },
+                    { code: '        }', explanation: 'Closes input loop. Array filled. Ready for average. Scope maintained. Moves to processing.' },
+                    { code: '        double sum = 0;', explanation: 'Initializes sum as double. Tracks total for average. Double for decimal precision. Declared before loop. Sets up calculation.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to sum elements. Iterates n times. i from 0 to n-1. Adds each element. Prepares for average.' },
+                    { code: '            sum += arr[i];', explanation: 'Adds arr[i] to sum. Compound assignment. Accumulates total. Each element contributes. Core of sum logic.' },
+                    { code: '        }', explanation: 'Closes sum loop. Ends iteration. sum holds total. Scope clear. Ready for average calculation.' },
+                    { code: '        double average = sum / n;', explanation: 'Calculates average. Divides sum by n. Uses double for precision. Stores result. Core program logic.' },
+                    { code: '        System.out.println("Average: " + average);', explanation: 'Prints average. Concatenates with label. Shows result. println for newline. Fulfills program goal.' },
+                    { code: '        sc.close();', explanation: 'Closes Scanner. Frees resources. Prevents leaks. End of program. Best practice.' },
+                    { code: '    }', explanation: 'Closes main. Encapsulates logic. Required closure. Execution ends. Program done.' },
+                    { code: '}', explanation: 'Closes class. Matches opening. Ensures encapsulation. Compilation ready. Program complete.' }
+                ]
+            },
+            9: {
+                title: "9. Program to copy one array to another",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Imports Scanner for input. java.util package. Reads console data. Needed for size and elements. Enables user interaction.' },
+                    { code: 'public class ArrayCopy {', explanation: 'Public class ArrayCopy. Organizes copy logic. Public for execution. Name reflects purpose. Program structure.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method entry. Static call. Args for params. Contains copy logic. Execution starts here.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Scanner object for input. Tied to System.in. Reads size and elements. Key for interactivity. Close later.' },
+                    { code: '        System.out.print("Enter size of array: ");', explanation: 'Prompts array size. Print for inline input. Guides user. Standard output. Enhances usability.' },
+                    { code: '        int n = sc.nextInt();', explanation: 'Reads size into n. nextInt() for integer. Sets array length. Assumes valid input. Prepares array.' },
+                    { code: '        int[] arr = new int[n];', explanation: 'Creates source array of size n. new allocates space. Defaults to zeros. Data structure ready. Awaits elements.' },
+                    { code: '        System.out.println("Enter " + n + " elements:");', explanation: 'Prompts for elements. Includes n. Clarifies count. println for newline. Sets input expectation.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to read elements. Runs n times. i from 0 to n-1. Fills array. Collects user input.' },
+                    { code: '            arr[i] = sc.nextInt();', explanation: 'Stores integer in arr[i]. nextInt() reads input. Populates array. Sequential fill. Assumes valid.' },
+                    { config: '        }', explanation: 'Closes input loop. Array filled. Ready for copying. Scope maintained. Moves to copy logic.' },
+                    { code: '        int[] copy = new int[n];', explanation: 'Creates destination array copy of size n. new allocates space. Same size as source. Ready for copying. Data structure set.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to copy elements. Iterates n times. i from 0 to n-1. Transfers each element. Implements copy logic.' },
+                    { code: '            copy[i] = arr[i];', explanation: 'Copies arr[i] to copy[i]. Direct assignment. Transfers value. Builds new array. Core of copy operation.' },
+                    { code: '        }', explanation: 'Closes copy loop. Ends transfer. copy holds same elements. Scope clear. Ready for output.' },
+                    { code: '        System.out.println("Original array:");', explanation: 'Prints header for source. Indicates original array. println for newline. Enhances readability. Sets context.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to display source. Iterates n times. i from 0 to n-1. Prints elements. Shows original.' },
+                    { code: '            System.out.print(arr[i] + " ");', explanation: 'Prints arr[i] with space. Uses print for same line. Concatenates for output. Displays array. Loop builds output.' },
+                    { code: '        }', explanation: 'Closes source display loop. Ends output. Array shown. Scope maintained. Moves to copy display.' },
+                    { code: '        System.out.println();', explanation: 'Prints newline. Separates arrays. Cleans output. Standard practice. Prepares for next output.' },
+                    { code: '        System.out.println("Copied array:");', explanation: 'Header for copied array. Indicates copy output. println for newline. Clarifies output. Sets context.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to display copy. Iterates n times. i from 0 to n-1. Prints copied elements. Shows result.' },
+                    { code: '            System.out.print(copy[i] + " ");', explanation: 'Prints copy[i] with space. Uses print for same line. Concatenates for output. Displays copied array. Loop builds output.' },
+                    { code: '        }', explanation: 'Closes copy display loop. Ends output. Array shown. Scope maintained. Output complete.' },
+                    { code: '        System.out.println();', explanation: 'Prints newline. After copy output. Cleans console display. Standard practice. Finalizes output.' },
+                    { code: '        sc.close();', explanation: 'Closes Scanner. Frees resources. Prevents leaks. End of program. Best practice.' },
+                    { code: '    }', explanation: 'Closes main. Encapsulates logic. Required closure. Execution ends. Program done.' },
+                    { code: '}', explanation: 'Closes class. Matches opening. Ensures encapsulation. Compilation ready. Program complete.' }
+                ]
+            },
+            10: {
+                title: "10. Program to remove duplicates from a sorted array",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Imports Scanner for input. java.util package. Reads console data. Needed for size and elements. Enables user interaction.' },
+                    { code: 'public class RemoveDuplicates {', explanation: 'Public class RemoveDuplicates. Organizes duplicate removal logic. Public for execution. Name reflects purpose. Program structure.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method entry. Static call. Args for params. Contains duplicate removal logic. Execution starts here.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Scanner object for input. Tied to System.in. Reads size and elements. Key for interactivity. Close later.' },
+                    { code: '        System.out.print("Enter size of array: ");', explanation: 'Prompts array size. Print for inline input. Guides user. Standard output. Enhances usability.' },
+                    { code: '        int n = sc.nextInt();', explanation: 'Reads size into n. nextInt() for integer. Sets array length. Assumes valid input. Prepares array.' },
+                    { code: '        int[] arr = new int[n];', explanation: 'Creates array of size n. new allocates space. Defaults to zeros. Data structure ready. Awaits elements.' },
+                    { code: '        System.out.println("Enter " + n + " sorted elements:");', explanation: 'Prompts for sorted elements. Includes n. Clarifies sorted input. println for newline. Sets input expectation.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to read elements. Runs n times. i from 0 to n-1. Fills array. Collects user input.' },
+                    { code: '            arr[i] = sc.nextInt();', explanation: 'Stores integer in arr[i]. nextInt() reads input. Populates array. Assumes sorted input. Sequential fill.' },
+                    { code: '        }', explanation: 'Closes input loop. Array filled. Ready for duplicate removal. Scope maintained. Moves to processing.' },
+                    { code: '        int uniqueCount = 1;', explanation: 'Initializes uniqueCount to 1. Tracks unique elements. Starts at 1 for first element. Used to manage new array size. Assumes at least one element.' },
+                    { code: '        for (int i = 1; i < n; i++) {', explanation: 'Loop to count uniques. Starts at i=1. Compares with previous. Runs to n-1. Determines unique elements.' },
+                    { code: '            if (arr[i] != arr[i - 1]) {', explanation: 'Checks if arr[i] differs from arr[i-1]. If true, it’s unique. Leverages sorted array property. Core condition for duplicates. Increments count if unique.' },
+                    { code: '                uniqueCount++;', explanation: 'Increments uniqueCount. Counts unique element. Executes for non-duplicate. Tracks size of result. Builds new array size.' },
+                    { code: '            }', explanation: 'Closes if block. Ends unique check. Loop continues. Scope clear. Maintains flow.' },
+                    { code: '        }', explanation: 'Closes counting loop. uniqueCount holds unique total. Loop done. Ready for new array.' },
+                    { code: '        int[] result = new int[uniqueCount];', explanation: 'Creates result array for uniques. Size is uniqueCount. new allocates space. Stores unique elements. Data structure for output.' },
+                    { code: '        result[0] = arr[0];', explanation: 'Sets first element of result. Copies arr[0]. First is always unique. Initializes result array. Sets up unique list.' },
+                    { code: '        int index = 1;', explanation: 'Initializes index to 1. Tracks position in result. Starts after first element. Used for filling result. Manages array insertion.' },
+                    { code: '        for (int i = 1; i < n; i++) {', explanation: 'Loop to fill result. Starts at i=1. Compares for uniques. Runs to n-1. Builds unique array.' },
+                    { code: '            if (arr[i] != arr[i - 1]) {', explanation: 'Checks if arr[i] is unique. Compares with previous. If different, add to result. Leverages sorted input. Core logic for unique elements.' },
+                    { code: '                result[index] = arr[i];', explanation: 'Stores arr[i] in result[index]. Adds unique element. Updates result array. Increments index next. Builds unique list.' },
+                    { code: '                index++;', explanation: 'Increments index. Moves to next position in result. Tracks insertion point. Ensures correct placement. Updates for next unique.' },
+                    { code: '            }', explanation: 'Closes if block. Ends unique addition. Loop continues. Scope clear. Flow maintained.' },
+                    { code: '        }', explanation: 'Closes fill loop. Result array complete. Contains uniques. Scope done. Ready for output.' },
+                    { code: '        System.out.println("Array without duplicates:");', explanation: 'Prints header for output. Indicates unique array. println for newline. Enhances readability. Sets output context.' },
+                    { code: '        for (int i = 0; i < uniqueCount; i++) {', explanation: 'Loop to display result. Iterates uniqueCount times. i from 0 to uniqueCount-1. Prints unique elements. Shows final array.' },
+                    { code: '            System.out.print(result[i] + " ");', explanation: 'Prints result[i] with space. Uses print for same line. Concatenates for output. Displays unique array. Loop builds output.' },
+                    { code: '        }', explanation: 'Closes display loop. Ends output iteration. Array shown. Scope maintained. Output complete.' },
+                    { code: '        System.out.println();', explanation: 'Prints newline. After array output. Cleans console display. Standard practice. Finalizes output.' },
+                    { code: '        sc.close();', explanation: 'Closes Scanner. Frees resources. Prevents leaks. End of program. Best practice.' },
+                    { code: '    }', explanation: 'Closes main. Encapsulates logic. Required closure. Execution ends. Program done.' },
+                    { code: '}', explanation: 'Closes class. Matches opening. Ensures encapsulation. Compilation ready. Program complete.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

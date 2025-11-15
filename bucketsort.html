@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucket Sort Sliding Window</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        section {
+            background-color: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        pre {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        ul#program-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+        #step-by-step .slide {
+            display: none;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        #step-by-step .slide.active {
+            display: block;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        #step-by-step .pass-step p {
+            margin: 5px 0;
+        }
+        #next-step-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-step-btn:hover {
+            background-color: #218838;
+        }
+        .highlight {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Bucket Sort</h1>
+    
+    <section id="definition">
+        <h2>Definition</h2>
+        <p>Bucket Sort is a distribution-based sorting algorithm that divides elements into a number of buckets based on their values, sorts each bucket individually (typically using a sorting algorithm like Insertion Sort), and then concatenates the sorted buckets to produce the final sorted array. It is not in-place, with an average time complexity of O(n + k + n log(n/k)) where n is the number of elements and k is the number of buckets, and a worst-case of O(n²) if elements are unevenly distributed. Bucket Sort is efficient for uniformly distributed data, especially floating-point numbers in a known range.</p>
+    </section>
+    
+    <section id="step-by-step">
+        <h2>Step-by-Step Sorting (Sample Array: 0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68)</h2>
+        <div id="slides-container"></div>
+        <button id="next-step-btn">Next Step</button>
+    </section>
+    
+    <section id="program">
+        <h2>Java Program for Bucket Sort</h2>
+        <ul id="program-list">
+            <li data-program="1">Click to view Bucket Sort Program line by line</li>
+        </ul>
+    </section>
+    
+    <section id="output">
+        <h2>Output with Bucket Sorting Steps</h2>
+        <pre id="output-pre">
+Initial array:
+0.78 0.17 0.39 0.26 0.72 0.94 0.21 0.12 0.23 0.68 
+Buckets after distribution:
+Bucket 0: []
+Bucket 1: [0.12, 0.17]
+Bucket 2: [0.21, 0.23, 0.26]
+Bucket 3: [0.39]
+Bucket 4: []
+Bucket 5: []
+Bucket 6: [0.68]
+Bucket 7: [0.72, 0.78]
+Bucket 8: []
+Bucket 9: [0.94]
+Buckets after sorting:
+Bucket 0: []
+Bucket 1: [0.12, 0.17]
+Bucket 2: [0.21, 0.23, 0.26]
+Bucket 3: [0.39]
+Bucket 4: []
+Bucket 5: []
+Bucket 6: [0.68]
+Bucket 7: [0.72, 0.78]
+Bucket 8: []
+Bucket 9: [0.94]
+Sorted array:
+0.12 0.17 0.21 0.23 0.26 0.39 0.68 0.72 0.78 0.94 
+        </pre>
+    </section>
+    
+    <section id="real-world">
+        <h2>Real-World Examples</h2>
+        <ul>
+            <li>Educational purposes: Used to teach distribution-based sorting and its efficiency for uniform data. <a href="https://www.geeksforgeeks.org/bucket-sort-2/">(GeeksforGeeks)</a></li>
+            <li>Uniformly distributed data: Efficient for sorting floating-point numbers or data with known ranges, such as test scores or normalized values. <a href="https://www.programiz.com/dsa/bucket-sort">(Programiz)</a></li>
+            <li>Graphics processing: Applied in rendering pipelines to sort pixel intensities or depth values. <a href="https://www.javatpoint.com/bucket-sort">(JavatPoint)</a></li>
+            <li>Data preprocessing: Used in machine learning to bin continuous features before further processing. <a href="https://www.tutorialspoint.com/data_structures_algorithms/bucket_sort.htm">(TutorialsPoint)</a></li>
+            <li>Real-life analogies: Similar to sorting items into labeled bins based on value ranges before arranging them. <a href="https://www.quora.com/What-are-some-real-world-applications-of-bucket-sort">(Quora)</a></li>
+        </ul>
+    </section>
+    
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    
+    <script>
+        const steps = [
+            {
+                title: "Initial Array",
+                array: [0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68],
+                operations: [],
+                explanation: "This is the starting array of floating-point numbers between 0 and 1. Bucket Sort will distribute elements into 10 buckets based on their values (multiplied by 10 to map to 0-9), sort each bucket, and merge the results."
+            },
+            {
+                title: "Distribute into Buckets",
+                array: [0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68],
+                operations: [
+                    { indices: [7], array: [0.12], desc: "0.12: bucket = floor(0.12 * 10) = 1 → Bucket 1." },
+                    { indices: [1], array: [0.17], desc: "0.17: bucket = floor(0.17 * 10) = 1 → Bucket 1." },
+                    { indices: [6], array: [0.21], desc: "0.21: bucket = floor(0.21 * 10) = 2 → Bucket 2." },
+                    { indices: [8], array: [0.23], desc: "0.23: bucket = floor(0.23 * 10) = 2 → Bucket 2." },
+                    { indices: [3], array: [0.26], desc: "0.26: bucket = floor(0.26 * 10) = 2 → Bucket 2." },
+                    { indices: [2], array: [0.39], desc: "0.39: bucket = floor(0.39 * 10) = 3 → Bucket 3." },
+                    { indices: [9], array: [0.68], desc: "0.68: bucket = floor(0.68 * 10) = 6 → Bucket 6." },
+                    { indices: [4], array: [0.72], desc: "0.72: bucket = floor(0.72 * 10) = 7 → Bucket 7." },
+                    { indices: [0], array: [0.78], desc: "0.78: bucket = floor(0.78 * 10) = 7 → Bucket 7." },
+                    { indices: [5], array: [0.94], desc: "0.94: bucket = floor(0.94 * 10) = 9 → Bucket 9." }
+                ],
+                explanation: "Distribute elements into 10 buckets (0 to 9) using bucket index = floor(element * 10). Result: Bucket 1: [0.12, 0.17], Bucket 2: [0.21, 0.23, 0.26], Bucket 3: [0.39], Bucket 6: [0.68], Bucket 7: [0.72, 0.78], Bucket 9: [0.94], others empty."
+            },
+            {
+                title: "Sort Buckets",
+                array: [0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68],
+                operations: [
+                    { indices: [7, 1], array: [0.12, 0.17], desc: "Bucket 1: Already sorted [0.12, 0.17]." },
+                    { indices: [6, 8, 3], array: [0.21, 0.23, 0.26], desc: "Bucket 2: Already sorted [0.21, 0.23, 0.26] (Insertion Sort)." },
+                    { indices: [2], array: [0.39], desc: "Bucket 3: [0.39] (single element, sorted)." },
+                    { indices: [9], array: [0.68], desc: "Bucket 6: [0.68] (single element, sorted)." },
+                    { indices: [4, 0], array: [0.72, 0.78], desc: "Bucket 7: Already sorted [0.72, 0.78]." },
+                    { indices: [5], array: [0.94], desc: "Bucket 9: [0.94] (single element, sorted)." }
+                ],
+                explanation: "Sort each non-empty bucket using Insertion Sort. Most buckets are already sorted or have one element. Result remains: Bucket 1: [0.12, 0.17], Bucket 2: [0.21, 0.23, 0.26], Bucket 3: [0.39], Bucket 6: [0.68], Bucket 7: [0.72, 0.78], Bucket 9: [0.94]."
+            },
+            {
+                title: "Merge Buckets",
+                array: [0.12, 0.17, 0.21, 0.23, 0.26, 0.39, 0.68, 0.72, 0.78, 0.94],
+                operations: [
+                    { indices: [7, 1], array: [0.12, 0.17], desc: "Append Bucket 1: [0.12, 0.17]." },
+                    { indices: [6, 8, 3], array: [0.21, 0.23, 0.26], desc: "Append Bucket 2: [0.21, 0.23, 0.26]." },
+                    { indices: [2], array: [0.39], desc: "Append Bucket 3: [0.39]." },
+                    { indices: [9], array: [0.68], desc: "Append Bucket 6: [0.68]." },
+                    { indices: [4, 0], array: [0.72, 0.78], desc: "Append Bucket 7: [0.72, 0.78]." },
+                    { indices: [5], array: [0.94], desc: "Append Bucket 9: [0.94]." }
+                ],
+                explanation: "Concatenate non-empty buckets in order (0 to 9): Bucket 1, 2, 3, 6, 7, 9. Result: [0.12, 0.17, 0.21, 0.23, 0.26, 0.39, 0.68, 0.72, 0.78, 0.94]."
+            },
+            {
+                title: "Final Sorted Array",
+                array: [0.12, 0.17, 0.21, 0.23, 0.26, 0.39, 0.68, 0.72, 0.78, 0.94],
+                operations: [],
+                explanation: "After distributing elements into buckets, sorting each bucket, and merging them, the array is fully sorted in ascending order. Bucket Sort’s efficiency relies on uniform distribution across buckets."
+            }
+        ];
+
+        let currentStepIndex = 0;
+
+        function renderSlides() {
+            const container = document.getElementById('slides-container');
+            container.innerHTML = '';
+            steps.forEach((step, index) => {
+                const slide = document.createElement('div');
+                slide.className = `slide ${index === currentStepIndex ? 'active' : ''}`;
+                let content = `<p><strong>${step.title}:</strong> [`;
+                step.array.forEach((num, i) => {
+                    content += i === 0 ? `${num}` : `, ${num}`;
+                });
+                content += ']</p>';
+                if (step.operations.length > 0) {
+                    content += '<p><em>Bucket Operations:</em></p>';
+                    step.operations.forEach(op => {
+                        let arrayStr = '[';
+                        op.array.forEach((num, i) => {
+                            const isHighlighted = op.indices.includes(step.array.indexOf(num));
+                            arrayStr += i === 0 ? '' : ', ';
+                            arrayStr += isHighlighted ? `<span class="highlight">${num}</span>` : num;
+                        });
+                        arrayStr += ']';
+                        content += `<p>${op.desc} → ${arrayStr}</p>`;
+                    });
+                }
+                content += `<p><em>Positioning:</em> ${step.explanation}</p>`;
+                slide.innerHTML = content;
+                container.appendChild(slide);
+            });
+        }
+
+        document.getElementById('next-step-btn').addEventListener('click', () => {
+            currentStepIndex = (currentStepIndex + 1) % steps.length;
+            renderSlides();
+        });
+
+        renderSlides();
+
+        const programs = {
+            1: {
+                title: "Bucket Sort Program in Java (with Sample Array and Bucket Outputs)",
+                lines: [
+                    { code: 'import java.util.*;', explanation: 'Imports Java utility classes, including ArrayList for dynamic bucket storage.' },
+                    { code: 'public class BucketSortExample {', explanation: 'Defines the public class BucketSortExample for the bucket sort demonstration.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Declares the main method, the entry point of the program.' },
+                    { code: '        float[] arr = {0.78f, 0.17f, 0.39f, 0.26f, 0.72f, 0.94f, 0.21f, 0.12f, 0.23f, 0.68f};', explanation: 'Initializes the float array with values between 0 and 1.' },
+                    { code: '        System.out.println("Initial array:");', explanation: 'Prints a header for the initial array.' },
+                    { code: '        printArray(arr);', explanation: 'Calls printArray to display the initial array.' },
+                    { code: '        bucketSort(arr);', explanation: 'Calls bucketSort to sort the array in-place.' },
+                    { code: '        System.out.println("Sorted array:");', explanation: 'Prints a header for the sorted array.' },
+                    { code: '        printArray(arr);', explanation: 'Calls printArray to display the sorted array.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '    public static void bucketSort(float[] arr) {', explanation: 'Defines the bucketSort method to sort the float array.' },
+                    { code: '        int n = arr.length;', explanation: 'Stores the array length.' },
+                    { code: '        ArrayList<Float>[] buckets = new ArrayList[n];', explanation: 'Creates an array of ArrayLists to store buckets.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to initialize each bucket as an empty ArrayList.' },
+                    { code: '            buckets[i] = new ArrayList<Float>();', explanation: 'Initializes bucket i as a new ArrayList.' },
+                    { code: '        }', explanation: 'Closes the loop for bucket initialization.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to distribute elements into buckets.' },
+                    { code: '            int bucketIndex = (int)(arr[i] * n);', explanation: 'Computes bucket index as floor(arr[i] * n) for uniform distribution.' },
+                    { code: '            buckets[bucketIndex].add(arr[i]);', explanation: 'Adds arr[i] to the corresponding bucket.' },
+                    { code: '        }', explanation: 'Closes the loop for distribution.' },
+                    { code: '        System.out.println("Buckets after distribution:");', explanation: 'Prints a header for bucket contents.' },
+                    { code: '        printBuckets(buckets);', explanation: 'Calls printBuckets to display buckets.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to sort each bucket.' },
+                    { code: '            insertionSort(buckets[i]);', explanation: 'Sorts bucket i using insertionSort.' },
+                    { code: '        }', explanation: 'Closes the loop for sorting buckets.' },
+                    { code: '        System.out.println("Buckets after sorting:");', explanation: 'Prints a header for sorted buckets.' },
+                    { code: '        printBuckets(buckets);', explanation: 'Calls printBuckets to display sorted buckets.' },
+                    { code: '        int index = 0;', explanation: 'Initializes index for merging buckets into arr.' },
+                    { code: '        for (int i = 0; i < n; i++) {', explanation: 'Loop to merge buckets back into arr.' },
+                    { code: '            for (float num : buckets[i]) {', explanation: 'Iterates through elements in bucket i.' },
+                    { code: '                arr[index++] = num;', explanation: 'Places element at arr[index] and increments index.' },
+                    { code: '            }', explanation: 'Closes the loop for bucket elements.' },
+                    { code: '        }', explanation: 'Closes the loop for merging buckets.' },
+                    { code: '    }', explanation: 'Closes the bucketSort method.' },
+                    { code: '    public static void insertionSort(ArrayList<Float> bucket) {', explanation: 'Defines insertionSort to sort a bucket.' },
+                    { code: '        for (int i = 1; i < bucket.size(); i++) {', explanation: 'Loop to iterate through unsorted portion of the bucket.' },
+                    { code: '            float key = bucket.get(i);', explanation: 'Stores the current element as key.' },
+                    { code: '            int j = i - 1;', explanation: 'Starts comparing with the previous element.' },
+                    { code: '            while (j >= 0 && bucket.get(j) > key) {', explanation: 'Loop to shift larger elements right.' },
+                    { code: '                bucket.set(j + 1, bucket.get(j));', explanation: 'Shifts element right.' },
+                    { code: '                j--;', explanation: 'Moves to the previous element.' },
+                    { code: '            }', explanation: 'Closes the while loop.' },
+                    { code: '            bucket.set(j + 1, key);', explanation: 'Places key in its correct position.' },
+                    { code: '        }', explanation: 'Closes the loop for insertion sort.' },
+                    { code: '    }', explanation: 'Closes the insertionSort method.' },
+                    { code: '    private static void printArray(float[] arr) {', explanation: 'Defines a helper method to print the array.' },
+                    { code: '        for (float num : arr) {', explanation: 'Iterates through array elements.' },
+                    { code: '            System.out.print(num + " ");', explanation: 'Prints each element followed by a space.' },
+                    { code: '        }', explanation: 'Closes the loop for printing.' },
+                    { code: '        System.out.println();', explanation: 'Prints a newline for formatting.' },
+                    { code: '    }', explanation: 'Closes the printArray method.' },
+                    { code: '    private static void printBuckets(ArrayList<Float>[] buckets) {', explanation: 'Defines a helper method to print buckets.' },
+                    { code: '        for (int i = 0; i < buckets.length; i++) {', explanation: 'Iterates through buckets.' },
+                    { code: '            System.out.print("Bucket " + i + ": ");', explanation: 'Prints bucket index.' },
+                    { code: '            for (float num : buckets[i]) {', explanation: 'Iterates through bucket elements.' },
+                    { code: '                System.out.print(num + ", ");', explanation: 'Prints each element.' },
+                    { code: '            }', explanation: 'Closes the loop for bucket elements.' },
+                    { code: '            System.out.println();', explanation: 'Prints a newline after each bucket.' },
+                    { code: '        }', explanation: 'Closes the loop for buckets.' },
+                    { code: '    }', explanation: 'Closes the printBuckets method.' },
+                    { code: '}', explanation: 'Closes the class definition.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

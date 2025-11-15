@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heap Sort Sliding Window</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        section {
+            background-color: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        pre {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        ul#program-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+        #step-by-step .slide {
+            display: none;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        #step-by-step .slide.active {
+            display: block;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        #step-by-step .pass-step p {
+            margin: 5px 0;
+        }
+        #next-step-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-step-btn:hover {
+            background-color: #218838;
+        }
+        .highlight {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Heap Sort</h1>
+    
+    <section id="definition">
+        <h2>Definition</h2>
+        <p>Heap Sort is a comparison-based sorting algorithm that uses a binary max heap to sort elements. It first builds a max heap from the array, then repeatedly extracts the maximum element (root) and places it at the end, reducing the heap size and heapifying the root. It is in-place, not stable, with a time complexity of O(n log n) for all cases. Heap Sort is efficient for large datasets but has a higher constant factor compared to Quick Sort.</p>
+    </section>
+    
+    <section id="step-by-step">
+        <h2>Step-by-Step Sorting (Sample Array: 12, 11, 13, 5, 6, 7)</h2>
+        <div id="slides-container"></div>
+        <button id="next-step-btn">Next Step</button>
+    </section>
+    
+    <section id="program">
+        <h2>Java Program for Heap Sort</h2>
+        <ul id="program-list">
+            <li data-program="1">Click to view Heap Sort Program line by line</li>
+        </ul>
+    </section>
+    
+    <section id="output">
+        <h2>Output with Heap Sorting Steps</h2>
+        <pre id="output-pre">
+Initial array:
+12 11 13 5 6 7 
+After building max heap:
+13 11 12 5 6 7 
+Sorted array:
+5 6 7 11 12 13 
+        </pre>
+    </section>
+    
+    <section id="real-world">
+        <h2>Real-World Examples</h2>
+        <ul>
+            <li>Educational purposes: Used to teach heap data structures and in-place sorting algorithms. <a href="https://www.geeksforgeeks.org/heap-sort/">(GeeksforGeeks)</a></li>
+            <li>Priority queues: Underlies priority queue implementations, such as task scheduling in operating systems. <a href="https://www.programiz.com/dsa/heap-sort">(Programiz)</a></li>
+            <li>Graph algorithms: Used in Dijkstra’s and Prim’s algorithms to efficiently select minimum-weight edges. <a href="https://www.javatpoint.com/heap-sort">(JavatPoint)</a></li>
+            <li>Embedded systems: Applied in resource-constrained environments due to its in-place nature and guaranteed O(n log n) complexity. <a href="https://www.tutorialspoint.com/data_structures_algorithms/heap_sort_algorithm.htm">(TutorialsPoint)</a></li>
+            <li>Real-life analogies: Similar to organizing a tournament where the strongest player (maximum) is repeatedly selected. <a href="https://www.quora.com/What-are-some-real-world-applications-of-heap-sort">(Quora)</a></li>
+        </ul>
+    </section>
+    
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    
+    <script>
+        const steps = [
+            {
+                title: "Initial Array",
+                array: [12, 11, 13, 5, 6, 7],
+                operations: [],
+                explanation: "This is the starting array. Heap Sort will first build a max heap, then repeatedly extract the maximum element and heapify the reduced heap to sort the array."
+            },
+            {
+                title: "Build Max Heap",
+                array: [13, 11, 12, 5, 6, 7],
+                operations: [
+                    { indices: [3, 5], array: [12, 11, 13, 7, 6, 5], desc: "Heapify index 3: Swap 5 and 7." },
+                    { indices: [1, 2], array: [12, 13, 11, 7, 6, 5], desc: "Heapify index 1: Swap 11 and 13." },
+                    { indices: [0, 1], array: [13, 11, 12, 7, 6, 5], desc: "Heapify index 0: Swap 12 and 13." }
+                ],
+                explanation: "Build a max heap by heapifying non-leaf nodes from right to left (indices n/2-1 to 0). After heapifying indices 3, 1, and 0, the array becomes a max heap: [13, 11, 12, 5, 6, 7]."
+            },
+            {
+                title: "Extract Max (Step 1)",
+                array: [12, 11, 7, 5, 6, 13],
+                operations: [
+                    { indices: [0, 5], array: [13, 11, 7, 5, 6, 12], desc: "Swap root (13) with last element (12), reduce heap size." },
+                    { indices: [0, 2], array: [12, 11, 7, 5, 6, 13], desc: "Heapify root: Swap 12 and 7." }
+                ],
+                explanation: "Swap the root (max = 13) with the last element, reduce heap size to 5, and heapify the root. Result: [12, 11, 7, 5, 6, 13], with 13 in its final position."
+            },
+            {
+                title: "Extract Max (Step 2)",
+                array: [11, 6, 7, 5, 12, 13],
+                operations: [
+                    { indices: [0, 4], array: [12, 6, 7, 5, 11, 13], desc: "Swap root (12) with last element (11), reduce heap size." },
+                    { indices: [0, 1], array: [11, 6, 7, 5, 12, 13], desc: "Heapify root: Swap 11 and 6." }
+                ],
+                explanation: "Swap the root (max = 12) with the last element, reduce heap size to 4, and heapify the root. Result: [11, 6, 7, 5, 12, 13], with 12 in its final position."
+            },
+            {
+                title: "Extract Max (Step 3)",
+                array: [7, 6, 5, 11, 12, 13],
+                operations: [
+                    { indices: [0, 3], array: [11, 6, 5, 7, 12, 13], desc: "Swap root (11) with last element (7), reduce heap size." }
+                ],
+                explanation: "Swap the root (max = 11) with the last element, reduce heap size to 3. Heapify root (7 is already in position). Result: [7, 6, 5, 11, 12, 13], with 11 in its final position."
+            },
+            {
+                title: "Extract Max (Step 4)",
+                array: [6, 5, 7, 11, 12, 13],
+                operations: [
+                    { indices: [0, 2], array: [7, 5, 6, 11, 12, 13], desc: "Swap root (7) with last element (6), reduce heap size." }
+                ],
+                explanation: "Swap the root (max = 7) with the last element, reduce heap size to 2. Heapify root (6 is already in position). Result: [6, 5, 7, 11, 12, 13], with 7 in its final position."
+            },
+            {
+                title: "Extract Max (Step 5)",
+                array: [5, 6, 7, 11, 12, 13],
+                operations: [
+                    { indices: [0, 1], array: [6, 5, 7, 11, 12, 13], desc: "Swap root (6) with last element (5), reduce heap size." }
+                ],
+                explanation: "Swap the root (max = 6) with the last element, reduce heap size to 1. No heapify needed (single element). Result: [5, 6, 7, 11, 12, 13], with 6 in its final position."
+            },
+            {
+                title: "Final Sorted Array",
+                array: [5, 6, 7, 11, 12, 13],
+                operations: [],
+                explanation: "After building the max heap and repeatedly extracting the maximum element, the array is fully sorted in ascending order. Heap Sort’s in-place nature and O(n log n) complexity make it reliable for large datasets."
+            }
+        ];
+
+        let currentStepIndex = 0;
+
+        function renderSlides() {
+            const container = document.getElementById('slides-container');
+            container.innerHTML = '';
+            steps.forEach((step, index) => {
+                const slide = document.createElement('div');
+                slide.className = `slide ${index === currentStepIndex ? 'active' : ''}`;
+                let content = `<p><strong>${step.title}:</strong> [`;
+                step.array.forEach((num, i) => {
+                    content += i === 0 ? `${num}` : `, ${num}`;
+                });
+                content += ']</p>';
+                if (step.operations.length > 0) {
+                    content += '<p><em>Heap Operations:</em></p>';
+                    step.operations.forEach(op => {
+                        let arrayStr = '[';
+                        op.array.forEach((num, i) => {
+                            const isHighlighted = op.indices.includes(i);
+                            arrayStr += i === 0 ? '' : ', ';
+                            arrayStr += isHighlighted ? `<span class="highlight">${num}</span>` : num;
+                        });
+                        arrayStr += ']';
+                        content += `<p>${op.desc} → ${arrayStr}</p>`;
+                    });
+                }
+                content += `<p><em>Positioning:</em> ${step.explanation}</p>`;
+                slide.innerHTML = content;
+                container.appendChild(slide);
+            });
+        }
+
+        document.getElementById('next-step-btn').addEventListener('click', () => {
+            currentStepIndex = (currentStepIndex + 1) % steps.length;
+            renderSlides();
+        });
+
+        renderSlides();
+
+        const programs = {
+            1: {
+                title: "Heap Sort Program in Java (with Sample Array and Heap Outputs)",
+                lines: [
+                    { code: 'public class HeapSortExample {', explanation: 'Defines the public class HeapSortExample for the heap sort demonstration.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Declares the main method, the entry point of the program.' },
+                    { code: '        int[] arr = {12, 11, 13, 5, 6, 7};', explanation: 'Initializes the integer array for demonstration.' },
+                    { code: '        System.out.println("Initial array:");', explanation: 'Prints a header for the initial array.' },
+                    { code: '        printArray(arr);', explanation: 'Calls printArray to display the initial array.' },
+                    { code: '        heapSort(arr);', explanation: 'Calls heapSort to sort the array in-place.' },
+                    { code: '        System.out.println("Sorted array:");', explanation: 'Prints a header for the sorted array.' },
+                    { code: '        printArray(arr);', explanation: 'Calls printArray to display the sorted array.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '    public static void heapSort(int[] arr) {', explanation: 'Defines the heapSort method to sort the array using a max heap.' },
+                    { code: '        int n = arr.length;', explanation: 'Stores the array length.' },
+                    { code: '        for (int i = n / 2 - 1; i >= 0; i--) {', explanation: 'Loop to build max heap by heapifying non-leaf nodes.' },
+                    { code: '            heapify(arr, n, i);', explanation: 'Calls heapify to ensure max heap property at index i.' },
+                    { code: '        }', explanation: 'Closes the loop for building max heap.' },
+                    { code: '        System.out.println("After building max heap:");', explanation: 'Prints a header for the max heap.' },
+                    { code: '        printArray(arr);', explanation: 'Calls printArray to display the max heap.' },
+                    { code: '        for (int i = n - 1; i > 0; i--) {', explanation: 'Loop to extract max elements and reduce heap size.' },
+                    { code: '            int temp = arr[0];', explanation: 'Stores the root (max) in temp.' },
+                    { code: '            arr[0] = arr[i];', explanation: 'Swaps root with the last element of the heap.' },
+                    { code: '            arr[i] = temp;', explanation: 'Places max at the end of the array.' },
+                    { code: '            heapify(arr, i, 0);', explanation: 'Heapifies the root of the reduced heap.' },
+                    { code: '        }', explanation: 'Closes the loop for extracting max elements.' },
+                    { code: '    }', explanation: 'Closes the heapSort method.' },
+                    { code: '    public static void heapify(int[] arr, int n, int i) {', explanation: 'Defines heapify to maintain max heap property at index i.' },
+                    { code: '        int largest = i;', explanation: 'Assumes the current node is the largest.' },
+                    { code: '        int left = 2 * i + 1;', explanation: 'Computes the left child index.' },
+                    { code: '        int right = 2 * i + 2;', explanation: 'Computes the right child index.' },
+                    { code: '        if (left < n && arr[left] > arr[largest]) {', explanation: 'Checks if left child exists and is larger.' },
+                    { code: '            largest = left;', explanation: 'Updates largest to left child if true.' },
+                    { code: '        }', explanation: 'Closes the left child check.' },
+                    { code: '        if (right < n && arr[right] > arr[largest]) {', explanation: 'Checks if right child exists and is larger.' },
+                    { code: '            largest = right;', explanation: 'Updates largest to right child if true.' },
+                    { code: '        }', explanation: 'Closes the right child check.' },
+                    { code: '        if (largest != i) {', explanation: 'Checks if a larger child was found.' },
+                    { code: '            int swap = arr[i];', explanation: 'Stores the current node for swapping.' },
+                    { code: '            arr[i] = arr[largest];', explanation: 'Swaps current node with the largest child.' },
+                    { code: '            arr[largest] = swap;', explanation: 'Completes the swap.' },
+                    { code: '            heapify(arr, n, largest);', explanation: 'Recursively heapifies the affected subtree.' },
+                    { code: '        }', explanation: 'Closes the swap and recursive heapify block.' },
+                    { code: '    }', explanation: 'Closes the heapify method.' },
+                    { code: '    private static void printArray(int[] arr) {', explanation: 'Defines a helper method to print the array.' },
+                    { code: '        for (int num : arr) {', explanation: 'Iterates through array elements.' },
+                    { code: '            System.out.print(num + " ");', explanation: 'Prints each element followed by a space.' },
+                    { code: '        }', explanation: 'Closes the loop for printing.' },
+                    { code: '        System.out.println();', explanation: 'Prints a newline for formatting.' },
+                    { code: '    }', explanation: 'Closes the printArray method.' },
+                    { code: '}', explanation: 'Closes the class definition.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

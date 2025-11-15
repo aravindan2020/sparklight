@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertion Sort Sliding Window</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        section {
+            background-color: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        pre {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        ul#program-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+        #step-by-step .slide {
+            display: none;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        #step-by-step .slide.active {
+            display: block;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        #step-by-step .pass-step p {
+            margin: 5px 0;
+        }
+        #next-step-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-step-btn:hover {
+            background-color: #218838;
+        }
+        .highlight {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Insertion Sort</h1>
+    
+    <section id="definition">
+        <h2>Definition</h2>
+        <p>Insertion Sort is a simple sorting algorithm that builds the sorted array one element at a time. It takes each element from the unsorted region and inserts it into its correct position in the sorted region by shifting larger elements to the right. It is an in-place, stable algorithm with a time complexity of O(n²) in the worst and average cases, but it performs well for small or nearly sorted datasets. It is often used for educational purposes and in scenarios requiring stability.</p>
+    </section>
+    
+    <section id="step-by-step">
+        <h2>Step-by-Step Sorting (Sample Array: 8, 7, 6, 5, 4, 3, 2, 1)</h2>
+        <div id="slides-container"></div>
+        <button id="next-step-btn">Next Step</button>
+    </section>
+    
+    <section id="program">
+        <h2>Java Program for Insertion Sort</h2>
+        <ul id="program-list">
+            <li data-program="1">Click to view Insertion Sort Program line by line</li>
+        </ul>
+    </section>
+    
+    <section id="output">
+        <h2>Output with All Passes</h2>
+        <pre id="output-pre">
+Initial array:
+8 7 6 5 4 3 2 1 
+After pass 1:
+7 8 6 5 4 3 2 1 
+After pass 2:
+6 7 8 5 4 3 2 1 
+After pass 3:
+5 6 7 8 4 3 2 1 
+After pass 4:
+4 5 6 7 8 3 2 1 
+After pass 5:
+3 4 5 6 7 8 2 1 
+After pass 6:
+2 3 4 5 6 7 8 1 
+After pass 7:
+1 2 3 4 5 6 7 8 
+        </pre>
+    </section>
+    
+    <section id="real-world">
+        <h2>Real-World Examples</h2>
+        <ul>
+            <li>Educational purposes: Used to teach sorting concepts due to its intuitive approach. <a href="https://www.geeksforgeeks.org/insertion-sort/">(GeeksforGeeks)</a></li>
+            <li>Small datasets: Efficient for small lists, such as sorting a few records in a database. <a href="https://www.programiz.com/dsa/insertion-sort">(Programiz)</a></li>
+            <li>Nearly sorted data: Performs well in scenarios like online sorting where data arrives incrementally and is almost sorted. <a href="https://www.javatpoint.com/insertion-sort-in-java">(JavatPoint)</a></li>
+            <li>Stable sorting needs: Used when maintaining the relative order of equal elements is important, such as sorting objects by multiple keys. <a href="https://www.tutorialspoint.com/data_structures_algorithms/insertion_sort_algorithm.htm">(TutorialsPoint)</a></li>
+            <li>Real-life analogies: Similar to sorting a hand of playing cards by inserting each card into its correct position. <a href="https://www.quora.com/What-are-some-real-world-applications-of-insertion-sort">(Quora)</a></li>
+        </ul>
+    </section>
+    
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    
+    <script>
+        const steps = [
+            {
+                title: "Initial Array",
+                array: [8, 7, 6, 5, 4, 3, 2, 1],
+                operations: [],
+                explanation: "This is the starting array, in reverse order (descending). Insertion Sort will build the sorted region from the left by taking each element and inserting it into its correct position in the sorted region, shifting larger elements right."
+            },
+            {
+                title: "Pass 1",
+                array: [7, 8, 6, 5, 4, 3, 2, 1],
+                operations: [
+                    { indices: [0, 1], array: [7, 8, 6, 5, 4, 3, 2, 1], desc: "Take 7 (index 1), compare with 8 (index 0): 7 < 8, shift 8 right to index 1, place 7 at index 0." }
+                ],
+                explanation: "The element 7 is inserted into the sorted region [8]. Since 7 < 8, 8 is shifted right, and 7 is placed at index 0. The sorted region is now [7, 8]."
+            },
+            {
+                title: "Pass 2",
+                array: [6, 7, 8, 5, 4, 3, 2, 1],
+                operations: [
+                    { indices: [1, 2], array: [7, 6, 8, 5, 4, 3, 2, 1], desc: "Take 6 (index 2), compare with 7 (index 1): 6 < 7, shift 7 right to index 2." },
+                    { indices: [0, 1], array: [6, 7, 8, 5, 4, 3, 2, 1], desc: "Compare 6 with 8 (index 0): 6 < 8, shift 8 right to index 1, place 6 at index 0." }
+                ],
+                explanation: "The element 6 is inserted into the sorted region [7, 8]. Since 6 < 7, 7 shifts right; then 6 < 8, so 8 shifts right, and 6 is placed at index 0. The sorted region is now [6, 7, 8]."
+            },
+            {
+                title: "Pass 3",
+                array: [5, 6, 7, 8, 4, 3, 2, 1],
+                operations: [
+                    { indices: [2, 3], array: [6, 7, 5, 8, 4, 3, 2, 1], desc: "Take 5 (index 3), compare with 7 (index 2): 5 < 7, shift 7 right to index 3." },
+                    { indices: [1, 2], array: [6, 5, 7, 8, 4, 3, 2, 1], desc: "Compare 5 with 6 (index 1): 5 < 6, shift 6 right to index 2." },
+                    { indices: [0, 1], array: [5, 6, 7, 8, 4, 3, 2, 1], desc: "Compare 5 with 8 (index 0): 5 < 8, shift 8 right to index 1, place 5 at index 0." }
+                ],
+                explanation: "The element 5 is inserted into [6, 7, 8]. Since 5 < 7, 7 shifts right; 5 < 6, 6 shifts right; 5 < 8, 8 shifts right; 5 is placed at index 0. The sorted region is [5, 6, 7, 8]."
+            },
+            {
+                title: "Pass 4",
+                array: [4, 5, 6, 7, 8, 3, 2, 1],
+                operations: [
+                    { indices: [3, 4], array: [5, 6, 7, 4, 8, 3, 2, 1], desc: "Take 4 (index 4), compare with 7 (index 3): 4 < 7, shift 7 right to index 4." },
+                    { indices: [2, 3], array: [5, 6, 4, 7, 8, 3, 2, 1], desc: "Compare 4 with 6 (index 2): 4 < 6, shift 6 right to index 3." },
+                    { indices: [1, 2], array: [5, 4, 6, 7, 8, 3, 2, 1], desc: "Compare 4 with 5 (index 1): 4 < 5, shift 5 right to index 2." },
+                    { indices: [0, 1], array: [4, 5, 6, 7, 8, 3, 2, 1], desc: "Compare 4 with 8 (index 0): 4 < 8, shift 8 right to index 1, place 4 at index 0." }
+                ],
+                explanation: "The element 4 is inserted into [5, 6, 7, 8]. Since 4 < 7, 7 shifts right; 4 < 6, 6 shifts right; 4 < 5, 5 shifts right; 4 < 8, 8 shifts right; 4 is placed at index 0. The sorted region is [4, 5, 6, 7, 8]."
+            },
+            {
+                title: "Pass 5",
+                array: [3, 4, 5, 6, 7, 8, 2, 1],
+                operations: [
+                    { indices: [4, 5], array: [4, 5, 6, 7, 3, 8, 2, 1], desc: "Take 3 (index 5), compare with 7 (index 4): 3 < 7, shift 7 right to index 5." },
+                    { indices: [3, 4], array: [4, 5, 6, 3, 7, 8, 2, 1], desc: "Compare 3 with 6 (index 3): 3 < 6, shift 6 right to index 4." },
+                    { indices: [2, 3], array: [4, 5, 3, 6, 7, 8, 2, 1], desc: "Compare 3 with 5 (index 2): 3 < 5, shift 5 right to index 3." },
+                    { indices: [1, 2], array: [4, 3, 5, 6, 7, 8, 2, 1], desc: "Compare 3 with 4 (index 1): 3 < 4, shift 4 right to index 2." },
+                    { indices: [0, 1], array: [3, 4, 5, 6, 7, 8, 2, 1], desc: "Compare 3 with 8 (index 0): 3 < 8, shift 8 right to index 1, place 3 at index 0." }
+                ],
+                explanation: "The element 3 is inserted into [4, 5, 6, 7, 8]. Since 3 is smaller than all elements, they shift right, and 3 is placed at index 0. The sorted region is [3, 4, 5, 6, 7, 8]."
+            },
+            {
+                title: "Pass 6",
+                array: [2, 3, 4, 5, 6, 7, 8, 1],
+                operations: [
+                    { indices: [5, 6], array: [3, 4, 5, 6, 7, 2, 8, 1], desc: "Take 2 (index 6), compare with 7 (index 5): 2 < 7, shift 7 right to index 6." },
+                    { indices: [4, 5], array: [3, 4, 5, 6, 2, 7, 8, 1], desc: "Compare 2 with 6 (index 4): 2 < 6, shift 6 right to index 5." },
+                    { indices: [3, 4], array: [3, 4, 5, 2, 6, 7, 8, 1], desc: "Compare 2 with 5 (index 3): 2 < 5, shift 5 right to index 4." },
+                    { indices: [2, 3], array: [3, 4, 2, 5, 6, 7, 8, 1], desc: "Compare 2 with 4 (index 2): 2 < 4, shift 4 right to index 3." },
+                    { indices: [1, 2], array: [3, 2, 4, 5, 6, 7, 8, 1], desc: "Compare 2 with 3 (index 1): 2 < 3, shift 3 right to index 2." },
+                    { indices: [0, 1], array: [2, 3, 4, 5, 6, 7, 8, 1], desc: "Compare 2 with 8 (index 0): 2 < 8, shift 8 right to index 1, place 2 at index 0." }
+                ],
+                explanation: "The element 2 is inserted into [3, 4, 5, 6, 7, 8]. Since 2 is smaller than all elements, they shift right, and 2 is placed at index 0. The sorted region is [2, 3, 4, 5, 6, 7, 8]."
+            },
+            {
+                title: "Pass 7",
+                array: [1, 2, 3, 4, 5, 6, 7, 8],
+                operations: [
+                    { indices: [6, 7], array: [2, 3, 4, 5, 6, 7, 1, 8], desc: "Take 1 (index 7), compare with 7 (index 6): 1 < 7, shift 7 right to index 7." },
+                    { indices: [5, 6], array: [2, 3, 4, 5, 6, 1, 7, 8], desc: "Compare 1 with 6 (index 5): 1 < 6, shift 6 right to index 6." },
+                    { indices: [4, 5], array: [2, 3, 4, 5, 1, 6, 7, 8], desc: "Compare 1 with 5 (index 4): 1 < 5, shift 5 right to index 5." },
+                    { indices: [3, 4], array: [2, 3, 4, 1, 5, 6, 7, 8], desc: "Compare 1 with 4 (index 3): 1 < 4, shift 4 right to index 4." },
+                    { indices: [2, 3], array: [2, 3, 1, 4, 5, 6, 7, 8], desc: "Compare 1 with 3 (index 2): 1 < 3, shift 3 right to index 3." },
+                    { indices: [1, 2], array: [2, 1, 3, 4, 5, 6, 7, 8], desc: "Compare 1 with 2 (index 1): 1 < 2, shift 2 right to index 2." },
+                    { indices: [0, 1], array: [1, 2, 3, 4, 5, 6, 7, 8], desc: "Compare 1 with 8 (index 0): 1 < 8, shift 8 right to index 1, place 1 at index 0." }
+                ],
+                explanation: "The element 1 is inserted into [2, 3, 4, 5, 6, 7, 8]. Since 1 is smaller than all elements, they shift right, and 1 is placed at index 0. The sorted region is now the entire array [1, 2, 3, 4, 5, 6, 7, 8]."
+            },
+            {
+                title: "Final Sorted Array",
+                array: [1, 2, 3, 4, 5, 6, 7, 8],
+                operations: [],
+                explanation: "After seven passes, the array is fully sorted in ascending order. Each pass inserted the next element into its correct position in the sorted region by shifting larger elements right, building the sorted array incrementally."
+            }
+        ];
+
+        let currentStepIndex = 0;
+
+        function renderSlides() {
+            const container = document.getElementById('slides-container');
+            container.innerHTML = '';
+            steps.forEach((step, index) => {
+                const slide = document.createElement('div');
+                slide.className = `slide ${index === currentStepIndex ? 'active' : ''}`;
+                let content = `<p><strong>${step.title}:</strong> [`;
+                step.array.forEach((num, i) => {
+                    content += i === 0 ? `${num}` : `, ${num}`;
+                });
+                content += ']</p>';
+                if (step.operations.length > 0) {
+                    content += '<p><em>Comparisons and Shifts:</em></p>';
+                    step.operations.forEach(op => {
+                        let arrayStr = '[';
+                        op.array.forEach((num, i) => {
+                            const isHighlighted = op.indices.includes(i);
+                            arrayStr += i === 0 ? '' : ', ';
+                            arrayStr += isHighlighted ? `<span class="highlight">${num}</span>` : num;
+                        });
+                        arrayStr += ']';
+                        content += `<p>${op.desc} → ${arrayStr}</p>`;
+                    });
+                }
+                content += `<p><em>Positioning:</em> ${step.explanation}</p>`;
+                slide.innerHTML = content;
+                container.appendChild(slide);
+            });
+        }
+
+        document.getElementById('next-step-btn').addEventListener('click', () => {
+            currentStepIndex = (currentStepIndex + 1) % steps.length;
+            renderSlides();
+        });
+
+        renderSlides();
+
+        const programs = {
+            1: {
+                title: "Insertion Sort Program in Java (with Sample Array and Pass Outputs)",
+                lines: [
+                    { code: 'public class InsertionSortExample {', explanation: 'Defines the public class InsertionSortExample. This class contains the main logic for the insertion sort demonstration. In Java, classes organize code into reusable units. The public modifier allows access from outside. Sets the program structure.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Declares the main method, the entry point of the program. It is static to be callable without an instance. String[] args handles command-line arguments. This method executes the sorting logic.' },
+                    { code: '        int[] arr = {8, 7, 6, 5, 4, 3, 2, 1};', explanation: 'Initializes the integer array arr with the sample elements. Uses curly braces for direct initialization. Sets up the reverse-sorted array for demonstration. Prepares the data for sorting.' },
+                    { code: '        System.out.println("Initial array:");', explanation: 'Prints a header for the initial array state. Uses println to add a newline. System.out is the standard output stream. Enhances output readability.' },
+                    { code: '        printArray(arr);', explanation: 'Calls the printArray method to display the array. Passes arr as argument. Separates printing logic for reusability. Shows the initial state.' },
+                    { code: '        int n = arr.length;', explanation: 'Stores the array length in n. arr.length returns the size dynamically. Used in loop conditions. Avoids hardcoding the size.' },
+                    { code: '        for (int i = 1; i < n; i++) {', explanation: 'Outer for loop for sorting passes. Starts at i=1, as the first element is considered sorted. Each iteration inserts the i-th element into the sorted region.' },
+                    { code: '            int key = arr[i];', explanation: 'Stores the current element (arr[i]) in key. This is the element to be inserted into the sorted region.' },
+                    { code: '            int j = i - 1;', explanation: 'Initializes j to the last index of the sorted region (i-1). Used to compare key with sorted elements from right to left.' },
+                    { code: '            while (j >= 0 && arr[j] > key) {', explanation: 'While loop to shift elements. Continues as long as j is valid (j >= 0) and arr[j] is greater than key, indicating key belongs to the left.' },
+                    { code: '                arr[j + 1] = arr[j];', explanation: 'Shifts arr[j] one position right to make space for key. Overwrites the position where key might be inserted.' },
+                    { code: '                j--;', explanation: 'Decrements j to check the next element to the left in the sorted region.' },
+                    { code: '            }', explanation: 'Closes the while loop. Stops when arr[j] <= key or j < 0, indicating key’s correct position is found.' },
+                    { code: '            arr[j + 1] = key;', explanation: 'Places key at its correct position (j+1). This is where the loop stopped, ensuring key is inserted in order.' },
+                    { code: '            System.out.println("After pass " + i + ":");', explanation: 'Prints header for the pass result. Uses pass number i. Informs user of pass completion.' },
+                    { code: '            printArray(arr);', explanation: 'Calls printArray to show array after pass. Displays current state for tracking progress.' },
+                    { code: '        }', explanation: 'Closes the outer for loop. Ends all sorting passes. Array is now sorted.' },
+                    { code: '    }', explanation: 'Closes the main method. Encapsulates all execution logic.' },
+                    { code: '    private static void printArray(int[] arr) {', explanation: 'Defines a private static helper method printArray. Takes int[] arr as parameter. Handles array printing.' },
+                    { code: '        for (int num : arr) {', explanation: 'Enhanced for loop to iterate array. num takes each element value. Simplifies printing.' },
+                    { code: '            System.out.print(num + " ");', explanation: 'Prints each num followed by space. Builds the array output.' },
+                    { code: '        }', explanation: 'Closes the enhanced for loop. Ends element iteration.' },
+                    { code: '        System.out.println();', explanation: 'Prints a newline after array. Ensures clean output formatting.' },
+                    { code: '    }', explanation: 'Closes the printArray method. Ends helper logic.' },
+                    { code: '}', explanation: 'Closes the class definition. Encapsulates all methods. Program is complete.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

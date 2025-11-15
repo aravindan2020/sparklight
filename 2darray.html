@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Java 2D Array Exercises with Explanations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>10 Java 2D Array Exercises: From Matrix Operations to Advanced Traversals</h1>
+    <ul id="program-list">
+        <li data-program="1">1. Program to initialize and print a 2D array</li>
+        <li data-program="2">2. Program to find the sum of all elements in a 2D array</li>
+        <li data-program="3">3. Program to transpose a square matrix</li>
+        <li data-program="4">4. Program to multiply two matrices</li>
+        <li data-program="5">5. Program to find the sum of diagonal elements</li>
+        <li data-program="6">6. Program to search for an element in a 2D array</li>
+        <li data-program="7">7. Program to sort each row of a 2D array</li>
+        <li data-program="8">8. Program to print boundary elements of a 2D array</li>
+        <li data-program="9">9. Program to print a 2D array in spiral order</li>
+        <li data-program="10">10. Program to rotate a square matrix by 90 degrees</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        const programs = {
+            1: {
+                title: "1. Program to initialize and print a 2D array",
+                lines: [
+                    { code: 'public class TwoDArrayPrint {', explanation: 'Defines the class TwoDArrayPrint.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method, program entry point.' },
+                    { code: '        int[][] arr = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};', explanation: 'Initializes a 3x3 2D array.' },
+                    { code: '        System.out.println("2D Array:");', explanation: 'Prints a header.' },
+                    { code: '        for (int i = 0; i < arr.length; i++) {', explanation: 'Outer loop for rows.' },
+                    { code: '            for (int j = 0; j < arr[i].length; j++) {', explanation: 'Inner loop for columns.' },
+                    { code: '                System.out.print(arr[i][j] + " ");', explanation: 'Prints element with space.' },
+                    { code: '            }', explanation: 'Ends inner loop.' },
+                    { code: '            System.out.println();', explanation: 'New line after each row.' },
+                    { code: '        }', explanation: 'Ends outer loop.' },
+                    { code: '    }', explanation: 'Ends main method.' },
+                    { code: '}', explanation: 'Ends class.' }
+                ]
+            },
+            2: {
+                title: "2. Program to find the sum of all elements in a 2D array",
+                lines: [
+                    { code: 'public class TwoDArraySum {', explanation: 'Defines the class TwoDArraySum.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        int[][] arr = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};', explanation: 'Initializes 3x3 array.' },
+                    { code: '        int sum = 0;', explanation: 'Variable to store sum.' },
+                    { code: '        for (int i = 0; i < arr.length; i++) {', explanation: 'Loop through rows.' },
+                    { code: '            for (int j = 0; j < arr[i].length; j++) {', explanation: 'Loop through columns.' },
+                    { code: '                sum += arr[i][j];', explanation: 'Add element to sum.' },
+                    { code: '            }', explanation: 'End inner loop.' },
+                    { code: '        }', explanation: 'End outer loop.' },
+                    { code: '        System.out.println("Sum of elements: " + sum);', explanation: 'Print sum.' },
+                    { code: '    }', explanation: 'End main.' },
+                    { code: '}', explanation: 'End class.' }
+                ]
+            },
+            3: {
+                title: "3. Program to transpose a square matrix",
+                lines: [
+                    { code: 'public class MatrixTranspose {', explanation: 'Defines the class MatrixTranspose.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        int[][] arr = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};', explanation: 'Initializes 3x3 matrix.' },
+                    { code: '        System.out.println("Original Matrix:");', explanation: 'Header for original.' },
+                    { code: '        printMatrix(arr);', explanation: 'Call to print original matrix.' },
+                    { code: '        for (int i = 0; i < arr.length; i++) {', explanation: 'Loop through rows.' },
+                    { code: '            for (int j = i + 1; j < arr[i].length; j++) {', explanation: 'Loop from i+1 to swap.' },
+                    { code: '                int temp = arr[i][j];', explanation: 'Store element in temp.' },
+                    { code: '                arr[i][j] = arr[j][i];', explanation: 'Swap with transpose position.' },
+                    { code: '                arr[j][i] = temp;', explanation: 'Complete swap.' },
+                    { code: '            }', explanation: 'End inner loop.' },
+                    { code: '        }', explanation: 'End outer loop.' },
+                    { code: '        System.out.println("Transposed Matrix:");', explanation: 'Header for transposed.' },
+                    { code: '        printMatrix(arr);', explanation: 'Print transposed matrix.' },
+                    { code: '    }', explanation: 'End main.' },
+                    { code: '    static void printMatrix(int[][] arr) {', explanation: 'Method to print matrix.' },
+                    { code: '        for (int i = 0; i < arr.length; i++) {', explanation: 'Loop rows.' },
+                    { code: '            for (int j = 0; j < arr[i].length; j++) {', explanation: 'Loop columns.' },
+                    { code: '                System.out.print(arr[i][j] + " ");', explanation: 'Print element.' },
+                    { code: '            }', explanation: 'End inner loop.' },
+                    { code: '            System.out.println();', explanation: 'New line.' },
+                    { code: '        }', explanation: 'End outer loop.' },
+                    { code: '    }', explanation: 'End printMatrix.' },
+                    { code: '}', explanation: 'End class.' }
+                ]
+            },
+            4: {
+                title: "4. Program to multiply two matrices",
+                lines: [
+                    { code: 'public class MatrixMultiply {', explanation: 'Defines the class MatrixMultiply.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        int[][] a = {{1, 2}, {3, 4}};', explanation: 'First 2x2 matrix.' },
+                    { code: '        int[][] b = {{5, 6}, {7, 8}};', explanation: 'Second 2x2 matrix.' },
+                    { code: '        int[][] result = new int[2][2];', explanation: 'Result matrix.' },
+                    { code: '        for (int i = 0; i < 2; i++) {', explanation: 'Loop for rows of result.' },
+                    { code: '            for (int j = 0; j < 2; j++) {', explanation: 'Loop for columns of result.' },
+                    { code: '                result[i][j] = 0;', explanation: 'Initialize element.' },
+                    { code: '                for (int k = 0; k < 2; k++) {', explanation: 'Loop for multiplication.' },
+                    { code: '                    result[i][j] += a[i][k] * b[k][j];', explanation: 'Multiply and add.' },
+                    { code: '                }', explanation: 'End k loop.' },
+                    { code: '            }', explanation: 'End j loop.' },
+                    { code: '        }', explanation: 'End i loop.' },
+                    { code: '        System.out.println("Result Matrix:");', explanation: 'Header.' },
+                    { code: '        for (int i = 0; i < 2; i++) {', explanation: 'Loop to print result.' },
+                    { code: '            for (int j = 0; j < 2; j++) {', explanation: 'Loop columns.' },
+                    { code: '                System.out.print(result[i][j] + " ");', explanation: 'Print element.' },
+                    { code: '            }', explanation: 'End inner loop.' },
+                    { code: '            System.out.println();', explanation: 'New line.' },
+                    { code: '        }', explanation: 'End outer loop.' },
+                    { code: '    }', explanation: 'End main.' },
+                    { code: '}', explanation: 'End class.' }
+                ]
+            },
+            5: {
+                title: "5. Program to find the sum of diagonal elements",
+                lines: [
+                    { code: 'public class DiagonalSum {', explanation: 'Defines the class DiagonalSum.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        int[][] arr = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};', explanation: '3x3 matrix.' },
+                    { code: '        int sum = 0;', explanation: 'Variable for diagonal sum.' },
+                    { code: '        for (int i = 0; i < arr.length; i++) {', explanation: 'Loop through rows.' },
+                    { code: '            sum += arr[i][i];', explanation: 'Add primary diagonal element.' },
+                    { code: '        }', explanation: 'End loop.' },
+                    { code: '        System.out.println("Primary Diagonal Sum: " + sum);', explanation: 'Print sum.' },
+                    { code: '    }', explanation: 'End main.' },
+                    { code: '}', explanation: 'End class.' }
+                ]
+            },
+            6: {
+                title: "6. Program to search for an element in a 2D array",
+                lines: [
+                    { code: 'public class TwoDArraySearch {', explanation: 'Defines the class TwoDArraySearch.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        int[][] arr = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};', explanation: '3x3 array.' },
+                    { code: '        int target = 5;', explanation: 'Target to search.' },
+                    { code: '        boolean found = false;', explanation: 'Flag for found status.' },
+                    { code: '        for (int i = 0; i < arr.length; i++) {', explanation: 'Loop rows.' },
+                    { code: '            for (int j = 0; j < arr[i].length; j++) {', explanation: 'Loop columns.' },
+                    { code: '                if (arr[i][j] == target) {', explanation: 'Check if target found.' },
+                    { code: '                    System.out.println("Found at (" + i + "," + j + ")");', explanation: 'Print position.' },
+                    { code: '                    found = true;', explanation: 'Set found to true.' },
+                    { code: '                    break;', explanation: 'Exit inner loop.' },
+                    { code: '                }', explanation: 'End if.' },
+                    { code: '            }', explanation: 'End inner loop.' },
+                    { code: '            if (found) break;', explanation: 'Exit outer loop if found.' },
+                    { code: '        }', explanation: 'End outer loop.' },
+                    { code: '        if (!found) System.out.println("Element not found");', explanation: 'Print if not found.' },
+                    { code: '    }', explanation: 'End main.' },
+                    { code: '}', explanation: 'End class.' }
+                ]
+            },
+            7: {
+                title: "7. Program to sort each row of a 2D array",
+                lines: [
+                    { code: 'import java.util.Arrays;', explanation: 'Imports Arrays for sorting.' },
+                    { code: 'public class RowSort {', explanation: 'Defines the class RowSort.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        int[][] arr = {{3, 2, 1}, {6, 5, 4}, {9, 8, 7}};', explanation: '3x3 array.' },
+                    { code: '        System.out.println("Original Matrix:");', explanation: 'Header.' },
+                    { code: '        printMatrix(arr);', explanation: 'Print original.' },
+                    { code: '        for (int i = 0; i < arr.length; i++) {', explanation: 'Loop rows.' },
+                    { code: '            Arrays.sort(arr[i]);', explanation: 'Sort each row.' },
+                    { code: '        }', explanation: 'End loop.' },
+                    { code: '        System.out.println("Sorted Rows:");', explanation: 'Header.' },
+                    { code: '        printMatrix(arr);', explanation: 'Print sorted matrix.' },
+                    { code: '    }', explanation: 'End main.' },
+                    { code: '    static void printMatrix(int[][] arr) {', explanation: 'Print matrix method.' },
+                    { code: '        for (int i = 0; i < arr.length; i++) {', explanation: 'Loop rows.' },
+                    { code: '            for (int j = 0; j < arr[i].length; j++) {', explanation: 'Loop columns.' },
+                    { code: '                System.out.print(arr[i][j] + " ");', explanation: 'Print element.' },
+                    { code: '            }', explanation: 'End inner loop.' },
+                    { code: '            System.out.println();', explanation: 'New line.' },
+                    { code: '        }', explanation: 'End outer loop.' },
+                    { code: '    }', explanation: 'End printMatrix.' },
+                    { code: '}', explanation: 'End class.' }
+                ]
+            },
+            8: {
+                title: "8. Program to print boundary elements of a 2D array",
+                lines: [
+                    { code: 'public class BoundaryElements {', explanation: 'Defines the class BoundaryElements.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        int[][] arr = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};', explanation: '3x4 array.' },
+                    { code: '        System.out.println("Boundary Elements:");', explanation: 'Header.' },
+                    { code: '        int rows = arr.length, cols = arr[0].length;', explanation: 'Get dimensions.' },
+                    { code: '        if (rows == 1) {', explanation: 'Handle single row.' },
+                    { code: '            for (int j = 0; j < cols; j++) System.out.print(arr[0][j] + " ");', explanation: 'Print row.' },
+                    { code: '        } else if (cols == 1) {', explanation: 'Handle single column.' },
+                    { code: '            for (int i = 0; i < rows; i++) System.out.print(arr[i][0] + " ");', explanation: 'Print column.' },
+                    { code: '        } else {', explanation: 'Handle general case.' },
+                    { code: '            for (int j = 0; j < cols; j++) System.out.print(arr[0][j] + " ");', explanation: 'Top row.' },
+                    { code: '            for (int i = 1; i < rows; i++) System.out.print(arr[i][cols-1] + " ");', explanation: 'Right column.' },
+                    { code: '            for (int j = cols-2; j >= 0; j--) System.out.print(arr[rows-1][j] + " ");', explanation: 'Bottom row.' },
+                    { code: '            for (int i = rows-2; i >= 1; i--) System.out.print(arr[i][0] + " ");', explanation: 'Left column.' },
+                    { code: '        }', explanation: 'End else.' },
+                    { code: '        System.out.println();', explanation: 'New line.' },
+                    { code: '    }', explanation: 'End main.' },
+                    { code: '}', explanation: 'End class.' }
+                ]
+            },
+            9: {
+                title: "9. Program to print a 2D array in spiral order",
+                lines: [
+                    { code: 'public class SpiralPrint {', explanation: 'Defines the class SpiralPrint.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        int[][] arr = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};', explanation: '3x4 array.' },
+                    { code: '        System.out.println("Spiral Order:");', explanation: 'Header.' },
+                    { code: '        int rows = arr.length, cols = arr[0].length;', explanation: 'Get dimensions.' },
+                    { code: '        int top = 0, bottom = rows - 1, left = 0, right = cols - 1;', explanation: 'Boundary pointers.' },
+                    { code: '        while (top <= bottom && left <= right) {', explanation: 'Loop until boundaries cross.' },
+                    { code: '            for (int j = left; j <= right; j++) System.out.print(arr[top][j] + " ");', explanation: 'Print top row.' },
+                    { code: '            top++;', explanation: 'Move top down.' },
+                    { code: '            for (int i = top; i <= bottom; i++) System.out.print(arr[i][right] + " ");', explanation: 'Print right column.' },
+                    { code: '            right--;', explanation: 'Move right left.' },
+                    { code: '            if (top <= bottom) {', explanation: 'Check if bottom row exists.' },
+                    { code: '                for (int j = right; j >= left; j--) System.out.print(arr[bottom][j] + " ");', explanation: 'Print bottom row.' },
+                    { code: '                bottom--;', explanation: 'Move bottom up.' },
+                    { code: '            }', explanation: 'End bottom check.' },
+                    { code: '            if (left <= right) {', explanation: 'Check if left column exists.' },
+                    { code: '                for (int i = bottom; i >= top; i--) System.out.print(arr[i][left] + " ");', explanation: 'Print left column.' },
+                    { code: '                left++;', explanation: 'Move left right.' },
+                    { code: '            }', explanation: 'End left check.' },
+                    { code: '        }', explanation: 'End while.' },
+                    { code: '        System.out.println();', explanation: 'New line.' },
+                    { code: '    }', explanation: 'End main.' },
+                    { code: '}', explanation: 'End class.' }
+                ]
+            },
+            10: {
+                title: "10. Program to rotate a square matrix by 90 degrees",
+                lines: [
+                    { code: 'public class MatrixRotate {', explanation: 'Defines the class MatrixRotate.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method.' },
+                    { code: '        int[][] arr = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};', explanation: '3x3 matrix.' },
+                    { code: '        System.out.println("Original Matrix:");', explanation: 'Header.' },
+                    { code: '        printMatrix(arr);', explanation: 'Print original.' },
+                    { code: '        for (int i = 0; i < arr.length; i++) {', explanation: 'Loop for transpose.' },
+                    { code: '            for (int j = i + 1; j < arr[i].length; j++) {', explanation: 'Swap for transpose.' },
+                    { code: '                int temp = arr[i][j];', explanation: 'Store element.' },
+                    { code: '                arr[i][j] = arr[j][i];', explanation: 'Swap.' },
+                    { code: '                arr[j][i] = temp;', explanation: 'Complete swap.' },
+                    { code: '            }', explanation: 'End inner loop.' },
+                    { code: '        }', explanation: 'End transpose.' },
+                    { code: '        for (int i = 0; i < arr.length; i++) {', explanation: 'Loop to reverse rows.' },
+                    { code: '            for (int j = 0; j < arr.length / 2; j++) {', explanation: 'Loop to swap columns.' },
+                    { code: '                int temp = arr[i][j];', explanation: 'Store element.' },
+                    { code: '                arr[i][j] = arr[i][arr.length - 1 - j];', explanation: 'Swap with opposite.' },
+                    { code: '                arr[i][arr.length - 1 - j] = temp;', explanation: 'Complete swap.' },
+                    { code: '            }', explanation: 'End inner loop.' },
+                    { code: '        }', explanation: 'End outer loop.' },
+                    { code: '        System.out.println("Rotated Matrix:");', explanation: 'Header.' },
+                    { code: '        printMatrix(arr);', explanation: 'Print rotated matrix.' },
+                    { code: '    }', explanation: 'End main.' },
+                    { code: '    static void printMatrix(int[][] arr) {', explanation: 'Print matrix method.' },
+                    { code: '        for (int i = 0; i < arr.length; i++) {', explanation: 'Loop rows.' },
+                    { code: '        for (int j = 0; j < arr[i].length; j++) {', explanation: 'Loop columns.' },
+                    { code: '            System.out.print(arr[i][j] + " ");', explanation: 'Print element.' },
+                    { code: '        }', explanation: 'End inner loop.' },
+                    { code: '        System.out.println();', explanation: 'New line.' },
+                    { code: '        }', explanation: 'End outer loop.' },
+                    { code: '    }', explanation: 'End printMatrix.' },
+                    { code: '}', explanation: 'End class.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

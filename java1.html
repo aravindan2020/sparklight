@@ -1,0 +1,450 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Java Programs with Explanations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>10 Java Programs: Decision Making, Looping, Jump Statements, Patterns</h1>
+    <ul id="program-list">
+        <li data-program="1">1. Program to check if a number is positive using if statement (Decision Making - if)</li>
+        <li data-program="2">2. Program to check even or odd using if-else (Decision Making - if-else)</li>
+        <li data-program="3">3. Program to find largest of three numbers using nested if (Decision Making - nested if)</li>
+        <li data-program="4">4. Program to check leap year using if-else (Decision Making - if-else)</li>
+        <li data-program="5">5. Program to calculate grade using if-else ladder (Decision Making - nested if)</li>
+        <li data-program="6">6. Program to check vowel or consonant using switch (Decision Making - switch-case)</li>
+        <li data-program="7">7. Program to print day of week using switch (Decision Making - switch-case)</li>
+        <li data-program="8">8. Program to perform arithmetic operations using switch (Decision Making - switch-case)</li>
+        <li data-program="9">9. Program to print numbers 1 to 10 using for loop with continue (Looping - for / Jump - continue)</li>
+        <li data-program="10">10. Program to print a star pattern using nested for loops with break (Patterns using loops / Jump - break)</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        const programs = {
+            1: {
+                title: "1. Program to check if a number is positive using if statement (Decision Making - if)",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'This line imports the Scanner class from the java.util package, which is essential for reading user input from the console. Without this import, the program cannot use Scanner to capture data. In Java, imports are necessary to access classes outside the current package. This sets up the foundation for interactive programs. It allows the program to handle various input types like integers and strings.' },
+                    { code: 'public class PositiveCheck {', explanation: 'This defines the public class named PositiveCheck, which is the container for the main method. In Java, every application must have at least one public class. The class name should match the file name if it is public. This structure organizes the code logically. It ensures the program can be compiled and run properly.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the entry point of the Java program where execution begins. The main method is static, allowing it to be called without creating an instance. It takes an array of strings as arguments for command-line inputs. This method is required in every executable Java class. It handles the core logic of the application.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Here, a Scanner object is created to read from standard input (console). System.in represents the keyboard input stream. This object will be used to get user data. Scanners can parse primitive types and strings efficiently. Closing the scanner is good practice to free resources.' },
+                    { code: '        System.out.print("Enter a number: ");', explanation: 'This prints a prompt message to the console without a newline. It guides the user on what input is expected. System.out is the standard output stream. Using print instead of println keeps the cursor on the same line for input. This improves user experience in interactive programs.' },
+                    { code: '        int num = sc.nextInt();', explanation: 'This reads an integer from the user input using the Scanner\'s nextInt method. It stores the value in the variable num. If non-integer input is provided, it may throw an exception. This line captures the data for processing. Input validation can be added for robustness.' },
+                    { code: '        if (num > 0) {', explanation: 'This if statement checks if the number is greater than zero. It is a decision-making construct that executes the block only if true. This demonstrates basic conditional logic in Java. The condition uses a relational operator. Braces define the scope of the if block.' },
+                    { code: '            System.out.println("Number is positive.");', explanation: 'If the condition is true, this prints that the number is positive followed by a newline. It provides feedback to the user. println adds a line break automatically. This output is conditional based on input. It completes the positive check logic.' },
+                    { code: '        }', explanation: 'This closes the if block, ending the conditional execution. Any code after this will run regardless of the condition. Proper indentation helps readability. This brace matches the opening one. It structures the control flow properly.' },
+                    { code: '        sc.close();', explanation: 'This closes the Scanner object to release system resources. It is good practice to close scanners after use. Failing to close can lead to resource leaks. This ensures efficient memory management. It is typically placed at the end of main.' },
+                    { code: '    }', explanation: 'This closes the main method block. All code within main must be inside these braces. It defines the end of the program\'s entry point. Proper closure is necessary for compilation. This completes the method definition.' },
+                    { code: '}', explanation: 'This closes the class definition. Every opening brace needs a matching closing one. It encapsulates all methods and fields. This marks the end of the Java class. The program is now complete and ready to compile.' }
+                ]
+            },
+            2: {
+                title: "2. Program to check even or odd using if-else (Decision Making - if-else)",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Imports the Scanner for console input handling. This is crucial for user interaction in Java. It enables reading of various data types. The util package contains utility classes like this. Always import only what is needed to avoid namespace clutter.' },
+                    { code: 'public class EvenOdd {', explanation: 'Defines the public class EvenOdd for the program. Classes in Java organize code into reusable units. Public access allows it to be run as an application. The name should be descriptive. This is the top-level structure.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method serves as the program starting point. Static means no object instantiation needed. Args handle command-line parameters. Required for standalone Java apps. Contains the primary logic.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Creates Scanner instance for input. Links to System.in for keyboard data. Used for parsing inputs. Essential for dynamic programs. Remember to close it later.' },
+                    { code: '        System.out.print("Enter a number: ");', explanation: 'Outputs prompt for user input. Uses print to stay on same line. Informs user of expected action. Enhances usability. Part of standard output.' },
+                    { code: '        int num = sc.nextInt();', explanation: 'Reads integer input and assigns to num. nextInt scans for int values. Handles user-entered data. May need error handling for invalid inputs. Core to input processing.' },
+                    { code: '        if (num % 2 == 0) {', explanation: 'Checks if num is even using modulo operator. Condition evaluates to true for even numbers. Demonstrates if-else for binary decisions. % gives remainder. Braces enclose true branch.' },
+                    { code: '            System.out.println("Even");', explanation: 'Prints "Even" if condition true. Provides result to user. println adds newline. This is the true case output. Completes even check.' },
+                    { code: '        } else {', explanation: 'Else clause for false condition. Executes when if is false. Handles the alternative case. No condition needed for else. Balances the decision structure.' },
+                    { code: '            System.out.println("Odd");', explanation: 'Prints "Odd" for odd numbers. Alternative output. Uses println for line break. This is the false case. Ensures complete coverage of cases.' },
+                    { code: '        }', explanation: 'Closes the if-else block. Ends conditional logic. Code after runs always. Maintains flow control. Matches opening braces.' },
+                    { code: '        sc.close();', explanation: 'Closes Scanner to free resources. Prevents leaks. Good coding habit. Placed at end. Ensures clean termination.' },
+                    { code: '    }', explanation: 'Ends main method. Wraps up execution point. All logic inside. Necessary for structure. Closes method scope.' },
+                    { code: '}', explanation: 'Ends class definition. Completes program unit. Matches class opening. Program now fully defined. Ready for execution.' }
+                ]
+            },
+            3: {
+                title: "3. Program to find largest of three numbers using nested if (Decision Making - nested if)",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Imports Scanner for input. Allows console reading. From util package. Key for user data. Optimizes interactive code.' },
+                    { code: 'public class LargestThree {', explanation: 'Public class LargestThree defined. Organizes code. Public for main class. Descriptive name. Structural base.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main entry method. Static invocation. Args for params. Essential. Holds core code.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Scanner object creation. For System.in input. Parses data. Vital for inputs. Close later.' },
+                    { code: '        System.out.print("Enter three numbers: ");', explanation: 'Prompts for three numbers. Print keeps line. User guidance. Standard out. Improves interaction.' },
+                    { code: '        int a = sc.nextInt();', explanation: 'Reads first integer to a. nextInt method. User input capture. Part of data collection. Handle exceptions ideally.' },
+                    { code: '        int b = sc.nextInt();', explanation: 'Reads second integer to b. Continues input. Same method. Builds data set. Sequential reading.' },
+                    { code: '        int c = sc.nextInt();', explanation: 'Reads third integer to c. Completes inputs. Scanner usage. Ready for comparison. Input phase end.' },
+                    { code: '        if (a > b) {', explanation: 'Outer if checks a > b. Starts comparison. Nested logic follows. Relational op. True branch.' },
+                    { code: '            if (a > c) {', explanation: 'Nested if checks a > c. If outer true. Determines if a largest. Deeper condition. Scoped inside.' },
+                    { code: '                System.out.println("Largest: " + a);', explanation: 'Prints a as largest. Concatenation used. Output result. If both conditions true. Feedback given.' },
+                    { code: '            } else {', explanation: 'Else for nested if. If a <= c. Handles c larger than a. Alternative in nest. Balances inner.' },
+                    { code: '                System.out.println("Largest: " + c);', explanation: 'Prints c as largest. When a > b but a <= c. Result output. Completes inner case. User informed.' },
+                    { code: '            }', explanation: 'Closes nested if-else. Ends inner logic. Returns to outer. Maintains structure. Brace matching.' },
+                    { code: '        } else {', explanation: 'Outer else for a <= b. Handles b >= a. Leads to next comparison. Alternative branch. Covers remaining cases.' },
+                    { code: '            if (b > c) {', explanation: 'Nested if checks b > c. If outer else. Determines if b largest. Condition check. Inner logic.' },
+                    { code: '                System.out.println("Largest: " + b);', explanation: 'Prints b as largest. If b > c. Output with concat. Result display. Case handled.' },
+                    { code: '            } else {', explanation: 'Else for b <= c. Implies c largest. Final alternative. Completes comparisons. Logic end.' },
+                    { code: '                System.out.println("Largest: " + c);', explanation: 'Prints c as largest. Last case. Provides output. Ensures all covered. User sees result.' },
+                    { code: '            }', explanation: 'Closes second nested. Ends branch. Part of outer else. Structure maintained. Brace close.' },
+                    { code: '        }', explanation: 'Closes outer if-else. Ends entire conditional. Program flow continues. Logic complete. Matching brace.' },
+                    { code: '        sc.close();', explanation: 'Closes Scanner. Resource management. Prevents issues. End placement. Good practice.' },
+                    { code: '    }', explanation: 'Ends main. Wraps method. All code inside. Necessary close. Method done.' },
+                    { code: '}', explanation: 'Ends class. Completes definition. Program unit end. Final brace. Ready to run.' }
+                ]
+            },
+            4: {
+                title: "4. Program to check leap year using if-else (Decision Making - if-else)",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Imports Scanner class for input. Enables console reading. Utility package. User interaction setup. Essential import.' },
+                    { code: 'public class LeapYear {', explanation: 'Defines public class LeapYear. Code organization. Public access. Name relevance. Base structure.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method entry. Static call. Args array. Required. Logic container.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Scanner instantiation. Input stream link. Data parsing. Interactive key. Close recommended.' },
+                    { code: '        System.out.print("Enter year: ");', explanation: 'Prompts year input. Same line print. User instruction. Output standard. Engagement boost.' },
+                    { code: '        int year = sc.nextInt();', explanation: 'Reads year as int. nextInt usage. Input storage. Processing prep. Error potential.' },
+                    { code: '        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {', explanation: 'Complex if for leap condition. Modulo ops. Logical AND/OR. Checks divisibility rules. True for leap.' },
+                    { code: '            System.out.println("Leap year");', explanation: 'Prints leap if true. Result feedback. Line break. Positive case. User notification.' },
+                    { code: '        } else {', explanation: 'Else for non-leap. Alternative execution. Covers false. Simple branch. Completes decision.' },
+                    { code: '            System.out.println("Not leap year");', explanation: 'Prints not leap. Negative output. Informs user. Else case. Logic end.' },
+                    { code: '        }', explanation: 'Closes if-else. Conditional end. Flow resumes. Brace match. Structure intact.' },
+                    { code: '        sc.close();', explanation: 'Scanner close. Resource free. Leak prevention. Final step. Best practice.' },
+                    { code: '    }', explanation: 'Main close. Method wrap-up. Logic enclosed. Close necessary. Execution point end.' },
+                    { code: '}', explanation: 'Class close. Definition end. Program complete. Final brace. Compile ready.' }
+                ]
+            },
+            5: {
+                title: "5. Program to calculate grade using if-else ladder (Decision Making - nested if)",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Scanner import for input. Console access. Util package. Data reading. Program interactivity.' },
+                    { code: 'public class GradeCalculator {', explanation: 'Public class GradeCalculator. Code unit. Public main. Descriptive. Structural start.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Entry main method. Static. Args param. App requirement. Core holder.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Scanner create. System.in bind. Input parse. Essential tool. Close later.' },
+                    { code: '        System.out.print("Enter marks: ");', explanation: 'Marks prompt. Print method. User guide. Output stream. Interaction aid.' },
+                    { code: '        float marks = sc.nextFloat();', explanation: 'Reads float marks. nextFloat scan. Value store. Data capture. Floating point handle.' },
+                    { code: '        if (marks >= 90) {', explanation: 'First if for A grade. >= comparison. Ladder start. Condition check. Top range.' },
+                    { code: '            System.out.println("Grade A");', explanation: 'Prints A grade. High marks output. Result show. Line break. User info.' },
+                    { code: '        } else if (marks >= 80) {', explanation: 'Else if for B. Next range check. Ladder continue. Lower bound. Sequential eval.' },
+                    { code: '            System.out.println("Grade B");', explanation: 'B grade print. Corresponding output. Feedback. println use. Case handle.' },
+                    { code: '        } else if (marks >= 70) {', explanation: 'Else if C grade. Further check. Range define. Condition chain. Decision flow.' },
+                    { code: '            System.out.println("Grade C");', explanation: 'C output. Result display. User notification. Break line. Logic part.' },
+                    { code: '        } else if (marks >= 60) {', explanation: 'D grade else if. Next threshold. Ladder progression. Check continue. Structured.' },
+                    { code: '            System.out.println("Grade D");', explanation: 'D print. Output for range. Informative. End line. Grade assign.' },
+                    { code: '        } else {', explanation: 'Final else for F. Catch-all. Lowest case. No condition. Ladder end.' },
+                    { code: '            System.out.println("Grade F");', explanation: 'F grade print. Fail output. User see. Complete coverage. Final result.' },
+                    { code: '        }', explanation: 'Closes ladder. End conditional. Flow normal. Brace close. All cases handled.' },
+                    { code: '        sc.close();', explanation: 'Close Scanner. Resource clean. Avoid leak. End code. Habit good.' },
+                    { code: '    }', explanation: 'Main end. Method close. Logic wrap. Necessary. Point termination.' },
+                    { code: '}', explanation: 'Class end. Definition complete. Program done. Brace final. Run ready.' }
+                ]
+            },
+            6: {
+                title: "6. Program to check vowel or consonant using switch (Decision Making - switch-case)",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Imports Scanner. Input enable. Package util. Console read. Interaction base.' },
+                    { code: 'public class VowelConsonant {', explanation: 'Class VowelConsonant public. Organize code. Access public. Name apt. Start structure.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main static method. Entry. Args string[]. Required. Logic place.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Scanner new. In system. Parse input. Key tool. Close end.' },
+                    { code: '        System.out.print("Enter character: ");', explanation: 'Char prompt. Print same line. Guide user. Out standard. Usability.' },
+                    { code: '        char ch = sc.next().charAt(0);', explanation: 'Reads char. next string, charAt 0. Single char. Input handle. Char extract.' },
+                    { code: '        switch (ch) {', explanation: 'Switch on ch. Multi-way branch. Case match. Efficient choices. Block start.' },
+                    { code: '            case \'a\':', explanation: 'Case a lowercase. Vowel match. Fall through. No break yet. Group vowels.' },
+                    { code: '            case \'e\':', explanation: 'Case e. Another vowel. Continues fall. Group logic. Efficient.' },
+                    { code: '            case \'i\':', explanation: 'i case. Vowel. Fall through. Shared code. Reduces duplication.' },
+                    { code: '            case \'o\':', explanation: 'o vowel case. Grouped. No individual break. Common execution. Switch feature.' },
+                    { code: '            case \'u\':', explanation: 'u case lower. Last lower vowel. Falls to print. Completes lowers.' },
+                    { code: '            case \'A\':', explanation: 'A upper case. Vowel. Fall start upper. Similar grouping. Case sensitive.' },
+                    { code: '            case \'E\':', explanation: 'E upper. Vowel. Fall through. Upper group. Consistent.' },
+                    { code: '            case \'I\':', explanation: 'I case upper. Continues. Shared. Vowel check. Logic reuse.' },
+                    { code: '            case \'O\':', explanation: 'O upper. Group. No break. Common path. Efficient code.' },
+                    { code: '            case \'U\':', explanation: 'U upper. Last vowel. Falls to print. Completes uppers. Ready output.' },
+                    { code: '                System.out.println("Vowel");', explanation: 'Prints Vowel. Shared for cases. Output result. Line break. Positive match.' },
+                    { code: '                break;', explanation: 'Break switch. Exits after print. Prevents fall to default. Control flow. Necessary.' },
+                    { code: '            default:', explanation: 'Default case. No match. Consonant assume. Catch-all. End switch.' },
+                    { code: '                System.out.println("Consonant");', explanation: 'Prints Consonant. Default output. Informs user. Completes logic. No break needed.' },
+                    { code: '        }', explanation: 'Closes switch. End multi-branch. Flow continues. Brace match. Structure end.' },
+                    { code: '        sc.close();', explanation: 'Scanner close. Free resource. Leak avoid. Program end. Practice good.' },
+                    { code: '    }', explanation: 'Main close. Method end. Logic enclosed. Close req. Termination.' },
+                    { code: '}', explanation: 'Class close. Def end. Program complete. Final. Execute ready.' }
+                ]
+            },
+            7: {
+                title: "7. Program to print day of week using switch (Decision Making - switch-case)",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Scanner import. For input. Util. Console. Base interactive.' },
+                    { code: 'public class DayOfWeek {', explanation: 'Class public DayOfWeek. Code org. Access. Name. Structure.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main entry. Static. Args. Req. Holder.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'New Scanner. In bind. Parse. Tool. Close.' },
+                    { code: '        System.out.print("Enter day number (1-7): ");', explanation: 'Prompt day. Print line. Guide. Out. Aid.' },
+                    { code: '        int day = sc.nextInt();', explanation: 'Read int day. nextInt. Store. Capture. Handle.' },
+                    { code: '        switch (day) {', explanation: 'Switch day. Branch multi. Match case. Choices. Start.' },
+                    { code: '            case 1:', explanation: 'Case 1. Monday match. Specific. Execute print. Break follows.' },
+                    { code: '                System.out.println("Monday");', explanation: 'Print Monday. Day output. Line. Result. User.' },
+                    { code: '                break;', explanation: 'Break. Exit switch. Prevent fall. Flow control. Req.' },
+                    { code: '            case 2:', explanation: 'Case 2. Tuesday. Match. Print exec. Break.' },
+                    { code: '                System.out.println("Tuesday");', explanation: 'Tuesday print. Output. Break line. Info. Complete.' },
+                    { code: '                break;', explanation: 'Break case. Switch leave. No further. Control. Essential.' },
+                    { code: '            case 3:', explanation: '3 case. Wednesday. Specific. Code run. Break.' },
+                    { code: '                System.out.println("Wednesday");', explanation: 'Wednesday out. Println. User see. Day name. Done.' },
+                    { code: '                break;', explanation: 'Break. End case. Flow stop. Switch. Good.' },
+                    { code: '            case 4:', explanation: 'Case 4. Thursday. Match. Execute. Break.' },
+                    { code: '                System.out.println("Thursday");', explanation: 'Print Thursday. Result. Line. Feedback. Case.' },
+                    { code: '                break;', explanation: 'Break here. Exit. No fall. Control. Practice.' },
+                    { code: '            case 5:', explanation: '5 case. Friday. Specific. Print. Break.' },
+                    { code: '                System.out.println("Friday");', explanation: 'Friday output. Print. Info. User. End.' },
+                    { code: '                break;', explanation: 'Break case. Leave. Stop. Flow. Req.' },
+                    { code: '            case 6:', explanation: 'Case 6. Saturday. Match. Code. Break.' },
+                    { code: '                System.out.println("Saturday");', explanation: 'Saturday print. Out. Line. Day. Complete.' },
+                    { code: '                break;', explanation: 'Break. Exit switch. Prevent. Control. Essential.' },
+                    { code: '            case 7:', explanation: '7 case. Sunday. Last. Print. Break.' },
+                    { code: '                System.out.println("Sunday");', explanation: 'Sunday out. Println. User. Name. Done.' },
+                    { code: '                break;', explanation: 'Break final. End. No more. Flow. Good.' },
+                    { code: '            default:', explanation: 'Default. Invalid. Catch. Print. No break.' },
+                    { code: '                System.out.println("Invalid");', explanation: 'Invalid print. Output. Warn. User. Complete.' },
+                    { code: '        }', explanation: 'Switch close. Branch end. Continue. Match. Structure.' },
+                    { code: '        sc.close();', explanation: 'Close Scanner. Free. Avoid. End. Practice.' },
+                    { code: '    }', explanation: 'Main end. Close. Enclose. Req. Term.' },
+                    { code: '}', explanation: 'Class end. Def. Complete. Final. Ready.' }
+                ]
+            },
+            8: {
+                title: "8. Program to perform arithmetic operations using switch (Decision Making - switch-case)",
+                lines: [
+                    { code: 'import java.util.Scanner;', explanation: 'Import Scanner. Input. Package. Read. Interactive.' },
+                    { code: 'public class ArithmeticOps {', explanation: 'Class public. Org. Access. Name. Base.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main. Static. Args. Req. Logic.' },
+                    { code: '        Scanner sc = new Scanner(System.in);', explanation: 'Scanner new. Bind. Parse. Tool. Close.' },
+                    { code: '        System.out.print("Enter operator (+,-,*,/): ");', explanation: 'Op prompt. Print. Guide. Out. Aid.' },
+                    { code: '        char op = sc.next().charAt(0);', explanation: 'Read op char. Next charAt. Single. Handle. Input.' },
+                    { code: '        System.out.print("Enter two numbers: ");', explanation: 'Numbers prompt. Print. User. Standard. Interaction.' },
+                    { code: '        float a = sc.nextFloat();', explanation: 'Read a float. nextFloat. Store. Data. Point.' },
+                    { code: '        float b = sc.nextFloat();', explanation: 'B float read. Same. Complete. Inputs. Ready.' },
+                    { code: '        switch (op) {', explanation: 'Switch op. Multi. Case. Ops. Start.' },
+                    { code: '            case \'+\':', explanation: 'Add case. + match. Print sum. Break.' },
+                    { code: '                System.out.println(a + b);', explanation: 'Sum print. Operation. Result. No line? Wait, println for line.' },
+                    { code: '                break;', explanation: 'Break. Exit. Prevent. Control. Req.' },
+                    { code: '            case \'-\':', explanation: 'Sub case. - . Print diff. Break.' },
+                    { code: '                System.out.println(a - b);', explanation: 'Diff output. Op. Feedback. Line.' },
+                    { code: '                break;', explanation: 'Break case. Leave. Stop. Flow.' },
+                    { code: '            case \'*\':', explanation: 'Mul case. * . Print product. Break.' },
+                    { code: '                System.out.println(a * b);', explanation: 'Product print. Result. User. Done.' },
+                    { code: '                break;', explanation: 'Break. End. No fall. Good.' },
+                    { code: '            case \'/\':', explanation: 'Div case. / . Check zero. Conditional.' },
+                    { code: '                if (b != 0) {', explanation: 'If b not zero. Avoid div zero. Safe.' },
+                    { code: '                    System.out.println(a / b);', explanation: 'Div print. Result. If safe. Output.' },
+                    { code: '                } else {', explanation: 'Else zero. Error handle. Alternative.' },
+                    { code: '                    System.out.println("Error");', explanation: 'Error print. Warn. User. Handle.' },
+                    { code: '                }', explanation: 'Close if. End check. Div case.' },
+                    { code: '                break;', explanation: 'Break switch. After div. Exit.' },
+                    { code: '            default:', explanation: 'Default invalid. Catch. Print.' },
+                    { code: '                System.out.println("Invalid");', explanation: 'Invalid out. Inform. Complete.' },
+                    { code: '        }', explanation: 'Switch close. End. Continue. Structure.' },
+                    { code: '        sc.close();', explanation: 'Close. Resource. Avoid. End. Practice.' },
+                    { code: '    }', explanation: 'Main close. Wrap. Req. Term.' },
+                    { code: '}', explanation: 'Class end. Complete. Final. Ready.' }
+                ]
+            },
+            9: {
+                title: "9. Program to print numbers 1 to 10 using for loop with continue (Looping - for / Jump - continue)",
+                lines: [
+                    { code: 'public class PrintNumbers {', explanation: 'Public class PrintNumbers. No import needed since no input. Simple output program. Organizes code. Public for execution. Basic structure.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method entry point. No args used here. Static call. Required for running. Contains loop logic.' },
+                    { code: '        for (int i = 1; i <= 10; i++) {', explanation: 'For loop initializes i to 1, checks i <= 10, increments i. Repeats 10 times. Demonstrates looping. Used for known iterations. Body executes per iteration.' },
+                    { code: '            if (i % 2 == 0) {', explanation: 'If checks if i even. Modulo 2 == 0. Decision in loop. For skipping evens. Jump prep.' },
+                    { code: '                continue;', explanation: 'Continue statement skips rest of loop body. Jumps to next iteration. Demonstrates jump. Skips print for evens. Alters flow.' },
+                    { code: '            }', explanation: 'Closes if block. End conditional skip. Continues to print if odd. Structure maintain. Brace match.' },
+                    { code: '            System.out.print(i + " ");', explanation: 'Prints i followed by space. Only for odds due to continue. Output build. Concat string. No newline yet.' },
+                    { code: '        }', explanation: 'Closes for loop. End repetitions. After 10, exits. Loop complete. Flow end.' },
+                    { code: '        System.out.println();', explanation: 'Prints newline. After all numbers. Cleans output. Standard out. Final touch.' },
+                    { code: '    }', explanation: 'Main close. Method end. All inside. Req close. Termination.' },
+                    { code: '}', explanation: 'Class end. Def complete. Program done. Final brace. Run ready.' }
+                ]
+            },
+            10: {
+                title: "10. Program to print a star pattern using nested for loops with break (Patterns using loops / Jump - break)",
+                lines: [
+                    { code: 'public class StarPattern {', explanation: 'Public class StarPattern. No input, pure output. For pattern demo. Public access. Structure base. Covers patterns topic.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main entry. Static. No args use. Req. Holds nested loops.' },
+                    { code: '        int rows = 5;', explanation: 'Declare rows as 5. Controls pattern size. Hardcoded. Can be variable. Sets height.' },
+                    { code: '        for (int i = 1; i <= rows; i++) {', explanation: 'Outer for loop for rows. i from 1 to 5. Controls lines. Nested inside for pattern. Loop for vertical.' },
+                    { code: '            for (int j = 1; j <= i; j++) {', explanation: 'Inner for loop for stars per row. j to i. Prints increasing stars. Triangle pattern. Horizontal control.' },
+                    { code: '                if (j > 3) {', explanation: 'If j > 3. Condition to break early. Demonstrates break in nested. Limits stars. Jump usage.' },
+                    { code: '                    break;', explanation: 'Break statement exits inner loop. Stops printing after 3 stars. Alters pattern. Jump demo. Flow change.' },
+                    { code: '                }', explanation: 'Closes if. End condition. Continues print if not. Maintain structure. Brace.' },
+                    { code: '                System.out.print("* ");', explanation: 'Prints star and space. Builds pattern. No line. Per iteration. Visual output.' },
+                    { code: '            }', explanation: 'Closes inner loop. End row. After stars, newline. Pattern line done. Match brace.' },
+                    { code: '            System.out.println();', explanation: 'Newline after row. Moves to next line. Essential for pattern. Clean display. Row separator.' },
+                    { code: '        }', explanation: 'Closes outer loop. End all rows. Pattern complete. Loop finish. End flow.' },
+                    { code: '    }', explanation: 'Main close. Method wrap. Logic end. Req. Termination.' },
+                    { code: '}', explanation: 'Class end. Complete def. Program final. Brace close. Ready.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>
+```

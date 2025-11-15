@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Search Sliding Window</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        section {
+            background-color: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        pre {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        ul#program-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+        #step-by-step .slide {
+            display: none;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        #step-by-step .slide.active {
+            display: block;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        #step-by-step .pass-step p {
+            margin: 5px 0;
+        }
+        #next-step-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-step-btn:hover {
+            background-color: #218838;
+        }
+        .highlight {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Linear Search</h1>
+    
+    <section id="definition">
+        <h2>Definition</h2>
+        <p>Linear Search is a simple search algorithm that sequentially checks each element in a list or array until the target value is found or the entire list has been traversed. It has a time complexity of O(n) in the worst and average cases, where n is the number of elements, and O(1) in the best case (target found at the first position). Linear Search is easy to implement and works on unsorted or sorted data but is inefficient for large datasets.</p>
+    </section>
+    
+    <section id="step-by-step">
+        <h2>Step-by-Step Search (Sample Array: 64, 34, 25, 12, 22, 11, 90; Target: 22)</h2>
+        <div id="slides-container"></div>
+        <button id="next-step-btn">Next Step</button>
+    </section>
+    
+    <section id="program">
+        <h2>Java Program for Linear Search</h2>
+        <ul id="program-list">
+            <li data-program="1">Click to view Linear Search Program line by line</li>
+        </ul>
+    </section>
+    
+    <section id="output">
+        <h2>Output with Search Steps</h2>
+        <pre id="output-pre">
+Array: [64, 34, 25, 12, 22, 11, 90]
+Target: 22
+Checking index 0: 64 (not equal)
+Checking index 1: 34 (not equal)
+Checking index 2: 25 (not equal)
+Checking index 3: 12 (not equal)
+Checking index 4: 22 (found)
+Element 22 found at index 4
+        </pre>
+    </section>
+    
+    <section id="real-world">
+        <h2>Real-World Examples</h2>
+        <ul>
+            <li>Searching for a contact in a small, unsorted phonebook by checking each name sequentially.</li>
+            <li>Finding a specific book in a small, unorganized library by examining each shelf one by one.</li>
+            <li>Locating an item in a grocery list by scanning each entry until the desired item is found.</li>
+            <li>Checking a short list of tasks to find a specific task in a to-do app without sorting.</li>
+            <li>Identifying a student’s name in a small, unsorted class roster by reviewing each entry.</li>
+        </ul>
+    </section>
+    
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    
+    <script>
+        const steps = [
+            {
+                title: "Initial Array",
+                array: [64, 34, 25, 12, 22, 11, 90],
+                operations: [],
+                explanation: "This is the starting array with target value 22. Linear Search will check each element sequentially from index 0 until 22 is found or the array is fully traversed."
+            },
+            {
+                title: "Check Index 0",
+                array: [64, 34, 25, 12, 22, 11, 90],
+                operations: [
+                    { indices: [0], array: [64, 34, 25, 12, 22, 11, 90], desc: "Check 64: Not equal to 22, move to next element." }
+                ],
+                explanation: "Compare element at index 0 (64) with target 22. Since 64 ≠ 22, continue to the next element."
+            },
+            {
+                title: "Check Index 1",
+                array: [64, 34, 25, 12, 22, 11, 90],
+                operations: [
+                    { indices: [1], array: [64, 34, 25, 12, 22, 11, 90], desc: "Check 34: Not equal to 22, move to next element." }
+                ],
+                explanation: "Compare element at index 1 (34) with target 22. Since 34 ≠ 22, continue to the next element."
+            },
+            {
+                title: "Check Index 2",
+                array: [64, 34, 25, 12, 22, 11, 90],
+                operations: [
+                    { indices: [2], array: [64, 34, 25, 12, 22, 11, 90], desc: "Check 25: Not equal to 22, move to next element." }
+                ],
+                explanation: "Compare element at index 2 (25) with target 22. Since 25 ≠ 22, continue to the next element."
+            },
+            {
+                title: "Check Index 3",
+                array: [64, 34, 25, 12, 22, 11, 90],
+                operations: [
+                    { indices: [3], array: [64, 34, 25, 12, 22, 11, 90], desc: "Check 12: Not equal to 22, move to next element." }
+                ],
+                explanation: "Compare element at index 3 (12) with target 22. Since 12 ≠ 22, continue to the next element."
+            },
+            {
+                title: "Check Index 4 (Found)",
+                array: [64, 34, 25, 12, 22, 11, 90],
+                operations: [
+                    { indices: [4], array: [64, 34, 25, 12, 22, 11, 90], desc: "Check 22: Equal to 22, target found at index 4." }
+                ],
+                explanation: "Compare element at index 4 (22) with target 22. Since 22 = 22, the target is found at index 4, and the search terminates."
+            },
+            {
+                title: "Search Complete",
+                array: [64, 34, 25, 12, 22, 11, 90],
+                operations: [],
+                explanation: "The target value 22 was found at index 4 after checking 5 elements. Linear Search is complete, returning index 4 as the result."
+            }
+        ];
+
+        let currentStepIndex = 0;
+
+        function renderSlides() {
+            const container = document.getElementById('slides-container');
+            container.innerHTML = '';
+            steps.forEach((step, index) => {
+                const slide = document.createElement('div');
+                slide.className = `slide ${index === currentStepIndex ? 'active' : ''}`;
+                let content = `<p><strong>${step.title}:</strong> [`;
+                step.array.forEach((num, i) => {
+                    content += i === 0 ? `${num}` : `, ${num}`;
+                });
+                content += `], Target: 22</p>`;
+                if (step.operations.length > 0) {
+                    content += '<p><em>Search Operations:</em></p>';
+                    step.operations.forEach(op => {
+                        let arrayStr = '[';
+                        op.array.forEach((num, i) => {
+                            const isHighlighted = op.indices.includes(i);
+                            arrayStr += i === 0 ? '' : ', ';
+                            arrayStr += isHighlighted ? `<span class="highlight">${num}</span>` : num;
+                        });
+                        arrayStr += ']';
+                        content += `<p>${op.desc} → ${arrayStr}</p>`;
+                    });
+                }
+                content += `<p><em>Positioning:</em> ${step.explanation}</p>`;
+                slide.innerHTML = content;
+                container.appendChild(slide);
+            });
+        }
+
+        document.getElementById('next-step-btn').addEventListener('click', () => {
+            currentStepIndex = (currentStepIndex + 1) % steps.length;
+            renderSlides();
+        });
+
+        renderSlides();
+
+        const programs = {
+            1: {
+                title: "Linear Search Program in Java (with Sample Array and Target 22)",
+                lines: [
+                    { code: 'public class LinearSearchExample {', explanation: 'Defines the public class LinearSearchExample for the linear search demonstration.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Declares the main method, the entry point of the program.' },
+                    { code: '        int[] arr = {64, 34, 25, 12, 22, 11, 90};', explanation: 'Initializes the integer array for the search.' },
+                    { code: '        int target = 22;', explanation: 'Sets the target value to search for.' },
+                    { code: '        System.out.println("Array: " + java.util.Arrays.toString(arr));', explanation: 'Prints the array using Arrays.toString for readability.' },
+                    { code: '        System.out.println("Target: " + target);', explanation: 'Prints the target value.' },
+                    { code: '        int result = linearSearch(arr, target);', explanation: 'Calls linearSearch to find the target and stores the result.' },
+                    { code: '        if (result != -1) {', explanation: 'Checks if the target was found (result is not -1).' },
+                    { code: '            System.out.println("Element " + target + " found at index " + result);', explanation: 'Prints the index where the target was found.' },
+                    { code: '        } else {', explanation: 'Handles the case where the target is not found.' },
+                    { code: '            System.out.println("Element " + target + " not found in array");', explanation: 'Prints a message indicating the target was not found.' },
+                    { code: '        }', explanation: 'Closes the if-else block.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '    public static int linearSearch(int[] arr, int target) {', explanation: 'Defines the linearSearch method to find the target in the array.' },
+                    { code: '        for (int i = 0; i < arr.length; i++) {', explanation: 'Loop to iterate through each element in the array.' },
+                    { code: '            System.out.println("Checking index " + i + ": " + arr[i] + " (not equal)");', explanation: 'Prints the current index and element being checked.' },
+                    { code: '            if (arr[i] == target) {', explanation: 'Checks if the current element equals the target.' },
+                    { code: '                System.out.println("Checking index " + i + ": " + arr[i] + " (found)");', explanation: 'Prints a message indicating the target was found.' },
+                    { code: '                return i;', explanation: 'Returns the index where the target was found.' },
+                    { code: '            }', explanation: 'Closes the if block for target comparison.' },
+                    { code: '        }', explanation: 'Closes the loop for array iteration.' },
+                    { code: '        return -1;', explanation: 'Returns -1 if the target is not found after checking all elements.' },
+                    { code: '    }', explanation: 'Closes the linearSearch method.' },
+                    { code: '}', explanation: 'Closes the class definition.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selection Sort Sliding Window</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        section {
+            background-color: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        pre {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        ul#program-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        #modal.show #modal-content {
+            transform: scale(1);
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .code-line.active {
+            display: block;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+        #step-by-step .slide {
+            display: none;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        #step-by-step .slide.active {
+            display: block;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        #step-by-step .pass-step p {
+            margin: 5px 0;
+        }
+        #next-step-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #next-step-btn:hover {
+            background-color: #218838;
+        }
+        .highlight {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Selection Sort</h1>
+    
+    <section id="definition">
+        <h2>Definition</h2>
+        <p>Selection Sort is a simple sorting algorithm that divides the input array into a sorted and an unsorted region. In each pass, it finds the minimum element in the unsorted region and swaps it with the first element of the unsorted region, expanding the sorted region. This process repeats until the entire array is sorted. It is an in-place algorithm but not stable, with a time complexity of O(n²), making it inefficient for large datasets. It is often used for educational purposes due to its simplicity.</p>
+    </section>
+    
+    <section id="step-by-step">
+        <h2>Step-by-Step Sorting (Sample Array: 8, 7, 6, 5, 4, 3, 2, 1)</h2>
+        <div id="slides-container"></div>
+        <button id="next-step-btn">Next Step</button>
+    </section>
+    
+    <section id="program">
+        <h2>Java Program for Selection Sort</h2>
+        <ul id="program-list">
+            <li data-program="1">Click to view Selection Sort Program line by line</li>
+        </ul>
+    </section>
+    
+    <section id="output">
+        <h2>Output with All Passes</h2>
+        <pre id="output-pre">
+Initial array:
+8 7 6 5 4 3 2 1 
+After pass 1:
+1 7 6 5 4 3 2 8 
+After pass 2:
+1 2 6 5 4 3 7 8 
+After pass 3:
+1 2 3 5 4 6 7 8 
+After pass 4:
+1 2 3 4 5 6 7 8 
+After pass 5:
+1 2 3 4 5 6 7 8 
+After pass 6:
+1 2 3 4 5 6 7 8 
+After pass 7:
+1 2 3 4 5 6 7 8 
+        </pre>
+    </section>
+    
+    <section id="real-world">
+        <h2>Real-World Examples</h2>
+        <ul>
+            <li>Educational purposes: Used to teach sorting concepts due to its straightforward approach. <a href="https://www.geeksforgeeks.org/selection-sort-algorithm-2/">(GeeksforGeeks)</a></li>
+            <li>Small datasets: Effective when the number of elements is small, such as sorting a few items in embedded systems. <a href="https://www.javatpoint.com/selection-sort-in-java">(JavatPoint)</a></li>
+            <li>Minimizing swaps: Useful in scenarios where swapping is costly (e.g., flash memory with limited write cycles). <a href="https://www.programiz.com/dsa/selection-sort">(Programiz)</a></li>
+            <li>Simple implementations: Applied in basic software tools or scripts where code simplicity is prioritized over performance. <a href="https://www.tutorialspoint.com/data_structures_algorithms/selection_sort_algorithm.htm">(TutorialsPoint)</a></li>
+            <li>Real-life analogies: Similar to selecting the smallest item from a pile repeatedly, like organizing books by size. <a href="https://www.quora.com/What-are-some-real-world-applications-of-selection-sort">(Quora)</a></li>
+        </ul>
+    </section>
+    
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    
+    <script>
+        const steps = [
+            {
+                title: "Initial Array",
+                array: [8, 7, 6, 5, 4, 3, 2, 1],
+                swaps: [],
+                explanation: "This is the starting array, in reverse order (descending). Selection Sort will find the minimum element in the unsorted region and swap it with the first element of the unsorted region in each pass, building the sorted region from the left."
+            },
+            {
+                title: "Pass 1",
+                array: [1, 7, 6, 5, 4, 3, 2, 8],
+                swaps: [
+                    { indices: [0, 7], array: [1, 7, 6, 5, 4, 3, 2, 8], desc: "Find minimum in [8, 7, 6, 5, 4, 3, 2, 1]: 1 at index 7. Swap 8 (index 0) with 1 (index 7) → 1 to position 0, 8 to position 7." }
+                ],
+                explanation: "The smallest element, 1, is found in the entire array and swapped with the first element (8). This places 1 in its final position (index 0), and the sorted region is now [1]. The unsorted region is [7, 6, 5, 4, 3, 2, 8]."
+            },
+            {
+                title: "Pass 2",
+                array: [1, 2, 6, 5, 4, 3, 7, 8],
+                swaps: [
+                    { indices: [1, 6], array: [1, 2, 6, 5, 4, 3, 7, 8], desc: "Find minimum in [7, 6, 5, 4, 3, 2, 7, 8]: 2 at index 6. Swap 7 (index 1) with 2 (index 6) → 2 to position 1, 7 to position 6." }
+                ],
+                explanation: "The smallest element in the unsorted region [7, 6, 5, 4, 3, 2, 7, 8] is 2. It is swapped with the first element of the unsorted region (7 at index 1). This places 2 in its final position (index 1), expanding the sorted region to [1, 2]."
+            },
+            {
+                title: "Pass 3",
+                array: [1, 2, 3, 5, 4, 6, 7, 8],
+                swaps: [
+                    { indices: [2, 5], array: [1, 2, 3, 5, 4, 6, 7, 8], desc: "Find minimum in [6, 5, 4, 3, 6, 7, 8]: 3 at index 5. Swap 6 (index 2) with 3 (index 5) → 3 to position 2, 6 to position 5." }
+                ],
+                explanation: "The smallest element in the unsorted region [6, 5, 4, 3, 6, 7, 8] is 3. It is swapped with the first element of the unsorted region (6 at index 2). This places 3 in its final position (index 2), making the sorted region [1, 2, 3]."
+            },
+            {
+                title: "Pass 4",
+                array: [1, 2, 3, 4, 5, 6, 7, 8],
+                swaps: [
+                    { indices: [3, 4], array: [1, 2, 3, 4, 5, 6, 7, 8], desc: "Find minimum in [5, 4, 6, 7, 8]: 4 at index 4. Swap 5 (index 3) with 4 (index 4) → 4 to position 3, 5 to position 4." }
+                ],
+                explanation: "The smallest element in the unsorted region [5, 4, 6, 7, 8] is 4. It is swapped with the first element of the unsorted region (5 at index 3). This places 4 in its final position (index 3), expanding the sorted region to [1, 2, 3, 4]."
+            },
+            {
+                title: "Pass 5",
+                array: [1, 2, 3, 4, 5, 6, 7, 8],
+                swaps: [],
+                explanation: "The smallest element in the unsorted region [5, 6, 7, 8] is 5, already at index 4. No swap is needed, as 5 is in its correct position. The sorted region is now [1, 2, 3, 4, 5]."
+            },
+            {
+                title: "Pass 6",
+                array: [1, 2, 3, 4, 5, 6, 7, 8],
+                swaps: [],
+                explanation: "The smallest element in the unsorted region [6, 7, 8] is 6, already at index 5. No swap is needed, as 6 is in its correct position. The sorted region is now [1, 2, 3, 4, 5, 6]."
+            },
+            {
+                title: "Pass 7",
+                array: [1, 2, 3, 4, 5, 6, 7, 8],
+                swaps: [],
+                explanation: "The smallest element in the unsorted region [7, 8] is 7, already at index 6. No swap is needed, as 7 is in its correct position. The sorted region is now [1, 2, 3, 4, 5, 6, 7]."
+            },
+            {
+                title: "Final Sorted Array",
+                array: [1, 2, 3, 4, 5, 6, 7, 8],
+                swaps: [],
+                explanation: "After seven passes, the array is fully sorted in ascending order. Each pass placed the next smallest element in its correct position by swapping it with the first element of the unsorted region, if necessary. The final element, 8, is automatically in place."
+            }
+        ];
+
+        let currentStepIndex = 0;
+
+        function renderSlides() {
+            const container = document.getElementById('slides-container');
+            container.innerHTML = '';
+            steps.forEach((step, index) => {
+                const slide = document.createElement('div');
+                slide.className = `slide ${index === currentStepIndex ? 'active' : ''}`;
+                let content = `<p><strong>${step.title}:</strong> [`;
+                step.array.forEach((num, i) => {
+                    content += i === 0 ? `${num}` : `, ${num}`;
+                });
+                content += ']</p>';
+                if (step.swaps.length > 0) {
+                    content += '<p><em>Comparisons and Swaps:</em></p>';
+                    step.swaps.forEach(swap => {
+                        let arrayStr = '[';
+                        swap.array.forEach((num, i) => {
+                            const isHighlighted = swap.indices.includes(i);
+                            arrayStr += i === 0 ? '' : ', ';
+                            arrayStr += isHighlighted ? `<span class="highlight">${num}</span>` : num;
+                        });
+                        arrayStr += ']';
+                        content += `<p>${swap.desc} → ${arrayStr}</p>`;
+                    });
+                }
+                content += `<p><em>Positioning:</em> ${step.explanation}</p>`;
+                slide.innerHTML = content;
+                container.appendChild(slide);
+            });
+        }
+
+        document.getElementById('next-step-btn').addEventListener('click', () => {
+            currentStepIndex = (currentStepIndex + 1) % steps.length;
+            renderSlides();
+        });
+
+        renderSlides();
+
+        const programs = {
+            1: {
+                title: "Selection Sort Program in Java (with Sample Array and Pass Outputs)",
+                lines: [
+                    { code: 'public class SelectionSortExample {', explanation: 'Defines the public class SelectionSortExample. This class contains the main logic for the selection sort demonstration. In Java, classes organize code into reusable units. The public modifier allows access from outside. Sets the program structure.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Declares the main method, the entry point of the program. It is static to be callable without an instance. String[] args handles command-line arguments. This method executes the sorting logic.' },
+                    { code: '        int[] arr = {8, 7, 6, 5, 4, 3, 2, 1};', explanation: 'Initializes the integer array arr with the sample elements. Uses curly braces for direct initialization. Sets up the reverse-sorted array for demonstration. Prepares the data for sorting.' },
+                    { code: '        System.out.println("Initial array:");', explanation: 'Prints a header for the initial array state. Uses println to add a newline. System.out is the standard output stream. Enhances output readability.' },
+                    { code: '        printArray(arr);', explanation: 'Calls the printArray method to display the array. Passes arr as argument. Separates printing logic for reusability. Shows the initial state.' },
+                    { code: '        int n = arr.length;', explanation: 'Stores the array length in n. arr.length returns the size dynamically. Used in loop conditions. Avoids hardcoding the size.' },
+                    { code: '        for (int i = 0; i < n - 1; i++) {', explanation: 'Outer for loop for sorting passes. Initializes i to 0, runs until i < n-1. Each iteration processes one position in the sorted region.' },
+                    { code: '            int minIndex = i;', explanation: 'Initializes minIndex to i, assuming the first element of the unsorted region is the minimum. Tracks the index of the smallest element found.' },
+                    { code: '            for (int j = i + 1; j < n; j++) {', explanation: 'Inner for loop to scan the unsorted region. Starts at i+1, runs to the end. Searches for the minimum element.' },
+                    { code: '                if (arr[j] < arr[minIndex]) {', explanation: 'Compares arr[j] with the current minimum. If arr[j] is smaller, updates minIndex. Identifies the smallest element.' },
+                    { code: '                    minIndex = j;', explanation: 'Updates minIndex to the index of the smaller element found. Tracks the position of the minimum.' },
+                    { code: '                }', explanation: 'Closes the if block. Continues scanning the unsorted region for smaller elements.' },
+                    { code: '            }', explanation: 'Closes the inner for loop. Minimum element’s index is now in minIndex.' },
+                    { code: '            if (minIndex != i) {', explanation: 'Checks if minIndex differs from i. If true, a smaller element was found, and a swap is needed.' },
+                    { code: '                int temp = arr[i];', explanation: 'Stores arr[i] in temp. Temporary hold for swap to prevent data loss.' },
+                    { code: '                arr[i] = arr[minIndex];', explanation: 'Assigns the minimum element (arr[minIndex]) to position i. Places the smallest element in the sorted region.' },
+                    { code: '                arr[minIndex] = temp;', explanation: 'Assigns temp (original arr[i]) to minIndex position. Completes the swap.' },
+                    { code: '            }', explanation: 'Closes the if block for swap. Ensures swap only occurs if necessary.' },
+                    { code: '            System.out.println("After pass " + (i + 1) + ":");', explanation: 'Prints header for the pass result. Concatenates pass number (i+1). Informs user of pass completion.' },
+                    { code: '            printArray(arr);', explanation: 'Calls printArray to show array after pass. Displays current state for tracking progress.' },
+                    { code: '        }', explanation: 'Closes the outer for loop. Ends all sorting passes. Array is now sorted.' },
+                    { code: '    }', explanation: 'Closes the main method. Encapsulates all execution logic.' },
+                    { code: '    private static void printArray(int[] arr) {', explanation: 'Defines a private static helper method printArray. Takes int[] arr as parameter. Handles array printing.' },
+                    { code: '        for (int num : arr) {', explanation: 'Enhanced for loop to iterate array. num takes each element value. Simplifies printing.' },
+                    { code: '            System.out.print(num + " ");', explanation: 'Prints each num followed by space. Builds the array output.' },
+                    { code: '        }', explanation: 'Closes the enhanced for loop. Ends element iteration.' },
+                    { code: '        System.out.println();', explanation: 'Prints a newline after array. Ensures clean output formatting.' },
+                    { code: '    }', explanation: 'Closes the printArray method. Ends helper logic.' },
+                    { code: '}', explanation: 'Closes the class definition. Encapsulates all methods. Program is complete.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>
