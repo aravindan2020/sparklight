@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Java Exercises on Packages & Access Modifiers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        li:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.05);
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9) rotate(-5deg);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            opacity: 0;
+        }
+        #modal.show #modal-content {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        #close-btn:hover {
+            color: #ff0000;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .code-line.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            animation: pulseBorder 1s infinite alternate;
+        }
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulseBorder {
+            from {
+                border-left-color: #007bff;
+            }
+            to {
+                border-left-color: #00ff00;
+            }
+        }
+        .code-line.active {
+            animation: fadeInSlide 0.5s ease-in-out forwards, pulseBorder 1s infinite alternate;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+            transition: color 0.3s ease;
+        }
+        .code-line:hover .explanation {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>10 Java Exercises on Packages & Access Modifiers</h1>
+    <ul id="program-list">
+        <li data-program="1">1. Default (Package-Private) Access Modifier</li>
+        <li data-program="2">2. public vs private Access Modifiers</li>
+        <li data-program="3">3. protected Access Modifier (Same Package)</li>
+        <li data-program="4">4. protected Access from Different Package (Subclass)</li>
+        <li data-program="5">5. Creating and Using a Simple Package</li>
+        <li data-program="6">6. Package with Multiple Classes & Access Modifiers</li>
+        <li data-program="7">7. Import Statement and Fully Qualified Name</li>
+        <li data-program="8">8. Static Import Example</li>
+        <li data-program="9">9. Access Modifiers with Inheritance</li>
+        <li data-program="10">10. Real-World Example: Bank System with Packages & Modifiers</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        const programs = {
+            1: {
+                title: "1. Default (Package-Private) Access Modifier",
+                lines: [
+                    { code: '// File: Employee.java (same package)', explanation: 'Both classes are in the same package (default package).' },
+                    { code: 'class Employee {', explanation: 'Class with default access - visible only within the same package.' },
+                    { code: '    String name;               // default access', explanation: 'Default (package-private) field.' },
+                    { code: '    void work() {              // default access method', explanation: 'Default method.' },
+                    { code: '        System.out.println(name + " is working");', explanation: 'Method body.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: '// File: Tester.java (same package)', explanation: 'Another class in the same package.' },
+                    { code: 'class Tester {', explanation: 'Tester class can access Employee because they are in the same package.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method to test default access.' },
+                    { code: '        Employee e = new Employee();', explanation: 'Can create object.' },
+                    { code: '        e.name = "John";           // Accessible!', explanation: 'Direct access to default field.' },
+                    { code: '        e.work();                  // Accessible!', explanation: 'Direct access to default method.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'If Tester were in a different package, this would NOT compile.' }
+                ]
+            },
+            2: {
+                title: "2. public vs private Access Modifiers",
+                lines: [
+                    { code: 'public class Account {', explanation: 'Demonstrates public and private usage.' },
+                    { code: '    private double balance;    // Only accessible inside this class', explanation: 'Private field - hidden from outside.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public void deposit(double amount) {', explanation: 'Public method - can be called from anywhere.' },
+                    { code: '        if (amount > 0) balance += amount;', explanation: 'Controlled access to balance.' },
+                    { code: '    }', explanation: '' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public double getBalance() {', explanation: 'Public getter - read-only access.' },
+                    { code: '        return balance;', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Test within same class.' },
+                    { code: '        Account acc = new Account();', explanation: '' },
+                    { code: '        acc.deposit(1000);', explanation: 'Valid.' },
+                    { code: '        // acc.balance = 500;     // Compile error - private!', explanation: 'Direct access denied.' },
+                    { code: '        System.out.println(acc.getBalance());', explanation: 'Must use getter.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' }
+                ]
+            },
+            3: {
+                title: "3. protected Access Modifier (Same Package)",
+                lines: [
+                    { code: 'class Parent {', explanation: 'Parent class in same package.' },
+                    { code: '    protected String familyName = "Smith";', explanation: 'protected field - accessible in same package + subclasses.' },
+                    { code: '    protected void display() {', explanation: 'protected method.' },
+                    { code: '        System.out.println("Family: " + familyName);', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Child extends Parent {', explanation: 'Child in same package.' },
+                    { code: '    void test() {', explanation: 'Can access protected members directly.' },
+                    { code: '        System.out.println(familyName);  // OK - same package', explanation: 'Direct access allowed.' },
+                    { code: '        display();                       // OK', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Tester {', explanation: 'Non-subclass in same package.' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        Parent p = new Parent();', explanation: '' },
+                    { code: '        System.out.println(p.familyName); // OK - same package', explanation: 'protected visible in same package.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' }
+                ]
+            },
+            4: {
+                title: "4. protected Access from Different Package (Subclass)",
+                lines: [
+                    { code: '// Package: com.bank (Parent.java)', explanation: 'File: com/bank/Parent.java' },
+                    { code: 'package com.bank;', explanation: 'Package declaration.' },
+                    { code: 'public class Account {', explanation: '' },
+                    { code: '    protected double balance = 1000;', explanation: 'protected field.' },
+                    { code: '    protected void printBalance() {', explanation: '' },
+                    { code: '        System.out.println("Balance: " + balance);', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: '// Package: com.client (Child.java)', explanation: 'File: com/client/SavingsAccount.java' },
+                    { code: 'package com.client;', explanation: 'Different package.' },
+                    { code: 'import com.bank.Account;', explanation: 'Import parent.' },
+                    { code: 'public class SavingsAccount extends Account {', explanation: 'Subclass in different package.' },
+                    { code: '    public void show() {', explanation: '' },
+                    { code: '        System.out.println(balance);     // OK - subclass', explanation: 'Can access protected via inheritance.' },
+                    { code: '        printBalance();                  // OK', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Test {', explanation: 'Non-subclass in different package.' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        Account acc = new Account();', explanation: '' },
+                    { code: '        // System.out.println(acc.balance); // Compile error!', explanation: 'protected not visible here.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' }
+                ]
+            },
+            5: {
+                title: "5. Creating and Using a Simple Package",
+                lines: [
+                    { code: '// File: mypack/Calculator.java', explanation: 'Must be saved as mypack/Calculator.java' },
+                    { code: 'package mypack;', explanation: 'Package declaration - folder structure must match.' },
+                    { code: 'public class Calculator {', explanation: 'Public class name must match filename.' },
+                    { code: '    public int add(int a, int b) {', explanation: '' },
+                    { code: '        return a + b;', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '    public int subtract(int a, int b) { return a - b; }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: '// File: TestCalculator.java (outside mypack)', explanation: 'In default package or another.' },
+                    { code: 'import mypack.Calculator;', explanation: 'Import the class from package.' },
+                    { code: 'class TestCalculator {', explanation: '' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        Calculator calc = new Calculator();', explanation: 'Can use because class is public.' },
+                    { code: '        System.out.println(calc.add(10, 20));', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'Without import: mypack.Calculator calc = new mypack.Calculator();' }
+                ]
+            },
+            6: {
+                title: "6. Package with Multiple Classes & Access Modifiers",
+                lines: [
+                    { code: 'package com.company.util;', explanation: 'All classes in same package.' },
+                    { code: 'public class Helper {', explanation: 'Public class - accessible from anywhere.' },
+                    { code: '    public static void log(String msg) {', explanation: 'Public static method.' },
+                    { code: '        System.out.println("[LOG] " + msg);', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class InternalTool {', explanation: 'Default access - only within package.' },
+                    { code: '    static void secret() {', explanation: '' },
+                    { code: '        System.out.println("Secret operation");', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Main {', explanation: 'Same package - can access both.' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        Helper.log("Starting...");', explanation: 'Public access.' },
+                    { code: '        InternalTool.secret();     // OK - same package', explanation: 'Default access allowed.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' }
+                ]
+            },
+            7: {
+                title: "7. Import Statement and Fully Qualified Name",
+                lines: [
+                    { code: 'import java.util.ArrayList;', explanation: 'Standard import.' },
+                    { code: 'import java.util.*;', explanation: 'Import all from util (not recommended for clarity).' },
+                    { code: '', explanation: '' },
+                    { code: 'class Demo {', explanation: '' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        ArrayList<String> list = new ArrayList<>();', explanation: 'Simple name after import.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        // Without import:', explanation: '' },
+                    { code: '        java.util.ArrayList<String> list2 = new java.util.ArrayList<>();', explanation: 'Fully qualified name.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        // Or with import:', explanation: '' },
+                    { code: '        List<String> list3 = new ArrayList<>();', explanation: 'Using interface type.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' }
+                ]
+            },
+            8: {
+                title: "8. Static Import Example",
+                lines: [
+                    { code: 'import static java.lang.Math.*;', explanation: 'Static import - import all static members.' },
+                    { code: 'import static java.lang.System.out;', explanation: 'Import specific static field.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class StaticImportDemo {', explanation: '' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        out.println("PI = " + PI);', explanation: 'Direct access to static field.' },
+                    { code: '        out.println("Sqrt = " + sqrt(16));', explanation: 'Direct call to static method.' },
+                    { code: '        out.println("Max = " + max(10, 20));', explanation: '' },
+                    { code: '        ', explanation: '' },
+                    { code: '        // Without static import:', explanation: '' },
+                    { code: '        // System.out.println(Math.PI);', explanation: 'Would need full qualification.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'Static import makes code cleaner when using constants/methods heavily.' }
+                ]
+            },
+            9: {
+                title: "9. Access Modifiers with Inheritance",
+                lines: [
+                    { code: 'class Base {', explanation: 'Base class with different modifiers.' },
+                    { code: '    private void priv() { System.out.println("private"); }', explanation: 'Not inherited.' },
+                    { code: '    void def() { System.out.println("default"); }', explanation: 'Package-private.' },
+                    { code: '    protected void prot() { System.out.println("protected"); }', explanation: 'Inherited.' },
+                    { code: '    public void pub() { System.out.println("public"); }', explanation: 'Inherited.' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Derived extends Base {', explanation: 'Subclass in same package.' },
+                    { code: '    void test() {', explanation: '' },
+                    { code: '        // priv();     // Compile error', explanation: 'private not accessible.' },
+                    { code: '        def();         // OK', explanation: 'default accessible in same package.' },
+                    { code: '        prot();        // OK', explanation: '' },
+                    { code: '        pub();         // OK', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' }
+                ]
+            },
+            10: {
+                title: "10. Real-World Example: Bank System with Packages & Modifiers",
+                lines: [
+                    { code: '// com/bank/core/Account.java', explanation: 'Core banking logic - protected/internal.' },
+                    { code: 'package com.bank.core;', explanation: '' },
+                    { code: 'public class Account {', explanation: '' },
+                    { code: '    private long accountNumber;', explanation: 'Private - only internal use.' },
+                    { code: '    protected double balance;', explanation: 'Protected - subclasses can access.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public void deposit(double amt) { if (amt > 0) balance += amt; }', explanation: 'Public API.' },
+                    { code: '    public double getBalance() { return balance; }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: '// com/bank/service/SavingsAccount.java', explanation: 'Extends core class.' },
+                    { code: 'package com.bank.service;', explanation: 'Different package.' },
+                    { code: 'import com.bank.core.Account;', explanation: '' },
+                    { code: 'public class SavingsAccount extends Account {', explanation: '' },
+                    { code: '    public void addInterest(double rate) {', explanation: '' },
+                    { code: '        balance += balance * rate / 100;', explanation: 'Can access protected balance.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: '// com/client/Customer.java', explanation: 'External client.' },
+                    { code: 'package com.client;', explanation: '' },
+                    { code: 'import com.bank.service.SavingsAccount;', explanation: '' },
+                    { code: 'public class Customer {', explanation: '' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        SavingsAccount sa = new SavingsAccount();', explanation: '' },
+                    { code: '        sa.deposit(5000);', explanation: 'Public method OK.' },
+                    { code: '        // sa.balance = 1000; // Compile error - protected!', explanation: 'Cannot access protected directly.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'Proper encapsulation using packages and access modifiers.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

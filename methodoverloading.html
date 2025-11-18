@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Java Exercises on Method Overloading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        li:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.05);
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9) rotate(-5deg);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            opacity: 0;
+        }
+        #modal.show #modal-content {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        #close-btn:hover {
+            color: #ff0000;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .code-line.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            animation: pulseBorder 1s infinite alternate;
+        }
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulseBorder {
+            from {
+                border-left-color: #007bff;
+            }
+            to {
+                border-left-color: #00ff00;
+            }
+        }
+        .code-line.active {
+            animation: fadeInSlide 0.5s ease-in-out forwards, pulseBorder 1s infinite alternate;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+            transition: color 0.3s ease;
+        }
+        .code-line:hover .explanation {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>10 Java Exercises on Method Overloading</h1>
+    <ul id="program-list">
+        <li data-program="1">1. Basic Method Overloading: Different Parameter Types</li>
+        <li data-program="2">2. Method Overloading with Different Number of Parameters</li>
+        <li data-program="3">3. Method Overloading with Different Return Types</li>
+        <li data-program="4">4. Method Overloading in a Calculator Class</li>
+        <li data-program="5">5. Method Overloading for String Manipulation</li>
+        <li data-program="6">6. Method Overloading in a Shape Area Calculator</li>
+        <li data-program="7">7. Method Overloading with Arrays</li>
+        <li data-program="8">8. Method Overloading in a Bank Transaction System</li>
+        <li data-program="9">9. Method Overloading for Data Formatting</li>
+        <li data-program="10">10. Advanced Method Overloading with Varargs</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        const programs = {
+            1: {
+                title: "1. Basic Method Overloading: Different Parameter Types",
+                lines: [
+                    { code: 'public class Printer {', explanation: 'Defines the Printer class to demonstrate method overloading with different parameter types.' },
+                    { code: '    public void print(int number) {', explanation: 'Method to print an integer. First overloaded method.' },
+                    { code: '        System.out.println("Integer: " + number);', explanation: 'Prints the integer value.' },
+                    { code: '    }', explanation: 'Closes the integer print method.' },
+                    { code: '    public void print(double number) {', explanation: 'Overloaded method to print a double.' },
+                    { code: '        System.out.println("Double: " + number);', explanation: 'Prints the double value.' },
+                    { code: '    }', explanation: 'Closes the double print method.' },
+                    { code: '    public void print(String text) {', explanation: 'Overloaded method to print a String.' },
+                    { code: '        System.out.println("String: " + text);', explanation: 'Prints the String value.' },
+                    { code: '    }', explanation: 'Closes the String print method.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method to test the overloaded methods.' },
+                    { code: '        Printer printer = new Printer();', explanation: 'Creates a Printer object.' },
+                    { code: '        printer.print(10);', explanation: 'Calls print with an integer.' },
+                    { code: '        printer.print(10.5);', explanation: 'Calls print with a double.' },
+                    { code: '        printer.print("Hello");', explanation: 'Calls print with a String.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '}', explanation: 'Closes the Printer class.' }
+                ]
+            },
+            2: {
+                title: "2. Method Overloading with Different Number of Parameters",
+                lines: [
+                    { code: 'public class Adder {', explanation: 'Defines the Adder class to show method overloading with varying parameter counts.' },
+                    { code: '    public int add(int a) {', explanation: 'Method to add a single integer (returns itself).' },
+                    { code: '        return a;', explanation: 'Returns the single integer.' },
+                    { code: '    }', explanation: 'Closes the single-parameter add method.' },
+                    { code: '    public int add(int a, int b) {', explanation: 'Overloaded method to add two integers.' },
+                    { code: '        return a + b;', explanation: 'Returns the sum of two integers.' },
+                    { code: '    }', explanation: 'Closes the two-parameter add method.' },
+                    { code: '    public int add(int a, int b, int c) {', explanation: 'Overloaded method to add three integers.' },
+                    { code: '        return a + b + c;', explanation: 'Returns the sum of three integers.' },
+                    { code: '    }', explanation: 'Closes the three-parameter add method.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method to test the overloaded add methods.' },
+                    { code: '        Adder adder = new Adder();', explanation: 'Creates an Adder object.' },
+                    { code: '        System.out.println(adder.add(5));', explanation: 'Calls add with one parameter.' },
+                    { code: '        System.out.println(adder.add(5, 10));', explanation: 'Calls add with two parameters.' },
+                    { code: '        System.out.println(adder.add(5, 10, 15));', explanation: 'Calls add with three parameters.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '}', explanation: 'Closes the Adder class.' }
+                ]
+            },
+            3: {
+                title: "3. Method Overloading with Different Return Types",
+                lines: [
+                    { code: 'public class Formatter {', explanation: 'Formatter class to demonstrate overloading with different return types.' },
+                    { code: '    public String format(int number) {', explanation: 'Method returning a String for an integer.' },
+                    { code: '        return "Number: " + number;', explanation: 'Formats integer as a String.' },
+                    { code: '    }', explanation: 'Closes the String-returning format method.' },
+                    { code: '    public double format(double number) {', explanation: 'Overloaded method returning a double.' },
+                    { code: '        return number * 2;', explanation: 'Doubles the input number.' },
+                    { code: '    }', explanation: 'Closes the double-returning format method.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method to test the overloaded format methods.' },
+                    { code: '        Formatter formatter = new Formatter();', explanation: 'Creates a Formatter object.' },
+                    { code: '        System.out.println(formatter.format(5));', explanation: 'Calls format returning String.' },
+                    { code: '        System.out.println(formatter.format(5.5));', explanation: 'Calls format returning double.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '}', explanation: 'Closes the Formatter class.' }
+                ]
+            },
+            4: {
+                title: "4. Method Overloading in a Calculator Class",
+                lines: [
+                    { code: 'public class Calculator {', explanation: 'Calculator class to show overloading for arithmetic operations.' },
+                    { code: '    public int calculate(int a, int b) {', explanation: 'Method for integer addition.' },
+                    { code: '        return a + b;', explanation: 'Returns sum of two integers.' },
+                    { code: '    }', explanation: 'Closes the integer calculate method.' },
+                    { code: '    public double calculate(double a, double b) {', explanation: 'Overloaded method for double multiplication.' },
+                    { code: '        return a * b;', explanation: 'Returns product of two doubles.' },
+                    { code: '    }', explanation: 'Closes the double calculate method.' },
+                    { code: '    public int calculate(int a, int b, int c) {', explanation: 'Overloaded method for three-integer sum.' },
+                    { code: '        return a + b + c;', explanation: 'Returns sum of three integers.' },
+                    { code: '    }', explanation: 'Closes the three-parameter calculate method.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method to test the Calculator.' },
+                    { code: '        Calculator calc = new Calculator();', explanation: 'Creates a Calculator object.' },
+                    { code: '        System.out.println(calc.calculate(2, 3));', explanation: 'Calls integer addition.' },
+                    { code: '        System.out.println(calc.calculate(2.5, 3.5));', explanation: 'Calls double multiplication.' },
+                    { code: '        System.out.println(calc.calculate(1, 2, 3));', explanation: 'Calls three-integer sum.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '}', explanation: 'Closes the Calculator class.' }
+                ]
+            },
+            5: {
+                title: "5. Method Overloading for String Manipulation",
+                lines: [
+                    { code: 'public class StringUtil {', explanation: 'StringUtil class for overloading string manipulation methods.' },
+                    { code: '    public String manipulate(String text) {', explanation: 'Method to convert string to uppercase.' },
+                    { code: '        return text.toUpperCase();', explanation: 'Returns uppercase string.' },
+                    { code: '    }', explanation: 'Closes the single-string manipulate method.' },
+                    { code: '    public String manipulate(String text, int times) {', explanation: 'Overloaded method to repeat string.' },
+                    { code: '        return text.repeat(times);', explanation: 'Repeats the string specified times.' },
+                    { code: '    }', explanation: 'Closes the repeat manipulate method.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method to test string manipulation.' },
+                    { code: '        StringUtil util = new StringUtil();', explanation: 'Creates a StringUtil object.' },
+                    { code: '        System.out.println(util.manipulate("hello"));', explanation: 'Converts to uppercase.' },
+                    { code: '        System.out.println(util.manipulate("hi", 3));', explanation: 'Repeats "hi" three times.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '}', explanation: 'Closes the StringUtil class.' }
+                ]
+            },
+            6: {
+                title: "6. Method Overloading in a Shape Area Calculator",
+                lines: [
+                    { code: 'public class ShapeCalculator {', explanation: 'ShapeCalculator class for calculating areas of shapes.' },
+                    { code: '    public double area(double radius) {', explanation: 'Method for circle area.' },
+                    { code: '        return Math.PI * radius * radius;', explanation: 'Calculates circle area.' },
+                    { code: '    }', explanation: 'Closes the circle area method.' },
+                    { code: '    public double area(double length, double width) {', explanation: 'Overloaded method for rectangle area.' },
+                    { code: '        return length * width;', explanation: 'Calculates rectangle area.' },
+                    { code: '    }', explanation: 'Closes the rectangle area method.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method to test area calculations.' },
+                    { code: '        ShapeCalculator calc = new ShapeCalculator();', explanation: 'Creates a ShapeCalculator object.' },
+                    { code: '        System.out.println(calc.area(5.0));', explanation: 'Calculates circle area.' },
+                    { code: '        System.out.println(calc.area(4.0, 6.0));', explanation: 'Calculates rectangle area.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '}', explanation: 'Closes the ShapeCalculator class.' }
+                ]
+            },
+            7: {
+                title: "7. Method Overloading with Arrays",
+                lines: [
+                    { code: 'import java.util.Arrays;', explanation: 'Imports Arrays for toString method.' },
+                    { code: 'public class ArrayProcessor {', explanation: 'ArrayProcessor class for array operations.' },
+                    { code: '    public String process(int[] numbers) {', explanation: 'Method to print integer array.' },
+                    { code: '        return Arrays.toString(numbers);', explanation: 'Converts int array to string.' },
+                    { code: '    }', explanation: 'Closes the int array process method.' },
+                    { code: '    public String process(double[] numbers) {', explanation: 'Overloaded method for double array.' },
+                    { code: '        return Arrays.toString(numbers);', explanation: 'Converts double array to string.' },
+                    { code: '    }', explanation: 'Closes the double array process method.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method to test array processing.' },
+                    { code: '        ArrayProcessor processor = new ArrayProcessor();', explanation: 'Creates an ArrayProcessor object.' },
+                    { code: '        int[] intArr = {1, 2, 3};', explanation: 'Creates an integer array.' },
+                    { code: '        double[] doubleArr = {1.1, 2.2, 3.3};', explanation: 'Creates a double array.' },
+                    { code: '        System.out.println(processor.process(intArr));', explanation: 'Processes int array.' },
+                    { code: '        System.out.println(processor.process(doubleArr));', explanation: 'Processes double array.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '}', explanation: 'Closes the ArrayProcessor class.' }
+                ]
+            },
+            8: {
+                title: "8. Method Overloading in a Bank Transaction System",
+                lines: [
+                    { code: 'public class BankAccount {', explanation: 'BankAccount class for transaction operations.' },
+                    { code: '    private double balance = 0;', explanation: 'Private field for account balance.' },
+                    { code: '    public void deposit(double amount) {', explanation: 'Method to deposit a single amount.' },
+                    { code: '        balance += amount;', explanation: 'Adds amount to balance.' },
+                    { code: '    }', explanation: 'Closes the single deposit method.' },
+                    { code: '    public void deposit(double amount, String note) {', explanation: 'Overloaded method with transaction note.' },
+                    { code: '        balance += amount;', explanation: 'Adds amount to balance.' },
+                    { code: '        System.out.println("Note: " + note);', explanation: 'Prints transaction note.' },
+                    { code: '    }', explanation: 'Closes the noted deposit method.' },
+                    { code: '    public double getBalance() {', explanation: 'Method to get current balance.' },
+                    { code: '        return balance;', explanation: 'Returns the balance.' },
+                    { code: '    }', explanation: 'Closes the getBalance method.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method to test deposits.' },
+                    { code: '        BankAccount account = new BankAccount();', explanation: 'Creates a BankAccount object.' },
+                    { code: '        account.deposit(100.0);', explanation: 'Deposits without note.' },
+                    { code: '        account.deposit(200.0, "Salary");', explanation: 'Deposits with note.' },
+                    { code: '        System.out.println("Balance: " + account.getBalance());', explanation: 'Prints final balance.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '}', explanation: 'Closes the BankAccount class.' }
+                ]
+            },
+            9: {
+                title: "9. Method Overloading for Data Formatting",
+                lines: [
+                    { code: 'public class DataFormatter {', explanation: 'DataFormatter class for formatting different data types.' },
+                    { code: '    public String formatData(int value) {', explanation: 'Method to format an integer.' },
+                    { code: '        return "Int: " + value;', explanation: 'Formats integer with prefix.' },
+                    { code: '    }', explanation: 'Closes the integer formatData method.' },
+                    { code: '    public String formatData(double value) {', explanation: 'Overloaded method for double.' },
+                    { code: '        return String.format("Double: %.2f", value);', explanation: 'Formats double to two decimal places.' },
+                    { code: '    }', explanation: 'Closes the double formatData method.' },
+                    { code: '    public String formatData(String value) {', explanation: 'Overloaded method for String.' },
+                    { code: '        return "String: \"" + value + "\"";', explanation: 'Formats String with quotes.' },
+                    { code: '    }', explanation: 'Closes the String formatData method.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method to test formatting.' },
+                    { code: '        DataFormatter formatter = new DataFormatter();', explanation: 'Creates a DataFormatter object.' },
+                    { code: '        System.out.println(formatter.formatData(42));', explanation: 'Formats an integer.' },
+                    { code: '        System.out.println(formatter.formatData(42.567));', explanation: 'Formats a double.' },
+                    { code: '        System.out.println(formatter.formatData("Test"));', explanation: 'Formats a String.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '}', explanation: 'Closes the DataFormatter class.' }
+                ]
+            },
+            10: {
+                title: "10. Advanced Method Overloading with Varargs",
+                lines: [
+                    { code: 'public class Aggregator {', explanation: 'Aggregator class to demonstrate overloading with varargs.' },
+                    { code: '    public int sum(int... numbers) {', explanation: 'Method using varargs for variable integers.' },
+                    { code: '        int total = 0;', explanation: 'Initializes total for summing.' },
+                    { code: '        for (int num : numbers) total += num;', explanation: 'Sums all integers in varargs.' },
+                    { code: '        return total;', explanation: 'Returns the sum.' },
+                    { code: '    }', explanation: 'Closes the varargs sum method.' },
+                    { code: '    public double sum(double... numbers) {', explanation: 'Overloaded method for double varargs.' },
+                    { code: '        double total = 0;', explanation: 'Initializes total for doubles.' },
+                    { code: '        for (double num : numbers) total += num;', explanation: 'Sums all doubles.' },
+                    { code: '        return total;', explanation: 'Returns the double sum.' },
+                    { code: '    }', explanation: 'Closes the double varargs sum method.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method to test varargs overloading.' },
+                    { code: '        Aggregator agg = new Aggregator();', explanation: 'Creates an Aggregator object.' },
+                    { code: '        System.out.println(agg.sum(1, 2, 3));', explanation: 'Sums three integers.' },
+                    { code: '        System.out.println(agg.sum(1.5, 2.5));', explanation: 'Sums two doubles.' },
+                    { code: '    }', explanation: 'Closes the main method.' },
+                    { code: '}', explanation: 'Closes the Aggregator class.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

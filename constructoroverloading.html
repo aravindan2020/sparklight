@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Java Exercises on Constructor Overloading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        li:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.05);
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9) rotate(-5deg);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            opacity: 0;
+        }
+        #modal.show #modal-content {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        #close-btn:hover {
+            color: #ff0000;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .code-line.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            animation: pulseBorder 1s infinite alternate;
+        }
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulseBorder {
+            from {
+                border-left-color: #007bff;
+            }
+            to {
+                border-left-color: #00ff00;
+            }
+        }
+        .code-line.active {
+            animation: fadeInSlide 0.5s ease-in-out forwards, pulseBorder 1s infinite alternate;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+            transition: color 0.3s ease;
+        }
+        .code-line:hover .explanation {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>10 Java Exercises on Constructor Overloading</h1>
+    <ul id="program-list">
+        <li data-program="1">1. Basic Constructor Overloading: Default and Parameterized Constructors</li>
+        <li data-program="2">2. Constructor Overloading with Different Data Types</li>
+        <li data-program="3">3. Constructor Overloading with Varying Number of Parameters</li>
+        <li data-program="4">4. Using this() to Call Another Constructor in Overloading</li>
+        <li data-program="5">5. Constructor Overloading in a Student Class</li>
+        <li data-program="6">6. Constructor Overloading for a Rectangle Shape</li>
+        <li data-program="7">7. Constructor Overloading with Inheritance Considerations</li>
+        <li data-program="8">8. Constructor Overloading in a Bank Account Class</li>
+        <li data-program="9">9. Constructor Overloading for Product Inventory</li>
+        <li data-program="10">10. Advanced Constructor Overloading with Arrays and Objects</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        const programs = {
+            1: {
+                title: "1. Basic Constructor Overloading: Default and Parameterized Constructors",
+                lines: [
+                    { code: 'public class Person {', explanation: 'Defines the public class Person. This class demonstrates basic constructor overloading with a default constructor and a parameterized one.' },
+                    { code: '    String name;', explanation: 'Declares a String field for name. This holds the person\'s name, initialized in constructors.' },
+                    { code: '    int age;', explanation: 'Declares an int field for age. This stores the person\'s age, set via constructors.' },
+                    { code: '    public Person() {', explanation: 'Default constructor with no parameters. Initializes fields to default values.' },
+                    { code: '        name = "Unknown";', explanation: 'Sets default name to "Unknown" in the no-arg constructor.' },
+                    { code: '        age = 0;', explanation: 'Sets default age to 0 in the no-arg constructor.' },
+                    { code: '    }', explanation: 'Closes the default constructor.' },
+                    { code: '    public Person(String n, int a) {', explanation: 'Parameterized constructor taking name and age. Overloads the default constructor.' },
+                    { code: '        name = n;', explanation: 'Assigns the passed name to the field.' },
+                    { code: '        age = a;', explanation: 'Assigns the passed age to the field.' },
+                    { code: '    }', explanation: 'Closes the parameterized constructor.' },
+                    { code: '    public void display() {', explanation: 'Method to display person details. Used to show constructor effects.' },
+                    { code: '        System.out.println("Name: " + name + ", Age: " + age);', explanation: 'Prints the name and age.' },
+                    { code: '    }', explanation: 'Closes the display method.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main method to test constructors.' },
+                    { code: '        Person p1 = new Person();', explanation: 'Creates object using default constructor.' },
+                    { code: '        Person p2 = new Person("Alice", 25);', explanation: 'Creates object using parameterized constructor.' },
+                    { code: '        p1.display();', explanation: 'Displays default values.' },
+                    { code: '        p2.display();', explanation: 'Displays parameterized values.' },
+                    { code: '    }', explanation: 'Closes main method.' },
+                    { code: '}', explanation: 'Closes the class.' }
+                ]
+            },
+            2: {
+                title: "2. Constructor Overloading with Different Data Types",
+                lines: [
+                    { code: 'public class Calculator {', explanation: 'Defines class Calculator. Demonstrates overloading with int and double types.' },
+                    { code: '    public Calculator(int a, int b) {', explanation: 'Constructor for integers. Adds two ints.' },
+                    { code: '        System.out.println("Sum (int): " + (a + b));', explanation: 'Performs and prints integer addition.' },
+                    { code: '    }', explanation: 'Closes int constructor.' },
+                    { code: '    public Calculator(double a, double b) {', explanation: 'Constructor for doubles. Adds two doubles.' },
+                    { code: '        System.out.println("Sum (double): " + (a + b));', explanation: 'Performs and prints double addition.' },
+                    { code: '    }', explanation: 'Closes double constructor.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main to test type-based overloading.' },
+                    { code: '        new Calculator(5, 10);', explanation: 'Calls int constructor.' },
+                    { code: '        new Calculator(5.5, 10.5);', explanation: 'Calls double constructor.' },
+                    { code: '    }', explanation: 'Closes main.' },
+                    { code: '}', explanation: 'Closes class.' }
+                ]
+            },
+            3: {
+                title: "3. Constructor Overloading with Varying Number of Parameters",
+                lines: [
+                    { code: 'public class Book {', explanation: 'Class Book. Overloads constructors with 0, 1, 2, 3 parameters.' },
+                    { code: '    String title, author, publisher;', explanation: 'Fields for book details.' },
+                    { code: '    public Book() {', explanation: 'No-arg constructor. Default values.' },
+                    { code: '        title = "Unknown"; author = "Unknown"; publisher = "Unknown";', explanation: 'Sets defaults.' },
+                    { code: '    }', explanation: 'Closes no-arg.' },
+                    { code: '    public Book(String t) {', explanation: 'One param: title.' },
+                    { code: '        title = t; author = "Unknown"; publisher = "Unknown";', explanation: 'Sets title, defaults others.' },
+                    { code: '    }', explanation: 'Closes one-param.' },
+                    { code: '    public Book(String t, String a) {', explanation: 'Two params: title, author.' },
+                    { code: '        title = t; author = a; publisher = "Unknown";', explanation: 'Sets title and author.' },
+                    { code: '    }', explanation: 'Closes two-param.' },
+                    { code: '    public Book(String t, String a, String p) {', explanation: 'Three params: all.' },
+                    { code: '        title = t; author = a; publisher = p;', explanation: 'Sets all fields.' },
+                    { code: '    }', explanation: 'Closes three-param.' },
+                    { code: '    public void display() {', explanation: 'Display method.' },
+                    { code: '        System.out.println(title + " by " + author + ", " + publisher);', explanation: 'Prints book info.' },
+                    { code: '    }', explanation: 'Closes display.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Tests all constructors.' },
+                    { code: '        Book b1 = new Book(); b1.display();', explanation: 'No-arg test.' },
+                    { code: '        Book b2 = new Book("Title"); b2.display();', explanation: 'One-param test.' },
+                    { code: '        Book b3 = new Book("Title", "Author"); b3.display();', explanation: 'Two-param test.' },
+                    { code: '        Book b4 = new Book("Title", "Author", "Publisher"); b4.display();', explanation: 'Three-param test.' },
+                    { code: '    }', explanation: 'Closes main.' },
+                    { code: '}', explanation: 'Closes class.' }
+                ]
+            },
+            4: {
+                title: "4. Using this() to Call Another Constructor in Overloading",
+                lines: [
+                    { code: 'public class Employee {', explanation: 'Class Employee. Uses this() for constructor chaining.' },
+                    { code: '    String name; int id; double salary;', explanation: 'Fields for employee.' },
+                    { code: '    public Employee() {', explanation: 'No-arg calls one-param with default.' },
+                    { code: '        this("Unknown");', explanation: 'Calls another constructor using this().' },
+                    { code: '    }', explanation: 'Closes no-arg.' },
+                    { code: '    public Employee(String n) {', explanation: 'One-param calls two-param.' },
+                    { code: '        this(n, 0);', explanation: 'Chaining with this().' },
+                    { code: '    }', explanation: 'Closes one-param.' },
+                    { code: '    public Employee(String n, int i) {', explanation: 'Two-param calls three-param.' },
+                    { code: '        this(n, i, 0.0);', explanation: 'Further chaining.' },
+                    { code: '    }', explanation: 'Closes two-param.' },
+                    { code: '    public Employee(String n, int i, double s) {', explanation: 'Base constructor sets all.' },
+                    { code: '        name = n; id = i; salary = s;', explanation: 'Initializes fields.' },
+                    { code: '    }', explanation: 'Closes base.' },
+                    { code: '    public void display() {', explanation: 'Display info.' },
+                    { code: '        System.out.println("Name: " + name + ", ID: " + id + ", Salary: " + salary);', explanation: 'Prints details.' },
+                    { code: '    }', explanation: 'Closes display.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Tests chaining.' },
+                    { code: '        Employee e = new Employee(); e.display();', explanation: 'No-arg chain.' },
+                    { code: '        Employee e2 = new Employee("Bob", 101); e2.display();', explanation: 'Two-param chain.' },
+                    { code: '    }', explanation: 'Closes main.' },
+                    { code: '}', explanation: 'Closes class.' }
+                ]
+            },
+            5: {
+                title: "5. Constructor Overloading in a Student Class",
+                lines: [
+                    { code: 'public class Student {', explanation: 'Student class with overloaded constructors for different info levels.' },
+                    { code: '    String name; int rollNo; String grade;', explanation: 'Fields for student data.' },
+                    { code: '    public Student(String n) {', explanation: 'Constructor with name only.' },
+                    { code: '        name = n; rollNo = 0; grade = "N/A";', explanation: 'Sets name, defaults others.' },
+                    { code: '    }', explanation: 'Closes name constructor.' },
+                    { code: '    public Student(String n, int r) {', explanation: 'Name and rollNo.' },
+                    { code: '        name = n; rollNo = r; grade = "N/A";', explanation: 'Sets name and rollNo.' },
+                    { code: '    }', explanation: 'Closes two-param.' },
+                    { code: '    public Student(String n, int r, String g) {', explanation: 'All parameters.' },
+                    { code: '        name = n; rollNo = r; grade = g;', explanation: 'Sets all fields.' },
+                    { code: '    }', explanation: 'Closes all-param.' },
+                    { code: '    public void showDetails() {', explanation: 'Method to show student details.' },
+                    { code: '        System.out.println("Student: " + name + ", Roll: " + rollNo + ", Grade: " + grade);', explanation: 'Prints info.' },
+                    { code: '    }', explanation: 'Closes showDetails.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Main for testing.' },
+                    { code: '        Student s1 = new Student("John"); s1.showDetails();', explanation: 'One-param test.' },
+                    { code: '        Student s2 = new Student("Jane", 102, "A"); s2.showDetails();', explanation: 'Three-param test.' },
+                    { code: '    }', explanation: 'Closes main.' },
+                    { code: '}', explanation: 'Closes class.' }
+                ]
+            },
+            6: {
+                title: "6. Constructor Overloading for a Rectangle Shape",
+                lines: [
+                    { code: 'public class Rectangle {', explanation: 'Rectangle class. Overloads for square, rectangle, with color.' },
+                    { code: '    double length, width; String color;', explanation: 'Fields for dimensions and color.' },
+                    { code: '    public Rectangle() {', explanation: 'Default: unit square, no color.' },
+                    { code: '        length = 1; width = 1; color = "None";', explanation: 'Default values.' },
+                    { code: '    }', explanation: 'Closes default.' },
+                    { code: '    public Rectangle(double side) {', explanation: 'Square with side.' },
+                    { code: '        length = side; width = side; color = "None";', explanation: 'Sets square.' },
+                    { code: '    }', explanation: 'Closes square.' },
+                    { code: '    public Rectangle(double l, double w) {', explanation: 'Rectangle dimensions.' },
+                    { code: '        length = l; width = w; color = "None";', explanation: 'Sets length and width.' },
+                    { code: '    }', explanation: 'Closes rectangle.' },
+                    { code: '    public Rectangle(double l, double w, String c) {', explanation: 'With color.' },
+                    { code: '        length = l; width = w; color = c;', explanation: 'Sets all.' },
+                    { code: '    }', explanation: 'Closes with color.' },
+                    { code: '    public double area() {', explanation: 'Calculates area.' },
+                    { code: '        return length * width;', explanation: 'Returns area.' },
+                    { code: '    }', explanation: 'Closes area.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Tests.' },
+                    { code: '        Rectangle r = new Rectangle(5, 3); System.out.println(r.area());', explanation: 'Rectangle test.' },
+                    { code: '    }', explanation: 'Closes main.' },
+                    { code: '}', explanation: 'Closes class.' }
+                ]
+            },
+            7: {
+                title: "7. Constructor Overloading with Inheritance Considerations",
+                lines: [
+                    { code: 'class Shape {', explanation: 'Base class Shape with overloaded constructors.' },
+                    { code: '    String type;', explanation: 'Field for type.' },
+                    { code: '    public Shape() { type = "Unknown"; }', explanation: 'Default base constructor.' },
+                    { code: '    public Shape(String t) { type = t; }', explanation: 'Parameterized base.' },
+                    { code: '}', explanation: 'Closes Shape.' },
+                    { code: 'public class Circle extends Shape {', explanation: 'Derived class Circle. Overloads and calls super.' },
+                    { code: '    double radius;', explanation: 'Radius field.' },
+                    { code: '    public Circle() {', explanation: 'Default calls super default.' },
+                    { code: '        super(); radius = 1;', explanation: 'Calls super().' },
+                    { code: '    }', explanation: 'Closes default.' },
+                    { code: '    public Circle(double r) {', explanation: 'With radius, calls super with type.' },
+                    { code: '        super("Circle"); radius = r;', explanation: 'Calls super(String).' },
+                    { code: '    }', explanation: 'Closes with radius.' },
+                    { code: '    public double area() {', explanation: 'Area method.' },
+                    { code: '        return Math.PI * radius * radius;', explanation: 'Calculates circle area.' },
+                    { code: '    }', explanation: 'Closes area.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Tests inheritance overloading.' },
+                    { code: '        Circle c = new Circle(5); System.out.println(c.area());', explanation: 'Parameterized test.' },
+                    { code: '    }', explanation: 'Closes main.' },
+                    { code: '}', explanation: 'Closes Circle.' }
+                ]
+            },
+            8: {
+                title: "8. Constructor Overloading in a Bank Account Class",
+                lines: [
+                    { code: 'public class BankAccount {', explanation: 'BankAccount class. Overloads for different account setups.' },
+                    { code: '    long accountNo; double balance; String holder;', explanation: 'Fields for account.' },
+                    { code: '    public BankAccount() {', explanation: 'Default account.' },
+                    { code: '        accountNo = 0; balance = 0; holder = "Unknown";', explanation: 'Defaults.' },
+                    { code: '    }', explanation: 'Closes default.' },
+                    { code: '    public BankAccount(long a) {', explanation: 'With account number.' },
+                    { code: '        accountNo = a; balance = 0; holder = "Unknown";', explanation: 'Sets accountNo.' },
+                    { code: '    }', explanation: 'Closes one-param.' },
+                    { code: '    public BankAccount(long a, double b, String h) {', explanation: 'Full details.' },
+                    { code: '        accountNo = a; balance = b; holder = h;', explanation: 'Sets all.' },
+                    { code: '    }', explanation: 'Closes full.' },
+                    { code: '    public void deposit(double amount) { balance += amount; }', explanation: 'Deposit method.' },
+                    { code: '    public void display() {', explanation: 'Display balance.' },
+                    { code: '        System.out.println("Balance: " + balance);', explanation: 'Prints balance.' },
+                    { code: '    }', explanation: 'Closes display.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Tests.' },
+                    { code: '        BankAccount acc = new BankAccount(12345, 100.0, "John"); acc.display();', explanation: 'Full constructor test.' },
+                    { code: '    }', explanation: 'Closes main.' },
+                    { code: '}', explanation: 'Closes class.' }
+                ]
+            },
+            9: {
+                title: "9. Constructor Overloading for Product Inventory",
+                lines: [
+                    { code: 'public class Product {', explanation: 'Product class. Overloads for inventory management.' },
+                    { code: '    String name; double price; int quantity;', explanation: 'Product fields.' },
+                    { code: '    public Product(String n) {', explanation: 'Name only.' },
+                    { code: '        name = n; price = 0; quantity = 0;', explanation: 'Defaults price and quantity.' },
+                    { code: '    }', explanation: 'Closes name.' },
+                    { code: '    public Product(String n, double p) {', explanation: 'Name and price.' },
+                    { code: '        name = n; price = p; quantity = 0;', explanation: 'Sets name and price.' },
+                    { code: '    }', explanation: 'Closes two-param.' },
+                    { code: '    public Product(String n, double p, int q) {', explanation: 'All details.' },
+                    { code: '        name = n; price = p; quantity = q;', explanation: 'Sets all.' },
+                    { code: '    }', explanation: 'Closes all.' },
+                    { code: '    public double totalValue() {', explanation: 'Calculates total value.' },
+                    { code: '        return price * quantity;', explanation: 'Returns value.' },
+                    { code: '    }', explanation: 'Closes totalValue.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Tests.' },
+                    { code: '        Product prod = new Product("Laptop", 999.99, 5); System.out.println(prod.totalValue());', explanation: 'Full test.' },
+                    { code: '    }', explanation: 'Closes main.' },
+                    { code: '}', explanation: 'Closes class.' }
+                ]
+            },
+            10: {
+                title: "10. Advanced Constructor Overloading with Arrays and Objects",
+                lines: [
+                    { code: 'import java.util.Arrays;', explanation: 'Imports Arrays for toString.' },
+                    { code: 'public class DataContainer {', explanation: 'Class for holding data, overloads with array and object.' },
+                    { code: '    int[] numbers; Object obj;', explanation: 'Fields for array and object.' },
+                    { code: '    public DataContainer() {', explanation: 'Default empty.' },
+                    { code: '        numbers = new int[0]; obj = null;', explanation: 'Empty array, null obj.' },
+                    { code: '    }', explanation: 'Closes default.' },
+                    { code: '    public DataContainer(int[] nums) {', explanation: 'With int array.' },
+                    { code: '        numbers = nums; obj = null;', explanation: 'Sets array.' },
+                    { code: '    }', explanation: 'Closes array.' },
+                    { code: '    public DataContainer(Object o) {', explanation: 'With object.' },
+                    { code: '        numbers = new int[0]; obj = o;', explanation: 'Sets object.' },
+                    { code: '    }', explanation: 'Closes object.' },
+                    { code: '    public DataContainer(int[] nums, Object o) {', explanation: 'Both.' },
+                    { code: '        numbers = nums; obj = o;', explanation: 'Sets both.' },
+                    { code: '    }', explanation: 'Closes both.' },
+                    { code: '    public void display() {', explanation: 'Display contents.' },
+                    { code: '        System.out.println("Numbers: " + Arrays.toString(numbers) + ", Obj: " + obj);', explanation: 'Prints data.' },
+                    { code: '    }', explanation: 'Closes display.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Tests advanced overloading.' },
+                    { code: '        DataContainer dc = new DataContainer(new int[]{1,2,3}, "Test"); dc.display();', explanation: 'Both test.' },
+                    { code: '    }', explanation: 'Closes main.' },
+                    { code: '}', explanation: 'Closes class.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>
