@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Java Exercises on Interface</title>
+    <style>
+        body {font-family: Arial, sans-serif;margin: 20px;background-color: #f4f4f4;}
+        h1 {text-align: center;}
+        ul {list-style-type: none;padding: 0;}
+        li {background-color: #fff;margin: 10px 0;padding: 15px;border-radius: 5px;cursor: pointer;box-shadow: 0 2px 5px rgba(0,0,0,0.1);transition: transform 0.3s ease, background-color 0.3s ease;}
+        li:hover {background-color: #e0e0e0;transform: scale(1.05);}
+        #modal {position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.7);display: none;justify-content: center;align-items: center;z-index: 1000;opacity: 0;transition: opacity 0.5s ease;}
+        #modal.show {display: flex;opacity: 1;}
+        #modal-content {background-color: #fff;padding: 20px;border-radius: 10px;max-width: 80%;max-height: 80%;overflow-y: auto;position: relative;transform: scale(0.9) rotate(-5deg);transition: transform 0.5s ease, opacity 0.5s ease;opacity: 0;}
+        #modal.show #modal-content {transform: scale(1) rotate(0deg);opacity: 1;}
+        #close-btn {position: absolute;top: 10px;right: 10px;font-size: 20px;cursor: pointer;transition: color 0.3s ease;}
+        #close-btn:hover {color: #ff0000;}
+        #next-btn {display: block;margin: 10px auto;padding: 10px 20px;background-color: #007bff;color: #fff;border: none;border-radius: 5px;cursor: pointer;transition: background-color 0.3s ease, transform 0.3s ease;}
+        #next-btn:hover {background-color: #0056b3;transform: translateY(-3px);}
+        .code-line {display: none;margin-bottom: 10px;padding: 10px;background-color: #f9f9f9;border-left: 4px solid #007bff;opacity: 0;transform: translateX(-50px);transition: opacity 0.5s ease, transform 0.5s ease;}
+        .code-line.active {display: block;opacity: 1;transform: translateX(0);animation: pulseBorder 1s infinite alternate;}
+        @keyframes fadeInSlide {from {opacity: 0;transform: translateY(20px);} to {opacity: 1;transform: translateY(0);}}
+        @keyframes pulseBorder {from {border-left-color: #007bff;} to {border-left-color: #00ff00;}}
+        .code-line.active {animation: fadeInSlide 0.5s ease-in-out forwards, pulseBorder 1s infinite alternate;}
+        .code-line code {display: block;font-family: monospace;white-space: pre-wrap;}
+        .explanation {font-style: italic;color: #555;margin-top: 5px;transition: color 0.3s ease;}
+        .code-line:hover .explanation {color: #000;}
+    </style>
+</head>
+<body>
+    <h1>10 Java Exercises on Interface</h1>
+    <ul id="program-list">
+        <li data-program="1">1. Basic Interface Declaration & Implementation</li>
+        <li data-program="2">2. Interface with Multiple Methods</li>
+        <li data-program="3">3. Default Method in Interface (Java 8+)</li>
+        <li data-program="4">4. Static Method in Interface (Java 8+)</li>
+        <li data-program="5">5. Multiple Interface Implementation</li>
+        <li data-program="6">6. Interface Inheritance (extends)</li>
+        <li data-program="7">7. Marker Interface Example</li>
+        <li data-program="8">8. Functional Interface & Lambda (Java 8)</li>
+        <li data-program="9">9. Real-World: Drawable Interface → Circle, Rectangle</li>
+        <li data-program="10">10. Comparable Interface – Sorting Custom Objects</li>
+    </ul>
+
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+
+    <script>
+        const programs = {
+            1: {
+                title: "1. Basic Interface Declaration & Implementation",
+                lines: [
+                    { code: 'interface Printable {', explanation: 'This line declares an interface named Printable using the interface keyword. An interface defines a contract – what methods a class must implement. It contains only abstract methods by default (before Java 8). Any class implementing it must provide body for all methods.' },
+                    { code: '    void print();', explanation: 'This declares an abstract method print() with no body. It has public abstract access by default (even if not written). Any class implementing Printable must override this method. This is the core purpose of an interface – to enforce method implementation.' },
+                    { code: '}', explanation: 'This closing brace ends the interface declaration. The interface is now complete with one method. It is ready to be implemented by classes. Interfaces cannot be instantiated directly.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Document implements Printable {', explanation: 'This declares a class Document that implements the Printable interface using implements keyword. A class can implement multiple interfaces. It must provide implementation for all methods in Printable. This establishes an IS-A relationship with the interface.' },
+                    { code: '    public void print() {', explanation: 'This overrides the print() method from Printable interface. It must be public (interface methods are public by default). The class provides concrete implementation. Without this, compilation fails.' },
+                    { code: '        System.out.println("Printing document...");', explanation: 'This is the actual implementation of print(). When called on Document object, this message prints. This fulfills the contract defined by the interface. Different classes can have different implementations.' },
+                    { code: '    }', explanation: 'This closing brace ends the print() method implementation. The override is complete. Document now satisfies the Printable contract. The class is valid.' },
+                    { code: '}', explanation: 'This closing brace ends the Document class. It has successfully implemented the interface. It can now be used wherever Printable is expected. This shows polymorphism via interface.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class with main method. It will create a Document object and call the interface method. This demonstrates interface usage in practice.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will test the interface implementation. Execution starts here. This shows how interfaces work at runtime.' },
+                    { code: '        Printable p = new Document();', explanation: 'This declares Printable reference pointing to Document object (upcasting). This is allowed because Document implements Printable. This enables polymorphic behavior. The actual object type determines which print() runs.' },
+                    { code: '        p.print();', explanation: 'This calls print() through Printable reference. But Document\'s version executes! This is runtime polymorphism. Even though reference is Printable, object is Document. Perfect interface usage.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after call. The output shows Document-specific message. This proves interface contract is fulfilled.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see "Printing document...". This is a fundamental example of interface in Java.' }
+                ]
+            },
+            2: {
+                title: "2. Interface with Multiple Methods",
+                lines: [
+                    { code: 'interface Vehicle {', explanation: 'This line declares an interface named Vehicle. It will contain multiple abstract methods. Any implementing class must provide body for all of them. This shows real-world contract with multiple responsibilities.' },
+                    { code: '    void start();', explanation: 'This declares first abstract method start(). No body, only signature. Implementing classes must override it. This represents common behavior all vehicles must have.' },
+                    { code: '    void stop();', explanation: 'This declares second abstract method stop(). Again no body. All vehicles must be able to stop. This adds another responsibility to the contract.' },
+                    { code: '    void accelerate();', explanation: 'This declares third abstract method accelerate(). This completes the basic vehicle operations. Three methods define the full contract. Implementing classes must handle all three.' },
+                    { code: '}', explanation: 'This closing brace ends the Vehicle interface. It now has three abstract methods. Ready to be implemented by multiple classes. This is a typical multi-method interface.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Car implements Vehicle {', explanation: 'This declares Car class that implements Vehicle interface. It must provide implementation for all three methods. This shows a class fulfilling a multi-method contract.' },
+                    { code: '    public void start() {', explanation: 'This overrides start() method. Must be public. Provides Car-specific implementation. This fulfills part of the contract.' },
+                    { code: '        System.out.println("Car started with key");', explanation: 'This prints Car-specific start message. Different vehicles can have different start mechanisms. This shows how interface allows varied implementations.' },
+                    { code: '    }', explanation: 'This closing brace ends start() implementation.' },
+                    { code: '    public void stop() {', explanation: 'This overrides stop() method. Provides Car-specific stop behavior. Another part of the contract fulfilled.' },
+                    { code: '        System.out.println("Car stopped with brakes");', explanation: 'This prints Car-specific stop message. Shows specialization while following common contract.' },
+                    { code: '    }', explanation: 'This closing brace ends stop() implementation.' },
+                    { code: '    public void accelerate() {', explanation: 'This overrides accelerate() method. Final part of the Vehicle contract. Car provides its own acceleration logic.' },
+                    { code: '        System.out.println("Car accelerating...");', explanation: 'This prints acceleration message. All three methods now implemented. Car fully satisfies Vehicle interface.' },
+                    { code: '    }', explanation: 'This closing brace ends accelerate() implementation. The contract is now completely fulfilled.' },
+                    { code: '}', explanation: 'This closing brace ends Car class. It has implemented all three methods from Vehicle. The class is valid and ready for use.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate multi-method interface usage. It will create Car object and call all methods.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will test all three interface methods. This shows how one interface enforces multiple behaviors.' },
+                    { code: '        Vehicle v = new Car();', explanation: 'This uses Vehicle reference for Car object (upcasting). This enables polymorphism. We can treat Car as Vehicle.' },
+                    { code: '        v.start();', explanation: 'This calls start() through Vehicle reference. Car version executes. This shows runtime polymorphism.' },
+                    { code: '        v.accelerate();', explanation: 'This calls accelerate() through Vehicle reference. Car version runs. Same reference, different method.' },
+                    { code: '        v.stop();', explanation: 'This calls stop() through Vehicle reference. Car version executes. All three methods work through common interface.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes. We have shown multi-method interface in action.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see three Car-specific messages. This is a practical example of interface with multiple methods.' }
+                ]
+            },
+            3: {
+                title: "3. Default Method in Interface (Java 8+)",
+                lines: [
+                    { code: 'interface Drawable {', explanation: 'This line declares an interface named Drawable. From Java 8, interfaces can have default methods with body. This allows adding new methods without breaking existing implementing classes. This is a major enhancement in Java 8.' },
+                    { code: '    void draw();', explanation: 'This declares an abstract method draw(). Implementing classes must override this. This is the core contract. All drawable objects must implement this.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    default void resize() {', explanation: 'This declares a default method resize() with body. It has default keyword. Implementing classes inherit this implementation automatically. They can override it if needed. This allows backward compatibility.' },
+                    { code: '        System.out.println("Resizing shape (default behavior)");', explanation: 'This provides default implementation. When called on object that doesn\'t override it, this runs. This shows how default methods add functionality without forcing changes in existing code.' },
+                    { code: '    }', explanation: 'This closing brace ends default method. The method is complete with body. It will be inherited by all implementing classes. This is Java 8 feature.' },
+                    { code: '}', explanation: 'This closing brace ends the Drawable interface. It has one abstract and one default method. Ready to be implemented. This shows modern interface features.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Circle implements Drawable {', explanation: 'This declares Circle class that implements Drawable. It must implement draw() method. It automatically inherits resize() default method. No need to override resize() unless needed.' },
+                    { code: '    public void draw() {', explanation: 'This overrides the abstract draw() method. Must be public. Provides Circle-specific implementation. This fulfills the main contract.' },
+                    { code: '        System.out.println("Drawing a Circle");', explanation: 'This prints Circle-specific drawing message. This is required implementation. Different from other shapes.' },
+                    { code: '    }', explanation: 'This closing brace ends draw() implementation. The abstract method is satisfied.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    // resize() is inherited from interface with default implementation', explanation: 'This comment shows that resize() is automatically available. No code needed. This is the power of default methods in Java 8+.' },
+                    { code: '}', explanation: 'This closing brace ends Circle class. It implemented required method and inherited default method. The class is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate default method usage. It will create Circle object and call both methods.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will see both overridden and default method behavior. This shows Java 8 interface features.' },
+                    { code: '        Drawable d = new Circle();', explanation: 'This uses Drawable reference for Circle object. Enables polymorphism. Both methods are accessible through interface reference.' },
+                    { code: '        d.draw();', explanation: 'This calls overridden draw() method. Circle version executes. This shows required implementation.' },
+                    { code: '        d.resize();', explanation: 'This calls default method from interface. Since Circle didn\'t override it, interface version runs. This shows default method in action.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes. We have shown both abstract and default method usage.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see Circle drawing and default resizing. This is a key Java 8 interface feature.' }
+                ]
+            },
+            4: {
+                title: "4. Static Method in Interface (Java 8+)",
+                lines: [
+                    { code: 'interface Utility {', explanation: 'This line declares an interface named Utility. From Java 8, interfaces can have static methods with body. These are utility methods associated with the interface. They are called using interface name.' },
+                    { code: '    static void log(String message) {', explanation: 'This declares a static method log() with body. It has static keyword. It belongs to the interface, not instances. It can be called as Utility.log("msg").' },
+                    { code: '        System.out.println("[LOG] " + message);', explanation: 'This prints the message with LOG prefix. This is utility functionality. All implementing classes can use it. No need to implement.' },
+                    { code: '    }', explanation: 'This closing brace ends the static method. The method is complete with body. It is ready for direct use via interface name.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    void process();', explanation: 'This declares an abstract method process(). Implementing classes must override this. This is the main contract. Static method is separate from this.' },
+                    { code: '}', explanation: 'This closing brace ends the Utility interface. It has one static and one abstract method. This shows both Java 8 features together.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Processor implements Utility {', explanation: 'This declares Processor class that implements Utility. It must implement process() method. It automatically gets access to static log() method.' },
+                    { code: '    public void process() {', explanation: 'This overrides the abstract process() method. Must be public. Provides Processor-specific implementation.' },
+                    { code: '        Utility.log("Processing data...");', explanation: 'This calls the static method from interface. Called using interface name. This shows how static methods are used. No object needed.' },
+                    { code: '        System.out.println("Data processed");', explanation: 'This prints completion message. This is Processor-specific behavior.' },
+                    { code: '    }', explanation: 'This closing brace ends process() implementation. The abstract method is satisfied.' },
+                    { code: '}', explanation: 'This closing brace ends Processor class. It implemented required method and used static method. The class is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate static method usage. It will call both static and instance methods.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will see static method called directly and through implementing class.' },
+                    { code: '        Utility.log("Application started");', explanation: 'This calls static method directly using interface name. No object needed. This shows utility nature of static methods in interface.' },
+                    { code: '        Processor p = new Processor();', explanation: 'This creates Processor object. It implements Utility interface.' },
+                    { code: '        p.process();', explanation: 'This calls instance method process(). It internally calls static log(). This shows combination of both features.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes. We have shown static method in interface.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see LOG messages from static method. This is a powerful Java 8 feature for utility methods.' }
+                ]
+            },
+            5: {
+                title: "5. Multiple Interface Implementation",
+                lines: [
+                    { code: 'interface Flyable {', explanation: 'This declares first interface Flyable. A class can implement multiple interfaces. This interface defines flying behavior. It has one abstract method.' },
+                    { code: '    void fly();', explanation: 'This declares abstract method fly(). Implementing classes must override it. This represents flying capability.' },
+                    { code: '}', explanation: 'This closing brace ends Flyable interface. It is ready to be implemented.' },
+                    { code: '', explanation: '' },
+                    { code: 'interface Swimmable {', explanation: 'This declares second interface Swimmable. Independent from Flyable. This defines swimming behavior. Multiple interface implementation allows combining capabilities.' },
+                    { code: '    void swim();', explanation: 'This declares abstract method swim(). Implementing classes must override it. This represents swimming capability.' },
+                    { code: '}', explanation: 'This closing brace ends Swimmable interface. It is ready to be implemented.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Duck implements Flyable, Swimmable {', explanation: 'This declares Duck class that implements both interfaces. Java allows multiple interface implementation. Duck must provide body for both fly() and swim(). This shows combining behaviors.' },
+                    { code: '    public void fly() {', explanation: 'This overrides fly() from Flyable interface. Must be public. Provides Duck-specific flying behavior.' },
+                    { code: '        System.out.println("Duck is flying");', explanation: 'This prints flying message. Duck can fly. This fulfills Flyable contract.' },
+                    { code: '    }', explanation: 'This closing brace ends fly() implementation.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public void swim() {', explanation: 'This overrides swim() from Swimmable interface. Must be public. Provides Duck-specific swimming behavior.' },
+                    { code: '        System.out.println("Duck is swimming");', explanation: 'This prints swimming message. Duck can swim. This fulfills Swimmable contract.' },
+                    { code: '    }', explanation: 'This closing brace ends swim() implementation. Both contracts fulfilled.' },
+                    { code: '}', explanation: 'This closing brace ends Duck class. It implemented two interfaces. Duck can both fly and swim. This shows power of multiple interface implementation.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate multiple interface implementation. It will create Duck object and call both methods.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will test both capabilities. This shows one class fulfilling multiple contracts.' },
+                    { code: '        Duck d = new Duck();', explanation: 'This creates Duck object. It implements two interfaces. Ready for both fly and swim calls.' },
+                    { code: '        d.fly();', explanation: 'This calls fly() method from Flyable interface. Duck version executes.' },
+                    { code: '        d.swim();', explanation: 'This calls swim() method from Swimmable interface. Duck version executes. Same object, different behaviors.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        Flyable f = d;', explanation: 'This uses Flyable reference for Duck object. Only fly() method visible.' },
+                    { code: '        f.fly();', explanation: 'This calls fly() through Flyable reference. Works fine.' },
+                    { code: '        // f.swim(); // Compile error!', explanation: 'This commented line shows limitation. Flyable reference cannot see swim(). This is interface-specific view.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes. We have shown multiple interface implementation.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see both flying and swimming messages. This is a classic example of multiple interface implementation in Java.' }
+                ]
+            },
+            6: {
+                title: "6. Interface Inheritance (extends)",
+                lines: [
+                    { code: 'interface A {', explanation: 'This declares the parent interface A. Interfaces can extend other interfaces using extends keyword. This is interface inheritance. Child interfaces inherit all methods from parent.' },
+                    { code: '    void methodA();', explanation: 'This declares abstract method methodA(). It will be inherited by child interfaces. Implementing classes must provide body.' },
+                    { code: '}', explanation: 'This closing brace ends interface A. It is ready to be extended by other interfaces.' },
+                    { code: '', explanation: '' },
+                    { code: 'interface B extends A {', explanation: 'This declares interface B that extends A. B inherits methodA() from A. It can add its own methods. This shows interface inheritance.' },
+                    { code: '    void methodB();', explanation: 'This adds new abstract method methodB(). Only B has this. Implementing classes must implement both methodA() and methodB().' },
+                    { code: '}', explanation: 'This closing brace ends interface B. It has methodA() from A and methodB() of its own. Ready to be implemented or further extended.' },
+                    { code: '', explanation: '' },
+                    { code: 'interface C extends B {', explanation: 'This declares interface C that extends B. C inherits methodA() from A and methodB() from B. This shows multi-level interface inheritance.' },
+                    { code: '    void methodC();', explanation: 'This adds new abstract method methodC(). C is the most specific. Implementing classes must implement all three methods.' },
+                    { code: '}', explanation: 'This closing brace ends interface C. It has methodA(), methodB(), and methodC(). The inheritance chain is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'class MyClass implements C {', explanation: 'This declares MyClass that implements C. It must provide body for all three methods from A, B, and C. This shows implementing the entire inheritance chain.' },
+                    { code: '    public void methodA() {', explanation: 'This implements methodA() inherited from A through B and C. Must be public. This fulfills the oldest contract.' },
+                    { code: '        System.out.println("Implementing methodA from interface A");', explanation: 'This prints message for methodA(). This shows implementation of inherited method.' },
+                    { code: '    }', explanation: 'This closing brace ends methodA() implementation.' },
+                    { code: '    public void methodB() {', explanation: 'This implements methodB() inherited from B. Must be public. This fulfills middle contract.' },
+                    { code: '        System.out.println("Implementing methodB from interface B");', explanation: 'This prints message for methodB().' },
+                    { code: '    }', explanation: 'This closing brace ends methodB() implementation.' },
+                    { code: '    public void methodC() {', explanation: 'This implements methodC() from C. Must be public. This fulfills the newest contract.' },
+                    { code: '        System.out.println("Implementing methodC from interface C");', explanation: 'This prints message for methodC().' },
+                    { code: '    }', explanation: 'This closing brace ends methodC() implementation. All three contracts fulfilled.' },
+                    { code: '}', explanation: 'This closing brace ends MyClass. It implemented all methods from the entire inheritance chain. The class is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate interface inheritance. It will create MyClass object and call all three methods.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will test all inherited methods. This shows interface inheritance in action.' },
+                    { code: '        MyClass obj = new MyClass();', explanation: 'This creates MyClass object. It implements C which extends B which extends A. Ready for all method calls.' },
+                    { code: '        obj.methodA();', explanation: 'This calls methodA() inherited from A. Works perfectly.' },
+                    { code: '        obj.methodB();', explanation: 'This calls methodB() inherited from B. Works perfectly.' },
+                    { code: '        obj.methodC();', explanation: 'This calls methodC() from C. Works perfectly. All three levels accessible.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes. We have shown multi-level interface inheritance.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see messages from A, B, and C. This is interface inheritance (extends) in Java.' }
+                ]
+            },
+            7: {
+                title: "7. Marker Interface Example",
+                lines: [
+                    { code: 'interface Marker {', explanation: 'This declares a marker interface named Marker. It has no methods. It is used to mark classes for special treatment. This is a tag interface. Example: Serializable, Cloneable in Java.' },
+                    { code: '    // No methods - empty interface', explanation: 'This comment shows the interface is intentionally empty. Marker interfaces contain no methods. They provide type information at runtime. JVM or frameworks check for their presence.' },
+                    { code: '}', explanation: 'This closing brace ends the marker interface. It is complete with no methods. Ready to be implemented by classes that want to be marked.' },
+                    { code: '', explanation: '' },
+                    { code: 'class ImportantData implements Marker {', explanation: 'This declares ImportantData class that implements Marker interface. It marks this class as important. No methods to implement. Just the tag.' },
+                    { code: '    void process() {', explanation: 'This defines a normal method in the class. The marker interface doesn\'t affect this. It is just a tag for external use.' },
+                    { code: '        System.out.println("Processing important data");', explanation: 'This prints processing message. Normal class behavior. The marker interface is for metadata.' },
+                    { code: '    }', explanation: 'This closing brace ends process() method.' },
+                    { code: '}', explanation: 'This closing brace ends ImportantData class. It is now marked with Marker interface. Ready for special treatment.' },
+                    { code: '', explanation: '' },
+                    { code: 'class NormalData {', explanation: 'This declares NormalData class that does NOT implement Marker. It is regular data. No special treatment.' },
+                    { code: '    void process() {', explanation: 'This defines same method as ImportantData. But this class is not marked. Different treatment possible at runtime.' },
+                    { code: '        System.out.println("Processing normal data");', explanation: 'This prints normal processing message.' },
+                    { code: '    }', explanation: 'This closing brace ends process() method.' },
+                    { code: '}', explanation: 'This closing brace ends NormalData class. It is not marked. Regular class.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate marker interface usage. It will check if object is marked using instanceof.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will test both classes with instanceof check. This shows runtime type identification using marker interface.' },
+                    { code: '        ImportantData id = new ImportantData();', explanation: 'This creates ImportantData object. It implements Marker interface.' },
+                    { code: '        NormalData nd = new NormalData();', explanation: 'This creates NormalData object. It does not implement Marker.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        if (id instanceof Marker) {', explanation: 'This checks if id is marked with Marker interface. It is true. This shows runtime checking of marker.' },
+                    { code: '            System.out.println("This is important data - handle with care");', explanation: 'This prints special message for marked objects. This shows special treatment.' },
+                    { code: '            id.process();', explanation: 'This calls process() on important data.' },
+                    { code: '        }', explanation: 'This closing brace ends if block.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        if (nd instanceof Marker) {', explanation: 'This checks if nd is marked. It is false. Normal data is not marked.' },
+                    { code: '            System.out.println("This should not print");', explanation: 'This message never prints. Normal data is not marked.' },
+                    { code: '        } else {', explanation: 'This else block executes for normal data.' },
+                    { code: '            System.out.println("This is normal data");', explanation: 'This prints for unmarked objects.' },
+                    { code: '            nd.process();', explanation: 'This calls process() on normal data.' },
+                    { code: '        }', explanation: 'This closing brace ends else block.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes. We have shown marker interface usage with instanceof.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see special treatment for ImportantData. This is how marker interfaces work in Java (like Serializable).' }
+                ]
+            },
+            8: {
+                title: "8. Functional Interface & Lambda (Java 8)",
+                lines: [
+                    { code: '@FunctionalInterface', explanation: 'This annotation marks the interface as functional. It must have exactly one abstract method. This enables lambda expression usage. It helps catch errors at compile time if more methods are added.' },
+                    { code: 'interface Calculator {', explanation: 'This declares a functional interface named Calculator. It will have exactly one abstract method. This is designed for lambda expressions in Java 8+.' },
+                    { code: '    int calculate(int a, int b);', explanation: 'This is the single abstract method. It takes two int parameters and returns int. This is the only method allowed in functional interface. Lambda expressions can implement this.' },
+                    { code: '}', explanation: 'This closing brace ends the functional interface. It has exactly one abstract method. Ready for lambda expression usage.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate functional interface with lambda. It will use lambda expressions to implement Calculator.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will create different calculator implementations using lambda. This shows the power of functional interfaces.' },
+                    { code: '        // Addition using lambda', explanation: 'This comment shows first lambda implementation for addition.' },
+                    { code: '        Calculator add = (a, b) -> a + b;', explanation: 'This creates lambda expression for addition. It implements calculate() method. No need for class. Concise and powerful Java 8 feature.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        // Subtraction using lambda', explanation: 'This comment shows second lambda for subtraction.' },
+                    { code: '        Calculator subtract = (a, b) -> a - b;', explanation: 'This creates lambda for subtraction. Same interface, different implementation. This shows how one interface can have multiple behaviors.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        // Multiplication with block lambda', explanation: 'This comment shows block lambda for multiplication.' },
+                    { code: '        Calculator multiply = (a, b) -> {', explanation: 'This starts block lambda for multiplication. Uses curly braces for multiple statements. This shows more complex lambda expressions.' },
+                    { code: '            int result = a * b;', explanation: 'This calculates product. Intermediate step in block lambda.' },
+                    { code: '            return result;', explanation: 'This returns the result. Return keyword required in block lambda.' },
+                    { code: '        };', explanation: 'This closing brace and semicolon end the block lambda. The lambda is complete. Ready for use.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        System.out.println("10 + 5 = " + add.calculate(10, 5));', explanation: 'This calls calculate() on addition lambda. Output: 15. This shows lambda in action.' },
+                    { code: '        System.out.println("10 - 5 = " + subtract.calculate(10, 5));', explanation: 'This calls calculate() on subtraction lambda. Output: 5.' },
+                    { code: '        System.out.println("10 * 5 = " + multiply.calculate(10, 5));', explanation: 'This calls calculate() on multiplication lambda. Output: 50. This shows block lambda usage.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes. We have shown functional interface with different lambda implementations.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see three different calculations. This is a powerful Java 8 feature using functional interfaces and lambda expressions.' }
+                ]
+            },
+            9: {
+                title: "9. Real-World: Drawable Interface → Circle, Rectangle",
+                lines: [
+                    { code: 'interface Drawable {', explanation: 'This declares a real-world interface Drawable. It defines what it means to be drawable. Any shape that can be drawn implements this. This is used in graphics programming.' },
+                    { code: '    void draw();', explanation: 'This declares abstract method draw(). All drawable objects must implement this. This is the contract. Different shapes will have different drawing logic.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    default void resize(double factor) {', explanation: 'This adds default method for resizing. Provides common functionality. Implementing classes inherit this. They can override if needed.' },
+                    { code: '        System.out.println("Resizing by factor: " + factor);', explanation: 'This prints default resize message. Useful for all shapes. This shows Java 8 default method in real-world interface.' },
+                    { code: '    }', explanation: 'This closing brace ends default method.' },
+                    { code: '}', explanation: 'This closing brace ends Drawable interface. It has one abstract and one default method. Ready for real-world implementation.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Circle implements Drawable {', explanation: 'This declares Circle class that implements Drawable. Circle IS-A Drawable. It must implement draw() method. It inherits resize() default method.' },
+                    { code: '    private double radius;', explanation: 'This adds Circle-specific field for radius. Private to Circle. This shows specialization.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public Circle(double radius) {', explanation: 'This is Circle constructor. It initializes radius. No need to call anything from interface.' },
+                    { code: '        this.radius = radius;', explanation: 'This initializes radius field. Circle object now has its state.' },
+                    { code: '    }', explanation: 'This closing brace ends Circle constructor.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public void draw() {', explanation: 'This implements the required draw() method from Drawable. Must be public. Provides Circle-specific drawing logic.' },
+                    { code: '        System.out.println("Drawing Circle with radius: " + radius);', explanation: 'This prints Circle-specific drawing message. This fulfills the Drawable contract.' },
+                    { code: '    }', explanation: 'This closing brace ends draw() implementation.' },
+                    { code: '}', explanation: 'This closing brace ends Circle class. It implemented required method and inherited default method. Ready for use.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Rectangle implements Drawable {', explanation: 'This declares Rectangle class – second implementation of Drawable. Rectangle IS-A Drawable. Independent from Circle.' },
+                    { code: '    private double length, width;', explanation: 'This adds Rectangle-specific fields. Different from Circle. This shows different implementations of same interface.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public Rectangle(double length, double width) {', explanation: 'This is Rectangle constructor. Initializes its own fields.' },
+                    { code: '        this.length = length;', explanation: 'This initializes length field.' },
+                    { code: '        this.width = width;', explanation: 'This initializes width field.' },
+                    { code: '    }', explanation: 'This closing brace ends Rectangle constructor.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public void draw() {', explanation: 'This implements draw() method for Rectangle. Different implementation from Circle. Same method name, different behavior.' },
+                    { code: '        System.out.println("Drawing Rectangle " + length + "x" + width);', explanation: 'This prints Rectangle-specific drawing message. This fulfills Drawable contract in Rectangle way.' },
+                    { code: '    }', explanation: 'This closing brace ends draw() implementation.' },
+                    { code: '}', explanation: 'This closing brace ends Rectangle class. It implemented required method and inherited default method. Second implementation complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate real-world interface usage. It will create Circle and Rectangle objects and call methods.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will test both Circle and Rectangle through Drawable reference. This shows polymorphism.' },
+                    { code: '        Drawable d1 = new Circle(5.0);', explanation: 'This uses Drawable reference for Circle object. Enables polymorphism.' },
+                    { code: '        Drawable d2 = new Rectangle(4.0, 6.0);', explanation: 'This uses Drawable reference for Rectangle object. Same reference type, different object.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        d1.draw();', explanation: 'This calls draw() through Drawable reference. Circle version executes. This shows runtime polymorphism.' },
+                    { code: '        d1.resize(1.5);', explanation: 'This calls default resize() method. Inherited from interface. Same for all shapes.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        d2.draw();', explanation: 'This calls draw() through Drawable reference. Rectangle version executes. Same reference, different behavior.' },
+                    { code: '        d2.resize(2.0);', explanation: 'This calls default resize() method. Same code for all drawable objects.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes. We have shown real-world interface with polymorphism and default method.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see different drawing messages and resizing. This is a practical graphics-style interface example.' }
+                ]
+            },
+            10: {
+                title: "10. Comparable Interface – Sorting Custom Objects",
+                lines: [
+                    { code: 'import java.util.*;', explanation: 'This imports java.util package for ArrayList and Collections. We will use them for storing and sorting objects. This is required for the example.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Student implements Comparable<Student> {', explanation: 'This declares Student class that implements Comparable interface. Comparable is a built-in functional interface. It requires implementing compareTo() method for natural ordering.' },
+                    { code: '    String name;', explanation: 'This declares field for student name. It will be used for comparison.' },
+                    { code: '    int age;', explanation: 'This declares field for age. We will sort by age.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public Student(String name, int age) {', explanation: 'This is Student constructor taking name and age.' },
+                    { code: '        this.name = name;', explanation: 'This initializes name field.' },
+                    { code: '        this.age = age;', explanation: 'This initializes age field.' },
+                    { code: '    }', explanation: 'This closing brace ends constructor.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public int compareTo(Student other) {', explanation: 'This overrides compareTo() from Comparable. It defines natural ordering. Return negative if this < other, zero if equal, positive if this > other.' },
+                    { code: '        return this.age - other.age;', explanation: 'This compares by age. Simple integer subtraction. Negative if this student is younger. This enables sorting by age.' },
+                    { code: '    }', explanation: 'This closing brace ends compareTo() method. The natural ordering is now defined by age.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public String toString() {', explanation: 'This overrides toString() for nice printing. It will show name and age.' },
+                    { code: '        return name + " (Age: " + age + ")";', explanation: 'This returns formatted string. Used when printing the object.' },
+                    { code: '    }', explanation: 'This closing brace ends toString() method.' },
+                    { code: '}', explanation: 'This closing brace ends Student class. It implements Comparable. Ready for sorting.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate Comparable interface. It will create Student objects, store in list, and sort.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will create list of students and sort using Collections.sort().' },
+                    { code: '        ArrayList<Student> students = new ArrayList<>();', explanation: 'This creates ArrayList to store Student objects. ArrayList implements List interface.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        students.add(new Student("Alice", 22));', explanation: 'This adds first student.' },
+                    { code: '        students.add(new Student("Bob", 18));', explanation: 'This adds second student.' },
+                    { code: '        students.add(new Student("Charlie", 20));', explanation: 'This adds third student.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        System.out.println("Before sorting:");', explanation: 'This prints header before sorting.' },
+                    { code: '        for (Student s : students) System.out.println(s);', explanation: 'This prints all students before sorting. Order is insertion order.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        Collections.sort(students);', explanation: 'This sorts the list using natural ordering from compareTo(). Since Student implements Comparable, this works.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        System.out.println("After sorting by age:");', explanation: 'This prints header after sorting.' },
+                    { code: '        for (Student s : students) System.out.println(s);', explanation: 'This prints sorted list. Students ordered by age ascending.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes. We have shown Comparable interface for custom sorting.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see unsorted then sorted list by age. This is real-world use of Comparable interface.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) return;
+
+                currentLineIndex = -1;
+                document.getElementById('program-title').textContent = program.title;
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach(line => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', showNextLine);
+
+        document.getElementById('modal').addEventListener('click', e => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', e => e.stopPropagation());
+    </script>
+</body>
+</html>
