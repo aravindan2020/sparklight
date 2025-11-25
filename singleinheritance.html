@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Java Exercises on Single Inheritance</title>
+    <style>
+        body {font-family: Arial, sans-serif;margin: 20px;background-color: #f4f4f4;}
+        h1 {text-align: center;}
+        ul {list-style-type: none;padding: 0;}
+        li {background-color: #fff;margin: 10px 0;padding: 15px;border-radius: 5px;cursor: pointer;box-shadow: 0 2px 5px rgba(0,0,0,0.1);transition: transform 0.3s ease, background-color 0.3s ease;}
+        li:hover {background-color: #e0e0e0;transform: scale(1.05);}
+        #modal {position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.7);display: none;justify-content: center;align-items: center;z-index: 1000;opacity: 0;transition: opacity 0.5s ease;}
+        #modal.show {display: flex;opacity: 1;}
+        #modal-content {background-color: #fff;padding: 20px;border-radius: 10px;max-width: 80%;max-height: 80%;overflow-y: auto;position: relative;transform: scale(0.9) rotate(-5deg);transition: transform 0.5s ease, opacity 0.5s ease;opacity: 0;}
+        #modal.show #modal-content {transform: scale(1) rotate(0deg);opacity: 1;}
+        #close-btn {position: absolute;top: 10px;right: 10px;font-size: 20px;cursor: pointer;transition: color 0.3s ease;}
+        #close-btn:hover {color: #ff0000;}
+        #next-btn {display: block;margin: 10px auto;padding: 10px 20px;background-color: #007bff;color: #fff;border: none;border-radius: 5px;cursor: pointer;transition: background-color 0.3s ease, transform 0.3s ease;}
+        #next-btn:hover {background-color: #0056b3;transform: translateY(-3px);}
+        .code-line {display: none;margin-bottom: 10px;padding: 10px;background-color: #f9f9f9;border-left: 4px solid #007bff;opacity: 0;transform: translateX(-50px);transition: opacity 0.5s ease, transform 0.5s ease;}
+        .code-line.active {display: block;opacity: 1;transform: translateX(0);animation: pulseBorder 1s infinite alternate;}
+        @keyframes fadeInSlide {from {opacity: 0;transform: translateY(20px);} to {opacity: 1;transform: translateY(0);}}
+        @keyframes pulseBorder {from {border-left-color: #007bff;} to {border-left-color: #00ff00;}}
+        .code-line.active {animation: fadeInSlide 0.5s ease-in-out forwards, pulseBorder 1s infinite alternate;}
+        .code-line code {display: block;font-family: monospace;white-space: pre-wrap;}
+        .explanation {font-style: italic;color: #555;margin-top: 5px;transition: color 0.3s ease;}
+        .code-line:hover .explanation {color: #000;}
+    </style>
+</head>
+<body>
+    <h1>10 Java Exercises on Single Inheritance</h1>
+    <ul id="program-list">
+        <li data-program="1">1. Basic Single Inheritance – Animal → Dog</li>
+        <li data-program="2">2. Inheritance of Fields and Methods</li>
+        <li data-program="3">3. Calling Superclass Constructor using super()</li>
+        <li data-program="4">4. Overriding Methods in Single Inheritance</li>
+        <li data-program="5">5. Using super keyword to Call Overridden Method</li>
+        <li data-program="6">6. Inheritance with Private Members</li>
+        <li data-program="7">7. Single Inheritance with Static Members</li>
+        <li data-program="8">8. Inheritance in Real-World: Vehicle → Car</li>
+        <li data-program="9">9. Single Inheritance with Multiple Levels (A → B → C)</li>
+        <li data-program="10">10. Polymorphism with Single Inheritance (Upcasting & Downcasting)</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+
+    <script>
+        const programs = {
+            1: {
+                title: "1. Basic Single Inheritance – Animal → Dog",
+                lines: [
+                    { code: 'class Animal {', explanation: 'This line declares a superclass named Animal. In inheritance, this class will act as the parent. All common properties and behaviors of animals will be defined here. This promotes code reuse across different types of animals.' },
+                    { code: '    void eat() {', explanation: 'This defines a method named eat() with no parameters and void return type. It represents a common behavior shared by all animals. The method is declared without any access modifier, so it has default (package-private) access. This method will be inherited by subclasses.' },
+                    { code: '        System.out.println("Animal is eating");', explanation: 'This is the body of the eat method. It simply prints a generic message when called. Every animal eats, so this method provides default behavior. Subclasses can inherit and use it directly or override it for specific behavior.' },
+                    { code: '    }', explanation: 'This closing brace ends the eat() method definition. Proper brace matching is essential for compilation. All statements inside belong to the eat() method. This completes the common behavior implementation in the parent class.' },
+                    { code: '}', explanation: 'This closing brace ends the Animal class definition. Everything between the class declaration and this brace belongs to Animal. This class is now ready to be extended by other classes. It forms the root of our inheritance hierarchy.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Dog extends Animal {', explanation: 'This declares a subclass named Dog that inherits from Animal using the extends keyword. This is the core of single inheritance in Java – a class can extend only one parent. Dog automatically gets all non-private members from Animal. This establishes an IS-A relationship: Dog IS-AN Animal.' },
+                    { code: '    void bark() {', explanation: 'This defines a Dog-specific method called bark(). It has void return type and no parameters. This behavior is unique to dogs (or similar animals). Even though Dog inherits eat() from Animal, it can add its own specialized methods.' },
+                    { code: '        System.out.println("Dog is barking");', explanation: 'This is the implementation of the bark() method. When called on a Dog object, it prints a dog-specific sound. This demonstrates how inheritance allows adding new functionality. The method is package-private by default.' },
+                    { code: '    }', explanation: 'This closing brace completes the bark() method. All code inside belongs to bark(). Proper indentation helps readability and debugging. This method is now part of the Dog class.' },
+                    { code: '}', explanation: 'This closing brace ends the Dog class definition. Dog now has both its own bark() method and the inherited eat() method from Animal. The class is complete and ready to be instantiated. This is a classic example of code reuse through inheritance.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class TestInheritance {', explanation: 'This declares the main test class with public access. The class name must match the file name (TestInheritance.java). It contains the main() method to run the program. This is where we demonstrate inheritance in action.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the main method – the entry point of any Java application. It is public, static, returns void, and takes String array as argument. JVM calls this method to start execution. All testing code will go inside here.' },
+                    { code: '        Dog d = new Dog();', explanation: 'This creates a new instance of the Dog class using the new keyword. The Dog() constructor is called (default constructor). Since Dog extends Animal, Animal\'s constructor is also called implicitly. Memory is allocated for a Dog object with all inherited fields/methods.' },
+                    { code: '        d.eat();   // Inherited method', explanation: 'This calls the eat() method on the Dog object. Even though eat() is defined in Animal, Dog inherited it. This demonstrates code reuse – no need to rewrite eat() in Dog. The output will be "Animal is eating".' },
+                    { code: '        d.bark();  // Own method', explanation: 'This calls the bark() method that belongs only to Dog. This shows specialization – Dog has additional behavior beyond Animal. The output will be "Dog is barking". This line would cause compile error if called on an Animal reference.' },
+                    { code: '    }', explanation: 'This closing brace ends the main method. All executable statements are inside these braces. Execution starts and ends here. The program terminates after this.' },
+                    { code: '}', explanation: 'This closing brace ends the TestInheritance class. The entire program is now complete and compiled. When run, it creates a Dog and calls both inherited and specific methods. This perfectly illustrates single inheritance in Java.' }
+                ]
+            },
+            2: {
+                title: "2. Inheritance of Fields and Methods",
+                lines: [
+                    { code: 'class Parent {', explanation: 'Declares a parent class named Parent. This class will contain members that can be inherited. It acts as the base class in the inheritance hierarchy. All non-private members will be available to subclasses.' },
+                    { code: '    String name = "Parent";', explanation: 'Declares an instance variable of type String named name. It is initialized to "Parent". This field has default (package-private) access. It will be inherited by any subclass of Parent.' },
+                    { code: '    void display() {', explanation: 'Defines a method named display() with void return type. This method will print the value of the name field. It has default access, so it can be inherited and called by subclasses. This demonstrates reusable behavior.' },
+                    { code: '        System.out.println("Name: " + name);', explanation: 'Prints the current value of the name field with a prefix. This is the body of the display method. It accesses the inherited field directly. Subclasses can call this method without redefining it.' },
+                    { code: '    }', explanation: 'Closes the display() method definition. All code between the opening and closing braces belongs to this method. Proper closing is required for compilation. This completes the reusable method.' },
+                    { code: '}', explanation: 'Closes the Parent class definition. Everything defined above belongs to Parent. The class is now ready to be extended. It contains one field and one method for inheritance.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Child extends Parent {', explanation: 'Declares a Child class that inherits from Parent using extends keyword. This is single inheritance – Child can have only one parent. Child automatically inherits all non-private members from Parent. No need to redefine name or display().' },
+                    { code: '    // name and display() are automatically available', explanation: 'This is a comment explaining that inheritance happened implicitly. The Child class has access to Parent\'s name field and display() method. No code is needed to inherit them. This is the power of inheritance – code reuse.' },
+                    { code: '}', explanation: 'Closes the Child class. Even though it looks empty, Child has two members inherited from Parent. It can use name and call display() directly. This minimal subclass demonstrates pure inheritance.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'Declares the test class with public access modifier. This class contains the main method for execution. The filename must be Test.java. It will create objects and demonstrate inheritance.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'The main method – entry point of the program. It is public, static, void, and takes String[] args. JVM starts execution from here. All demonstration code goes inside.' },
+                    { code: '        Child c = new Child();', explanation: 'Creates a new Child object using the new keyword. Memory is allocated for Child and its inherited members. Parent\'s constructor is called implicitly (default constructor). The object has access to inherited field and method.' },
+                    { code: '        System.out.println(c.name);  // Inherited field', explanation: 'Accesses the name field directly through the Child object. Even though name is defined in Parent, Child inherited it. No getter/setter needed due to default access. Output will be "Parent".' },
+                    { code: '        c.display();                 // Inherited method', explanation: 'Calls the display() method that was defined in Parent. Child inherited this method completely. No need to override or redefine it. Output will be "Name: Parent".' },
+                    { code: '    }', explanation: 'Closes the main method. Execution ends here. The program has successfully demonstrated field and method inheritance. This is a core benefit of inheritance.' },
+                    { code: '}', explanation: 'Closes the Test class and the entire program. When compiled and run, it proves that Child inherited everything from Parent. This example shows how inheritance reduces code duplication.' }
+                ]
+            },
+            3: {
+                title: "3. Calling Superclass Constructor using super()",
+                lines: [
+                    { code: 'class Animal {', explanation: 'This declares the superclass Animal with a parameterized constructor. When a subclass is created, it must ensure the parent is properly initialized. This constructor takes a string parameter representing the type of animal. This is common in real-world inheritance.' },
+                    { code: '    String type;', explanation: 'This declares an instance variable type to store the animal type. It is package-private by default. This field will be set through the constructor. Subclasses can access it directly if needed.' },
+                    { code: '    Animal(String type) {', explanation: 'This is the parameterized constructor of Animal class. It takes a string argument. There is no default constructor, so subclasses must explicitly call it. This forces proper initialization of parent state.' },
+                    { code: '        this.type = type;', explanation: 'This assigns the parameter to the instance field type. It uses this keyword to distinguish from parameter. This properly initializes the parent object. Without this, the field would remain null.' },
+                    { code: '        System.out.println("Animal created: " + type);', explanation: 'This prints a message showing the parent constructor ran. It helps track the order of constructor calls. This message appears before subclass constructor message. This is useful for understanding inheritance flow.' },
+                    { code: '    }', explanation: 'This closing brace ends the Animal constructor. The constructor is now complete. All subclasses must call it using super(). This ensures the parent part is always initialized.' },
+                    { code: '}', explanation: 'This closing brace ends the Animal class. It is ready to be extended. Its constructor must be called by any subclass. This is a key rule in Java inheritance.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Dog extends Animal {', explanation: 'This declares Dog class that inherits from Animal. Since Animal has no default constructor, Dog must provide a constructor that calls super(). This is mandatory in single inheritance when parent has only parameterized constructors.' },
+                    { code: '    Dog() {', explanation: 'This is the constructor of Dog class. It has no parameters for simplicity. It must call the Animal constructor. This shows how to properly initialize the parent part.' },
+                    { code: '        super("Canine");', explanation: 'This calls the Animal constructor with "Canine" argument. It must be the first statement in the constructor. This passes the required parameter to parent. Without this, compilation fails.' },
+                    { code: '        System.out.println("Dog created");', explanation: 'This prints a message after parent constructor completes. It runs only after super() call. This shows the order: parent first, then child. This completes Dog initialization.' },
+                    { code: '    }', explanation: 'This closing brace ends the Dog constructor. Both Animal and Dog parts are initialized. The constructor chain is complete. Dog object is ready.' },
+                    { code: '}', explanation: 'This closing brace ends the Dog class. It has successfully extended Animal. Constructor chaining using super() is implemented. The class is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class with main method. It will create a Dog object. This triggers the constructor chain. We will see the order of messages.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. Only one line will trigger two constructors. This demonstrates constructor chaining in inheritance. Execution starts here.' },
+                    { code: '        Dog d = new Dog();', explanation: 'This creates a Dog object. This single line calls two constructors: Dog → Animal. Output order: "Animal created: Canine" then "Dog created". This proves super() works perfectly.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program terminates after object creation. The messages confirm constructor chain. Single inheritance initialization demonstrated.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, output shows Animal first, then Dog. This is the correct order in single inheritance. Perfect example of super() usage.' }
+                ]
+            },
+            4: {
+                title: "4. Overriding Methods in Single Inheritance",
+                lines: [
+                    { code: 'class Animal {', explanation: 'This declares the superclass Animal with a method that will be overridden. This method represents common behavior. Subclasses can provide more specific implementations. This enables polymorphic behavior.' },
+                    { code: '    void sound() {', explanation: 'This defines a method named sound() in Animal class. It has default access and void return type. This is the original version that will be overridden. All animals make some sound.' },
+                    { code: '        System.out.println("Animal makes a sound");', explanation: 'This is the generic implementation. When called on Animal object, this message prints. Subclasses will override this method. This is the base behavior.' },
+                    { code: '    }', explanation: 'This closing brace ends the sound() method in Animal. The method is complete. It will be inherited by Dog. Ready for overriding.' },
+                    { code: '}', explanation: 'This closing brace ends the Animal class. It is ready to be extended. Its sound() method will be overridden. This forms the base for polymorphism.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Dog extends Animal {', explanation: 'This declares Dog class that inherits from Animal. It will override the sound() method. This shows specialization. Dog IS-A Animal but has its own sound.' },
+                    { code: '    @Override', explanation: 'This annotation indicates method overriding. It is optional but recommended. It helps catch errors at compile time if signature doesn\'t match. Good practice in inheritance.' },
+                    { code: '    void sound() {', explanation: 'This overrides the sound() method from Animal. Same name, same parameters, same return type. This version is specific to Dog. It hides Animal\'s version.' },
+                    { code: '        System.out.println("Dog says: Woof Woof");', explanation: 'This prints Dog-specific message. When called on Dog object, this executes instead of Animal\'s. This demonstrates method overriding. Runtime polymorphism enabled.' },
+                    { code: '    }', explanation: 'This closing brace ends the overridden sound() method. The override is complete. Dog objects will use this version. Animal version is hidden but still exists.' },
+                    { code: '}', explanation: 'This closing brace ends the Dog class. It has successfully overridden sound(). The class is complete. Ready for testing polymorphism.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate method overriding. It will create both Animal and Dog objects. Then call sound() on each to see which version runs.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will see the difference between static and dynamic binding. This shows the power of overriding in single inheritance.' },
+                    { code: '        Animal a = new Animal();', explanation: 'This creates Animal object with Animal reference. When sound() called, Animal version executes. This is normal method call. No polymorphism here.' },
+                    { code: '        a.sound();', explanation: 'This calls sound() on Animal object. Output: "Animal makes a sound". Reference and object type match. Base implementation runs.' },
+                    { code: '        Dog d = new Dog();', explanation: 'This creates Dog object with Dog reference. When sound() called, Dog version executes. This shows overriding works. Runtime chooses the correct version.' },
+                    { code: '        d.sound();', explanation: 'This calls sound() on Dog object. Output: "Dog says: Woof Woof". Even though method defined in Animal, Dog overrode it. This is runtime polymorphism.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after calls. The output shows different behavior for same method name. This proves method overriding works perfectly.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see two different messages. This is a fundamental example of method overriding in single inheritance.' }
+                ]
+            },
+            5: {
+                title: "5. Using super keyword to Call Overridden Method",
+                lines: [
+                    { code: 'class Vehicle {', explanation: 'This declares the superclass Vehicle with a method that will be overridden. This method represents common behavior. Subclasses can extend it while reusing parent logic using super.' },
+                    { code: '    void start() {', explanation: 'This defines the start() method in Vehicle class. It has default access. This is the original version. Car will override it but still want to call this version.' },
+                    { code: '        System.out.println("Vehicle is starting");', explanation: 'This prints a generic start message. When called directly on Vehicle, this runs. Car will call this first using super.start(). This shows reusable base logic.' },
+                    { code: '    }', explanation: 'This closing brace ends the start() method in Vehicle. The method is complete. It will be overridden but still accessible via super. This is key for extension.' },
+                    { code: '}', explanation: 'This closing brace ends the Vehicle class. It is ready to be extended. Its start() method will be overridden. This forms the base for super usage.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Car extends Vehicle {', explanation: 'This declares Car class that inherits from Vehicle. It will override start() method. It wants to add car-specific behavior while reusing Vehicle\'s start logic.' },
+                    { code: '    @Override', explanation: 'This annotation confirms method overriding. It ensures signature matches Vehicle. This is good practice. It helps catch errors early.' },
+                    { code: '    void start() {', explanation: 'This overrides Vehicle\'s start() method. Same name and parameters. This version is specific to Car. It will call super.start() to reuse parent logic.' },
+                    { code: '        super.start();', explanation: 'This calls the immediate parent (Vehicle) version of start(). It executes Vehicle\'s code first. Then adds Car-specific message. This shows proper use of super in overriding.' },
+                    { code: '        System.out.println("Car engine started with key ignition");', explanation: 'This prints Car-specific message after parent logic. It extends the behavior. This runs only for Car objects. This completes the overridden method.' },
+                    { code: '    }', explanation: 'This closing brace ends Car\'s overridden start() method. The method properly calls super.start(). Both Vehicle and Car messages will print. Perfect combination.' },
+                    { code: '}', explanation: 'This closing brace ends Car class. It has successfully overridden start(). It reuses parent logic via super. The class is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate super usage in overriding. It will create a Car object. Then call start() once to see both messages.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. Only one method call will trigger two prints. This shows how super allows code reuse in inheritance. Execution starts here.' },
+                    { code: '        Car c = new Car();', explanation: 'This creates a Car object. Constructors chain upward (not shown). The object is ready with overridden method. Memory allocated for all levels.' },
+                    { code: '        c.start();', explanation: 'This single call triggers both versions. First Vehicle message, then Car message. This proves super.start() works correctly. Output shows both behaviors.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after call. The output confirms both messages appeared. Super keyword usage demonstrated perfectly.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see "Vehicle is starting" followed by Car message. This is a common and powerful pattern in inheritance.' }
+                ]
+            },
+            6: {
+                title: "6. Inheritance with Private Members",
+                lines: [
+                    { code: 'class Parent {', explanation: 'This declares the superclass Parent with different access modifiers. It shows what gets inherited and what doesn\'t. Private members are not inherited. This is important to understand encapsulation with inheritance.' },
+                    { code: '    private int secret = 999;', explanation: 'This declares a private field secret. Private members are not inherited by subclasses. They are completely hidden. This shows data hiding in inheritance.' },
+                    { code: '    protected int id = 100;', explanation: 'This declares protected field id that will be inherited. Protected allows subclass access. This field is visible to Child class. This shows controlled inheritance.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    private void hiddenMethod() {', explanation: 'This defines a private method. Private methods are not inherited. They cannot be called or overridden by subclasses. This shows method hiding.' },
+                    { code: '        System.out.println("Secret: " + secret);', explanation: 'This prints the private field. Only Parent can call this method. Child cannot access it directly. This maintains encapsulation.' },
+                    { code: '    }', explanation: 'This closing brace ends the private method. The method is completely hidden. Subclasses have no knowledge of it. This is strong encapsulation.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public void publicMethod() {', explanation: 'This defines a public method that can call private members. It acts as an interface to private data. Subclasses inherit this method. This shows indirect access.' },
+                    { code: '        hiddenMethod();', explanation: 'This calls the private method internally. Child can call publicMethod() to trigger it. This is how encapsulation is maintained while allowing controlled access.' },
+                    { code: '    }', explanation: 'This closing brace ends publicMethod(). The method is complete. It provides controlled access to private members. Subclasses inherit this.' },
+                    { code: '}', explanation: 'This closing brace ends Parent class. It has private and protected members. Private ones are hidden from inheritance. Protected ones are inherited.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Child extends Parent {', explanation: 'This declares Child class that inherits from Parent. It gets protected and public members. It cannot access private members directly. This shows inheritance boundaries.' },
+                    { code: '    void testAccess() {', explanation: 'This method tests what Child can access from Parent. It tries to access different members. This demonstrates inheritance rules in action.' },
+                    { code: '        // System.out.println(secret); // Compile error!', explanation: 'This commented line shows private field is inaccessible. Compilation fails if uncommented. Private members are not inherited. This enforces encapsulation.' },
+                    { code: '        System.out.println(id);', explanation: 'This accesses the protected field directly. Protected members are inherited. Child can read and modify them. This shows proper inheritance.' },
+                    { code: '        publicMethod();', explanation: 'This calls the public method inherited from Parent. It indirectly triggers the private method. This is allowed. This shows controlled access to private members.' },
+                    { code: '        // hiddenMethod(); // Compile error!', explanation: 'This commented line shows private method is inaccessible. Private methods are not inherited. Only public/protected methods are available.' },
+                    { code: '    }', explanation: 'This closing brace ends testAccess() method. The method successfully accessed inherited members. Private members remained hidden. This shows encapsulation preserved.' },
+                    { code: '}', explanation: 'This closing brace ends Child class. It inherited protected and public members. Private members are completely hidden. The class is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class with main method. It will create a Child object. Then call testAccess() to see what works.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will see which access attempts succeed. This demonstrates inheritance with encapsulation. Execution starts here.' },
+                    { code: '        Child c = new Child();', explanation: 'This creates a Child object. It inherits from Parent. Memory allocated for inherited members. The object is ready for testing.' },
+                    { code: '        c.testAccess();', explanation: 'This calls the test method. It accesses protected field and public method. Private members remain inaccessible. This shows encapsulation works with inheritance.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after test. The output shows protected access works, private doesn\'t. Perfect demonstration.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see id printed and publicMethod called. Private members stayed hidden. This is correct Java behavior.' }
+                ]
+            },
+            7: {
+                title: "7. Single Inheritance with Static Members",
+                lines: [
+                    { code: 'class MathUtils {', explanation: 'This declares the parent class MathUtils with static members. Static members belong to the class, not instances. They are shared by all objects. They are inherited by subclasses.' },
+                    { code: '    static int count = 0;', explanation: 'This declares static field count initialized to 0. It is shared by all instances and subclasses. There is only one copy in memory. All classes in hierarchy see the same value.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    static void increment() {', explanation: 'This defines static method to increment count. It can be called without object using class name. It will be inherited by Calculator. This shows static method inheritance.' },
+                    { code: '        count++;', explanation: 'This increments the shared static field. Every call from any class increases the same count. This demonstrates that static fields are shared across the hierarchy.' },
+                    { code: '        System.out.println("Count increased to: " + count);', explanation: 'This prints the current count value. It shows the shared state. This message appears regardless of which class calls increment().' },
+                    { code: '    }', explanation: 'This closing brace ends the static increment() method. The method is complete. It modifies class-level state. Ready to be inherited by subclasses.' },
+                    { code: '}', explanation: 'This closing brace ends MathUtils class. It has provided static field and method. These will be available to all subclasses. This is the parent for static inheritance.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Calculator extends MathUtils {', explanation: 'This declares Calculator that inherits from MathUtils. It automatically inherits static members. No need to redefine count or increment(). This shows static inheritance.' },
+                    { code: '    void add(int a, int b) {', explanation: 'This defines an instance method in Calculator. It can access inherited static members directly. This shows subclasses can use parent static members seamlessly.' },
+                    { code: '        increment();', explanation: 'This calls the inherited static method increment(). It increases the shared count. No qualification needed. This proves static methods are inherited.' },
+                    { code: '        System.out.println("Sum: " + (a + b));', explanation: 'This prints the sum of parameters. This is Calculator-specific behavior. It shows adding new functionality while reusing parent static members.' },
+                    { code: '    }', explanation: 'This closing brace ends the add() method. The method successfully used inherited static method. This demonstrates practical use of static inheritance.' },
+                    { code: '}', explanation: 'This closing brace ends Calculator class. It has inherited count and increment() from MathUtils. It added its own instance method. The hierarchy is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class with main method. It will call static and instance methods. This shows that static members are shared and accessible from anywhere in hierarchy.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will call static method directly and through object. This demonstrates class-level access. Execution starts here.' },
+                    { code: '        Calculator c = new Calculator();', explanation: 'This creates Calculator object. It inherits static members from MathUtils. Memory allocated for instance, but static already exists.' },
+                    { code: '        c.add(5, 10);', explanation: 'This calls instance method add(). It internally calls inherited static increment(). Count becomes 1. This shows seamless integration.' },
+                    { code: '        MathUtils.increment();', explanation: 'This calls static method directly using parent class name. Count becomes 2. This shows direct access to inherited static members.' },
+                    { code: '        System.out.println("Final count: " + Calculator.count);', explanation: 'This accesses static field using subclass name. It shows count = 2. All classes share the same static memory. Perfect proof of static inheritance.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after display. The output confirms all calls affected the same count. Static inheritance demonstrated.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, count increases across all calls. This shows static members belong to the class hierarchy. Important concept.' }
+                ]
+            },
+            8: {
+                title: "8. Inheritance in Real-World: Vehicle → Car",
+                lines: [
+                    { code: 'class Vehicle {', explanation: 'This declares the base class Vehicle representing any vehicle. It contains common attributes like brand and speed. This will be inherited by Car. This is a practical real-world example.' },
+                    { code: '    protected String brand;', explanation: 'This declares protected field for brand name. Protected allows Car to access it directly. All vehicles have a brand. This field will be shared.' },
+                    { code: '    protected int speed;', explanation: 'This declares protected field for current speed. It is common to all vehicles. Car can read and modify it. This promotes reuse.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public Vehicle(String brand) {', explanation: 'This is Vehicle constructor taking brand parameter. It initializes the common field. Car will call this using super(brand). This ensures common initialization.' },
+                    { code: '        this.brand = brand;', explanation: 'This assigns brand parameter to field. It uses this keyword. This properly initializes the parent object. Standard constructor pattern.' },
+                    { code: '        this.speed = 0;', explanation: 'This initializes speed to 0 by default. All new vehicles start from rest. This provides default state. Good practice.' },
+                    { code: '    }', explanation: 'This closing brace ends Vehicle constructor. Common fields are initialized. The constructor is complete. Ready for subclass constructors.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    void accelerate() {', explanation: 'This defines common method to accelerate. It increases speed by 10. This will be inherited by Car. All vehicles can accelerate.' },
+                    { code: '        speed += 10;', explanation: 'This increases the speed field. It uses the protected field directly. This method can be overridden. This is base implementation.' },
+                    { code: '        System.out.println(brand + " accelerating. Speed: " + speed);', explanation: 'This prints acceleration message with brand and speed. It uses inherited brand field. This provides feedback. Useful for testing.' },
+                    { code: '    }', explanation: 'This closing brace ends accelerate() method. The method is complete. It will be available to Car. This shows method inheritance.' },
+                    { code: '}', explanation: 'This closing brace ends Vehicle class. It is ready to be extended. It provides basic vehicle functionality. This is the parent in real-world hierarchy.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Car extends Vehicle {', explanation: 'This declares Car class that inherits from Vehicle. Car IS-A Vehicle. It adds car-specific features like doors. This is practical specialization.' },
+                    { code: '    private int doors;', explanation: 'This adds Car-specific field for number of doors. It is private because only Car needs it. This shows adding new state. Other vehicle types would have different fields.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public Car(String brand, int doors) {', explanation: 'This is Car constructor with two parameters. It must initialize Vehicle part first. It calls super(brand) to pass brand to parent.' },
+                    { code: '        super(brand);', explanation: 'This calls Vehicle constructor with brand parameter. It must be first statement. This ensures Vehicle is initialized before Car-specific fields.' },
+                    { code: '        this.doors = doors;', explanation: 'This initializes Car-specific doors field. After parent initialization. This completes Car object setup. The object has brand, speed, and doors.' },
+                    { code: '    }', explanation: 'This closing brace ends Car constructor. Full initialization complete. Constructor chaining successful. Car object ready.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    void honk() {', explanation: 'This defines Car-specific method honk(). Only Car has this behavior. This shows adding new functionality. Other vehicles might have different sounds.' },
+                    { code: '        System.out.println(brand + " car honking: Beep Beep!");', explanation: 'This prints honk message with brand. It uses inherited brand field. This provides Car-specific behavior. Perfect specialization.' },
+                    { code: '    }', explanation: 'This closing brace ends honk() method. The method is complete. Only Car objects can call this. This shows adding unique behavior.' },
+                    { code: '}', explanation: 'This closing brace ends Car class. It has successfully extended Vehicle. It added doors and honk(). The real-world hierarchy is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class with main method. It will create a Car object. Then call both inherited and specific methods.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will see both common and specific behavior. This demonstrates practical inheritance. Execution starts here.' },
+                    { code: '        Car c = new Car("Toyota", 4);', explanation: 'This creates Car object with brand and doors. Vehicle constructor initializes brand and speed. Car constructor sets doors. Full initialization.' },
+                    { code: '        c.accelerate();', explanation: 'This calls inherited method from Vehicle. It increases speed and prints message. This shows method reuse. Output includes brand.' },
+                    { code: '        c.honk();', explanation: 'This calls Car-specific method. It prints honk message with brand. This shows specialization. Only Car has this behavior.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after calls. The output shows both common and specific behavior. Perfect real-world example.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see acceleration and honk messages. This is a professional example of single inheritance in practice.' }
+                ]
+            },
+            9: {
+                title: "9. Single Inheritance with Multiple Levels (A → B → C)",
+                lines: [
+                    { code: 'class Grandparent {', explanation: 'This declares the topmost class Grandparent. It is the root of multilevel inheritance. It contains behavior that will be inherited two levels down. This shows deep inheritance.' },
+                    { code: '    void wisdom() {', explanation: 'This defines method wisdom() in Grandparent. It will be inherited by Parent and Child. This shows how far inheritance reaches. Even two levels down, it is accessible.' },
+                    { code: '        System.out.println("Wisdom from Grandparent");', explanation: 'This prints message from the topmost class. When called on Child object, this still executes. This demonstrates multilevel inheritance depth.' },
+                    { code: '    }', explanation: 'This closing brace ends wisdom() method. The method is complete. It will be inherited through the chain. Ready for multilevel access.' },
+                    { code: '}', explanation: 'This closing brace ends Grandparent class. It is ready to be extended. Its wisdom() method will be part of the chain. This is the root.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Parent extends Grandparent {', explanation: 'This declares Parent that inherits from Grandparent. It is the middle level. It adds its own behavior while inheriting from Grandparent.' },
+                    { code: '    void care() {', explanation: 'This adds Parent-specific method care(). It will be inherited by Child. This shows adding functionality at intermediate level. Parent builds upon Grandparent.' },
+                    { code: '        System.out.println("Care from Parent");', explanation: 'This prints Parent-specific message. When called on Child, this executes. This shows middle-level inheritance. Proper multilevel flow.' },
+                    { code: '    }', explanation: 'This closing brace ends care() method. The method is complete. It will be inherited by Child. This adds to the inheritance chain.' },
+                    { code: '}', explanation: 'This closing brace ends Parent class. It has wisdom() from Grandparent and its own care(). It acts as both subclass and superclass.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Child extends Parent {', explanation: 'This declares Child that inherits from Parent. Child IS-A Parent IS-A Grandparent. This completes the multilevel chain. It gets members from both ancestors.' },
+                    { code: '    void play() {', explanation: 'This adds Child-specific method play(). Only Child has this behavior. This shows specialization at the deepest level. This completes the hierarchy.' },
+                    { code: '        System.out.println("Child is playing");', explanation: 'This prints Child-specific message. When called on Child object, this executes. This adds the final layer of behavior.' },
+                    { code: '    }', explanation: 'This closing brace ends play() method. The method is complete. Only Child objects can call this directly. This shows final specialization.' },
+                    { code: '}', explanation: 'This closing brace ends Child class. It has play(), care() from Parent, and wisdom() from Grandparent. The multilevel chain is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate multilevel inheritance. It will create a Child object. Then call methods from all three levels.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. Only one object needed. This will show access to methods from all ancestors. Execution starts here.' },
+                    { code: '        Child c = new Child();', explanation: 'This creates Child object. Constructors chain upward (not shown). The object has access to methods from three levels. Memory allocated for all.' },
+                    { code: '        c.wisdom();', explanation: 'This calls method from Grandparent (two levels up). It works perfectly. This shows deep inheritance reach. Output from topmost class.' },
+                    { code: '        c.care();', explanation: 'This calls method from Parent (immediate parent). It is inherited. This shows middle-level access. Proper multilevel flow.' },
+                    { code: '        c.play();', explanation: 'This calls Child-specific method. Only Child has this. This shows final specialization. Completes the demonstration.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after calls. The output shows messages from all three levels. Multilevel inheritance proven.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see wisdom, care, and play messages. This is a classic example of multilevel single inheritance in Java.' }
+                ]
+            },
+            10: {
+                title: "10. Polymorphism with Single Inheritance (Upcasting & Downcasting)",
+                lines: [
+                    { code: 'class Animal {', explanation: 'This declares the superclass Animal with a method for polymorphism. This method will be overridden. This enables runtime polymorphism through upcasting.' },
+                    { code: '    void eat() {', explanation: 'This defines eat() method in Animal. It will be overridden by Dog. This is the base version. All animals eat, but differently.' },
+                    { code: '        System.out.println("Animal is eating");', explanation: 'This prints generic eating message. When called on Animal reference to Animal object, this runs. When upcasted, overridden version runs.' },
+                    { code: '    }', explanation: 'This closing brace ends eat() method in Animal. The method is complete. Ready for overriding. This starts the polymorphism example.' },
+                    { code: '}', explanation: 'This closing brace ends Animal class. It is ready to be extended. Its eat() method will participate in polymorphism. This is the parent.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Dog extends Animal {', explanation: 'This declares Dog that inherits from Animal. It will override eat() method. This shows specialization. Dog IS-A Animal but eats differently.' },
+                    { code: '    @Override', explanation: 'This annotation confirms method overriding. It ensures signature matches Animal. This is good practice. It helps catch errors.' },
+                    { code: '    void eat() {', explanation: 'This overrides Animal\'s eat() method. Same name and parameters. This version is specific to Dog. Runtime will call this for Dog objects.' },
+                    { code: '        System.out.println("Dog is eating bones");', explanation: 'This prints Dog-specific eating message. When called on Dog object (even through Animal reference), this executes. This shows runtime polymorphism.' },
+                    { code: '    }', explanation: 'This closing brace ends overridden eat() method. The override is complete. Dog objects will use this version. Animal version is hidden.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    void bark() {', explanation: 'This adds Dog-specific method bark(). Only Dog has this behavior. This cannot be called through Animal reference. This shows limitation of upcasting.' },
+                    { code: '        System.out.println("Dog barks: Woof!");', explanation: 'This prints bark message. Only accessible through Dog reference. This requires downcasting if upcasted. This shows specialization.' },
+                    { code: '    }', explanation: 'This closing brace ends bark() method. The method is complete. Only Dog objects can call this directly. This shows unique behavior.' },
+                    { code: '}', explanation: 'This closing brace ends Dog class. It has overridden eat() and added bark(). The class is complete. Ready for polymorphism testing.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate polymorphism. It will show upcasting and downcasting. This is a key concept in single inheritance.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will use Animal reference for Dog object. This shows runtime polymorphism. Execution starts here.' },
+                    { code: '        Animal a = new Dog();', explanation: 'This is upcasting – Dog object with Animal reference. It is always safe. The object is still a Dog at runtime. This enables polymorphic behavior.' },
+                    { code: '        a.eat();', explanation: 'This calls eat() through Animal reference. But Dog version executes! This is runtime polymorphism. JVM checks object type, not reference type.' },
+                    { code: '        // a.bark(); // Compile error!', explanation: 'This commented line shows limitation of upcasting. Animal reference doesn\'t know about bark(). Compilation fails. This requires downcasting.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        Dog d = (Dog) a;', explanation: 'This is downcasting – converting Animal reference back to Dog. It is safe because a actually refers to Dog. This restores access to Dog-specific methods.' },
+                    { code: '        d.bark();', explanation: 'This calls bark() method now accessible after downcasting. This prints dog bark. This shows full access restored. Perfect combination with upcasting.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after calls. The output shows polymorphic eat() and specific bark(). Polymorphism demonstrated.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see Dog eating bones and barking. This is a textbook example of polymorphism in single inheritance.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>
