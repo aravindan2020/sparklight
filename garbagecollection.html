@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Java Exercises on Garbage Collection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        li:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.05);
+        }
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        #modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9) rotate(-5deg);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            opacity: 0;
+        }
+        #modal.show #modal-content {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        #close-btn:hover {
+            color: #ff0000;
+        }
+        #next-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        #next-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        .code-line {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .code-line.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            animation: pulseBorder 1s infinite alternate;
+        }
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulseBorder {
+            from {
+                border-left-color: #007bff;
+            }
+            to {
+                border-left-color: #00ff00;
+            }
+        }
+        .code-line.active {
+            animation: fadeInSlide 0.5s ease-in-out forwards, pulseBorder 1s infinite alternate;
+        }
+        .code-line code {
+            display: block;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .explanation {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+            transition: color 0.3s ease;
+        }
+        .code-line:hover .explanation {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>10 Java Exercises on Garbage Collection</h1>
+    <ul id="program-list">
+        <li data-program="1">1. Basic Object Eligibility for GC</li>
+        <li data-program="2">2. Nullifying Reference – Making Object Eligible</li>
+        <li data-program="3">3. finalize() Method Example</li>
+        <li data-program="4">4. Object Resurrection in finalize()</li>
+        <li data-program="5">5. System.gc() and Runtime.gc() – Requesting GC</li>
+        <li data-program="6">6. Island of Isolation (Circular References)</li>
+        <li data-program="7">7. WeakReference Demonstration</li>
+        <li data-program="8">8. SoftReference – Cache-like Behavior</li>
+        <li data-program="9">9. PhantomReference and ReferenceQueue</li>
+        <li data-program="10">10. Memory Leak Simulation with Static References</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        const programs = {
+            1: {
+                title: "1. Basic Object Eligibility for GC",
+                lines: [
+                    { code: 'public class GCDemo1 {', explanation: 'Demonstrates when an object becomes eligible for garbage collection.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'Entry point.' },
+                    { code: '        Object obj = new Object();', explanation: 'Object created – strong reference exists.' },
+                    { code: '        System.out.println(obj);', explanation: 'Object is reachable.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        obj = null;                    // Now no reference → eligible for GC', explanation: 'Nullifying the only reference makes object eligible.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        System.gc();                   // Suggest GC (not guaranteed)', explanation: 'Request garbage collection.' },
+                    { code: '        System.out.println("End of main");', explanation: 'Program continues – GC may run anytime after this.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'Object is eligible as soon as obj becomes null.' }
+                ]
+            },
+            2: {
+                title: "2. Nullifying Reference – Making Object Eligible",
+                lines: [
+                    { code: 'class Student {', explanation: 'Simple class to observe GC behavior.' },
+                    { code: '    String name;', explanation: '' },
+                    { code: '    public Student(String name) { this.name = name; }', explanation: '' },
+                    { code: '    @Override', explanation: 'Override toString for visibility.' },
+                    { code: '    public String toString() { return "Student: " + name; }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class GCDemo2 {', explanation: '' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        Student s1 = new Student("Alice");', explanation: 'Object reachable.' },
+                    { code: '        Student s2 = new Student("Bob");', explanation: '' },
+                    { code: '        ', explanation: '' },
+                    { code: '        s1 = s2;                       // Alice object now has no reference → eligible', explanation: 'Reassigning makes first object eligible.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        System.gc();', explanation: 'Request GC.' },
+                    { code: '        System.out.println(s1);        // Prints Bob', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'Alice object becomes eligible after reassignment.' }
+                ]
+            },
+            3: {
+                title: "3. finalize() Method Example",
+                lines: [
+                    { code: 'class Book {', explanation: 'Class overrides finalize() to see when it is called.' },
+                    { code: '    String title;', explanation: '' },
+                    { code: '    public Book(String title) { this.title = title; }', explanation: '' },
+                    { code: '    ', explanation: '' },
+                    { code: '    @Override', explanation: 'finalize() is called by GC before reclaiming object.' },
+                    { code: '    protected void finalize() throws Throwable {', explanation: '' },
+                    { code: '        System.out.println("Book \"" + title + "\" is being garbage collected!");', explanation: 'Message when object is finalized.' },
+                    { code: '        super.finalize();', explanation: 'Call parent finalize.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class GCDemo3 {', explanation: '' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        new Book("Java Basics");', explanation: 'Anonymous object – immediately eligible after creation.' },
+                    { code: '        new Book("Advanced Java");', explanation: '' },
+                    { code: '        System.gc();                   // Suggest GC', explanation: 'Often triggers finalize() for these objects.' },
+                    { code: '        Runtime.getRuntime().gc();', explanation: 'Another way to suggest GC.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'You will likely see finalize messages.' }
+                ]
+            },
+            4: {
+                title: "4. Object Resurrection in finalize()",
+                lines: [
+                    { code: 'class Resurrect {', explanation: 'Object can resurrect itself in finalize().' },
+                    { code: '    static Resurrect saved;', explanation: 'Static reference to save object.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    @Override', explanation: '' },
+                    { code: '    protected void finalize() throws Throwable {', explanation: '' },
+                    { code: '        System.out.println("finalize() called – resurrecting!");', explanation: '' },
+                    { code: '        saved = this;              // Object becomes reachable again!', explanation: 'Resurrection.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class GCDemo4 {', explanation: '' },
+                    { code: '    public static void main(String[] args) throws Exception {', explanation: '' },
+                    { code: '        Resurrect r = new Resurrect();', explanation: '' },
+                    { code: '        r = null;', explanation: 'Eligible.' },
+                    { code: '        System.gc(); Thread.sleep(1000);', explanation: 'Wait for finalize.' },
+                    { code: '        System.out.println("After first GC: " + Resurrect.saved);', explanation: 'Object resurrected.' },
+                    { code: '        Resurrect.saved = null;', explanation: 'Make eligible again.' },
+                    { code: '        System.gc(); Thread.sleep(1000);', explanation: '' },
+                    { code: '        System.out.println("After second GC: finalize called only ONCE!");', explanation: 'finalize() is called at most once.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' }
+                ]
+            },
+            5: {
+                title: "5. System.gc() and Runtime.gc() – Requesting GC",
+                lines: [
+                    { code: 'public class GCDemo5 {', explanation: 'Both methods are just hints – JVM may ignore.' },
+                    { code: '    static class BigObject {', explanation: 'Large object to force memory pressure.' },
+                    { code: '        byte[] memory = new byte[10 * 1024 * 1024]; // 10 MB', explanation: 'Consumes memory.' },
+                    { code: '        @Override protected void finalize() {', explanation: '' },
+                    { code: '            System.out.println("BigObject finalized!");', explanation: '' },
+                    { code: '        }', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        for (int i = 0; i < 50; i++) {', explanation: 'Create many objects.' },
+                    { code: '            new BigObject();', explanation: '' },
+                    { code: '        }', explanation: '' },
+                    { code: '        System.out.println("Requesting GC...");', explanation: '' },
+                    { code: '        System.gc();                    // Same as Runtime.getRuntime().gc()', explanation: 'Request GC.' },
+                    { code: '        Runtime.getRuntime().gc();', explanation: 'Equivalent call.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        try { Thread.sleep(2000); } catch (Exception e) {}', explanation: 'Give GC time to run.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'GC may run and print finalize messages.' }
+                ]
+            },
+            6: {
+                title: "6. Island of Isolation (Circular References)",
+                lines: [
+                    { code: 'class Node {', explanation: 'Objects referencing each other – still eligible if no external reference.' },
+                    { code: '    Node next;', explanation: '' },
+                    { code: '    String data;', explanation: '' },
+                    { code: '    public Node(String data) { this.data = data; }', explanation: '' },
+                    { code: '    @Override protected void finalize() {', explanation: '' },
+                    { code: '        System.out.println(data + " finalized!");', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class GCDemo6 {', explanation: '' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        Node a = new Node("A");', explanation: '' },
+                    { code: '        Node b = new Node("B");', explanation: '' },
+                    { code: '        a.next = b;', explanation: 'Circular reference.' },
+                    { code: '        b.next = a;', explanation: '' },
+                    { code: '        a = null; b = null;            // Island of isolation!', explanation: 'Both eligible despite referencing each other.' },
+                    { code: '        System.gc();', explanation: '' },
+                    { code: '        try { Thread.sleep(1000); } catch (Exception e) {}', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'Both objects will be collected.' }
+                ]
+            },
+            7: {
+                title: "7. WeakReference Demonstration",
+                lines: [
+                    { code: 'import java.lang.ref.WeakReference;', explanation: 'WeakReference allows GC even if referenced.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class GCDemo7 {', explanation: '' },
+                    { code: '    public static void main(String[] args) throws Exception {', explanation: '' },
+                    { code: '        String strong = new String("Important Data");', explanation: '' },
+                    { code: '        WeakReference<String> weak = new WeakReference<>(strong);', explanation: 'Weak reference.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        System.out.println("Before GC: " + weak.get());', explanation: 'Still accessible.' },
+                    { code: '        strong = null;                 // Remove strong reference', explanation: 'Now only weak reference.' },
+                    { code: '        System.gc(); Thread.sleep(1000);', explanation: 'Force GC.' },
+                    { code: '        System.out.println("After GC: " + weak.get());  // Likely null', explanation: 'Object collected.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'WeakReference does not prevent GC.' }
+                ]
+            },
+            8: {
+                title: "8. SoftReference – Cache-like Behavior",
+                lines: [
+                    { code: 'import java.lang.ref.SoftReference;', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class GCDemo8 {', explanation: 'SoftReference: cleared only when JVM is low on memory.' },
+                    { code: '    public static void main(String[] args) throws Exception {', explanation: '' },
+                    { code: '        byte[] big = new byte[50 * 1024 * 1024]; // 50 MB', explanation: 'Consume memory.' },
+                    { code: '        SoftReference<byte[]> soft = new SoftReference<>(big);', explanation: '' },
+                    { code: '        big = null;', explanation: 'Only soft reference remains.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        System.out.println("Before heavy allocation: " + (soft.get() != null));', explanation: '' },
+                    { code: '        try { new byte[200 * 1024 * 1024]; } catch (OutOfMemoryError e) {}', explanation: 'Force memory pressure.' },
+                    { code: '        System.gc(); Thread.sleep(1000);', explanation: '' },
+                    { code: '        System.out.println("After pressure: " + (soft.get() != null));', explanation: 'Likely cleared.' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'SoftReference useful for caches.' }
+                ]
+            },
+            9: {
+                title: "9. PhantomReference and ReferenceQueue",
+                lines: [
+                    { code: 'import java.lang.ref.*;', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class GCDemo9 {', explanation: 'PhantomReference – most weak, used for cleanup.' },
+                    { code: '    public static void main(String[] args) throws Exception {', explanation: '' },
+                    { code: '        ReferenceQueue<Object> queue = new ReferenceQueue<>();', explanation: 'Queue to get notification.' },
+                    { code: '        PhantomReference<Object> phantom = new PhantomReference<>(new Object(), queue);', explanation: '' },
+                    { code: '        ', explanation: '' },
+                    { code: '        System.gc(); Thread.sleep(1000);', explanation: '' },
+                    { code: '        Reference<?> ref = queue.poll();', explanation: 'Check if enqueued.' },
+                    { code: '        if (ref != null) {', explanation: '' },
+                    { code: '            System.out.println("Object is phantom reachable – cleanup time!");', explanation: 'Object finalized and enqueued.' },
+                    { code: '        }', explanation: '' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'Used in advanced cleanup (e.g., DirectByteBuffer).' }
+                ]
+            },
+            10: {
+                title: "10. Memory Leak Simulation with Static References",
+                lines: [
+                    { code: 'import java.util.*;', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Leaky {', explanation: 'Static collection causes memory leak.' },
+                    { code: '    private static List<Leaky> list = new ArrayList<>();', explanation: 'Static reference prevents GC.' },
+                    { code: '    private byte[] data = new byte[10 * 1024 * 1024]; // 10 MB', explanation: '' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public Leaky() { list.add(this); }', explanation: 'Every instance added to static list.' },
+                    { code: '    @Override protected void finalize() {', explanation: '' },
+                    { code: '        System.out.println("Leaky object finalized");', explanation: 'Will NOT print!' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class GCDemo10 {', explanation: '' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        for (int i = 0; i < 100; i++) new Leaky();', explanation: 'Creates many objects – none collected!' },
+                    { code: '        System.gc();', explanation: '' },
+                    { code: '        System.out.println("GC requested – but objects still alive due to static reference");', explanation: 'Memory leak!' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'Common real-world memory leak pattern.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Java Exercises on Hierarchical Inheritance</title>
+    <style>
+        body {font-family: Arial, sans-serif;margin: 20px;background-color: #f4f4f4;}
+        h1 {text-align: center;color: #333;}
+        ul {list-style-type: none;padding: 0;}
+        li {background-color: #fff;margin: 10px 0;padding: 15px;border-radius: 8px;cursor: pointer;box-shadow: 0 2px 10px rgba(0,0,0,0.1);transition: all 0.3s ease;font-size: 18px;}
+        li:hover {background-color: #e3f2fd;transform: translateY(-5px);box-shadow: 0 8px 20px rgba(0,0,0,0.2);}
+        #modal {position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.8);display: none;justify-content: center;align-items: center;z-index: 1000;}
+        #modal.show {display: flex;}
+        #modal-content {background-color: #fff;padding: 30px;border-radius: 15px;max-width: 90%;max-height: 90%;overflow-y: auto;position: relative;box-shadow: 0 10px 30px rgba(0,0,0,0.5);}
+        #close-btn {position: absolute;top: 15px;right: 20px;font-size: 30px;cursor: pointer;color: #aaa;}
+        #close-btn:hover {color: #ff0000;}
+        #next-btn {display: block;margin: 20px auto;padding: 12px 30px;background-color: #1976d2;color: white;border: none;border-radius: 8px;cursor: pointer;font-size: 18px;transition: all 0.3s;}
+        #next-btn:hover {background-color: #1565c0;transform: scale(1.05);}
+        .code-line {display: none;margin: 12px 0;padding: 15px;background-color: #f5f5f5;border-left: 5px solid #1976d2;border-radius: 5px;opacity: 0;transform: translateX(-30px);transition: all 0.6s ease;}
+        .code-line.active {display: block;opacity: 1;transform: translateX(0);animation: fadeIn 0.8s ease-out;}
+        @keyframes fadeIn {from {opacity: 0;transform: translateY(20px);} to {opacity: 1;transform: translateY(0);}}
+        .code {font-family: 'Courier New', monospace;background:#333;color:#0f0;padding:10px;border-radius:5px;display:block;margin:8px 0;}
+        .explanation {font-style: italic;color: #555;margin-top: 10px;line-height: 1.6;font-size: 15px;}
+        h2 {color: #1976d2;margin-bottom: 20px;}
+    </style>
+</head>
+<body>
+    <h1>10 Java Exercises on Hierarchical Inheritance</h1>
+    <ul id="program-list">
+        <li data-program="1">1. Basic Hierarchical – Shape → Circle, Rectangle, Triangle</li>
+        <li data-program="2">2. Hierarchical with Constructor & Fields</li>
+        <li data-program="3">3. Method Overriding in Hierarchical Inheritance</li>
+        <li data-program="4">4. Polymorphism with Hierarchical Classes</li>
+        <li data-program="5">5. Real-World: Employee → Manager, Developer, Tester</li>
+        <li data-program="6">6. Animal → Dog, Cat, Cow (Hierarchical)</li>
+        <li data-program="7">7. Vehicle → Car, Bike, Truck</li>
+        <li data-program="8">8. Account → SavingsAccount, CurrentAccount, FixedDeposit</li>
+        <li data-program="9">9. Hierarchical with Static Members</li>
+        <li data-program="10">10. Full Hierarchical Example: Media → Book, DVD, Journal</li>
+    </ul>
+
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line →</button>
+        </div>
+    </div>
+
+    <script>
+        const programs = {
+            1: {
+                title: "1. Basic Hierarchical – Shape → Circle, Rectangle, Triangle",
+                lines: [
+                    { code: 'class Shape {', explanation: 'Parent class for all shapes. Contains common properties and behaviors.' },
+                    { code: '    protected String color;', explanation: 'Common field accessible to all child classes.' },
+                    { code: '    public Shape(String color) { this.color = color; System.out.println("Shape created: " + color); }', explanation: 'Constructor initializes color and prints creation message.' },
+                    { code: '    void displayColor() { System.out.println("Color: " + color); }', explanation: 'Common method inherited by all shapes.' },
+                    { code: '}', explanation: 'End of Shape class.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Circle extends Shape {', explanation: 'Circle inherits from Shape.' },
+                    { code: '    private double radius;', explanation: 'Circle-specific field.' },
+                    { code: '    public Circle(String color, double radius) { super(color); this.radius = radius; }', explanation: 'Calls parent constructor using super().' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Rectangle extends Shape {', explanation: 'Second child class.' },
+                    { code: '    private double length, width;', explanation: '' },
+                    { code: '    public Rectangle(String color, double l, double w) { super(color); length = l; width = w; }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Triangle extends Shape {', explanation: 'Third child class.' },
+                    { code: '    private double base, height;', explanation: '' },
+                    { code: '    public Triangle(String color, double b, double h) { super(color); base = b; height = h; }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'Main class to test hierarchy.' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        Circle c = new Circle("Red", 5);', explanation: 'Creates Circle - Shape constructor runs.' },
+                    { code: '        Rectangle r = new Rectangle("Blue", 4, 6);', explanation: '' },
+                    { code: '        Triangle t = new Triangle("Green", 3, 8);', explanation: '' },
+                    { code: '        c.displayColor(); r.displayColor(); t.displayColor();', explanation: 'Same method works for all!' },
+                    { code: '    }', explanation: '' },
+                    { code: '}', explanation: 'Perfect hierarchical inheritance!' }
+                ]
+            },
+            2: {
+                title: "2. Hierarchical with Constructor & Fields",
+                lines: [
+                    { code: 'class Employee {', explanation: 'Common parent class.' },
+                    { code: '    protected String name; protected int id;', explanation: 'Shared fields.' },
+                    { code: '    public Employee(String name, int id) { this.name = name; this.id = id; System.out.println("Employee: " + name); }', explanation: '' },
+                    { code: '    void displayBasicInfo() { System.out.println("Name: " + name + ", ID: " + id); }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Manager extends Employee {', explanation: '' },
+                    { code: '    private String department;', explanation: '' },
+                    { code: '    public Manager(String name, int id, String dept) { super(name, id); department = dept; }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Developer extends Employee { private String language; public Developer(String n, int i, String l) { super(n, i); language = l; } }', explanation: 'Compact version.' },
+                    { code: 'class Tester extends Employee { private String tool; public Tester(String n, int i, String t) { super(n, i); tool = t; } }', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test { public static void main(String[] args) {', explanation: '' },
+                    { code: '    new Manager("Alice", 101, "IT");', explanation: '' },
+                    { code: '    new Developer("Bob", 102, "Java");', explanation: '' },
+                    { code: '    new Tester("Charlie", 103, "Selenium");', explanation: '' },
+                    { code: '    new Manager("A", 1, "HR").displayBasicInfo();', explanation: 'Inherited method!' },
+                    { code: '}}', explanation: '' }
+                ]
+            },
+            3: {
+                title: "3. Method Overriding in Hierarchical Inheritance",
+                lines: [
+                    { code: 'class Animal {', explanation: 'Parent with overridable method.' },
+                    { code: '    void makeSound() { System.out.println("Generic animal sound"); }', explanation: 'Default behavior.' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Dog extends Animal {', explanation: '' },
+                    { code: '    @Override void makeSound() { System.out.println("Woof Woof!"); }', explanation: 'Dog version.' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Cat extends Animal { @Override void makeSound() { System.out.println("Meow!"); } }', explanation: '' },
+                    { code: 'class Cow extends Animal { @Override void makeSound() { System.out.println("Moo!"); } }', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: '' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        new Dog().makeSound();', explanation: 'Dog sound!' },
+                    { code: '        new Cat().makeSound();', explanation: 'Cat sound!' },
+                    { code: '        new Cow().makeSound();', explanation: 'Cow sound!' },
+                    { code: '    }}', explanation: 'Same method, different behavior!' }
+                ]
+            },
+            4: {
+                title: "4. Polymorphism with Hierarchical Classes",
+                lines: [
+                    { code: 'class Shape { void draw() { System.out.println("Drawing shape"); } }', explanation: 'Base method.' },
+                    { code: 'class Circle extends Shape { @Override void draw() { System.out.println("Drawing Circle"); } }', explanation: '' },
+                    { code: 'class Rectangle extends Shape { @Override void draw() { System.out.println("Drawing Rectangle"); } }', explanation: '' },
+                    { code: 'class Triangle extends Shape { @Override void draw() { System.out.println("Drawing Triangle"); } }', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'Runtime polymorphism demo.' },
+                    { code: '    public static void main(String[] args) {', explanation: '' },
+                    { code: '        Shape s1 = new Circle();', explanation: 'Upcasting!' },
+                    { code: '        Shape s2 = new Rectangle();', explanation: '' },
+                    { code: '        Shape s3 = new Triangle();', explanation: '' },
+                    { code: '        s1.draw(); s2.draw(); s3.draw();', explanation: 'Which draw() runs? The child\'s!' },
+                    { code: '    }}', explanation: 'True runtime polymorphism!' }
+                ]
+            },
+            5: {
+                title: "5. Real-World: Employee → Manager, Developer, Tester",
+                lines: [
+                    { code: 'class Employee {', explanation: 'Real-world base class.' },
+                    { code: '    protected String name; protected double salary;', explanation: '' },
+                    { code: '    public Employee(String n, double s) { name = n; salary = s; }', explanation: '' },
+                    { code: '    void displayInfo() { System.out.println(name + " earns $" + salary); }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Manager extends Employee {', explanation: '' },
+                    { code: '    String dept; public Manager(String n, double s, String d) { super(n, s); dept = d; }', explanation: '' },
+                    { code: '    void manage() { System.out.println(name + " manages " + dept); }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Developer extends Employee { String lang; public Developer(String n, double s, String l) { super(n, s); lang = l; } void code() { System.out.println(name + " codes in " + lang); }}', explanation: '' },
+                    { code: 'class Tester extends Employee { String tool; public Tester(String n, double s, String t) { super(n, s); tool = t; } void test() { System.out.println(name + " tests with " + tool); }}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test { public static void main(String[] args) {', explanation: '' },
+                    { code: '    Manager m = new Manager("Alice", 90000, "IT");', explanation: '' },
+                    { code: '    Developer d = new Developer("Bob", 80000, "Java");', explanation: '' },
+                    { code: '    Tester t = new Tester("Charlie", 70000, "Selenium");', explanation: '' },
+                    { code: '    m.displayInfo(); m.manage(); d.code(); t.test();', explanation: 'Perfect real-world hierarchy!' },
+                    { code: '}}', explanation: '' }
+                ]
+            },
+            6: {
+                title: "6. Animal → Dog, Cat, Cow (Hierarchical)",
+                lines: [
+                    { code: 'class Animal {', explanation: 'Common parent for all animals.' },
+                    { code: '    protected String name;', explanation: '' },
+                    { code: '    public Animal(String name) { this.name = name; System.out.println("Animal: " + name); }', explanation: '' },
+                    { code: '    void eat() { System.out.println(name + " is eating"); }', explanation: 'Shared behavior.' },
+                    { code: '    void sleep() { System.out.println(name + " is sleeping"); }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Dog extends Animal {', explanation: '' },
+                    { code: '    String breed; public Dog(String n, String b) { super(n); breed = b; }', explanation: '' },
+                    { code: '    void bark() { System.out.println(name + " (" + breed + ") barks: Woof!"); }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Cat extends Animal { boolean likesLasagna; public Cat(String n, boolean l) { super(n); likesLasagna = l; } void meow() { System.out.println(name + " meows"); }}', explanation: '' },
+                    { code: 'class Cow extends Animal { double milk; public Cow(String n, double m) { super(n); milk = m; } void moo() { System.out.println(name + " moos and gives " + milk + "L milk"); }}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test { public static void main(String[] args) {', explanation: '' },
+                    { code: '    Dog d = new Dog("Buddy", "Golden"); Cat c = new Cat("Garfield", true); Cow w = new Cow("Daisy", 25);', explanation: '' },
+                    { code: '    d.eat(); d.bark(); c.sleep(); c.meow(); w.moo();', explanation: 'All share eat/sleep, have unique actions!' },
+                    { code: '}}', explanation: '' }
+                ]
+            },
+            7: {
+                title: "7. Vehicle → Car, Bike, Truck",
+                lines: [
+                    { code: 'class Vehicle {', explanation: 'Base vehicle class.' },
+                    { code: '    protected String brand; int year;', explanation: '' },
+                    { code: '    public Vehicle(String b, int y) { brand = b; year = y; System.out.println(brand + " " + year + " created"); }', explanation: '' },
+                    { code: '    void start() { System.out.println(brand + " starting..."); }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Car extends Vehicle { int doors; public Car(String b, int y, int d) { super(b, y); doors = d; } void honk() { System.out.println("Beep beep!"); }}', explanation: '' },
+                    { code: 'class Bike extends Vehicle { boolean hasCarrier; public Bike(String b, int y, boolean c) { super(b, y); hasCarrier = c; } void ringBell() { System.out.println("Ding ding!"); }}', explanation: '' },
+                    { code: 'class Truck extends Vehicle { double capacity; public Truck(String b, int y, double c) { super(b, y); capacity = c; } void load() { System.out.println("Can carry " + capacity + " tons"); }}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test { public static void main(String[] args) {', explanation: '' },
+                    { code: '    Car c = new Car("Toyota", 2023, 4); Bike b = new Bike("Hero", 2022, true); Truck t = new Truck("Tata", 2021, 15);', explanation: '' },
+                    { code: '    c.start(); c.honk(); b.ringBell(); t.load();', explanation: 'Each has unique behavior!' },
+                    { code: '}}', explanation: '' }
+                ]
+            },
+            8: {
+                title: "8. Account → SavingsAccount, CurrentAccount, FixedDeposit",
+                lines: [
+                    { code: 'class Account {', explanation: 'Bank account hierarchy.' },
+                    { code: '    protected String holder; long accNo; double balance;', explanation: '' },
+                    { code: '    public Account(String h, long n, double b) { holder = h; accNo = n; balance = b; System.out.println("Account for " + h); }', explanation: '' },
+                    { code: '    void deposit(double amt) { balance += amt; System.out.println("Deposited: " + amt); }', explanation: '' },
+                    { code: '    void displayBalance() { System.out.println("Balance: $" + balance); }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class SavingsAccount extends Account {', explanation: '' },
+                    { code: '    double rate; public SavingsAccount(String h, long n, double b, double r) { super(h, n, b); rate = r; }', explanation: '' },
+                    { code: '    void addInterest() { double interest = balance * rate / 100; balance += interest; System.out.println("Interest added: $" + interest); }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class CurrentAccount extends Account { double overdraft; public CurrentAccount(String h, long n, double b, double o) { super(h, n, b); overdraft = o; }', explanation: '' },
+                    { code: '    void withdraw(double amt) { if (balance - amt >= -overdraft) { balance -= amt; System.out.println("Withdrawn: " + amt); } else System.out.println("Overdraft limit!"); }}', explanation: '' },
+                    { code: 'class FixedDeposit extends Account { int years; public FixedDeposit(String h, long n, double b, int y) { super(h, n, b); years = y; } void breakFD() { balance *= 0.95; System.out.println("FD broken - 5% penalty"); }}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test { public static void main(String[] args) {', explanation: '' },
+                    { code: '    SavingsAccount sa = new SavingsAccount("Ram", 1001, 50000, 4.5);', explanation: '' },
+                    { code: '    sa.addInterest(); sa.displayBalance();', explanation: 'Interest earned!' },
+                    { code: '}}', explanation: '' }
+                ]
+            },
+            9: {
+                title: "9. Hierarchical with Static Members",
+                lines: [
+                    { code: 'class Shape {', explanation: 'Static members are shared across hierarchy.' },
+                    { code: '    protected String color;', explanation: '' },
+                    { code: '    static int totalShapes = 0;', explanation: 'Shared by ALL shapes!' },
+                    { code: '    public Shape(String c) { color = c; totalShapes++; System.out.println("Total shapes: " + totalShapes); }', explanation: 'Increments for every child!' },
+                    { code: '    static void showTotal() { System.out.println("Total shapes created: " + totalShapes); }', explanation: 'Static method!' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Circle extends Shape { public Circle(String c) { super(c); } }', explanation: 'Increases totalShapes!' },
+                    { code: 'class Rectangle extends Shape { public Rectangle(String c) { super(c); } }', explanation: '' },
+                    { code: 'class Triangle extends Shape { public Triangle(String c) { super(c); } }', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test { public static void main(String[] args) {', explanation: '' },
+                    { code: '    new Circle("Red"); new Rectangle("Blue"); new Triangle("Green");', explanation: 'totalShapes = 3' },
+                    { code: '    Shape.showTotal();', explanation: 'Call static method directly!' },
+                    { code: '}}', explanation: 'Static members work across entire hierarchy!' }
+                ]
+            },
+            10: {
+                title: "10. Full Hierarchical Example: Media → Book, DVD, Journal",
+                lines: [
+                    { code: 'class Media {', explanation: 'Library media system.' },
+                    { code: '    protected String title; int year; static int total = 0;', explanation: '' },
+                    { code: '    public Media(String t, int y) { title = t; year = y; total++; System.out.println(title + " added"); }', explanation: '' },
+                    { code: '    void displayInfo() { System.out.println(title + " (" + year + ")"); }', explanation: '' },
+                    { code: '    static void showTotal() { System.out.println("Total media: " + total); }', explanation: '' },
+                    { code: '}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'class Book extends Media { String author; int pages; public Book(String t, int y, String a, int p) { super(t, y); author = a; pages = p; } void read() { System.out.println("Reading " + title + " by " + author); }}', explanation: '' },
+                    { code: 'class DVD extends Media { String director; int min; public DVD(String t, int y, String d, int m) { super(t, y); director = d; min = m; } void play() { System.out.println("Playing " + title + " by " + director); }}', explanation: '' },
+                    { code: 'class Journal extends Media { String pub; int issue; public Journal(String t, int y, String p, int i) { super(t, y); pub = p; issue = i; } void browse() { System.out.println("Browsing " + title + " Issue " + issue); }}', explanation: '' },
+                    { code: '', explanation: '' },
+                    { code: 'public class LibraryTest { public static void main(String[] args) {', explanation: '' },
+                    { code: '    Book b = new Book("Java", 2023, "Schildt", 800);', explanation: '' },
+                    { code: '    DVD d = new DVD("Inception", 2010, "Nolan", 148);', explanation: '' },
+                    { code: '    Journal j = new Journal("IEEE", 2025, "IEEE", 42);', explanation: '' },
+                    { code: '    b.read(); d.play(); j.browse(); Media.showTotal();', explanation: 'Beautiful full hierarchy!' },
+                    { code: '}}', explanation: 'Real-world hierarchical inheritance masterpiece!' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                currentLineIndex = -1;
+                document.getElementById('program-title').textContent = program.title;
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+                program.lines.forEach(line => {
+                    const div = document.createElement('div');
+                    div.className = 'code-line';
+                    div.innerHTML = `<code class="code">${line.code || '&nbsp;'}</code><div class="explanation">${line.explanation}</div>`;
+                    details.appendChild(div);
+                });
+                document.getElementById('modal').classList.add('show');
+                document.getElementById('next-btn').style.display = 'block';
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const lines = document.querySelectorAll('.code-line');
+            if (currentLineIndex < lines.length - 1) {
+                currentLineIndex++;
+                lines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex >= lines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').onclick = showNextLine;
+        document.getElementById('close-btn').onclick = () => document.getElementById('modal').classList.remove('show');
+        document.getElementById('modal').onclick = (e) => { if (e.target === document.getElementById('modal')) document.getElementById('modal').classList.remove('show'); };
+    </script>
+</body>
+</html>

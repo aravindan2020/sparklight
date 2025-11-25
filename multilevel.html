@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Java Exercises on Multilevel Inheritance</title>
+    <style>
+        body {font-family: Arial, sans-serif;margin: 20px;background-color: #f4f4f4;}
+        h1 {text-align: center;}
+        ul {list-style-type: none;padding: 0;}
+        li {background-color: #fff;margin: 10px 0;padding: 15px;border-radius: 5px;cursor: pointer;box-shadow: 0 2px 5px rgba(0,0,0,0.1);transition: transform 0.3s ease, background-color 0.3s ease;}
+        li:hover {background-color: #e0e0e0;transform: scale(1.05);}
+        #modal {position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.7);display: none;justify-content: center;align-items: center;z-index: 1000;opacity: 0;transition: opacity 0.5s ease;}
+        #modal.show {display: flex;opacity: 1;}
+        #modal-content {background-color: #fff;padding: 20px;border-radius: 10px;max-width: 80%;max-height: 80%;overflow-y: auto;position: relative;transform: scale(0.9) rotate(-5deg);transition: transform 0.5s ease, opacity 0.5s ease;opacity: 0;}
+        #modal.show #modal-content {transform: scale(1) rotate(0deg);opacity: 1;}
+        #close-btn {position: absolute;top: 10px;right: 10px;font-size: 20px;cursor: pointer;transition: color 0.3s ease;}
+        #close-btn:hover {color: #ff0000;}
+        #next-btn {display: block;margin: 10px auto;padding: 10px 20px;background-color: #007bff;color: #fff;border: none;border-radius: 5px;cursor: pointer;transition: background-color 0.3s ease, transform 0.3s ease;}
+        #next-btn:hover {background-color: #0056b3;transform: translateY(-3px);}
+        .code-line {display: none;margin-bottom: 10px;padding: 10px;background-color: #f9f9f9;border-left: 4px solid #007bff;opacity: 0;transform: translateX(-50px);transition: opacity 0.5s ease, transform 0.5s ease;}
+        .code-line.active {display: block;opacity: 1;transform: translateX(0);animation: pulseBorder 1s infinite alternate;}
+        @keyframes fadeInSlide {from {opacity: 0;transform: translateY(20px);} to {opacity: 1;transform: translateY(0);}}
+        @keyframes pulseBorder {from {border-left-color: #007bff;} to {border-left-color: #00ff00;}}
+        .code-line.active {animation: fadeInSlide 0.5s ease-in-out forwards, pulseBorder 1s infinite alternate;}
+        .code-line code {display: block;font-family: monospace;white-space: pre-wrap;}
+        .explanation {font-style: italic;color: #555;margin-top: 5px;transition: color 0.3s ease;}
+        .code-line:hover .explanation {color: #000;}
+    </style>
+</head>
+<body>
+    <h1>10 Java Exercises on Multilevel Inheritance</h1>
+    <ul id="program-list">
+        <li data-program="1">1. Basic Multilevel Inheritance – Animal → Mammal → Dog</li>
+        <li data-program="2">2. Constructor Chaining in Multilevel Inheritance</li>
+        <li data-program="3">3. Method Overriding Across Multiple Levels</li>
+        <li data-program="4">4. Accessing Grandparent Members Using super</li>
+        <li data-program="5">5. Multilevel Inheritance with Fields</li>
+        <li data-program="6">6. Real-World: Person → Employee → Manager</li>
+        <li data-program="7">7. Vehicle → Car → SportsCar (Multilevel)</li>
+        <li data-program="8">8. Shape → TwoDShape → Rectangle (Multilevel)</li>
+        <li data-program="9">9. Multilevel Inheritance with Static Members</li>
+        <li data-program="10">10. Polymorphism in Multilevel Inheritance Chain</li>
+    </ul>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close-btn">&times;</span>
+            <h2 id="program-title"></h2>
+            <div id="program-details"></div>
+            <button id="next-btn">Next Line</button>
+        </div>
+    </div>
+    <script>
+        const programs = {
+            1: {
+                title: "1. Basic Multilevel Inheritance – Animal → Mammal → Dog",
+                lines: [
+                    { code: 'class Animal {', explanation: 'This declares the topmost base class named Animal. It represents the most general entity in the hierarchy. All common properties of living beings go here. This class will be inherited by Mammal, forming the first level of multilevel inheritance.' },
+                    { code: '    void eat() {', explanation: 'This defines a method eat() that is common to all animals. It has default access and void return type. Every subclass down the chain will inherit this method. This demonstrates code reuse across multiple levels.' },
+                    { code: '        System.out.println("Animal is eating");', explanation: 'This prints a generic eating message. It is the default behavior for any animal. Subclasses can override it if needed. This line executes when eat() is called on any object in the hierarchy.' },
+                    { code: '    }', explanation: 'This closing brace ends the eat() method. Proper brace matching is required for compilation. All statements inside belong to eat(). This completes the base behavior.' },
+                    { code: '}', explanation: 'This closing brace ends the Animal class definition. Animal is now ready to be extended. It forms the root of our multilevel inheritance chain. Other classes will build upon it.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Mammal extends Animal {', explanation: 'This declares Mammal class that inherits from Animal. This is the intermediate level in multilevel inheritance. Mammal IS-AN Animal. It automatically gets the eat() method from Animal.' },
+                    { code: '    void breathe() {', explanation: 'This adds a new method specific to mammals. All mammals breathe using lungs. This method will be inherited by classes that extend Mammal. It shows adding functionality at the middle level.' },
+                    { code: '        System.out.println("Mammal is breathing");', explanation: 'This prints a message when a mammal breathes. It represents mammal-specific behavior. This method is available to all subclasses of Mammal. It extends the capabilities inherited from Animal.' },
+                    { code: '    }', explanation: 'This closing brace ends the breathe() method. The method is now part of Mammal class. It will be inherited further down the chain. Proper closure ensures correct compilation.' },
+                    { code: '}', explanation: 'This closing brace ends the Mammal class. Mammal now has eat() from Animal and its own breathe(). It acts as both a subclass and a superclass. This is the essence of multilevel inheritance.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Dog extends Mammal {', explanation: 'This declares Dog class that inherits from Mammal. Dog IS-A Mammal, and therefore also IS-AN Animal. This completes the multilevel chain: Animal → Mammal → Dog. Dog gets members from both grandparents and parent.' },
+                    { code: '    void bark() {', explanation: 'This defines a method unique to dogs. Only Dog and its potential subclasses will have bark(). It shows specialization at the lowest level. This method cannot be accessed from Animal or Mammal references.' },
+                    { code: '        System.out.println("Dog is barking");', explanation: 'This prints the barking sound. It represents dog-specific behavior. When called, it executes only for Dog objects. This adds the final layer of functionality.' },
+                    { code: '    }', explanation: 'This closing brace completes the bark() method. The method is now fully defined in Dog. It complements the inherited methods. This shows how multilevel inheritance builds up behavior.' },
+                    { code: '}', explanation: 'This closing brace ends the Dog class. Dog now has eat() from Animal, breathe() from Mammal, and bark() from itself. It demonstrates full multilevel inheritance. The class is ready for instantiation.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class containing main method. It has public access and will run the program. The filename must be Test.java. It will create a Dog object and call all inherited methods.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the main method – entry point of the application. It is public, static, void, and takes String array. JVM starts execution here. All demonstration code goes inside these braces.' },
+                    { code: '        Dog d = new Dog();', explanation: 'This creates a Dog object using new keyword. Constructors of Animal and Mammal are called implicitly. Memory is allocated for all inherited members. The object has access to methods from all three levels.' },
+                    { code: '        d.eat();     // From Animal', explanation: 'This calls the eat() method inherited from the grandparent Animal. Even though defined two levels up, it is accessible. This shows how far inheritance reaches. Output: "Animal is eating".' },
+                    { code: '        d.breathe(); // From Mammal', explanation: 'This calls the breathe() method inherited from the parent Mammal. It was added at the intermediate level. Dog inherited it automatically. Output: "Mammal is breathing".' },
+                    { code: '        d.bark();    // From Dog', explanation: 'This calls the bark() method defined in Dog itself. It is the most specific behavior. Only Dog objects can call this directly. Output: "Dog is barking".' },
+                    { code: '    }', explanation: 'This closing brace ends the main method. Program execution finishes here. We have successfully demonstrated multilevel inheritance. All three methods were called on a single object.' },
+                    { code: '}', explanation: 'This closing brace ends the Test class and the entire program. When run, it proves that Dog inherited from both Mammal and Animal. This is a classic example of multilevel inheritance in Java.' }
+                ]
+            },
+            2: {
+                title: "2. Constructor Chaining in Multilevel Inheritance",
+                lines: [
+                    { code: 'class Grandparent {', explanation: 'This declares the top-level class named Grandparent. It is the root of the multilevel inheritance chain. Its constructor will be called first when creating the final object. This shows constructor execution order from top to bottom.' },
+                    { code: '    Grandparent() {', explanation: 'This is the default constructor of Grandparent. It has no parameters. It will be called implicitly by the parent class. Constructors are not inherited, but called via super().' },
+                    { code: '        System.out.println("Grandparent constructor");', explanation: 'This prints a message to show when Grandparent is initialized. It executes first in the chain. This helps track the order of constructor calls. Very useful for debugging initialization.' },
+                    { code: '    }', explanation: 'This closing brace ends the Grandparent constructor. The constructor is now complete. It will run before any subclass constructor. This is automatic in Java inheritance.' },
+                    { code: '}', explanation: 'This closing brace ends the Grandparent class. It is now ready to be extended. Its constructor will be part of the chain. This class forms the foundation.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Parent extends Grandparent {', explanation: 'This declares Parent class that inherits from Grandparent. It is the middle level. Its constructor must call super() to invoke Grandparent constructor. This shows explicit chaining.' },
+                    { code: '    Parent() {', explanation: 'This is the constructor of Parent class. It has no parameters. It must call the Grandparent constructor using super(). If not written, Java inserts super() automatically.' },
+                    { code: '        super();', explanation: 'This explicitly calls the Grandparent constructor. It must be the first statement in the constructor. This ensures Grandparent is fully initialized first. This is mandatory in multilevel inheritance.' },
+                    { code: '        System.out.println("Parent constructor");', explanation: 'This prints a message after Grandparent is done. It executes second in the chain. This shows the correct order of initialization. Parent builds upon Grandparent.' },
+                    { code: '    }', explanation: 'This closing brace ends the Parent constructor. Initialization code goes before this. The constructor is now fully defined. It properly chains to the grandparent.' },
+                    { code: '}', explanation: 'This closing brace ends the Parent class. It has successfully extended Grandparent. Constructor chaining is set up. Ready to be extended further.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Child extends Parent {', explanation: 'This declares Child class that inherits from Parent. This completes the multilevel chain. Its constructor will trigger the entire chain upward. Child IS-A Parent IS-A Grandparent.' },
+                    { code: '    Child() {', explanation: 'This is the constructor of the final Child class. It calls Parent constructor implicitly or explicitly. This starts the entire constructor chain. Only this constructor is called directly.' },
+                    { code: '        super();', explanation: 'This calls the Parent constructor (can be omitted, Java adds it). Parent constructor will then call Grandparent. This creates a chain reaction upward. This ensures proper initialization order.' },
+                    { code: '        System.out.println("Child constructor");', explanation: 'This prints last, after both Parent and Grandparent are initialized. It shows the bottom-up execution order. Child is fully constructed only after ancestors.' },
+                    { code: '    }', explanation: 'This closing brace ends the Child constructor. All initialization is complete. The object is now ready to use. This is the final step in the chain.' },
+                    { code: '}', explanation: 'This closing brace ends the Child class. It has access to members from all three levels. Constructor chaining is fully implemented. The multilevel hierarchy is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class with main method. It will create a Child object. This triggers the entire constructor chain. We will observe the order of messages.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the entry point of the program. Only one line will create the full chain. This demonstrates how powerful multilevel inheritance is. Execution starts here.' },
+                    { code: '        Child c = new Child();', explanation: 'This creates a Child object. This single line calls three constructors: Child → Parent → Grandparent. Output order will be Grandparent → Parent → Child. This proves constructor chaining works perfectly.' },
+                    { code: '    }', explanation: 'This closing brace ends the main method. Program terminates after object creation. The constructor messages confirm the chain. Multilevel inheritance initialization is demonstrated.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, output is: Grandparent → Parent → Child constructor. This is the correct order in multilevel inheritance. Perfect example of constructor chaining.' }
+                ]
+            },
+            3: {
+                title: "3. Method Overriding Across Multiple Levels",
+                lines: [
+                    { code: 'class A {', explanation: 'This declares the base class A at the top of the hierarchy. It defines a method that will be overridden down the chain. This is the original version of the method. All subclasses will inherit this version initially.' },
+                    { code: '    void show() {', explanation: 'This defines a method named show() in class A. It will be overridden by subclasses. It has default access and void return type. This is the root version of the method.' },
+                    { code: '        System.out.println("Class A version");', explanation: 'This prints the original message from class A. When called on A object, this executes. Subclasses can override to change behavior. This is the default implementation.' },
+                    { code: '    }', explanation: 'This closing brace ends the show() method in A. The method is complete. It will be inherited by B. This is the starting point for overriding.' },
+                    { code: '}', explanation: 'This closing brace ends class A. It is now ready to be extended. The show() method is available for overriding. This forms the top of the inheritance chain.' },
+                    { code: '', explanation: '' },
+                    { code: 'class B extends A {', explanation: 'This declares class B that inherits from A. It will override the show() method. This is the intermediate level. B adds its own version while keeping access to A\'s version.' },
+                    { code: '    @Override', explanation: 'This annotation indicates method overriding. It helps catch errors at compile time. It is optional but recommended. It ensures the method signature matches the parent.' },
+                    { code: '    void show() {', explanation: 'This overrides the show() method from class A. Same name, same parameters, same return type. This version will be called on B objects. It hides A\'s version.' },
+                    { code: '        System.out.println("Class B version");', explanation: 'This prints B\'s specific message. When called on B object, this executes instead of A\'s. This demonstrates polymorphic behavior. Runtime decides which version to call.' },
+                    { code: '    }', explanation: 'This closing brace ends B\'s overridden method. The override is complete. B objects will use this version. A\'s version is still accessible via super.show().' },
+                    { code: '}', explanation: 'This closing brace ends class B. It has successfully overridden show(). It can still call A\'s version if needed. Ready to be extended by C.' },
+                    { code: '', explanation: '' },
+                    { code: 'class C extends B {', explanation: 'This declares class C that inherits from B. It will override show() again. This is the bottom level. C gets the latest version from B, but can provide its own.' },
+                    { code: '    @Override', explanation: 'This annotation confirms C is overriding the method. It must match B\'s signature (which matches A\'s). This ensures correct overriding. Compiler checks this.' },
+                    { code: '    void show() {', explanation: 'This overrides show() from B (which overrode A). Same signature as both ancestors. This version has the final say for C objects. It completes the override chain.' },
+                    { code: '        System.out.println("Class C version");', explanation: 'This prints C\'s unique message. When called on C object, only this executes. This shows the most specific version wins. Perfect for specialization.' },
+                    { code: '    }', explanation: 'This closing brace ends C\'s overridden method. The override chain is complete. C objects use this version. Previous versions are hidden but accessible via super.' },
+                    { code: '}', explanation: 'This closing brace ends class C. It has the most specific show() method. It inherited the ability to override from the chain. The multilevel override is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class to demonstrate the overriding. It will create objects of each type. We will see which version of show() is called. This proves runtime polymorphism.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the main method – program entry point. It will create A, B, and C objects. Then call show() on each. The output will reveal which version executed.' },
+                    { code: '        A a = new A(); a.show();', explanation: 'This creates A object and calls show(). Only A\'s version exists. Output: "Class A version". This is the original implementation. No overriding involved.' },
+                    { code: '        B b = new B(); b.show();', explanation: 'This creates B object and calls show(). B\'s overridden version executes. Output: "Class B version". A\'s version is hidden. This shows overriding in action.' },
+                    { code: '        C c = new C(); c.show();', explanation: 'This creates C object and calls show(). C\'s version executes. Output: "Class C version". B and A versions are hidden. This shows multilevel overriding works perfectly.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. The program has demonstrated the override chain. The most specific version always wins. This is a key feature of multilevel inheritance.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, output is A → B → C versions respectively. This perfectly illustrates method overriding across multiple levels in Java.' }
+                ]
+            },
+            4: {
+                title: "4. Accessing Grandparent Members Using super",
+                lines: [
+                    { code: 'class Grandparent {', explanation: 'This declares the topmost class in the multilevel chain. It contains a method that will be overridden twice. This method is the original version. We will access it from the deepest subclass using super.super (not allowed directly).' },
+                    { code: '    void display() {', explanation: 'This defines the original display() method in Grandparent. It will be overridden by Parent and Child. This version prints a message identifying itself as Grandparent. It shows the base behavior.' },
+                    { code: '        System.out.println("Grandparent display");', explanation: 'This prints the message from the topmost class. When called directly on Grandparent object, this runs. In multilevel inheritance, we may want to call this from deep down.' },
+                    { code: '    }', explanation: 'This closing brace ends the display() method in Grandparent. The method is now complete. It will be inherited and overridden. This is the root implementation.' },
+                    { code: '}', explanation: 'This closing brace ends the Grandparent class. It is ready to be extended. Its display() method will be part of the override chain. This class is the foundation.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Parent extends Grandparent {', explanation: 'This declares Parent that inherits from Grandparent. It will override display(). It can call Grandparent\'s version using super.display(). This shows one level of super usage.' },
+                    { code: '    @Override', explanation: 'This annotation confirms overriding of display(). It ensures the signature matches Grandparent. This is good practice. It helps catch errors early.' },
+                    { code: '    void display() {', explanation: 'This overrides Grandparent\'s display(). Same name and parameters. This version will be called on Parent objects. It can still call Grandparent\'s version.' },
+                    { code: '        super.display();', explanation: 'This calls the immediate parent (Grandparent) version of display(). It executes Grandparent\'s code first. Then adds its own message. This shows how to reuse grandparent logic.' },
+                    { code: '        System.out.println("Parent display");', explanation: 'This prints Parent-specific message after calling super. It extends the behavior. This runs only for Parent and its subclasses. This builds upon Grandparent.' },
+                    { code: '    }', explanation: 'This closing brace ends Parent\'s overridden display(). The method is complete. It properly calls super.display(). Ready for further overriding.' },
+                    { code: '}', explanation: 'This closing brace ends Parent class. It has successfully extended and overridden. It can access Grandparent via super. This is the middle level.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Child extends Parent {', explanation: 'This declares Child that inherits from Parent. It will override display() again. It can call Parent\'s version using super.display(). But cannot directly call Grandparent\'s (no super.super).' },
+                    { code: '    @Override', explanation: 'This annotation confirms Child is overriding display(). It must match Parent\'s signature. This ensures correct multilevel overriding. Compiler validates this.' },
+                    { code: '    void display() {', explanation: 'This overrides Parent\'s display(). Same signature throughout the chain. This version is the most specific. It will be called on Child objects.' },
+                    { code: '        super.display();', explanation: 'This calls the immediate parent (Parent) version. Parent\'s version already calls Grandparent\'s. So indirectly, Grandparent\'s code runs first. This is the only way to reach grandparent.' },
+                    { code: '        System.out.println("Child display");', explanation: 'This prints Child-specific message last. It completes the chain of calls. Output order: Grandparent → Parent → Child. This shows the full flow.' },
+                    { code: '    }', explanation: 'This closing brace ends Child\'s display() method. The override chain is complete. All three versions execute in order. This demonstrates proper use of super in multilevel.' },
+                    { code: '}', explanation: 'This closing brace ends Child class. It has the final version of display(). It indirectly accesses Grandparent through Parent. The multilevel chain is fully functional.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class with main method. It will create a Child object. Then call display() once. All three versions will execute in order.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. Only one method call will trigger three prints. This shows the power of super in multilevel inheritance. Execution starts here.' },
+                    { code: '        Child c = new Child();', explanation: 'This creates a Child object. Constructors chain upward (not shown here). Memory allocated for all levels. The object is ready with full hierarchy.' },
+                    { code: '        c.display();', explanation: 'This single call triggers the entire chain. Child → Parent → Grandparent versions execute. Output: Grandparent → Parent → Child display. This proves super works across levels.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after the call. The output confirms the correct order. Multilevel super usage is demonstrated.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see all three messages. Java does not allow super.super.display() – only immediate parent. This is by design for clarity.' }
+                ]
+            },
+            5: {
+                title: "5. Multilevel Inheritance with Fields",
+                lines: [
+                    { code: 'class Level1 {', explanation: 'This declares the topmost class named Level1. It contains a field that will be inherited down the chain. This field is protected so subclasses can access it. This shows field inheritance across multiple levels.' },
+                    { code: '    protected int data1 = 100;', explanation: 'This declares a protected integer field named data1. Protected access allows subclasses in any package to access it. It is initialized to 100. This field will be available in Level2 and Level3.' },
+                    { code: '}', explanation: 'This closing brace ends Level1 class. It is now ready to be extended. The data1 field is part of its state. It forms the base for field inheritance.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Level2 extends Level1 {', explanation: 'This declares Level2 that inherits from Level1. It automatically gets data1 field. It can access and modify it directly. This is the middle level of inheritance.' },
+                    { code: '    protected int data2 = 200;', explanation: 'This adds a new protected field data2 initialized to 200. This field belongs to Level2. It will be inherited by Level3. It shows adding new state at intermediate level.' },
+                    { code: '    void showLevel2() {', explanation: 'This defines a method to display both inherited and own fields. It can access data1 directly because it is protected. This shows multilevel field access. The method is package-private.' },
+                    { code: '        System.out.println("Level1 data: " + data1);', explanation: 'This prints the value of data1 inherited from Level1. Even though defined in grandparent, it is accessible. This demonstrates protected field inheritance. Output: 100.' },
+                    { code: '        System.out.println("Level2 data: " + data2);', explanation: 'This prints Level2\'s own field. It shows local field access. This completes the display for Level2. Output: 200.' },
+                    { code: '    }', explanation: 'This closing brace ends the showLevel2() method. The method is now complete. It successfully accesses fields from two levels. This shows the power of inheritance.' },
+                    { code: '}', explanation: 'This closing brace ends Level2 class. It has data1 from Level1 and data2 of its own. It can access both directly. Ready to be extended by Level3.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Level3 extends Level2 {', explanation: 'This declares Level3 that inherits from Level2. It gets both data1 and data2 automatically. This completes the multilevel field inheritance chain. Level3 IS-A Level2 IS-A Level1.' },
+                    { code: '    protected int data3 = 300;', explanation: 'This adds Level3-specific field initialized to 300. It is protected for potential future subclasses. This shows adding state at the deepest level. The field is local to Level3.' },
+                    { code: '    void showAll() {', explanation: 'This method displays fields from all three levels. It can access data1, data2, and data3 directly. This proves multilevel field inheritance works perfectly. No getters needed due to protected access.' },
+                    { code: '        System.out.println("Level1 data: " + data1);', explanation: 'This accesses the field from grandparent Level1. Even two levels up, it is directly accessible. This shows how far protected fields reach. Output: 100.' },
+                    { code: '        System.out.println("Level2 data: " + data2);', explanation: 'This accesses the field from parent Level2. It was added at the middle level. Direct access is allowed. Output: 200.' },
+                    { code: '        System.out.println("Level3 data: " + data3);', explanation: 'This accesses Level3\'s own field. This is normal instance field access. It completes the display. Output: 300.' },
+                    { code: '    }', explanation: 'This closing brace ends the showAll() method. The method successfully accessed fields from three levels. This demonstrates full multilevel field inheritance. Very powerful feature.' },
+                    { code: '}', explanation: 'This closing brace ends Level3 class. It has direct access to fields from all ancestors. The inheritance chain is complete. The class is ready for use.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class with main method. It will create a Level3 object. Then call showAll() to see all inherited fields. This proves the concept.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. Only one object and one method call needed. This will display data from all three levels. Execution starts here.' },
+                    { code: '        Level3 obj = new Level3();', explanation: 'This creates a Level3 object. Memory allocated for all inherited fields. Constructors chain upward automatically. The object has access to data1, data2, and data3.' },
+                    { code: '        obj.showAll();', explanation: 'This calls the method that displays all three fields. Output will show 100, 200, 300 respectively. This single call proves multilevel field inheritance works. All fields are directly accessible.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program terminates after display. The output confirms the inheritance chain. Multilevel field access is demonstrated perfectly.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see data from Level1, Level2, and Level3. This shows protected fields are inherited across multiple levels. Excellent example.' }
+                ]
+            },
+            6: {
+                title: "6. Real-World: Person → Employee → Manager",
+                lines: [
+                    { code: 'class Person {', explanation: 'This declares the base class Person representing any human. It contains common attributes like name and age. This will be inherited by Employee. This is the top level in real-world hierarchy.' },
+                    { code: '    protected String name;', explanation: 'This declares a protected String field for name. Protected allows subclasses to access it directly. It will be shared by Employee and Manager. This shows reusable personal data.' },
+                    { code: '    protected int age;', explanation: 'This declares a protected integer field for age. It is common to all persons. Subclasses can read and modify it. This promotes code reuse across levels.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public Person(String name, int age) {', explanation: 'This is the constructor for Person class. It takes name and age parameters. It initializes the fields. This constructor will be called by Employee constructor.' },
+                    { code: '        this.name = name;', explanation: 'This assigns the parameter to the name field. It uses this keyword to distinguish instance variable. This is standard constructor pattern. Proper initialization.' },
+                    { code: '        this.age = age;', explanation: 'This assigns the parameter to the age field. It ensures the object is properly initialized. This completes Person initialization. Ready for subclassing.' },
+                    { code: '        System.out.println("Person created: " + name);', explanation: 'This prints a message when Person is created. It helps track constructor chaining. This runs first in the chain. Useful for debugging.' },
+                    { code: '    }', explanation: 'This closing brace ends the Person constructor. Initialization is complete. The object has valid name and age. This constructor forms the base.' },
+                    { code: '}', explanation: 'This closing brace ends the Person class. It is now ready to be extended. It provides basic human attributes. This is the root of our real-world hierarchy.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Employee extends Person {', explanation: 'This declares Employee class that inherits from Person. Employee IS-A Person. It adds job-related attributes. This is the middle level in the hierarchy.' },
+                    { code: '    protected String employeeId;', explanation: 'This adds employee-specific field for ID. It is protected for Manager to access. This extends the Person data. It shows specialization.' },
+                    { code: '    protected double salary;', explanation: 'This adds salary field specific to employees. It is protected for potential subclasses. This field belongs to Employee level. It builds upon Person.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public Employee(String name, int age, String id, double sal) {', explanation: 'This is Employee constructor with four parameters. It must initialize both its own and Person fields. It calls super() to initialize Person part. This shows constructor chaining.' },
+                    { code: '        super(name, age);', explanation: 'This calls Person constructor with name and age. It must be the first statement. This ensures Person is initialized before Employee. This is required in multilevel inheritance.' },
+                    { code: '        this.employeeId = id;', explanation: 'This initializes Employee-specific ID field. It comes after super() call. This completes Employee\'s own initialization. Proper order is maintained.' },
+                    { code: '        this.salary = sal;', explanation: 'This initializes the salary field. It is specific to Employee. This completes all field initialization. The object is now fully constructed.' },
+                    { code: '        System.out.println("Employee created: " + employeeId);', explanation: 'This prints message when Employee is created. It runs after Person constructor. This helps track the chain. Output appears second.' },
+                    { code: '    }', explanation: 'This closing brace ends Employee constructor. All fields from Person and Employee are initialized. The constructor properly chains upward. Ready for Manager.' },
+                    { code: '}', explanation: 'This closing brace ends Employee class. It has successfully extended Person. It adds employment data. This is the intermediate level.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Manager extends Employee {', explanation: 'This declares Manager that inherits from Employee. Manager IS-AN Employee IS-A Person. This completes the real-world hierarchy. Manager gets all fields from both ancestors.' },
+                    { code: '    private String department;', explanation: 'This adds Manager-specific field for department. It is private because only Manager needs it. This shows final specialization. It does not need to be inherited further.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public Manager(String name, int age, String id, double sal, String dept) {', explanation: 'This is Manager constructor with five parameters. It must initialize Person, Employee, and its own fields. It calls super() to initialize Employee (which calls Person).' },
+                    { code: '        super(name, age, id, sal);', explanation: 'This calls Employee constructor with four parameters. Employee constructor will call Person. This creates the full chain. Only one super() call needed.' },
+                    { code: '        this.department = dept;', explanation: 'This initializes Manager-specific department field. It comes after super() call. This is the final initialization step. The object is now complete.' },
+                    { code: '        System.out.println("Manager created for department: " + department);', explanation: 'This prints message when Manager is created. It runs last in the chain. This confirms the full hierarchy. Output appears third.' },
+                    { code: '    }', explanation: 'This closing brace ends Manager constructor. All fields from three levels are initialized. The constructor chain is complete. The object is fully constructed.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    void showDetails() {', explanation: 'This method displays all information from the hierarchy. It can access fields from Person and Employee directly. This shows the power of multilevel inheritance. No getters needed.' },
+                    { code: '        System.out.println("Name: " + name + ", Age: " + age);', explanation: 'This accesses name and age from Person (grandparent). Direct access is allowed because they are protected. This shows deep inheritance reach.' },
+                    { code: '        System.out.println("ID: " + employeeId + ", Salary: " + salary);', explanation: 'This accesses Employee fields directly. They are protected so accessible. This shows middle-level inheritance. All data is available.' },
+                    { code: '        System.out.println("Department: " + department);', explanation: 'This accesses Manager\'s own private field. Normal instance access. This completes the full details display. All three levels shown.' },
+                    { code: '    }', explanation: 'This closing brace ends showDetails() method. The method successfully accessed all levels. This demonstrates real-world multilevel inheritance. Very practical example.' },
+                    { code: '}', explanation: 'This closing brace ends Manager class. It has access to fields from Person, Employee, and itself. The real-world hierarchy is complete. Ready for testing.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class with main method. It will create a Manager object. This triggers the full constructor chain. Then display all details.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. Only one object creation needed. This will show the full power of multilevel inheritance. Execution starts here.' },
+                    { code: '        Manager m = new Manager("Alice", 35, "M001", 90000, "IT");', explanation: 'This creates Manager object with all details. This single line calls three constructors. Output: Person → Employee → Manager messages. Full chain executed.' },
+                    { code: '        m.showDetails();', explanation: 'This calls method that displays data from all three levels. It accesses Person and Employee fields directly. Output shows complete hierarchy data. Perfect real-world example.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after display. The output confirms everything works. Multilevel inheritance in action.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see constructor messages and full details. This is a professional-grade example of multilevel inheritance.' }
+                ]
+            },
+            7: {
+                title: "7. Vehicle → Car → SportsCar (Multilevel)",
+                lines: [
+                    { code: 'class Vehicle {', explanation: 'This declares the base class Vehicle. It represents any vehicle. It contains common attributes and methods. This will be inherited by Car, forming the first level.' },
+                    { code: '    protected String brand;', explanation: 'This declares protected field for brand name. Protected allows Car and SportsCar to access it. This field is common to all vehicles. It promotes reuse.' },
+                    { code: '    protected int maxSpeed;', explanation: 'This declares protected field for maximum speed. It is common to all vehicles. Subclasses can read and modify it. This shows shared state.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public Vehicle(String brand, int speed) {', explanation: 'This is Vehicle constructor taking brand and speed. It initializes the common fields. This constructor will be called by Car. This starts the chain.' },
+                    { code: '        this.brand = brand;', explanation: 'This assigns brand parameter to field. It uses this to refer to instance variable. This ensures proper initialization. Standard constructor pattern.' },
+                    { code: '        this.maxSpeed = speed;', explanation: 'This assigns speed parameter to field. It completes Vehicle initialization. The base object is now ready. This runs first in chain.' },
+                    { code: '    }', explanation: 'This closing brace ends Vehicle constructor. All common fields are initialized. The constructor is complete. Ready for subclass constructors.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    void start() {', explanation: 'This defines common method to start the vehicle. It will be inherited by all subclasses. This shows reusable behavior. All vehicles can start.' },
+                    { code: '        System.out.println(brand + " vehicle starting...");', explanation: 'This prints a generic start message with brand. It uses the inherited brand field. This method can be overridden. This is base implementation.' },
+                    { code: '    }', explanation: 'This closing brace ends start() method. The method is now complete. It will be available to Car and SportsCar. This shows method inheritance.' },
+                    { code: '}', explanation: 'This closing brace ends Vehicle class. It is ready to be extended. It provides basic vehicle functionality. This is the root of the hierarchy.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Car extends Vehicle {', explanation: 'This declares Car that inherits from Vehicle. Car IS-A Vehicle. It adds car-specific features. This is the intermediate level.' },
+                    { code: '    protected int doors;', explanation: 'This adds car-specific field for number of doors. It is protected for SportsCar to access. This extends Vehicle data. It shows specialization.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public Car(String brand, int speed, int doors) {', explanation: 'This is Car constructor with three parameters. It must initialize Vehicle fields too. It calls super() to initialize Vehicle part. This shows constructor chaining.' },
+                    { code: '        super(brand, speed);', explanation: 'This calls Vehicle constructor with brand and speed. It must be first statement. This ensures Vehicle is initialized before Car. This is required.' },
+                    { code: '        this.doors = doors;', explanation: 'This initializes Car-specific doors field. It comes after super() call. This completes Car initialization. The object now has all fields.' },
+                    { code: '    }', explanation: 'This closing brace ends Car constructor. Vehicle and Car fields are initialized. The constructor properly chains upward. Ready for SportsCar.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    @Override', explanation: 'This annotation indicates start() is being overridden. It ensures signature matches Vehicle. This is good practice. It helps catch errors.' },
+                    { code: '    void start() {', explanation: 'This overrides Vehicle\'s start() method. Same name and parameters. This version is more specific for cars. It can call super.start() if needed.' },
+                    { code: '        super.start();', explanation: 'This calls Vehicle\'s start() method first. It reuses the base behavior. Then adds car-specific message. This shows proper overriding with super.' },
+                    { code: '        System.out.println("Car with " + doors + " doors started");', explanation: 'This prints car-specific message using doors field. It completes the overridden behavior. This runs after Vehicle\'s message. Perfect combination.' },
+                    { code: '    }', explanation: 'This closing brace ends overridden start() method. The override is complete. Car objects will use this version. Vehicle version is still called via super.' },
+                    { code: '}', explanation: 'This closing brace ends Car class. It has successfully extended Vehicle. It adds doors and overrides start(). This is the middle level.' },
+                    { code: '', explanation: '' },
+                    { code: 'class SportsCar extends Car {', explanation: 'This declares SportsCar that inherits from Car. SportsCar IS-A Car IS-A Vehicle. This completes the multilevel chain. It gets all fields and methods from ancestors.' },
+                    { code: '    private boolean turbo;', explanation: 'This adds SportsCar-specific field for turbo feature. It is private because only SportsCar needs it. This shows final specialization. No further inheritance expected.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public SportsCar(String brand, int speed, int doors, boolean turbo) {', explanation: 'This is SportsCar constructor with four parameters. It must initialize Car (which initializes Vehicle). It calls super() to handle Car part.' },
+                    { code: '        super(brand, speed, doors);', explanation: 'This calls Car constructor with three parameters. Car constructor calls Vehicle. This creates the full chain. Only one super() needed.' },
+                    { code: '        this.turbo = turbo;', explanation: 'This initializes SportsCar-specific turbo field. It comes after super() call. This is the final initialization step. The object is complete.' },
+                    { code: '    }', explanation: 'This closing brace ends SportsCar constructor. All fields from three levels are initialized. The constructor chain is complete. Ready for use.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    @Override', explanation: 'This annotation confirms start() is being overridden again. It must match Car\'s signature. This ensures correct multilevel overriding. Compiler checks this.' },
+                    { code: '    void start() {', explanation: 'This overrides Car\'s start() method. Same signature throughout chain. This version is most specific for SportsCar. It can call super.start() to reuse Car behavior.' },
+                    { code: '        super.start();', explanation: 'This calls Car\'s start() method (which calls Vehicle\'s). So all three versions execute. This shows perfect chaining with super. Grandparent code still runs.' },
+                    { code: '        System.out.println(brand + " SportsCar with turbo: " + turbo + " ROARING!");', explanation: 'This prints SportsCar-specific dramatic message. It uses inherited brand field. This completes the override chain. Most specific version adds final touch.' },
+                    { code: '    }', explanation: 'This closing brace ends the final overridden start() method. All three versions execute in order. This demonstrates multilevel method overriding perfectly. Excellent example.' },
+                    { code: '}', explanation: 'This closing brace ends SportsCar class. It has access to fields from Vehicle and Car. It overrides start() with full chain. The hierarchy is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class with main method. It will create a SportsCar object. Then call start() once. All three versions will execute.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. Only one object and one method call needed. This will trigger the full chain of constructors and overridden methods.' },
+                    { code: '        SportsCar sc = new SportsCar("Ferrari", 350, 2, true);', explanation: 'This creates SportsCar with all details. This calls three constructors: SportsCar → Car → Vehicle. Full initialization chain executes.' },
+                    { code: '        sc.start();', explanation: 'This single call triggers all three start() versions. Output: Vehicle → Car → SportsCar messages. This proves multilevel inheritance works perfectly.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after start(). The output shows the complete chain. Real-world vehicle hierarchy demonstrated.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see all messages in order. This is a professional example of multilevel inheritance with overriding and chaining.' }
+                ]
+            },
+            8: {
+                title: "8. Shape → TwoDShape → Rectangle (Multilevel)",
+                lines: [
+                    { code: 'class Shape {', explanation: 'This declares the base class Shape. It is abstract in concept but concrete here for simplicity. It contains common properties like color. This will be inherited by TwoDShape.' },
+                    { code: '    protected String color;', explanation: 'This declares protected field for color. Protected allows subclasses to access it. All shapes have color. This field will be inherited down the chain.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public Shape(String color) {', explanation: 'This is Shape constructor taking color parameter. It initializes the color field. This constructor will be called by TwoDShape. This starts the initialization chain.' },
+                    { code: '        this.color = color;', explanation: 'This assigns parameter to color field. It ensures proper initialization. This is standard constructor pattern. Base class is ready.' },
+                    { code: '    }', explanation: 'This closing brace ends Shape constructor. Color is initialized. The constructor is complete. Ready for subclass constructors.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    void displayColor() {', explanation: 'This defines method to display the color. It will be inherited by all subclasses. This shows common behavior. All shapes can show their color.' },
+                    { code: '        System.out.println("Color: " + color);', explanation: 'This prints the color value. It uses the inherited color field. This method can be overridden if needed. This is base implementation.' },
+                    { code: '    }', explanation: 'This closing brace ends displayColor() method. The method is complete. It will be available to TwoDShape and Rectangle. This shows method inheritance.' },
+                    { code: '}', explanation: 'This closing brace ends Shape class. It is ready to be extended. It provides basic shape properties. This is the root of the geometry hierarchy.' },
+                    { code: '', explanation: '' },
+                    { code: 'class TwoDShape extends Shape {', explanation: 'This declares TwoDShape that inherits from Shape. It represents any 2D shape. It adds area calculation capability. This is the intermediate level.' },
+                    { code: '    protected double area;', explanation: 'This adds field to store calculated area. It is protected for Rectangle to access. This field will be set by subclasses. It shows common 2D property.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public TwoDShape(String color) {', explanation: 'This is TwoDShape constructor taking only color. It must initialize Shape part. It calls super() to pass color to Shape. This shows constructor chaining.' },
+                    { code: '        super(color);', explanation: 'This calls Shape constructor with color parameter. It must be first statement. This ensures Shape is initialized before TwoDShape. This is required.' },
+                    { code: '        this.area = 0;', explanation: 'This initializes area to 0 by default. Subclasses will calculate actual area. This provides a default value. It completes TwoDShape initialization.' },
+                    { code: '    }', explanation: 'This closing brace ends TwoDShape constructor. Shape is initialized via super. Area is set to 0. The constructor is complete.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    void calculateArea() {', explanation: 'This defines method to calculate area. It is empty here – meant to be overridden. This shows the template method pattern. Subclasses must provide implementation.' },
+                    { code: '        // To be overridden by subclasses', explanation: 'This comment indicates the method should be overridden. It provides no implementation here. This is common in intermediate classes. Rectangle will override it.' },
+                    { code: '    }', explanation: 'This closing brace ends calculateArea() method. It is intentionally empty. Subclasses will provide specific calculations. This shows design for extension.' },
+                    { code: '}', explanation: 'This closing brace ends TwoDShape class. It has successfully extended Shape. It adds area concept. Ready to be extended by Rectangle.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Rectangle extends TwoDShape {', explanation: 'This declares Rectangle that inherits from TwoDShape. Rectangle IS-A TwoDShape IS-A Shape. This completes the multilevel geometry hierarchy. It gets color and area from ancestors.' },
+                    { code: '    private double length, width;', explanation: 'This adds Rectangle-specific fields for dimensions. They are private because only Rectangle needs them. This shows final specialization. Calculation will use these.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    public Rectangle(String color, double length, double width) {', explanation: 'This is Rectangle constructor with three parameters. It must initialize TwoDShape (which initializes Shape). It calls super() to handle color.' },
+                    { code: '        super(color);', explanation: 'This calls TwoDShape constructor with color. TwoDShape calls Shape. This creates the full constructor chain. Only one super() needed.' },
+                    { code: '        this.length = length;', explanation: 'This initializes length field. It is specific to Rectangle. This comes after super() call. Proper initialization order.' },
+                    { code: '        this.width = width;', explanation: 'This initializes width field. It completes Rectangle-specific initialization. The object now has all dimensions. Ready for calculation.' },
+                    { code: '    }', explanation: 'This closing brace ends Rectangle constructor. All fields from three levels are initialized. The constructor chain is complete. Object is ready.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    @Override', explanation: 'This annotation confirms calculateArea() is being overridden. It must match TwoDShape signature. This ensures correct multilevel overriding. Good practice.' },
+                    { code: '    void calculateArea() {', explanation: 'This overrides TwoDShape\'s calculateArea(). It provides Rectangle-specific implementation. Same signature as ancestor. This completes the area calculation.' },
+                    { code: '        this.area = length * width;', explanation: 'This calculates rectangle area using length and width. It stores result in inherited area field. Direct access allowed because area is protected. This is the core calculation.' },
+                    { code: '        System.out.println("Rectangle area calculated: " + area);', explanation: 'This prints the calculated area. It confirms the calculation. This provides feedback. Useful for testing.' },
+                    { code: '    }', explanation: 'This closing brace ends overridden calculateArea(). The implementation is complete. Rectangle objects can now calculate area. This shows multilevel design working.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    void showDetails() {', explanation: 'This method displays all information from the hierarchy. It accesses color from Shape and area from TwoDShape. This shows the full power of multilevel inheritance.' },
+                    { code: '        displayColor();', explanation: 'This calls inherited method from Shape. It prints the color. Direct call allowed because method is inherited. This shows deep method access.' },
+                    { code: '        calculateArea();', explanation: 'This calls the overridden method to calculate and print area. It uses Rectangle-specific calculation. This shows polymorphic behavior. Area is updated.' },
+                    { code: '        System.out.println("Dimensions: " + length + " x " + width);', explanation: 'This prints Rectangle-specific dimensions. It completes the details display. All three levels shown. Perfect summary.' },
+                    { code: '    }', explanation: 'This closing brace ends showDetails() method. It successfully displayed data from all levels. This demonstrates real-world multilevel inheritance. Very practical.' },
+                    { code: '}', explanation: 'This closing brace ends Rectangle class. It has access to color from Shape and area from TwoDShape. It provides specific calculation. The hierarchy is complete.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class with main method. It will create a Rectangle object. Then call showDetails() to see everything. This proves the concept.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. Only one object creation needed. This will trigger the full chain and display all data. Execution starts here.' },
+                    { code: '        Rectangle rect = new Rectangle("Red", 10, 5);', explanation: 'This creates Rectangle with color and dimensions. This calls three constructors: Rectangle → TwoDShape → Shape. Full initialization chain.' },
+                    { code: '        rect.showDetails();', explanation: 'This calls method that displays color, calculates area, and shows dimensions. Output from all three levels. This single call proves multilevel inheritance works.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after display. The output shows complete hierarchy data. Excellent geometry example.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see color, area (50), and dimensions. This is a textbook example of multilevel inheritance in practice.' }
+                ]
+            },
+            9: {
+                title: "9. Multilevel Inheritance with Static Members",
+                lines: [
+                    { code: 'class Level1 {', explanation: 'This declares the topmost class with static members. Static members belong to the class, not instances. They will be shared by all subclasses. This shows static inheritance.' },
+                    { code: '    static int count = 0;', explanation: 'This declares static integer field count initialized to 0. It is shared by Level1, Level2, and Level3. All instances share the same memory location. This is class-level data.' },
+                    { code: '    ', explanation: '' },
+                    { code: '    static void increment() {', explanation: 'This defines static method to increment count. It can be called without object. It will be inherited by subclasses. This shows static method inheritance.' },
+                    { code: '        count++;', explanation: 'This increments the shared static field. Every call from any level increases the same count. This demonstrates that static members are shared across hierarchy.' },
+                    { code: '        System.out.println("Count from Level1: " + count);', explanation: 'This prints the current count value. It shows the shared state. This message appears regardless of which class calls it.' },
+                    { code: '    }', explanation: 'This closing brace ends the static increment() method. The method is complete. It modifies class-level state. Ready to be inherited.' },
+                    { code: '}', explanation: 'This closing brace ends Level1 class. It has provided static field and method. These will be available to all subclasses. This is the root for static inheritance.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Level2 extends Level1 {', explanation: 'This declares Level2 that inherits from Level1. It automatically inherits the static members. No need to redefine count or increment(). This shows static inheritance.' },
+                    { code: '    static void showCount() {', explanation: 'This adds new static method in Level2. It can access the inherited static field count. This shows subclasses can use inherited static members. It adds new functionality.' },
+                    { code: '        System.out.println("Level2 sees count: " + count);', explanation: 'This prints the shared count value. It accesses Level1\'s static field directly. No qualification needed. This proves static fields are inherited.' },
+                    { code: '    }', explanation: 'This closing brace ends showCount() method. The method is complete. It successfully accessed inherited static field. This demonstrates static member inheritance.' },
+                    { code: '}', explanation: 'This closing brace ends Level2 class. It has inherited count and increment() from Level1. It added its own static method. Ready for Level3.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Level3 extends Level2 {', explanation: 'This declares Level3 that inherits from Level2. It gets static members from both Level1 and Level2. This completes the multilevel static inheritance chain.' },
+                    { code: '    static void tripleIncrement() {', explanation: 'This adds new static method that calls inherited increment() three times. It can access Level1\'s static method directly. This shows deep static method access.' },
+                    { code: '        increment();', explanation: 'This calls the inherited static method from Level1. It increases count by 1. No qualification needed. This proves static methods are inherited across levels.' },
+                    { code: '        increment();', explanation: 'This calls increment() again. It increases count by another 1. Same shared field is modified. This shows the shared nature of static members.' },
+                    { code: '        increment();', explanation: 'This calls increment() third time. Count increases by total of 3. This completes the triple increment. All calls affect the same count.' },
+                    { code: '        System.out.println("Level3 triple incremented count to: " + count);', explanation: 'This prints the final count after three increments. It accesses Level1\'s static field. This shows full multilevel access. All levels share the same static data.' },
+                    { code: '    }', explanation: 'This closing brace ends tripleIncrement() method. The method successfully used inherited static members. This demonstrates multilevel static inheritance perfectly.' },
+                    { code: '}', explanation: 'This closing brace ends Level3 class. It has access to static members from Level1 and Level2. The static inheritance chain is complete. Ready for testing.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class Test {', explanation: 'This is the test class with main method. It will call static methods from different levels. This will show that all share the same static members.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will call static methods without creating objects. This demonstrates class-level access. Execution starts here.' },
+                    { code: '        Level1.increment();', explanation: 'This calls static method from Level1. Count becomes 1. This shows direct access to top-level static method. Output shows count = 1.' },
+                    { code: '        Level2.showCount();', explanation: 'This calls static method from Level2. It sees count = 1 from Level1. This proves shared static field. Level2 inherited the field.' },
+                    { code: '        Level3.tripleIncrement();', explanation: 'This calls method from Level3 that calls Level1\'s increment() three times. Count becomes 4. This shows deep inheritance of static methods.' },
+                    { code: '        System.out.println("Final count from any level: " + Level3.count);', explanation: 'This accesses static field from Level3 (inherited from Level1). It shows count = 4. All levels see the same value. Perfect proof of static inheritance.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after display. The output confirms all static members are shared. Multilevel static inheritance demonstrated.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, count increases across all calls. This shows static members belong to the class hierarchy. Important concept in Java.' }
+                ]
+            },
+            10: {
+                title: "10. Polymorphism in Multilevel Inheritance Chain",
+                lines: [
+                    { code: 'class Animal {', explanation: 'This declares the base class Animal with a method to be overridden. It is the top of the multilevel polymorphism chain. This enables runtime polymorphism across levels.' },
+                    { code: '    void makeSound() {', explanation: 'This defines method makeSound() in Animal. It will be overridden by subclasses. This is the original version. All animals make some sound.' },
+                    { code: '        System.out.println("Animal makes a generic sound");', explanation: 'This prints generic message. When called on Animal reference, this executes. Subclasses will override for specific sounds. This is base implementation.' },
+                    { code: '    }', explanation: 'This closing brace ends makeSound() in Animal. The method is complete. It will be inherited and overridden. This starts the polymorphism chain.' },
+                    { code: '}', explanation: 'This closing brace ends Animal class. It is ready to be extended. Its makeSound() method will participate in polymorphism. This is the root.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Mammal extends Animal {', explanation: 'This declares Mammal that inherits from Animal. It will override makeSound(). This is the intermediate level. It adds mammal-specific sound.' },
+                    { code: '    @Override', explanation: 'This annotation confirms overriding of makeSound(). It ensures signature matches Animal. This is good practice. It helps catch errors at compile time.' },
+                    { code: '    void makeSound() {', explanation: 'This overrides Animal\'s makeSound(). Same name and parameters. This version is more specific for mammals. It can call super if needed.' },
+                    { code: '        System.out.println("Mammal growls or makes mammal sound");', explanation: 'This prints mammal-specific message. When called on Mammal object, this executes. It hides Animal\'s version. This shows intermediate overriding.' },
+                    { code: '    }', explanation: 'This closing brace ends Mammal\'s overridden method. The override is complete. Mammal objects use this version. Ready for further overriding.' },
+                    { code: '}', explanation: 'This closing brace ends Mammal class. It has successfully overridden makeSound(). It participates in the polymorphism chain. This is the middle level.' },
+                    { code: '', explanation: '' },
+                    { code: 'class Dog extends Mammal {', explanation: 'This declares Dog that inherits from Mammal. It will override makeSound() again. This is the bottom level. It provides the most specific sound.' },
+                    { code: '    @Override', explanation: 'This annotation confirms final overriding. It must match Mammal\'s signature. This ensures correct multilevel polymorphism. Compiler validates this.' },
+                    { code: '    void makeSound() {', explanation: 'This overrides Mammal\'s makeSound(). Same signature throughout chain. This version is most specific for Dog. Runtime will call this for Dog objects.' },
+                    { code: '        System.out.println("Dog barks: Woof Woof!");', explanation: 'This prints Dog-specific sound. When called on Dog object, only this executes. This shows the most specific version wins. Perfect for polymorphism.' },
+                    { code: '    }', explanation: 'This closing brace ends Dog\'s overridden method. The polymorphism chain is complete. Dog objects will make dog sound. Previous versions are hidden.' },
+                    { code: '}', explanation: 'This closing brace ends Dog class. It has the final version of makeSound(). It inherited the ability to override from the chain. The multilevel hierarchy is ready.' },
+                    { code: '', explanation: '' },
+                    { code: 'public class PolymorphismTest {', explanation: 'This is the test class to demonstrate runtime polymorphism. It will use Animal reference for different objects. This shows the power of upcasting in multilevel inheritance.' },
+                    { code: '    public static void main(String[] args) {', explanation: 'This is the program entry point. We will create objects of each type. But call makeSound() through Animal reference. Runtime decides which version to call.' },
+                    { code: '        Animal a1 = new Animal();', explanation: 'This creates Animal object with Animal reference. When makeSound() called, Animal version executes. This is normal (no polymorphism).' },
+                    { code: '        Animal a2 = new Mammal();', explanation: 'This creates Mammal object but Animal reference (upcasting). When makeSound() called, Mammal version executes. This is runtime polymorphism.' },
+                    { code: '        Animal a3 = new Dog();', explanation: 'This creates Dog object but Animal reference (upcasting). When makeSound() called, Dog version executes. This shows multilevel polymorphism works.' },
+                    { code: '        ', explanation: '' },
+                    { code: '        a1.makeSound();', explanation: 'This calls makeSound() on Animal object. Output: generic animal sound. Reference and object type match. No overriding involved.' },
+                    { code: '        a2.makeSound();', explanation: 'This calls makeSound() on Mammal object through Animal reference. Output: mammal sound. Runtime chooses Mammal version. This is polymorphism in action.' },
+                    { code: '        a3.makeSound();', explanation: 'This calls makeSound() on Dog object through Animal reference. Output: dog bark. Runtime chooses Dog version despite Animal reference. Perfect multilevel polymorphism.' },
+                    { code: '    }', explanation: 'This closing brace ends main method. Program finishes after calls. The output shows different versions based on object type. This proves runtime polymorphism across levels.' },
+                    { code: '}', explanation: 'This closing brace ends the program. When run, you see three different sounds from same reference type. This is the essence of polymorphism in multilevel inheritance.' }
+                ]
+            }
+        };
+
+        let currentLineIndex = -1;
+
+        document.querySelectorAll('#program-list li').forEach(item => {
+            item.addEventListener('click', () => {
+                const programId = item.getAttribute('data-program');
+                const program = programs[programId];
+                if (!program) {
+                    console.error(`Program ${programId} not found`);
+                    return;
+                }
+
+                currentLineIndex = -1;
+
+                document.getElementById('program-title').textContent = program.title;
+
+                const details = document.getElementById('program-details');
+                details.innerHTML = '';
+
+                program.lines.forEach((line, index) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = `
+                        <code>${line.code}</code>
+                        <div class="explanation">${line.explanation}</div>
+                    `;
+                    details.appendChild(lineDiv);
+                });
+
+                document.getElementById('modal').classList.add('show');
+
+                showNextLine();
+            });
+        });
+
+        function showNextLine() {
+            const codeLines = document.querySelectorAll('#program-details .code-line');
+            if (currentLineIndex < codeLines.length - 1) {
+                currentLineIndex++;
+                codeLines[currentLineIndex].classList.add('active');
+            }
+            if (currentLineIndex === codeLines.length - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showNextLine();
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('show');
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'block';
+        });
+
+        document.getElementById('modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>
