@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bubble Sort C Program – Smart Class Display</title>
+    <style>
+        body {
+            font-family: Consolas, monospace;
+            background: #f5deb3;   /* sandal */
+            color: #002f6c;        /* deep blue */
+            padding: 60px;
+            cursor: pointer;
+        }
+
+        h1 {
+            text-align: center;
+            color: #003f88;
+            font-size: 48px;       /* BIG title */
+            margin-bottom: 40px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .code {
+            background: #fff8dc;
+            padding: 40px;
+            border-radius: 15px;
+            font-size: 36px;       /* BIG code font */
+            line-height: 1.5;
+            white-space: pre-wrap;
+            border: 4px solid #003f88;
+        }
+
+        .explanation {
+            margin-top: 30px;
+            font-size: 30px;       /* BIG explanation */
+            color: #003366;
+            font-weight: bold;
+        }
+
+        .hint {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 24px;
+            color: #002244;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Bubble Sort in C – Line by Line Explanation</h1>
+
+<div class="container">
+    <div class="code" id="codeBox"></div>
+    <div class="explanation" id="explainBox"></div>
+    <div class="hint">👉 Click anywhere on the screen to show next line</div>
+</div>
+
+<script>
+const steps = [
+    { code: "#include <stdio.h>", explanation: "Includes input and output functions like printf and scanf." },
+    { code: "", explanation: "" },
+    { code: "int main() {", explanation: "The program execution starts from the main function." },
+    { code: "    int n, temp;", explanation: "Variables declared: n for size, temp for swapping values." },
+    { code: "", explanation: "" },
+    { code: "    printf(\"Enter number of elements: \");", explanation: "Asks the user how many numbers they want to sort." },
+    { code: "    scanf(\"%d\", &n);", explanation: "Stores the user input into variable n." },
+    { code: "", explanation: "" },
+    { code: "    int a[n];", explanation: "Creates an array to store n elements." },
+    { code: "", explanation: "" },
+    { code: "    printf(\"Enter %d numbers:\\n\", n);", explanation: "Prompts user to enter the array elements." },
+    { code: "    for (int i = 0; i < n; i++) {", explanation: "Loop to read each element into the array." },
+    { code: "        scanf(\"%d\", &a[i]);", explanation: "Stores each number in the array." },
+    { code: "    }", explanation: "Ends the input loop." },
+    { code: "", explanation: "" },
+    { code: "    for (int pass = 0; pass < n - 1; pass++) {", explanation: "Outer loop controls the number of passes." },
+    { code: "        for (int i = 0; i < n - 1 - pass; i++) {", explanation: "Inner loop compares adjacent elements." },
+    { code: "            if (a[i] > a[i + 1]) {", explanation: "Checks if the current element is bigger than the next one." },
+    { code: "                temp = a[i];", explanation: "Stores the value temporarily." },
+    { code: "                a[i] = a[i + 1];", explanation: "Moves the smaller value forward." },
+    { code: "                a[i + 1] = temp;", explanation: "Completes the swap operation." },
+    { code: "            }", explanation: "Ends the condition." },
+    { code: "        }", explanation: "Ends inner loop." },
+    { code: "    }", explanation: "After all passes, the array is sorted." },
+    { code: "", explanation: "" },
+    { code: "    printf(\"Sorted array: \");", explanation: "Prints the label before showing sorted output." },
+    { code: "    for (int i = 0; i < n; i++) {", explanation: "Loop to print sorted elements." },
+    { code: "        printf(\"%d \", a[i]);", explanation: "Displays each sorted number." },
+    { code: "    }", explanation: "Ends the printing loop." },
+    { code: "", explanation: "" },
+    { code: "    return 0;", explanation: "Ends the program successfully." },
+    { code: "}", explanation: "End of the main function." }
+];
+
+let index = 0;
+const codeBox = document.getElementById("codeBox");
+const explainBox = document.getElementById("explainBox");
+
+document.body.addEventListener("click", () => {
+    if (index < steps.length) {
+        codeBox.innerHTML += steps[index].code + "\n";
+        explainBox.innerHTML = "💡 " + steps[index].explanation;
+        index++;
+    }
+});
+</script>
+
+</body>
+</html>

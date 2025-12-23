@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Time Complexity Practice – C Programs</title>
+
+<style>
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    font-family: 'Segoe UI', sans-serif;
+    color: #ffffff;
+    overflow: hidden;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+    margin-top: 30px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 48px;
+    color: #00e6e6;
+    text-shadow: 0 0 15px #00ffff;
+}
+
+.card {
+    background: rgba(0,0,0,0.6);
+    border-radius: 20px;
+    padding: 30px;
+    margin-top: 20px;
+    animation: slideIn 0.8s ease;
+    box-shadow: 0 0 30px rgba(0,255,255,0.3);
+}
+
+pre {
+    font-size: 28px;
+    color: #f1f1f1;
+    white-space: pre-wrap;
+}
+
+.answer {
+    margin-top: 20px;
+    font-size: 30px;
+    color: #00ff99;
+    display: none;
+    animation: fadeIn 1s ease;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+button {
+    font-size: 28px;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #00e6e6, #00ff99);
+    color: black;
+    box-shadow: 0 0 20px rgba(0,255,255,0.7);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 35px rgba(0,255,255,1);
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.footer {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    color: #cccccc;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Time Complexity Practice – C Programs</h1>
+
+    <div class="card">
+        <pre id="code"></pre>
+        <div class="answer" id="answer"></div>
+    </div>
+
+    <div class="buttons">
+        <button onclick="showAnswer()">Answer</button>
+        <button onclick="nextProgram()">Next ➜</button>
+    </div>
+</div>
+
+<div class="footer">
+    Designed for Live Classroom Teaching • Big Font • Animated Learning
+</div>
+
+<script>
+const programs = [
+{
+code:
+`// Program 1
+printf("Hello World");`,
+answer:
+`Time Complexity: O(1)
+Explanation:
+This statement executes exactly once.
+It does not depend on input size.`
+},
+{
+code:
+`// Program 2
+int a = 10, b = 20;
+printf("%d", a + b);`,
+answer:
+`Time Complexity: O(1)
+Explanation:
+Only constant number of operations are performed.`
+},
+{
+code:
+`// Program 3
+int arr[5];
+printf("%d", arr[2]);`,
+answer:
+`Time Complexity: O(1)
+Explanation:
+Array access by index takes constant time.`
+},
+{
+code:
+`// Program 4
+for(int i=0;i<n;i++)
+    printf("%d", i);`,
+answer:
+`Time Complexity: O(n)
+Explanation:
+Loop runs n times based on input size.`
+},
+{
+code:
+`// Program 5
+int sum = 0;
+for(int i=0;i<n;i++)
+    sum += arr[i];`,
+answer:
+`Time Complexity: O(n)
+Explanation:
+Each array element is accessed once.`
+},
+{
+code:
+`// Program 6
+for(int i=0;i<n;i++)
+{
+    if(arr[i] == key)
+        break;
+}`,
+answer:
+`Time Complexity: O(n)
+Explanation:
+Worst case checks all n elements (Linear Search).`
+},
+{
+code:
+`// Program 7
+int max = arr[0];
+for(int i=1;i<n;i++)
+{
+    if(arr[i] > max)
+        max = arr[i];
+}`,
+answer:
+`Time Complexity: O(n)
+Explanation:
+Single traversal to find maximum element.`
+},
+{
+code:
+`// Program 8
+for(int i=0;i<10;i++)
+    printf("KL University");`,
+answer:
+`Time Complexity: O(1)
+Explanation:
+Loop count is constant (10), independent of n.`
+},
+{
+code:
+`// Program 9
+int a=5,b=6,temp;
+temp=a; a=b; b=temp;`,
+answer:
+`Time Complexity: O(1)
+Explanation:
+Fixed number of steps.`
+},
+{
+code:
+`// Program 10
+for(int i=0;i<n;i++)
+    printf("%d", arr[i]);`,
+answer:
+`Time Complexity: O(n)
+Explanation:
+Prints n elements using a single loop.`
+}
+];
+
+let index = 0;
+
+function loadProgram() {
+    document.getElementById("code").innerText = programs[index].code;
+    document.getElementById("answer").style.display = "none";
+}
+
+function showAnswer() {
+    const ans = document.getElementById("answer");
+    ans.innerText = programs[index].answer;
+    ans.style.display = "block";
+}
+
+function nextProgram() {
+    index = (index + 1) % programs.length;
+    loadProgram();
+}
+
+loadProgram();
+</script>
+
+</body>
+</html>
