@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shell Sort C Program – Smart Class Display</title>
+    <style>
+        body {
+            font-family: Consolas, monospace;
+            background: #f5deb3;   /* sandal */
+            color: #002f6c;        /* deep blue */
+            padding: 60px;
+            cursor: pointer;
+        }
+
+        h1 {
+            text-align: center;
+            color: #003f88;
+            font-size: 48px;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .code {
+            background: #fff8dc;
+            padding: 40px;
+            border-radius: 15px;
+            font-size: 36px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            border: 4px solid #003f88;
+        }
+
+        .explanation {
+            margin-top: 30px;
+            font-size: 30px;
+            color: #003366;
+            font-weight: bold;
+        }
+
+        .hint {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 24px;
+            color: #002244;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Shell Sort in C – Line by Line Explanation</h1>
+
+<div class="container">
+    <div class="code" id="codeBox"></div>
+    <div class="explanation" id="explainBox"></div>
+    <div class="hint">👉 Click anywhere on the screen to show next line</div>
+</div>
+
+<script>
+const steps = [
+    { code: "#include <stdio.h>", explanation: "Includes standard input-output functions like printf and scanf." },
+    { code: "", explanation: "" },
+
+    { code: "int main() {", explanation: "Program execution starts from the main function." },
+    { code: "    int n, temp;", explanation: "Declares n for array size and temp for temporary storage." },
+    { code: "", explanation: "" },
+
+    { code: "    printf(\"Enter number of elements: \");", explanation: "Asks the user to enter how many elements to sort." },
+    { code: "    scanf(\"%d\", &n);", explanation: "Reads the number of elements." },
+    { code: "", explanation: "" },
+
+    { code: "    int a[n];", explanation: "Creates an array of size n." },
+    { code: "", explanation: "" },
+
+    { code: "    printf(\"Enter %d numbers:\\n\", n);", explanation: "Prompts the user to enter array elements." },
+    { code: "    for (int i = 0; i < n; i++) {", explanation: "Loop to read n elements into the array." },
+    { code: "        scanf(\"%d\", &a[i]);", explanation: "Stores each value in the array." },
+    { code: "    }", explanation: "Ends input loop." },
+    { code: "", explanation: "" },
+
+    { code: "    for (int gap = n / 2; gap > 0; gap = gap / 2) {", explanation: "Initializes gap and reduces it by half in each iteration." },
+    { code: "        for (int i = gap; i < n; i++) {", explanation: "Performs insertion sort for elements separated by the gap." },
+    { code: "            temp = a[i];", explanation: "Stores the current element to be positioned correctly." },
+    { code: "            int j = i;", explanation: "Initializes j for shifting elements." },
+    { code: "", explanation: "" },
+
+    { code: "            while (j >= gap && a[j - gap] > temp) {", explanation: "Shifts elements that are greater than temp by gap distance." },
+    { code: "                a[j] = a[j - gap];", explanation: "Moves larger element forward." },
+    { code: "                j = j - gap;", explanation: "Moves j backward by gap." },
+    { code: "            }", explanation: "Stops when correct position is found." },
+
+    { code: "            a[j] = temp;", explanation: "Places temp in its correct position." },
+    { code: "        }", explanation: "Ends inner loop." },
+    { code: "    }", explanation: "Ends Shell Sort process." },
+    { code: "", explanation: "" },
+
+    { code: "    printf(\"Sorted array: \");", explanation: "Displays output message." },
+    { code: "    for (int i = 0; i < n; i++) {", explanation: "Loop to print sorted array elements." },
+    { code: "        printf(\"%d \", a[i]);", explanation: "Prints each sorted element." },
+    { code: "    }", explanation: "Ends printing loop." },
+    { code: "", explanation: "" },
+
+    { code: "    return 0;", explanation: "Ends the program successfully." },
+    { code: "}", explanation: "End of main function." }
+];
+
+let index = 0;
+const codeBox = document.getElementById("codeBox");
+const explainBox = document.getElementById("explainBox");
+
+document.body.addEventListener("click", () => {
+    if (index < steps.length) {
+        codeBox.innerHTML += steps[index].code + "\n";
+        explainBox.innerHTML = "💡 " + steps[index].explanation;
+        index++;
+    }
+});
+</script>
+
+</body>
+</html>
