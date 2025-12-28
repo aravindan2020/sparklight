@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sorting Visualizer</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f0e6;
+            text-align: center;
+        }
+        .array {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+        .bar {
+            width: 25px;
+            margin: 0 4px;
+            background: teal;
+            color: white;
+            font-size: 12px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            transition: 0.5s;
+        }
+        button {
+            padding: 12px 25px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            background: #8b5e3c;
+            color: white;
+        }
+        button:hover {
+            background: #5c3b23;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sorting Algorithm Visualizer</h1>
+
+    <div class="array" id="array"></div>
+
+    <button onclick="go('bubble')">Bubble Sort</button>
+    <button onclick="go('insertion')">Insertion Sort</button>
+    <button onclick="go('shell')">Shell Sort</button>
+
+<script>
+    const arr = [45,23,89,12,67,34,90,11,54,29,78,3,88,66,41,19];
+
+    const container = document.getElementById("array");
+    arr.forEach(v=>{
+        let bar=document.createElement("div");
+        bar.className="bar";
+        bar.style.height = v*3+"px";
+        bar.innerText=v;
+        container.appendChild(bar);
+    });
+
+    function go(type){
+        localStorage.setItem("array", JSON.stringify(arr));
+        window.location.href = "sort.html?type=" + type;
+    }
+</script>
+</body>
+</html>

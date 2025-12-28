@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sorting Steps</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #fdf6ec;
+            text-align: center;
+        }
+        .array {
+            display: flex;
+            justify-content: center;
+            margin: 30px;
+        }
+        .bar {
+            width: 25px;
+            margin: 0 4px;
+            background: steelblue;
+            color: white;
+            font-size: 12px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            transition: 0.6s;
+        }
+        .active {
+            background: crimson;
+        }
+        .done {
+            background: green;
+        }
+        #explain {
+            font-size: 18px;
+            margin-top: 20px;
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+
+<body>
+<h2 id="title"></h2>
+
+<div class="array" id="array"></div>
+<div id="explain">Click anywhere to start sorting</div>
+
+<script>
+let arr = JSON.parse(localStorage.getItem("array"));
+const bars=[];
+const container=document.getElementById("array");
+const explain=document.getElementById("explain");
+const type=new URLSearchParams(window.location.search).get("type");
+
+document.getElementById("title").innerText = type.toUpperCase()+" SORT";
+
+arr.forEach(v=>{
+    let bar=document.createElement("div");
+    bar.className="bar";
+    bar.style.height=v*3+"px";
+    bar.innerText=v;
+    container.appendChild(bar);
+    bars.push(bar);
+});
+
+let steps=[];
+if(type==="bubble") bubble();
+if(type==="insertion") insertion();
+if(type==="shell") shell();
+
+function bubble(){
+    let a=[...arr];
+    for(let i=0;i<a.length;i++){
+        for(let j=0;j<a.length-i-1;j++){
+            steps.push({a:[...a],i:j,j:j+1,
+                text:`Compare ${a[j]} and ${a[j+1]}`});
+            if(a[j]>a[j+1]){
+                [a[j],a[j+1]]=[a[j+1],a[j]];
+                steps.push({a:[...a],i:j,j:j+1,
+                text:`Swap because ${a[j]} is smaller`});
+            }
+        }
+    }
+}
+
+function insertion(){
+    let a=[...arr];
+    for(let i=1;i<a.length;i++){
+        let key=a[i],j=i-1;
+        steps.push({a:[...a],i:i,j:j,text:`Key selected: ${key}`});
+        while(j>=0 && a[j]>key){
+            a[j+1]=a[j];
+            steps.push({a:[...a],i:j,j:j+1,
+            text:`Shift ${a[j]} right`});
+            j--;
+        }
+        a[j+1]=key;
+        steps.push({a:[...a],i:j+1,j:null,
+        text:`Insert key at correct position`});
+    }
+}
+
+function shell(){
+    let a=[...arr];
+    for(let gap=Math.floor(a.length/2);gap>0;gap=Math.floor(gap/2)){
+        for(let i=gap;i<a.length;i++){
+            let temp=a[i],j=i;
+            steps.push({a:[...a],i:i,j:j-gap,
+            text:`Gap = ${gap}, compare elements`});
+            while(j>=gap && a[j-gap]>temp){
+                a[j]=a[j-gap];
+                steps.push({a:[...a],i:j,j:j-gap,
+                text:`Shift element by gap`});
+                j-=gap;
+            }
+            a[j]=temp;
+        }
+    }
+}
+
+let k=0;
+document.body.onclick=()=>{
+    if(k>=steps.length) return;
+    const s=steps[k++];
+    bars.forEach((b,i)=>{
+        b.className="bar";
+        b.style.height=s.a[i]*3+"px";
+        b.innerText=s.a[i];
+    });
+    if(s.j!=null){
+        bars[s.i].classList.add("active");
+        bars[s.j].classList.add("active");
+    }
+    explain.innerText=s.text;
+};
+</script>
+</body>
+</html>
