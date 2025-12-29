@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorting Animation with Letter Comparison</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f0e6d2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+h1 { text-align: center; }
+#inputSection, #algorithmSection, #animationSection {
+    margin: 20px 0;
+}
+input[type="text"] {
+    width: 120px;
+    padding: 5px;
+    margin: 5px;
+}
+select, button {
+    padding: 8px 12px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.nameContainer {
+    display: flex;
+    margin: 20px 0;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.nameBox {
+    padding: 10px 15px;
+    background: #fff5e6;
+    border: 2px solid #d9b38c;
+    border-radius: 10px;
+    font-weight: bold;
+    display: flex;
+    gap: 2px;
+    transition: transform 0.8s, background 0.8s;
+}
+.letter {
+    display: inline-block;
+    padding: 2px 4px;
+    border-radius: 3px;
+    transition: background 0.5s;
+}
+.highlight { background: #ffd966; }
+.swap { background: #ff6666; transform: translateY(-15px); }
+#stepExplanation {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    min-height: 50px;
+    color: #333;
+    text-align: left;
+    max-width: 700px;
+}
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+p.tip {
+    margin-top:10px; 
+    font-size:14px; 
+    color:#555;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+
+<h1>Sorting Animation with Letter-by-Letter Explanation</h1>
+
+<div id="inputSection">
+  <h3>Enter 8 Names:</h3>
+  <div id="nameInputs">
+    <input type="text" placeholder="Name 1">
+    <input type="text" placeholder="Name 2">
+    <input type="text" placeholder="Name 3">
+    <input type="text" placeholder="Name 4">
+    <input type="text" placeholder="Name 5">
+    <input type="text" placeholder="Name 6">
+    <input type="text" placeholder="Name 7">
+    <input type="text" placeholder="Name 8">
+  </div>
+  <button onclick="collectNames()">Submit Names</button>
+</div>
+
+<div id="algorithmSection" style="display:none;">
+  <h3>Choose Sorting Algorithm:</h3>
+  <select id="algorithmSelect">
+    <option value="bubble">Bubble Sort</option>
+    <option value="insertion">Insertion Sort</option>
+    <option value="shell">Shell Sort</option>
+  </select>
+  <button onclick="startSorting()">Start Sorting</button>
+</div>
+
+<div id="animationSection" style="display:none;">
+  <h3>Sorting Animation:</h3>
+  <div class="nameContainer" id="nameContainer"></div>
+  <div id="stepExplanation"></div>
+  <div id="result"></div>
+  <p class="tip">Click anywhere on the page to move to the next step. Each letter comparison is explained.</p>
+</div>
+
+<script>
+let names = [];
+let animationSteps = [];
+let explanations = [];
+let container = document.getElementById('nameContainer');
+let stepDiv = document.getElementById('stepExplanation');
+let currentStep = 0;
+
+function collectNames() {
+  names = [];
+  const inputs = document.querySelectorAll('#nameInputs input');
+  for(let inp of inputs) {
+    if(inp.value.trim() === '') {
+      alert("Please fill all 8 names!");
+      return;
+    }
+    names.push(inp.value.trim());
+  }
+  document.getElementById('inputSection').style.display = 'none';
+  document.getElementById('algorithmSection').style.display = 'block';
+  renderNames(names);
+}
+
+function renderNames(arr, highlightLetters = {}, swapBoxes = []) {
+  container.innerHTML = '';
+  arr.forEach((name, idx) => {
+    const div = document.createElement('div');
+    div.className = 'nameBox';
+    if(swapBoxes.includes(idx)) div.classList.add('swap');
+    for(let i=0; i<name.length; i++){
+      const span = document.createElement('span');
+      span.className = 'letter';
+      span.textContent = name[i];
+      if(highlightLetters[idx] && highlightLetters[idx].includes(i)) span.classList.add('highlight');
+      div.appendChild(span);
+    }
+    container.appendChild(div);
+  });
+}
+
+function startSorting() {
+  animationSteps = [];
+  explanations = [];
+  currentStep = 0;
+  let arr = [...names];
+  const algo = document.getElementById('algorithmSelect').value;
+
+  if(algo === 'bubble') bubbleSort(arr);
+  else if(algo === 'insertion') insertionSort(arr);
+  else if(algo === 'shell') shellSort(arr);
+
+  document.getElementById('algorithmSection').style.display = 'none';
+  document.getElementById('animationSection').style.display = 'block';
+  renderStep();
+}
+
+function renderStep() {
+  if(currentStep >= animationSteps.length) {
+    stepDiv.textContent = '';
+    document.getElementById('result').textContent = 'Final Sorted Names: ' + names.join(', ');
+    return;
+  }
+  const step = animationSteps[currentStep];
+  renderNames(step.arr, step.highlightLetters, step.swapBoxes);
+  stepDiv.innerHTML = explanations[currentStep];
+}
+
+document.body.addEventListener('click', () => {
+  if(document.getElementById('animationSection').style.display === 'block') {
+    currentStep++;
+    renderStep();
+  }
+});
+
+/* ----- Sorting Algorithms with Letter-by-Letter Explanation ----- */
+function bubbleSort(arr) {
+  let n = arr.length;
+  for(let i=0; i<n-1; i++){
+    for(let j=0; j<n-i-1; j++){
+      // Compare letters
+      let maxLen = Math.max(arr[j].length, arr[j+1].length);
+      for(let k=0; k<maxLen; k++){
+        animationSteps.push({arr:[...arr], highlightLetters:{[j]:[k],[j+1]:[k]}, swapBoxes:[]});
+        explanations.push(`Comparing letter "${arr[j][k]||'-'}" with "${arr[j+1][k]||'-'}"`);
+      }
+      // Swap if needed
+      if(arr[j].toLowerCase() > arr[j+1].toLowerCase()){
+        [arr[j], arr[j+1]] = [arr[j+1], arr[j]];
+        animationSteps.push({arr:[...arr], highlightLetters:{}, swapBoxes:[j,j+1]});
+        explanations.push(`Swapped "${arr[j+1]}" and "${arr[j]}" because first differing letter made left bigger`);
+      }
+    }
+  }
+}
+
+function insertionSort(arr){
+  let n = arr.length;
+  for(let i=1;i<n;i++){
+    let key = arr[i];
+    let j = i-1;
+    while(j>=0 && arr[j].toLowerCase() > key.toLowerCase()){
+      let maxLen = Math.max(arr[j].length,key.length);
+      for(let k=0;k<maxLen;k++){
+        animationSteps.push({arr:[...arr], highlightLetters:{[j]:[k],[j+1]:[k]}, swapBoxes:[]});
+        explanations.push(`Comparing letter "${arr[j][k]||'-'}" with "${key[k]||'-'}"`);
+      }
+      arr[j+1] = arr[j];
+      animationSteps.push({arr:[...arr], highlightLetters:{}, swapBoxes:[j,j+1]});
+      explanations.push(`Moved "${arr[j]}" to position ${j+1} because it was bigger than "${key}"`);
+      j--;
+    }
+    arr[j+1] = key;
+    animationSteps.push({arr:[...arr], highlightLetters:{}, swapBoxes:[j+1]});
+    explanations.push(`Placed "${key}" at position ${j+1}`);
+  }
+}
+
+function shellSort(arr){
+  let n = arr.length;
+  for(let gap=Math.floor(n/2); gap>0; gap=Math.floor(gap/2)){
+    for(let i=gap;i<n;i++){
+      let temp = arr[i];
+      let j=i;
+      while(j>=gap && arr[j-gap].toLowerCase()>temp.toLowerCase()){
+        let maxLen=Math.max(arr[j-gap].length,temp.length);
+        for(let k=0;k<maxLen;k++){
+          animationSteps.push({arr:[...arr], highlightLetters:{[j]:[k],[j-gap]:[k]}, swapBoxes:[]});
+          explanations.push(`Comparing letter "${arr[j-gap][k]||'-'}" with "${temp[k]||'-'}"`);
+        }
+        arr[j]=arr[j-gap];
+        animationSteps.push({arr:[...arr], highlightLetters:{}, swapBoxes:[j,j-gap]});
+        explanations.push(`Moved "${arr[j-gap]}" to position ${j} because it was bigger than "${temp}"`);
+        j-=gap;
+      }
+      arr[j]=temp;
+      animationSteps.push({arr:[...arr], highlightLetters:{}, swapBoxes:[j]});
+      explanations.push(`Placed "${temp}" at position ${j}`);
+    }
+  }
+}
+</script>
+</body>
+</html>
