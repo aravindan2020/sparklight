@@ -1,122 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Animated Landing Page</title>
+<meta charset="UTF-8">
+<title>Practice Zone – Table View</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #4e54c8, #8f94fb);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      color: white;
-    }
+<style>
+body{
+  margin:0;
+  font-family:"Segoe UI", sans-serif;
+  background:linear-gradient(135deg,#4e54c8,#8f94fb);
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+}
 
-    .container {
-      text-align: center;
-      animation: fadeIn 1.5s ease-in-out;
-    }
+.container{
+  width:80%;
+  max-width:900px;
+  animation:fadeIn 1.5s ease-in-out;
+  text-align:center;
+}
 
-    h1 {
-      font-size: 42px;
-      margin-bottom: 20px;
-      animation: slideDown 1.5s ease-in-out;
-    }
+h1{
+  margin-bottom:25px;
+  font-size:42px;
+}
 
-    .btn {
-      display: block;
-      text-decoration: none;
-      width: 280px;
-      margin: 13px auto;
-      padding: 14px 20px;
-      font-size: 20px;
-      font-weight: bold;
-      color: white;
-      border-radius: 50px;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(8px);
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
-      transition: 0.4s;
-      opacity: 0;
-      transform: translateY(25px);
-    }
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(8px);
+  border-radius:15px;
+  overflow:hidden;
+}
 
-    .btn:hover {
-      transform: scale(1.07);
-      background: rgba(255, 255, 255, 0.35);
-      box-shadow: 0px 0px 18px rgb(255, 255, 255);
-    }
+th, td{
+  padding:14px;
+  text-align:center;
+}
 
-    /* Animation Delay for highlighting */
-    .btn.cjava { animation: fadeUp 1s ease forwards; }
-    .btn.cjava:nth-child(1) { animation-delay: 0.8s; }
-    .btn.cjava:nth-child(2) { animation-delay: 1.2s; }
+th{
+  background:rgba(255,255,255,0.25);
+  font-size:20px;
+}
 
-    .btn.string { animation: fadeUp 1s ease forwards; }
-    .btn.string:nth-child(1) { animation-delay: 1.8s; }
-    .btn.string:nth-child(2) { animation-delay: 2.2s; }
-    .btn.string:nth-child(3) { animation-delay: 2.6s; }
-    .btn.string:nth-child(4) { animation-delay: 3.0s; }
+tr:nth-child(even){
+  background:rgba(255,255,255,0.08);
+}
 
-    footer {
-      margin-top: 25px;
-      opacity: 0;
-      animation: fadeIn 2s ease forwards;
-      animation-delay: 3.5s;
-      font-size: 15px;
-    }
+a.btn{
+  display:inline-block;
+  text-decoration:none;
+  padding:10px 22px;
+  border-radius:25px;
+  color:white;
+  font-weight:bold;
+  background:rgba(255,255,255,0.25);
+  border:2px solid rgba(255,255,255,0.4);
+  transition:0.3s;
+}
 
-    /* Keyframes */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+a.btn:hover{
+  transform:scale(1.07);
+  background:rgba(255,255,255,0.4);
+  box-shadow:0 0 12px white;
+}
 
-    @keyframes slideDown {
-      from { transform: translateY(-30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+footer{
+  margin-top:20px;
+  font-size:14px;
+  opacity:0.9;
+}
 
-    @keyframes fadeUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
-    <h1>Welcome to Practice Zone</h1>
+<div class="container">
+<h1>Welcome to Practice Zone</h1>
 
-    <!-- Highlighted First: C & Java -->
-    <a href="program.html" class="btn cjava">C Program Exercises</a>
-    <a href="index1.html" class="btn cjava">Core Java Exercises</a>
+<table>
+<tr>
+  <th>Category</th>
+  <th>Exercise Link</th>
+</tr>
 
-    <!-- Highlighted Next: String Links -->
-    <a href="stringintro.html" class="btn string">String Introduction</a>
-    <a href="vowels.html" class="btn string">Count Vowels</a>
-    <a href="palindrome.html" class="btn string">Palindrome Check</a>
-    <a href="stringfunc.html" class="btn string">String Functions</a>
-    <a href="time.html" class="btn string">time complexity</a>
-     <a href="bubble.html" class="btn string">bubble sort</a>
-    <a href="shell.html" class="btn string">shell sort</a>
-     <a href="insertion.html" class="btn string">insertion sort</a>
-    <a href="index101.html" class="btn string">sort demo</a>
+<tr><td>C Programming</td><td><a href="program.html" class="btn">C Program Exercises</a></td></tr>
+<tr><td>Java</td><td><a href="index1.html" class="btn">Core Java Exercises</a></td></tr>
 
-    <footer>© 2025 Learning Hub</footer>
-  </div>
+<tr><td rowspan="6">String Programs</td>
+<td><a href="stringintro.html" class="btn">String Introduction</a></td></tr>
+<tr><td><a href="vowels.html" class="btn">Count Vowels</a></td></tr>
+<tr><td><a href="palindrome.html" class="btn">Palindrome Check</a></td></tr>
+<tr><td><a href="stringfunc.html" class="btn">String Functions</a></td></tr>
+<tr><td><a href="time.html" class="btn">Time Complexity</a></td></tr>
+<tr><td><a href="sortname.html" class="btn">Game Name Sort</a></td></tr>
+
+<tr><td rowspan="4">Sorting</td>
+<td><a href="bubble.html" class="btn">Bubble Sort</a></td></tr>
+<tr><td><a href="shell.html" class="btn">Shell Sort</a></td></tr>
+<tr><td><a href="insertion.html" class="btn">Insertion Sort</a></td></tr>
+<tr><td><a href="index101.html" class="btn">Sort Demo</a></td></tr>
+
+</table>
+
+<footer>© 2025 Learning Hub</footer>
+</div>
 
 </body>
 </html>
-
-
