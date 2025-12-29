@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Practice Zone – Table View</title>
+<title>Practice Zone – Horizontal Links</title>
 
 <style>
 body{
@@ -17,56 +17,46 @@ body{
 }
 
 .container{
-  width:80%;
-  max-width:900px;
-  animation:fadeIn 1.5s ease-in-out;
+  width:90%;
+  max-width:1000px;
   text-align:center;
+  animation:fadeIn 1.5s ease-in-out;
 }
 
 h1{
-  margin-bottom:25px;
   font-size:42px;
+  margin-bottom:25px;
 }
 
 table{
   width:100%;
-  border-collapse:collapse;
-  background:rgba(255,255,255,0.15);
-  backdrop-filter:blur(8px);
-  border-radius:15px;
-  overflow:hidden;
+  border-collapse:separate;
+  border-spacing:15px;
 }
 
-th, td{
-  padding:14px;
+td{
   text-align:center;
 }
 
-th{
-  background:rgba(255,255,255,0.25);
-  font-size:20px;
-}
-
-tr:nth-child(even){
-  background:rgba(255,255,255,0.08);
-}
-
 a.btn{
-  display:inline-block;
-  text-decoration:none;
-  padding:10px 22px;
-  border-radius:25px;
-  color:white;
+  display:block;
+  padding:14px 20px;
+  font-size:18px;
   font-weight:bold;
+  text-decoration:none;
+  color:white;
+  border-radius:50px;
   background:rgba(255,255,255,0.25);
+  backdrop-filter:blur(8px);
   border:2px solid rgba(255,255,255,0.4);
-  transition:0.3s;
+  box-shadow:0 0 12px rgba(255,255,255,0.4);
+  transition:0.4s;
 }
 
 a.btn:hover{
-  transform:scale(1.07);
+  transform:scale(1.08);
   background:rgba(255,255,255,0.4);
-  box-shadow:0 0 12px white;
+  box-shadow:0 0 18px white;
 }
 
 footer{
@@ -89,27 +79,28 @@ footer{
 
 <table>
 <tr>
-  <th>Category</th>
-  <th>Exercise Link</th>
+  <td><a href="program.html" class="btn">C Program Exercises</a></td>
+  <td><a href="index1.html" class="btn">Core Java Exercises</a></td>
+  <td><a href="stringintro.html" class="btn">String Introduction</a></td>
 </tr>
 
-<tr><td>C Programming</td><td><a href="program.html" class="btn">C Program Exercises</a></td></tr>
-<tr><td>Java</td><td><a href="index1.html" class="btn">Core Java Exercises</a></td></tr>
+<tr>
+  <td><a href="vowels.html" class="btn">Count Vowels</a></td>
+  <td><a href="palindrome.html" class="btn">Palindrome Check</a></td>
+  <td><a href="stringfunc.html" class="btn">String Functions</a></td>
+</tr>
 
-<tr><td rowspan="6">String Programs</td>
-<td><a href="stringintro.html" class="btn">String Introduction</a></td></tr>
-<tr><td><a href="vowels.html" class="btn">Count Vowels</a></td></tr>
-<tr><td><a href="palindrome.html" class="btn">Palindrome Check</a></td></tr>
-<tr><td><a href="stringfunc.html" class="btn">String Functions</a></td></tr>
-<tr><td><a href="time.html" class="btn">Time Complexity</a></td></tr>
-<tr><td><a href="sortname.html" class="btn">Game Name Sort</a></td></tr>
+<tr>
+  <td><a href="time.html" class="btn">Time Complexity</a></td>
+  <td><a href="bubble.html" class="btn">Bubble Sort</a></td>
+  <td><a href="shell.html" class="btn">Shell Sort</a></td>
+</tr>
 
-<tr><td rowspan="4">Sorting</td>
-<td><a href="bubble.html" class="btn">Bubble Sort</a></td></tr>
-<tr><td><a href="shell.html" class="btn">Shell Sort</a></td></tr>
-<tr><td><a href="insertion.html" class="btn">Insertion Sort</a></td></tr>
-<tr><td><a href="index101.html" class="btn">Sort Demo</a></td></tr>
-
+<tr>
+  <td><a href="insertion.html" class="btn">Insertion Sort</a></td>
+  <td><a href="index101.html" class="btn">Sort Demo</a></td>
+  <td><a href="sortname.html" class="btn">Game Name Sort</a></td>
+</tr>
 </table>
 
 <footer>© 2025 Learning Hub</footer>
