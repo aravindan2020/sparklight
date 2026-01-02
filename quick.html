@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quick Sort – Hoare's Partition Explained (Pivot = First Element)</title>
+
+<style>
+body{
+    font-family:Consolas, monospace;
+    background:#f5deb3;
+    color:#002f6c;
+    padding:50px;
+    cursor:pointer;
+}
+h1{text-align:center;font-size:46px;color:#003f88;}
+h2{text-align:center;font-size:36px;color:#004c99;}
+.slide{display:none;text-align:center;}
+.slide.active{display:block;}
+.array{display:flex;justify-content:center;gap:15px;margin-top:25px;}
+.box{
+    width:80px;height:80px;
+    border:3px solid #003f88;
+    border-radius:10px;
+    font-size:26px;
+    display:flex;align-items:center;justify-content:center;
+    background:#fff8dc;
+}
+.pivot{background:#ff9999;}
+.i{background:#99ddff;}
+.j{background:#99ff99;}
+.desc{font-size:28px;margin-top:20px;font-weight:bold;}
+.param{font-size:24px;margin-top:10px;color:#002244;}
+</style>
+</head>
+
+<body>
+
+<h1>Quick Sort – Hoare's partition() Explained<br>(Pivot = First Element)</h1>
+
+<!-- ================= swap ================= -->
+
+<div class="slide active">
+<h2>swap(a, b)</h2>
+<div class="desc">Swaps two values in the array</div>
+<div class="param">Example: swap(90, 20)</div>
+<div class="array">
+<div class="box">90</div>
+<div class="box">20</div>
+</div>
+</div>
+
+<div class="slide">
+<h2>After swap()</h2>
+<div class="desc">Values are exchanged</div>
+<div class="array">
+<div class="box">20</div>
+<div class="box">90</div>
+</div>
+</div>
+
+<!-- ================= partition explanation ================= -->
+
+<div class="slide">
+<h2>partition(a, lb=0, ub=7)</h2>
+<div class="desc">Step 1: Choose pivot = a[lb]</div>
+<div class="param">pivot = 50 (first element)</div>
+<div class="array">
+<div class="box pivot">50</div><div class="box">30</div><div class="box">10</div>
+<div class="box">90</div><div class="box">80</div><div class="box">20</div>
+<div class="box">40</div><div class="box">70</div>
+</div>
+</div>
+
+<div class="slide">
+<h2>partition()</h2>
+<div class="desc">Step 2: Initialize pointers</div>
+<div class="param">i = lb (0), j = ub (7)</div>
+<div class="array">
+<div class="box i pivot">50</div><div class="box">30</div><div class="box">10</div>
+<div class="box">90</div><div class="box">80</div><div class="box">20</div>
+<div class="box">40</div><div class="box j">70</div>
+</div>
+</div>
+
+<div class="slide">
+<h2>partition()</h2>
+<div class="desc">Step 3: Move i → right while a[i] ≤ pivot</div>
+<div class="param">i stops at first element > pivot</div>
+<div class="array">
+<div class="box pivot">50</div><div class="box">30</div><div class="box">10</div>
+<div class="box i">90</div><div class="box">80</div><div class="box">20</div>
+<div class="box">40</div><div class="box j">70</div>
+</div>
+</div>
+
+<div class="slide">
+<h2>partition()</h2>
+<div class="desc">Step 4: Move j ← left while a[j] > pivot</div>
+<div class="param">j stops at first element ≤ pivot</div>
+<div class="array">
+<div class="box pivot">50</div><div class="box">30</div><div class="box">10</div>
+<div class="box i">90</div><div class="box">80</div><div class="box">20</div><div class="box j">40</div><div class="box">70</div>
+</div>
+</div>
+
+<div class="slide">
+<h2>partition()</h2>
+<div class="desc">Step 5: If i < j → swap a[i] and a[j]</div>
+<div class="param">swap(90, 40)</div>
+<div class="array">
+<div class="box pivot">50</div><div class="box">30</div><div class="box">10</div>
+<div class="box i">40</div><div class="box">80</div><div class="box">20</div>
+<div class="box j">90</div><div class="box">70</div>
+</div>
+</div>
+
+<div class="slide">
+<h2>partition()</h2>
+<div class="desc">Continue loop: repeat steps until i ≥ j</div>
+<div class="param">After full loop → pointers cross</div>
+<div class="array">
+<div class="box pivot">50</div><div class="box">30</div><div class="box">10</div>
+<div class="box">40</div><div class="box">80</div><div class="box j">20</div><div class="box i">90</div><div class="box">70</div>
+</div>
+</div>
+
+<div class="slide">
+<h2>partition()</h2>
+<div class="desc">Final Step: Place pivot at correct position</div>
+<div class="param">swap(a[lb], a[j]) → swap 50 with 40</div>
+<div class="array">
+<div class="box">40</div><div class="box">30</div><div class="box">10</div>
+<div class="box">20</div><div class="box pivot">50</div>
+<div class="box">80</div><div class="box">90</div><div class="box">70</div>
+</div>
+</div>
+
+<div class="slide">
+<h2>partition()</h2>
+<div class="desc">Return pivot index</div>
+<div class="param">return j = 4</div>
+</div>
+
+<!-- ================= recursion ================= -->
+
+<div class="slide">
+<h2>Recursive Calls</h2>
+<div class="desc">quickSort divides and conquers</div>
+<div class="param">
+quickSort(a, 0, 3) → Left subarray<br>
+quickSort(a, 5, 7) → Right subarray
+</div>
+<div class="array">
+<div class="box">40</div><div class="box">30</div><div class="box">10</div>
+<div class="box">20</div><div class="box pivot">50</div>
+<div class="box">80</div><div class="box">90</div><div class="box">70</div>
+</div>
+</div>
+
+<div class="slide">
+<h2>Recursion Ends</h2>
+<div class="desc">Base case: subarrays of size ≤ 1<br>Final sorted array:</div>
+<div class="array">
+<div class="box">10</div><div class="box">20</div><div class="box">30</div>
+<div class="box">40</div><div class="box">50</div>
+<div class="box">70</div><div class="box">80</div><div class="box">90</div>
+</div>
+</div>
+
+<script>
+const slides = document.querySelectorAll(".slide");
+let i = 0;
+document.body.addEventListener("click", () => {
+    if (i < slides.length - 1) {
+        slides[i].classList.remove("active");
+        i++;
+        slides[i].classList.add("active");
+    }
+});
+</script>
+
+</body>
+</html>

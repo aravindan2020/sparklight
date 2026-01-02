@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quick Sort (Hoare's Partition) in C – Line by Line Explanation</title>
+    <style>
+        body {
+            font-family: Consolas, monospace;
+            background: #f5deb3;   /* sandal */
+            color: #002f6c;        /* deep blue */
+            padding: 60px;
+            cursor: pointer;
+        }
+
+        h1 {
+            text-align: center;
+            color: #003f88;
+            font-size: 48px;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .code {
+            background: #fff8dc;
+            padding: 40px;
+            border-radius: 15px;
+            font-size: 36px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            border: 4px solid #003f88;
+        }
+
+        .explanation {
+            margin-top: 30px;
+            font-size: 30px;
+            color: #003366;
+            font-weight: bold;
+        }
+
+        .hint {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 24px;
+            color: #002244;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Quick Sort in C (Hoare's Partition)<br>Line by Line Explanation</h1>
+
+<div class="container">
+    <div class="code" id="codeBox"></div>
+    <div class="explanation" id="explainBox"></div>
+    <div class="hint">👉 Click anywhere on the screen to show next line</div>
+</div>
+
+<script>
+const steps = [
+    { code: "#include <stdio.h>", explanation: "Includes standard input-output library for printf and scanf." },
+    { code: "", explanation: "" },
+
+    { code: "// Function to swap two elements", explanation: "Comment: Declaring a helper function to swap values." },
+    { code: "void swap(int *a, int *b) {", explanation: "Defines swap function that takes pointers to integers." },
+    { code: "    int temp = *a;", explanation: "Stores value of first element in temporary variable." },
+    { code: "    *a = *b;", explanation: "Copies second element into first position." },
+    { code: "    *b = temp;", explanation: "Places original first element into second position." },
+    { code: "}", explanation: "End of swap function." },
+    { code: "", explanation: "" },
+
+    { code: "// Partition function using Hoare's scheme (pivot = a[lb])", explanation: "Comment: This is the core partitioning logic." },
+    { code: "int partition(int a[], int lb, int ub) {", explanation: "Partition function returns final index of pivot." },
+    { code: "    int pivot = a[lb];", explanation: "Chooses the first element as pivot." },
+    { code: "    int i = lb;", explanation: "Left pointer i starts at lower bound (same as pivot)." },
+    { code: "    int j = ub;", explanation: "Right pointer j starts at upper bound." },
+    { code: "", explanation: "" },
+
+    { code: "    while (i < j) {", explanation: "Main loop continues until pointers cross." },
+    { code: "        // Move i to the right until we find element > pivot", explanation: "Inner comment explaining i's movement." },
+    { code: "        while (a[i] <= pivot && i <= ub) {", explanation: "Moves i right while element ≤ pivot and within bounds." },
+    { code: "            i++;", explanation: "Increments i to find an element greater than pivot." },
+    { code: "        }", explanation: "Stops when a[i] > pivot or out of bounds." },
+    { code: "", explanation: "" },
+
+    { code: "        // Move j to the left until we find element <= pivot", explanation: "Inner comment explaining j's movement." },
+    { code: "        while (a[j] > pivot && j >= lb) {", explanation: "Moves j left while element > pivot and within bounds." },
+    { code: "            j--;", explanation: "Decrements j to find an element ≤ pivot." },
+    { code: "        }", explanation: "Stops when a[j] ≤ pivot or out of bounds." },
+    { code: "", explanation: "" },
+
+    { code: "        // If pointers haven't crossed, swap the elements", explanation: "Comment before conditional swap." },
+    { code: "        if (i < j) {", explanation: "Checks if pointers have not crossed yet." },
+    { code: "            swap(&a[i], &a[j]);", explanation: "Swaps the out-of-place elements." },
+    { code: "        }", explanation: "End of conditional swap." },
+    { code: "    }", explanation: "End of while(i < j) loop – pointers have crossed." },
+    { code: "", explanation: "" },
+
+    { code: "    // Place pivot in its correct position", explanation: "Comment: Final step of partition." },
+    { code: "    swap(&a[lb], &a[j]);", explanation: "Swaps pivot (at lb) with element at j – correct position." },
+    { code: "    return j;", explanation: "Returns the final index of the pivot." },
+    { code: "}", explanation: "End of partition function." },
+    { code: "", explanation: "" },
+
+    { code: "// Recursive QuickSort function", explanation: "Comment introducing recursive sorting." },
+    { code: "void quickSort(int a[], int lb, int ub) {", explanation: "Recursive function to sort subarrays." },
+    { code: "    if (lb < ub) {", explanation: "Base condition: sort only if subarray has ≥2 elements." },
+    { code: "        int loc = partition(a, lb, ub);", explanation: "Calls partition and gets pivot's final position." },
+    { code: "        quickSort(a, lb, loc - 1);", explanation: "Recursively sorts left subarray (elements < pivot)." },
+    { code: "        quickSort(a, loc + 1, ub);", explanation: "Recursively sorts right subarray (elements > pivot)." },
+    { code: "    }", explanation: "End of recursion condition." },
+    { code: "}", explanation: "End of quickSort function." },
+    { code: "", explanation: "" },
+
+    { code: "// Main function to test the QuickSort", explanation: "Comment: Program entry point." },
+    { code: "int main() {", explanation: "Execution begins here." },
+    { code: "    int i, n;", explanation: "Declares loop variable i and array size n." },
+    { code: "    printf(\"Enter number of elements: \");", explanation: "Prompts user for array size." },
+    { code: "    scanf(\"%d\", &n);", explanation: "Reads the number of elements." },
+    { code: "", explanation: "" },
+
+    { code: "    int a[n];", explanation: "Declares variable-length array of size n." },
+    { code: "    printf(\"Enter %d elements:\\n\", n);", explanation: "Asks user to input elements." },
+    { code: "    for (i = 0; i < n; i++) {", explanation: "Loop to read n elements." },
+    { code: "        scanf(\"%d\", &a[i]);", explanation: "Stores each input in the array." },
+    { code: "    }", explanation: "End of input loop." },
+    { code: "", explanation: "" },
+
+    { code: "    printf(\"\\nOriginal array: \");", explanation: "Displays message before printing original array." },
+    { code: "    for (i = 0; i < n; i++) {", explanation: "Loop to print original elements." },
+    { code: "        printf(\"%d \", a[i]);", explanation: "Prints each element followed by space." },
+    { code: "    }", explanation: "End of printing original array." },
+    { code: "", explanation: "" },
+
+    { code: "    quickSort(a, 0, n - 1);", explanation: "Calls quickSort on full array (from index 0 to n-1)." },
+    { code: "", explanation: "" },
+
+    { code: "    printf(\"\\nSorted array: \");", explanation: "Displays message for sorted output." },
+    { code: "    for (i = 0; i < n; i++) {", explanation: "Loop to print sorted elements." },
+    { code: "        printf(\"%d \", a[i]);", explanation: "Prints each sorted element." },
+    { code: "    }", explanation: "End of printing sorted array." },
+    { code: "    printf(\"\\n\");", explanation: "Prints a newline for clean output." },
+    { code: "", explanation: "" },
+
+    { code: "    return 0;", explanation: "Indicates successful program termination." },
+    { code: "}", explanation: "End of main function and program." }
+];
+
+let index = 0;
+const codeBox = document.getElementById("codeBox");
+const explainBox = document.getElementById("explainBox");
+
+document.body.addEventListener("click", () => {
+    if (index < steps.length) {
+        codeBox.innerHTML += steps[index].code + "\n";
+        if (steps[index].explanation !== "") {
+            explainBox.innerHTML = "💡 " + steps[index].explanation;
+        }
+        index++;
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quick Sort – Animated Step Slides</title>
+
+<style>
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+}
+
+/* 🌌 Galaxy background */
+body {
+  background: radial-gradient(circle at bottom, #0b1d3a, #000);
+  color: white;
+}
+
+/* ⭐ Stars animation */
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, white, transparent),
+    radial-gradient(2px 2px at 100px 150px, white, transparent),
+    radial-gradient(2px 2px at 300px 200px, white, transparent),
+    radial-gradient(2px 2px at 500px 120px, white, transparent);
+  animation: stars 50s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes stars {
+  from { transform: translateY(0); }
+  to { transform: translateY(-600px); }
+}
+
+/* Slide */
+.slide {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
+  text-align: center;
+}
+
+.slide.active {
+  display: flex;
+}
+
+/* Text */
+h1 {
+  font-size: 48px;
+  color: #ffd369;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 32px;
+  max-width: 1200px;
+}
+
+/* Array */
+.array {
+  display: flex;
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.box {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  border: 3px solid white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  background: rgba(255,255,255,0.15);
+  transition: all 0.6s ease;
+}
+
+.pivot {
+  background: #ff4d4d;
+}
+
+.i {
+  background: #4dd2ff;
+}
+
+.j {
+  background: #7dff4d;
+}
+
+.label {
+  font-size: 16px;
+  margin-top: 4px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SLIDES -->
+
+<div class="slide active">
+  <h1>1. Purpose of Quick Sort</h1>
+  <p>Elements less than pivot go left, greater than pivot go right.</p>
+  <div class="array">
+    <div class="box pivot">50<div class="label">Pivot</div></div>
+    <div class="box">30</div>
+    <div class="box">10</div>
+    <div class="box">90</div>
+    <div class="box">80</div>
+    <div class="box">20</div>
+    <div class="box">40</div>
+    <div class="box">70</div>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>2. Choose Pivot</h1>
+  <p>First element (0th index) is taken as pivot.</p>
+  <div class="array">
+    <div class="box pivot">50<div class="label">Pivot</div></div>
+    <div class="box">30</div>
+    <div class="box">10</div>
+    <div class="box">90</div>
+    <div class="box">80</div>
+    <div class="box">20</div>
+    <div class="box">40</div>
+    <div class="box">70</div>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>3. Set i and j</h1>
+  <p>i starts from 0th index and j starts from last index.</p>
+  <div class="array">
+    <div class="box pivot i">50<div class="label">i & Pivot</div></div>
+    <div class="box">30</div>
+    <div class="box">10</div>
+    <div class="box">90</div>
+    <div class="box">80</div>
+    <div class="box">20</div>
+    <div class="box">40</div>
+    <div class="box j">70<div class="label">j</div></div>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>4. Move i</h1>
+  <p>i moves right while a[i] &lt; pivot.</p>
+  <div class="array">
+    <div class="box pivot">50</div>
+    <div class="box i">30<div class="label">i →</div></div>
+    <div class="box">10</div>
+    <div class="box">90</div>
+    <div class="box">80</div>
+    <div class="box">20</div>
+    <div class="box">40</div>
+    <div class="box">70</div>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>5. Move j</h1>
+  <p>j moves left while a[j] &gt; pivot.</p>
+  <div class="array">
+    <div class="box pivot">50</div>
+    <div class="box">30</div>
+    <div class="box">10</div>
+    <div class="box">90</div>
+    <div class="box">80</div>
+    <div class="box j">20<div class="label">j ←</div></div>
+    <div class="box">40</div>
+    <div class="box">70</div>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>6. Swap a[i] and a[j]</h1>
+  <p>Since i &lt; j, swap wrong side elements.</p>
+  <div class="array">
+    <div class="box pivot">50</div>
+    <div class="box">30</div>
+    <div class="box">10</div>
+    <div class="box i">20<div class="label">i</div></div>
+    <div class="box">80</div>
+    <div class="box j">90<div class="label">j</div></div>
+    <div class="box">40</div>
+    <div class="box">70</div>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>7. Repeat i and j Movement</h1>
+  <p>Again move i and j and check conditions.</p>
+  <div class="array">
+    <div class="box pivot">50</div>
+    <div class="box">30</div>
+    <div class="box">10</div>
+    <div class="box">20</div>
+    <div class="box">40</div>
+    <div class="box i">80<div class="label">i</div></div>
+    <div class="box j">70<div class="label">j</div></div>
+    <div class="box">90</div>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>8. Swap Pivot</h1>
+  <p>When j crosses i, swap pivot with a[j].</p>
+  <div class="array">
+    <div class="box">40</div>
+    <div class="box">30</div>
+    <div class="box">10</div>
+    <div class="box">20</div>
+    <div class="box pivot">50<div class="label">Pivot</div></div>
+    <div class="box">80</div>
+    <div class="box">70</div>
+    <div class="box">90</div>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>9. First Pass Result</h1>
+  <p>Left side &lt; pivot, right side &gt; pivot.</p>
+  <div class="array">
+    <div class="box">40</div>
+    <div class="box">30</div>
+    <div class="box">10</div>
+    <div class="box">20</div>
+    <div class="box pivot">50</div>
+    <div class="box">80</div>
+    <div class="box">70</div>
+    <div class="box">90</div>
+  </div>
+</div>
+
+<div class="slide">
+  <h1>10. Recursive Calls</h1>
+  <p>Apply same steps to left and right sub arrays.</p>
+  <div class="array">
+    <div class="box">40</div>
+    <div class="box">30</div>
+    <div class="box">10</div>
+    <div class="box">20</div>
+    <div class="box pivot">50</div>
+    <div class="box">80</div>
+    <div class="box">70</div>
+    <div class="box">90</div>
+  </div>
+</div>
+
+<script>
+const slides = document.querySelectorAll(".slide");
+let index = 0;
+
+document.body.addEventListener("click", () => {
+  slides[index].classList.remove("active");
+  index = (index + 1) % slides.length;
+  slides[index].classList.add("active");
+});
+</script>
+
+</body>
+</html>
