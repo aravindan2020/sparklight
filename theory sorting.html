@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bucket Sort & External Sorting - Biotechnology</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 22px;
+            line-height: 1.6;
+            margin: 40px;
+            background-color: #f4f9ff;
+        }
+        h1 {
+            text-align: center;
+            font-size: 42px;
+            color: #003366;
+        }
+        h2 {
+            font-size: 34px;
+            color: #004080;
+            border-bottom: 3px solid #004080;
+        }
+        h3 {
+            font-size: 28px;
+            color: #0059b3;
+        }
+        .box {
+            background-color: #ffffff;
+            padding: 25px;
+            margin-top: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px #cccccc;
+        }
+        ul {
+            margin-left: 40px;
+        }
+        .step {
+            background-color: #e6f2ff;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 8px solid #0059b3;
+        }
+        .example {
+            background-color: #fff3e6;
+            padding: 20px;
+            border-left: 8px solid #ff9933;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Sorting Techniques using Biotechnology Examples</h1>
+
+<!-- BUCKET SORT -->
+<div class="box">
+    <h2>1. Bucket Sort</h2>
+
+    <h3>📘 Theory</h3>
+    <p>
+        Bucket Sort is a sorting technique where elements are first distributed
+        into several groups called buckets.
+    </p>
+    <p>
+        Each bucket contains elements of a specific range, and sorting is done
+        inside each bucket before combining the results.
+    </p>
+
+    <ul>
+        <li>Divide data into value ranges</li>
+        <li>Place elements into corresponding buckets</li>
+        <li>Sort individual buckets</li>
+        <li>Merge all buckets to get the final result</li>
+    </ul>
+
+    <h3>🧬 Biotechnology Example</h3>
+    <div class="example">
+        <p>
+            Consider gene expression levels collected from biological samples.
+            The values range between 0.0 and 1.0.
+        </p>
+        <p><b>Gene Expression Values:</b></p>
+        <p>0.12, 0.78, 0.34, 0.56, 0.91, 0.25</p>
+    </div>
+
+    <h3>🔍 Step-by-Step Working</h3>
+
+    <div class="step">
+        <b>Step 1:</b> Create buckets based on value range  
+        <br>Bucket 0 → 0.0 – 0.2  
+        <br>Bucket 1 → 0.2 – 0.4  
+        <br>Bucket 2 → 0.4 – 0.6  
+        <br>Bucket 3 → 0.6 – 0.8  
+        <br>Bucket 4 → 0.8 – 1.0
+    </div>
+
+    <div class="step">
+        <b>Step 2:</b> Place values into buckets  
+        <br>Bucket 0 → 0.12  
+        <br>Bucket 1 → 0.25, 0.34  
+        <br>Bucket 2 → 0.56  
+        <br>Bucket 3 → 0.78  
+        <br>Bucket 4 → 0.91
+    </div>
+
+    <div class="step">
+        <b>Step 3:</b> Sort each bucket individually
+    </div>
+
+    <div class="step">
+        <b>Step 4:</b> Combine all buckets  
+        <br><b>Final Sorted Output:</b>  
+        0.12, 0.25, 0.34, 0.56, 0.78, 0.91
+    </div>
+</div>
+
+<!-- EXTERNAL SORTING -->
+<div class="box">
+    <h2>2. External Sorting</h2>
+
+    <h3>📘 Theory</h3>
+    <p>
+        External Sorting is used when the data set is too large to fit entirely
+        into main memory.
+    </p>
+    <p>
+        The data is divided into smaller chunks, sorted separately, and then
+        merged to produce a complete sorted output.
+    </p>
+
+    <ul>
+        <li>Divide large data into manageable blocks</li>
+        <li>Sort each block in memory</li>
+        <li>Store sorted blocks on disk</li>
+        <li>Merge all blocks to obtain final sorted data</li>
+    </ul>
+
+    <h3>🧬 Biotechnology Example</h3>
+    <div class="example">
+        <p>
+            A biotechnology research center stores massive DNA sequencing records.
+            The size of the data exceeds the available RAM.
+        </p>
+    </div>
+
+    <h3>🔍 Step-by-Step Working</h3>
+
+    <div class="step">
+        <b>Step 1:</b> Split the large DNA data file into smaller chunks  
+        <br>Chunk 1 → 5000 sequences  
+        <br>Chunk 2 → 5000 sequences  
+        <br>Chunk 3 → 5000 sequences
+    </div>
+
+    <div class="step">
+        <b>Step 2:</b> Sort each chunk using an internal sorting algorithm
+    </div>
+
+    <div class="step">
+        <b>Step 3:</b> Save the sorted chunks back to disk
+    </div>
+
+    <div class="step">
+        <b>Step 4:</b> Merge all sorted chunks  
+        <br>Result → Completely sorted DNA sequencing data
+    </div>
+
+    <h3>🎯 Applications</h3>
+    <ul>
+        <li>Genome sequencing databases</li>
+        <li>Protein analysis repositories</li>
+        <li>Large-scale medical research systems</li>
+    </ul>
+</div>
+
+</body>
+</html>

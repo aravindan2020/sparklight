@@ -2,527 +2,150 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merge Sort Sliding Window</title>
+    <title>Merge Sort C Program – Smart Class Display</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
+            font-family: Consolas, monospace;
+            background: #f5deb3;   /* sandal */
+            color: #002f6c;        /* deep blue */
+            padding: 60px;
+            cursor: pointer;
         }
-        h1, h2 {
+
+        h1 {
             text-align: center;
+            color: #003f88;
+            font-size: 48px;
+            margin-bottom: 40px;
         }
-        section {
-            background-color: #fff;
-            margin: 20px 0;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
         }
-        pre {
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-left: 4px solid #007bff;
-            overflow-x: auto;
-            font-family: monospace;
+
+        .code {
+            background: #fff8dc;
+            padding: 40px;
+            border-radius: 15px;
+            font-size: 36px;
+            line-height: 1.5;
             white-space: pre-wrap;
+            border: 4px solid #003f88;
         }
-        ul#program-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            background-color: #fff;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        li:hover {
-            background-color: #e0e0e0;
-        }
-        #modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        #modal.show {
-            display: flex;
-            opacity: 1;
-        }
-        #modal-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 80%;
-            max-height: 80%;
-            overflow-y: auto;
-            position: relative;
-            transform: scale(0.9);
-            transition: transform 0.5s ease;
-        }
-        #modal.show #modal-content {
-            transform: scale(1);
-        }
-        #close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            cursor: pointer;
-        }
-        #next-btn {
-            display: block;
-            margin: 10px auto;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-        }
-        #next-btn:hover {
-            background-color: #0056b3;
-        }
-        .code-line {
-            display: none;
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-left: 4px solid #007bff;
-        }
-        .code-line.active {
-            display: block;
-        }
-        .code-line code {
-            display: block;
-            font-family: monospace;
-            white-space: pre-wrap;
-        }
+
         .explanation {
-            font-style: italic;
-            color: #555;
-            margin-top: 5px;
-        }
-        #step-by-step .slide {
-            display: none;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-        }
-        #step-by-step .slide.active {
-            display: block;
-            animation: slideIn 0.5s ease-in-out;
-        }
-        #step-by-step .pass-step p {
-            margin: 5px 0;
-        }
-        #next-step-btn {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-        }
-        #next-step-btn:hover {
-            background-color: #218838;
-        }
-        .highlight {
-            font-size: 1.5em;
+            margin-top: 30px;
+            font-size: 30px;
+            color: #003366;
             font-weight: bold;
-            color: #d32f2f;
         }
-        @keyframes slideIn {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+
+        .hint {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 24px;
+            color: #002244;
         }
     </style>
 </head>
 <body>
-    <h1>Merge Sort</h1>
-    
-    <section id="definition">
-        <h2>Definition</h2>
-        <p>Merge Sort is a divide-and-conquer sorting algorithm that recursively divides the input array into two halves, sorts each half, and then merges the sorted halves to produce a fully sorted array. It is stable, with a time complexity of O(n log n) in all cases, but requires O(n) extra space for merging. Merge Sort is widely used for its predictable performance and stability, especially in scenarios involving large datasets or linked lists.</p>
-    </section>
-    
-    <section id="step-by-step">
-        <h2>Step-by-Step Sorting (Sample Array: 8, 7, 6, 5, 4, 3, 2, 1)</h2>
-        <div id="slides-container"></div>
-        <button id="next-step-btn">Next Step</button>
-    </section>
-    
-    <section id="program">
-        <h2>Java Program for Merge Sort</h2>
-        <ul id="program-list">
-            <li data-program="1">Click to view Merge Sort Program line by line</li>
-        </ul>
-    </section>
-    
-    <section id="output">
-        <h2>Output with Merging Steps</h2>
-        <pre id="output-pre">
-Initial array:
-8 7 6 5 4 3 2 1 
-Merging [8] and [7] → [7, 8]
-Merging [6] and [5] → [5, 6]
-Merging [4] and [3] → [3, 4]
-Merging [2] and [1] → [1, 2]
-Merging [7, 8] and [5, 6] → [5, 6, 7, 8]
-Merging [3, 4] and [1, 2] → [1, 2, 3, 4]
-Merging [5, 6, 7, 8] and [1, 2, 3, 4] → [1, 2, 3, 4, 5, 6, 7, 8]
-        </pre>
-    </section>
-    
-    <section id="real-world">
-        <h2>Real-World Examples</h2>
-        <ul>
-            <li>Educational purposes: Used to teach divide-and-conquer algorithms due to its clear recursive structure. <a href="https://www.geeksforgeeks.org/merge-sort/">(GeeksforGeeks)</a></li>
-            <li>Large datasets: Efficient for sorting large arrays in external sorting (e.g., database management systems). <a href="https://www.programiz.com/dsa/merge-sort">(Programiz)</a></li>
-            <li>Linked lists: Preferred for sorting linked lists due to its O(n log n) performance without random access. <a href="https://www.javatpoint.com/merge-sort">(JavatPoint)</a></li>
-            <li>Stable sorting: Used when maintaining the relative order of equal elements is critical, such as in multi-key sorting. <a href="https://www.tutorialspoint.com/data_structures_algorithms/merge_sort_algorithm.htm">(TutorialsPoint)</a></li>
-            <li>Real-life analogies: Similar to combining two sorted stacks of cards into one sorted stack. <a href="https://www.quora.com/What-are-some-real-world-applications-of-merge-sort">(Quora)</a></li>
-        </ul>
-    </section>
-    
-    <div id="modal">
-        <div id="modal-content">
-            <span id="close-btn">&times;</span>
-            <h2 id="program-title"></h2>
-            <div id="program-details"></div>
-            <button id="next-btn">Next Line</button>
-        </div>
-    </div>
-    
-    <script>
-        const steps = [
-            {
-                title: "Initial Array",
-                array: [8, 7, 6, 5, 4, 3, 2, 1],
-                operations: [],
-                explanation: "This is the starting array, in reverse order (descending). Merge Sort will recursively divide the array into halves until single elements remain, then merge them back in sorted order."
-            },
-            {
-                title: "Split 1: Divide into Halves",
-                array: [8, 7, 6, 5, 4, 3, 2, 1],
-                operations: [
-                    { indices: [], array: [8, 7, 6, 5], desc: "Left half: [8, 7, 6, 5]" },
-                    { indices: [], array: [4, 3, 2, 1], desc: "Right half: [4, 3, 2, 1]" }
-                ],
-                explanation: "The array is divided into two halves: [8, 7, 6, 5] and [4, 3, 2, 1]. Each half will be recursively sorted."
-            },
-            {
-                title: "Split 2: Left Half",
-                array: [8, 7, 6, 5],
-                operations: [
-                    { indices: [], array: [8, 7], desc: "Left sub-half: [8, 7]" },
-                    { indices: [], array: [6, 5], desc: "Right sub-half: [6, 5]" }
-                ],
-                explanation: "The left half [8, 7, 6, 5] is divided into [8, 7] and [6, 5] for further sorting."
-            },
-            {
-                title: "Split 3: Left Sub-Half",
-                array: [8, 7],
-                operations: [
-                    { indices: [], array: [8], desc: "Single element: [8]" },
-                    { indices: [], array: [7], desc: "Single element: [7]" }
-                ],
-                explanation: "The sub-half [8, 7] is divided into single elements [8] and [7], which are trivially sorted."
-            },
-            {
-                title: "Merge 1: [8] and [7]",
-                array: [7, 8],
-                operations: [
-                    { indices: [0, 1], array: [7, 8], desc: "Merge [8] and [7]: Compare 8 and 7, place 7 first, then 8 → [7, 8]" }
-                ],
-                explanation: "Merge single elements [8] and [7]. Since 7 < 8, place 7 first, then 8, resulting in sorted subarray [7, 8]."
-            },
-            {
-                title: "Split 4: Right Sub-Half",
-                array: [6, 5],
-                operations: [
-                    { indices: [], array: [6], desc: "Single element: [6]" },
-                    { indices: [], array: [5], desc: "Single element: [5]" }
-                ],
-                explanation: "The sub-half [6, 5] is divided into single elements [6] and [5], which are trivially sorted."
-            },
-            {
-                title: "Merge 2: [6] and [5]",
-                array: [5, 6],
-                operations: [
-                    { indices: [0, 1], array: [5, 6], desc: "Merge [6] and [5]: Compare 6 and 5, place 5 first, then 6 → [5, 6]" }
-                ],
-                explanation: "Merge single elements [6] and [5]. Since 5 < 6, place 5 first, then 6, resulting in sorted subarray [5, 6]."
-            },
-            {
-                title: "Merge 3: [7, 8] and [5, 6]",
-                array: [5, 6, 7, 8],
-                operations: [
-                    { indices: [0, 2], array: [5, 6, 7, 8], desc: "Merge [7, 8] and [5, 6]: Compare 7 and 5, place 5" },
-                    { indices: [1, 2], array: [5, 6, 7, 8], desc: "Compare 7 and 6, place 6" },
-                    { indices: [2, 2], array: [5, 6, 7, 8], desc: "Place 7" },
-                    { indices: [3, 3], array: [5, 6, 7, 8], desc: "Place 8" }
-                ],
-                explanation: "Merge sorted subarrays [7, 8] and [5, 6]. Compare elements: 5 < 7, place 5; 6 < 7, place 6; then place 7, 8. Result is sorted left half [5, 6, 7, 8]."
-            },
-            {
-                title: "Split 5: Right Half",
-                array: [4, 3, 2, 1],
-                operations: [
-                    { indices: [], array: [4, 3], desc: "Left sub-half: [4, 3]" },
-                    { indices: [], array: [2, 1], desc: "Right sub-half: [2, 1]" }
-                ],
-                explanation: "The right half [4, 3, 2, 1] is divided into [4, 3] and [2, 1] for further sorting."
-            },
-            {
-                title: "Split 6: Left Sub-Half",
-                array: [4, 3],
-                operations: [
-                    { indices: [], array: [4], desc: "Single element: [4]" },
-                    { indices: [], array: [3], desc: "Single element: [3]" }
-                ],
-                explanation: "The sub-half [4, 3] is divided into single elements [4] and [3], which are trivially sorted."
-            },
-            {
-                title: "Merge 4: [4] and [3]",
-                array: [3, 4],
-                operations: [
-                    { indices: [0, 1], array: [3, 4], desc: "Merge [4] and [3]: Compare 4 and 3, place 3 first, then 4 → [3, 4]" }
-                ],
-                explanation: "Merge single elements [4] and [3]. Since 3 < 4, place 3 first, then 4, resulting in sorted subarray [3, 4]."
-            },
-            {
-                title: "Split 7: Right Sub-Half",
-                array: [2, 1],
-                operations: [
-                    { indices: [], array: [2], desc: "Single element: [2]" },
-                    { indices: [], array: [1], desc: "Single element: [1]" }
-                ],
-                explanation: "The sub-half [2, 1] is divided into single elements [2] and [1], which are trivially sorted."
-            },
-            {
-                title: "Merge 5: [2] and [1]",
-                array: [1, 2],
-                operations: [
-                    { indices: [0, 1], array: [1, 2], desc: "Merge [2] and [1]: Compare 2 and 1, place 1 first, then 2 → [1, 2]" }
-                ],
-                explanation: "Merge single elements [2] and [1]. Since 1 < 2, place 1 first, then 2, resulting in sorted subarray [1, 2]."
-            },
-            {
-                title: "Merge 6: [3, 4] and [1, 2]",
-                array: [1, 2, 3, 4],
-                operations: [
-                    { indices: [0, 2], array: [1, 2, 3, 4], desc: "Merge [3, 4] and [1, 2]: Compare 3 and 1, place 1" },
-                    { indices: [1, 2], array: [1, 2, 3, 4], desc: "Compare 3 and 2, place 2" },
-                    { indices: [2, 2], array: [1, 2, 3, 4], desc: "Place 3" },
-                    { indices: [3, 3], array: [1, 2, 3, 4], desc: "Place 4" }
-                ],
-                explanation: "Merge sorted subarrays [3, 4] and [1, 2]. Compare elements: 1 < 3, place 1; 2 < 3, place 2; then place 3, 4. Result is sorted right half [1, 2, 3, 4]."
-            },
-            {
-                title: "Merge 7: [5, 6, 7, 8] and [1, 2, 3, 4]",
-                array: [1, 2, 3, 4, 5, 6, 7, 8],
-                operations: [
-                    { indices: [0, 4], array: [1, 2, 3, 4, 5, 6, 7, 8], desc: "Merge [5, 6, 7, 8] and [1, 2, 3, 4]: Compare 5 and 1, place 1" },
-                    { indices: [1, 4], array: [1, 2, 3, 4, 5, 6, 7, 8], desc: "Compare 5 and 2, place 2" },
-                    { indices: [2, 4], array: [1, 2, 3, 4, 5, 6, 7, 8], desc: "Compare 5 and 3, place 3" },
-                    { indices: [3, 4], array: [1, 2, 3, 4, 5, 6, 7, 8], desc: "Compare 5 and 4, place 4" },
-                    { indices: [4, 4], array: [1, 2, 3, 4, 5, 6, 7, 8], desc: "Place 5" },
-                    { indices: [5, 5], array: [1, 2, 3, 4, 5, 6, 7, 8], desc: "Place 6" },
-                    { indices: [6, 6], array: [1, 2, 3, 4, 5, 6, 7, 8], desc: "Place 7" },
-                    { indices: [7, 7], array: [1, 2, 3, 4, 5, 6, 7, 8], desc: "Place 8" }
-                ],
-                explanation: "Merge sorted halves [5, 6, 7, 8] and [1, 2, 3, 4]. Compare elements: 1 < 5, place 1; 2 < 5, place 2; 3 < 5, place 3; 4 < 5, place 4; then place 5, 6, 7, 8. Result is the fully sorted array [1, 2, 3, 4, 5, 6, 7, 8]."
-            },
-            {
-                title: "Final Sorted Array",
-                array: [1, 2, 3, 4, 5, 6, 7, 8],
-                operations: [],
-                explanation: "After recursively splitting the array into single elements and merging them back in sorted order, the array is fully sorted in ascending order. Merge Sort’s divide-and-conquer approach ensures efficient and stable sorting."
-            }
-        ];
 
-        let currentStepIndex = 0;
+<h1>Merge Sort in C – Line by Line Explanation</h1>
 
-        function renderSlides() {
-            const container = document.getElementById('slides-container');
-            container.innerHTML = '';
-            steps.forEach((step, index) => {
-                const slide = document.createElement('div');
-                slide.className = `slide ${index === currentStepIndex ? 'active' : ''}`;
-                let content = `<p><strong>${step.title}:</strong> [`;
-                step.array.forEach((num, i) => {
-                    content += i === 0 ? `${num}` : `, ${num}`;
-                });
-                content += ']</p>';
-                if (step.operations.length > 0) {
-                    content += '<p><em>Split or Merge Operations:</em></p>';
-                    step.operations.forEach(op => {
-                        let arrayStr = '[';
-                        op.array.forEach((num, i) => {
-                            const isHighlighted = op.indices.includes(i);
-                            arrayStr += i === 0 ? '' : ', ';
-                            arrayStr += isHighlighted ? `<span class="highlight">${num}</span>` : num;
-                        });
-                        arrayStr += ']';
-                        content += `<p>${op.desc} → ${arrayStr}</p>`;
-                    });
-                }
-                content += `<p><em>Positioning:</em> ${step.explanation}</p>`;
-                slide.innerHTML = content;
-                container.appendChild(slide);
-            });
-        }
+<div class="container">
+    <div class="code" id="codeBox"></div>
+    <div class="explanation" id="explainBox"></div>
+    <div class="hint">👉 Click anywhere on the screen to show next line</div>
+</div>
 
-        document.getElementById('next-step-btn').addEventListener('click', () => {
-            currentStepIndex = (currentStepIndex + 1) % steps.length;
-            renderSlides();
-        });
+<script>
+const steps = [
+    { code: "#include &lt;stdio.h&gt", explanation: "Includes standard input and output functions." },
+    { code: "", explanation: "" },
 
-        renderSlides();
+    { code: "// Merge two sorted parts", explanation: "This function merges two already sorted subarrays." },
+    { code: "void merge(int a[], int low, int mid, int high) {", explanation: "Defines merge function with low, mid and high indexes." },
+    { code: "    int i = low, j = mid + 1, k = 0;", explanation: "i for left subarray, j for right subarray, k for temp array." },
+    { code: "    int temp[100];", explanation: "Temporary array to store merged elements." },
+    { code: "", explanation: "" },
 
-        const programs = {
-            1: {
-                title: "Merge Sort Program in Java (with Sample Array and Merge Outputs)",
-                lines: [
-                    { code: 'public class MergeSortExample {', explanation: 'Defines the public class MergeSortExample. This class contains the main logic for the merge sort demonstration. In Java, classes organize code into reusable units. The public modifier allows access from outside. Sets the program structure.' },
-                    { code: '    public static void main(String[] args) {', explanation: 'Declares the main method, the entry point of the program. It is static to be callable without an instance. String[] args handles command-line arguments. This method initiates the sorting.' },
-                    { code: '        int[] arr = {8, 7, 6, 5, 4, 3, 2, 1};', explanation: 'Initializes the integer array arr with the sample elements. Uses curly braces for direct initialization. Sets up the reverse-sorted array for demonstration.' },
-                    { code: '        System.out.println("Initial array:");', explanation: 'Prints a header for the initial array state. Uses println to add a newline. System.out is the standard output stream. Enhances output readability.' },
-                    { code: '        printArray(arr);', explanation: 'Calls the printArray method to display the array. Passes arr as argument. Separates printing logic for reusability. Shows the initial state.' },
-                    { code: '        mergeSort(arr, 0, arr.length - 1);', explanation: 'Calls mergeSort with the array, start index (0), and end index (length-1). Initiates the recursive divide-and-conquer process.' },
-                    { code: '    }', explanation: 'Closes the main method. Encapsulates the entry point logic.' },
-                    { code: '    public static void mergeSort(int[] arr, int left, int right) {', explanation: 'Defines the recursive mergeSort method. Takes the array, left index, and right index as parameters. Implements the divide-and-conquer strategy.' },
-                    { code: '        if (left < right) {', explanation: 'Checks if the subarray has more than one element (left < right). If true, proceed with splitting; otherwise, subarray is sorted.' },
-                    { code: '            int mid = left + (right - left) / 2;', explanation: 'Calculates the middle index to divide the array. Uses left + (right - left) / 2 to avoid integer overflow.' },
-                    { code: '            mergeSort(arr, left, mid);', explanation: 'Recursively sorts the left half of the subarray from index left to mid.' },
-                    { code: '            mergeSort(arr, mid + 1, right);', explanation: 'Recursively sorts the right half of the subarray from index mid+1 to right.' },
-                    { code: '            merge(arr, left, mid, right);', explanation: 'Merges the sorted left and right halves into a single sorted subarray.' },
-                    { code: '        }', explanation: 'Closes the if block. Ensures recursive calls only occur for valid subarrays.' },
-                    { code: '    }', explanation: 'Closes the mergeSort method. Completes the recursive sorting logic.' },
-                    { code: '    public static void merge(int[] arr, int left, int mid, int right) {', explanation: 'Defines the merge method to combine two sorted subarrays: [left, mid] and [mid+1, right].' },
-                    { code: '        int n1 = mid - left + 1;', explanation: 'Calculates the size of the left subarray (mid - left + 1).' },
-                    { code: '        int n2 = right - mid;', explanation: 'Calculates the size of the right subarray (right - mid).' },
-                    { code: '        int[] leftArray = new int[n1];', explanation: 'Creates a temporary array for the left subarray of size n1.' },
-                    { code: '        int[] rightArray = new int[n2];', explanation: 'Creates a temporary array for the right subarray of size n2.' },
-                    { code: '        for (int i = 0; i < n1; i++) {', explanation: 'Loop to copy elements from arr[left] to arr[mid] into leftArray.' },
-                    { code: '            leftArray[i] = arr[left + i];', explanation: 'Copies element at index left+i from arr to leftArray[i].' },
-                    { code: '        }', explanation: 'Closes the loop for copying left subarray.' },
-                    { code: '        for (int j = 0; j < n2; j++) {', explanation: 'Loop to copy elements from arr[mid+1] to arr[right] into rightArray.' },
-                    { code: '            rightArray[j] = arr[mid + 1 + j];', explanation: 'Copies element at index mid+1+j from arr to rightArray[j].' },
-                    { code: '        }', explanation: 'Closes the loop for copying right subarray.' },
-                    { code: '        int i = 0, j = 0, k = left;', explanation: 'Initializes indices: i for leftArray, j for rightArray, k for the merged array starting at left.' },
-                    { code: '        while (i < n1 && j < n2) {', explanation: 'While loop to merge elements from leftArray and rightArray by comparing.' },
-                    { code: '            if (leftArray[i] <= rightArray[j]) {', explanation: 'Compares elements from leftArray and rightArray. If leftArray[i] <= rightArray[j], choose leftArray[i] for stability.' },
-                    { code: '                arr[k] = leftArray[i];', explanation: 'Places leftArray[i] into arr[k] and increments i and k.' },
-                    { code: '                i++;', explanation: 'Increments i to move to the next element in leftArray.' },
-                    { code: '            } else {', explanation: 'If rightArray[j] < leftArray[i], choose rightArray[j].' },
-                    { code: '                arr[k] = rightArray[j];', explanation: 'Places rightArray[j] into arr[k] and increments j and k.' },
-                    { code: '                j++;', explanation: 'Increments j to move to the next element in rightArray.' },
-                    { code: '            }', explanation: 'Closes the if-else block for comparing elements.' },
-                    { code: '            k++;', explanation: 'Increments k to move to the next position in arr.' },
-                    { code: '        }', explanation: 'Closes the while loop for merging both arrays.' },
-                    { code: '        while (i < n1) {', explanation: 'Copies remaining elements from leftArray, if any.' },
-                    { code: '            arr[k] = leftArray[i];', explanation: 'Places remaining leftArray[i] into arr[k].' },
-                    { code: '            i++; k++;', explanation: 'Increments i and k to continue copying.' },
-                    { code: '        }', explanation: 'Closes the loop for remaining leftArray elements.' },
-                    { code: '        while (j < n2) {', explanation: 'Copies remaining elements from rightArray, if any.' },
-                    { code: '            arr[k] = rightArray[j];', explanation: 'Places remaining rightArray[j] into arr[k].' },
-                    { code: '            j++; k++;', explanation: 'Increments j and k to continue copying.' },
-                    { code: '        }', explanation: 'Closes the loop for remaining rightArray elements.' },
-                    { code: '        System.out.println("Merging [" + leftArray[0] + (n1 > 1 ? ", ..." : "") + "] and [" + rightArray[0] + (n2 > 1 ? ", ..." : "") + "] → [" + arr[left] + ", ...]");', explanation: 'Prints the merging step, showing the first elements of leftArray and rightArray and the start of the merged array.' },
-                    { code: '    }', explanation: 'Closes the merge method. Completes the merging logic.' },
-                    { code: '    private static void printArray(int[] arr) {', explanation: 'Defines a private static helper method printArray. Takes int[] arr as parameter. Handles array printing.' },
-                    { code: '        for (int num : arr) {', explanation: 'Enhanced for loop to iterate array. num takes each element value. Simplifies printing.' },
-                    { code: '            System.out.print(num + " ");', explanation: 'Prints each num followed by space. Builds the array output.' },
-                    { code: '        }', explanation: 'Closes the enhanced for loop. Ends element iteration.' },
-                    { code: '        System.out.println();', explanation: 'Prints a newline after array. Ensures clean output formatting.' },
-                    { code: '    }', explanation: 'Closes the printArray method. Ends helper logic.' },
-                    { code: '}', explanation: 'Closes the class definition. Encapsulates all methods. Program is complete.' }
-                ]
-            }
-        };
+    { code: "    while (i <= mid && j <= high) {", explanation: "Compares elements from left and right subarrays." },
+    { code: "        if (a[i] <= a[j])", explanation: "Checks which element is smaller." },
+    { code: "            temp[k++] = a[i++];", explanation: "Copies smaller element from left subarray." },
+    { code: "        else", explanation: "Otherwise choose element from right subarray." },
+    { code: "            temp[k++] = a[j++];", explanation: "Copies smaller element from right subarray." },
+    { code: "    }", explanation: "Ends comparison loop." },
+    { code: "", explanation: "" },
 
-        let currentLineIndex = -1;
+    { code: "    while (i <= mid)", explanation: "Copies remaining elements from left subarray." },
+    { code: "        temp[k++] = a[i++];", explanation: "Adds leftover left elements to temp array." },
+    { code: "", explanation: "" },
 
-        document.querySelectorAll('#program-list li').forEach(item => {
-            item.addEventListener('click', () => {
-                const programId = item.getAttribute('data-program');
-                const program = programs[programId];
-                if (!program) {
-                    console.error(`Program ${programId} not found`);
-                    return;
-                }
+    { code: "    while (j <= high)", explanation: "Copies remaining elements from right subarray." },
+    { code: "        temp[k++] = a[j++];", explanation: "Adds leftover right elements to temp array." },
+    { code: "", explanation: "" },
 
-                currentLineIndex = -1;
+    { code: "    for (i = low, k = 0; i <= high; i++, k++)", explanation: "Copies sorted elements back to original array." },
+    { code: "        a[i] = temp[k];", explanation: "Updates original array with sorted values." },
+    { code: "}", explanation: "End of merge function." },
+    { code: "", explanation: "" },
 
-                document.getElementById('program-title').textContent = program.title;
+    { code: "// Merge Sort function", explanation: "Recursive function that divides the array." },
+    { code: "void mergeSort(int a[], int low, int high) {", explanation: "Defines mergeSort function." },
+    { code: "    if (low < high) {", explanation: "Checks if array has more than one element." },
+    { code: "        int mid = (low + high) / 2;", explanation: "Finds the middle index." },
+    { code: "", explanation: "" },
 
-                const details = document.getElementById('program-details');
-                details.innerHTML = '';
+    { code: "        mergeSort(a, low, mid);", explanation: "Recursively sorts the left half." },
+    { code: "        mergeSort(a, mid + 1, high);", explanation: "Recursively sorts the right half." },
+    { code: "        merge(a, low, mid, high);", explanation: "Merges both sorted halves." },
+    { code: "    }", explanation: "End of if condition." },
+    { code: "}", explanation: "End of mergeSort function." },
+    { code: "", explanation: "" },
 
-                program.lines.forEach((line, index) => {
-                    const lineDiv = document.createElement('div');
-                    lineDiv.className = 'code-line';
-                    lineDiv.innerHTML = `
-                        <code>${line.code}</code>
-                        <div class="explanation">${line.explanation}</div>
-                    `;
-                    details.appendChild(lineDiv);
-                });
+    { code: "int main() {", explanation: "Program execution starts here." },
+    { code: "    int n;", explanation: "Declares variable for number of elements." },
+    { code: "", explanation: "" },
 
-                document.getElementById('modal').classList.add('show');
+    { code: "    printf(\"Enter number of elements: \");", explanation: "Asks user for array size." },
+    { code: "    scanf(\"%d\", &n);", explanation: "Reads number of elements." },
+    { code: "", explanation: "" },
 
-                showNextLine();
-            });
-        });
+    { code: "    int a[n];", explanation: "Declares array of size n." },
+    { code: "", explanation: "" },
 
-        function showNextLine() {
-            const codeLines = document.querySelectorAll('#program-details .code-line');
-            if (currentLineIndex < codeLines.length - 1) {
-                currentLineIndex++;
-                codeLines[currentLineIndex].classList.add('active');
-            }
-            if (currentLineIndex === codeLines.length - 1) {
-                document.getElementById('next-btn').style.display = 'none';
-            }
-        }
+    { code: "    printf(\"Enter %d numbers:\\n\", n);", explanation: "Prompts user to enter array elements." },
+    { code: "    for (int i = 0; i < n; i++) {", explanation: "Loop to read array elements." },
+    { code: "        scanf(\"%d\", &a[i]);", explanation: "Stores each input value." },
+    { code: "    }", explanation: "Ends input loop." },
+    { code: "", explanation: "" },
 
-        document.getElementById('next-btn').addEventListener('click', () => {
-            showNextLine();
-        });
+    { code: "    mergeSort(a, 0, n - 1);", explanation: "Calls merge sort on the entire array." },
+    { code: "", explanation: "" },
 
-        document.getElementById('modal').addEventListener('click', (e) => {
-            if (e.target.id === 'modal') {
-                document.getElementById('modal').classList.remove('show');
-                document.getElementById('next-btn').style.display = 'block';
-            }
-        });
+    { code: "    printf(\"Sorted array: \");", explanation: "Displays output message." },
+    { code: "    for (int i = 0; i < n; i++) {", explanation: "Loop to print sorted elements." },
+    { code: "        printf(\"%d \", a[i]);", explanation: "Prints each sorted value." },
+    { code: "    }", explanation: "Ends printing loop." },
+    { code: "", explanation: "" },
 
-        document.getElementById('close-btn').addEventListener('click', () => {
-            document.getElementById('modal').classList.remove('show');
-            document.getElementById('next-btn').style.display = 'block';
-        });
+    { code: "    return 0;", explanation: "Ends the program successfully." },
+    { code: "}", explanation: "End of main function." }
+];
 
-        document.getElementById('modal-content').addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-    </script>
+let index = 0;
+const codeBox = document.getElementById("codeBox");
+const explainBox = document.getElementById("explainBox");
+
+document.body.addEventListener("click", () => {
+    if (index < steps.length) {
+        codeBox.innerHTML += steps[index].code + "\n";
+        explainBox.innerHTML = "💡 " + steps[index].explanation;
+        index++;
+    }
+});
+</script>
+
 </body>
 </html>

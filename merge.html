@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Merge Sort – Divide and Merge Animation</title>
+
+<style>
+body {
+    margin: 0;
+    background: #020617;
+    color: white;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    cursor: pointer;
+}
+
+h1 {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.tree {
+    display: grid;
+    justify-items: center;
+    row-gap: 30px;
+    margin-top: 20px;
+}
+
+.level {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 60px;
+}
+
+.array {
+    display: flex;
+    gap: 8px;
+}
+
+/* Boxes */
+.box {
+    width: 42px;
+    height: 42px;
+    background: #475569;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+/* Colors */
+.left { background: #2563eb; }    /* Divide left */
+.right { background: #16a34a; }   /* Divide right */
+.merge { background: #facc15; color: black; } /* Merge */
+
+.hint {
+    text-align: center;
+    font-size: 13px;
+    opacity: 0.6;
+    margin: 10px;
+}
+</style>
+</head>
+<body>
+
+<h1>Merge Sort – Divide ➜ Merge ➜ Sorted</h1>
+<div class="tree" id="tree"></div>
+<div class="hint">Click anywhere to move step by step</div>
+
+<script>
+const original = [38, 27, 43, 3, 9, 82, 10, 5, 64, 18, 1, 50, 29];
+
+let divideLevels = [];
+let mergeSteps = [];
+let step = 0;
+let phase = "divide";
+
+/* ---------- DIVIDE ---------- */
+function divide(arr, depth = 0) {
+    if (!divideLevels[depth]) divideLevels[depth] = [];
+    divideLevels[depth].push(arr);
+
+    if (arr.length <= 1) return;
+
+    const mid = Math.floor(arr.length / 2);
+    divide(arr.slice(0, mid), depth + 1);
+    divide(arr.slice(mid), depth + 1);
+}
+
+/* ---------- MERGE ---------- */
+function mergeSort(arr) {
+    if (arr.length <= 1) return arr;
+
+    const mid = Math.floor(arr.length / 2);
+    const left = mergeSort(arr.slice(0, mid));
+    const right = mergeSort(arr.slice(mid));
+
+    let merged = [];
+    let i = 0, j = 0;
+
+    while (i < left.length && j < right.length)
+        merged.push(left[i] <= right[j] ? left[i++] : right[j++]);
+
+    while (i < left.length) merged.push(left[i++]);
+    while (j < right.length) merged.push(right[j++]);
+
+    mergeSteps.push(merged);
+    return merged;
+}
+
+divide(original);
+mergeSort(original);
+
+/* ---------- RENDER ---------- */
+function renderDivide(levelIndex) {
+    const tree = document.getElementById("tree");
+    const levelDiv = document.createElement("div");
+    levelDiv.className = "level";
+
+    divideLevels[levelIndex].forEach((arr, i) => {
+        const arrayDiv = document.createElement("div");
+        arrayDiv.className = "array";
+
+        arr.forEach(v => {
+            const b = document.createElement("div");
+            b.className = "box";
+            if (levelIndex > 0)
+                b.classList.add(i % 2 === 0 ? "left" : "right");
+            b.textContent = v;
+            arrayDiv.appendChild(b);
+        });
+
+        levelDiv.appendChild(arrayDiv);
+    });
+
+    tree.appendChild(levelDiv);
+}
+
+function renderMerge(arr) {
+    const tree = document.getElementById("tree");
+    const levelDiv = document.createElement("div");
+    levelDiv.className = "level";
+
+    const arrayDiv = document.createElement("div");
+    arrayDiv.className = "array";
+
+    arr.forEach(v => {
+        const b = document.createElement("div");
+        b.className = "box merge";
+        b.textContent = v;
+        arrayDiv.appendChild(b);
+    });
+
+    levelDiv.appendChild(arrayDiv);
+    tree.appendChild(levelDiv);
+}
+
+/* ---------- CLICK CONTROL ---------- */
+document.body.onclick = () => {
+    if (phase === "divide") {
+        if (step < divideLevels.length) {
+            renderDivide(step++);
+        } else {
+            phase = "merge";
+            step = 0;
+        }
+    } else {
+        if (step < mergeSteps.length) {
+            renderMerge(mergeSteps[step++]);
+        }
+    }
+};
+</script>
+
+</body>
+</html>
