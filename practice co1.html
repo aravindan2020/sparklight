@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorting Algorithms – Scenario Based Questions (Bloom's Level 4)</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    h2 {
+      color: #1a5276;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
+      margin-top: 40px;
+    }
+    .question {
+      background: #ffffff;
+      padding: 15px;
+      margin: 15px 0;
+      border-left: 6px solid #2980b9;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .qno {
+      font-weight: bold;
+      color: #154360;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Scenario Based Sorting Algorithm Questions<br>(Bloom's Level 4 – Analyze)</h1>
+
+<h2>Bubble Sort – Space Research Mission</h2>
+
+<div class="question"><span class="qno">1.</span> During a critical space research mission, engineers receive satellite signal-strength readings that must be arranged in ascending order to detect anomalies. However, due to limited onboard power, the system stops Bubble Sort immediately once the highest signal reaches the last position, even if remaining values are not verified. Analyze how this modified stopping condition affects correctness and determine under what conditions the data can still be considered fully sorted.</div>
+
+<div class="question"><span class="qno">2.</span> In a deep-space radiation monitoring system, Bubble Sort is applied but comparisons are performed only on alternate passes to reduce processor heat. Analyze how skipping comparisons affects sorting stability and identify situations where hidden disorder may still exist.</div>
+
+<div class="question"><span class="qno">3.</span> A space station temperature system uses Bubble Sort but swaps adjacent values only when their difference exceeds a fixed threshold. Analyze how selective swapping impacts correctness and explain whether the final output satisfies strict sorting conditions.</div>
+
+<div class="question"><span class="qno">4.</span> Astronaut reaction-time data is sorted using Bubble Sort, but the comparison direction is reversed after every pass. Analyze how alternating directions influence convergence and whether this modification improves or disrupts the algorithm’s behavior.</div>
+
+<h2>Insertion Sort – Akhanda 2</h2>
+
+<div class="question"><span class="qno">5.</span> In Akhanda 2, warriors arrive sequentially with discipline scores, but only two shifts are allowed per insertion to maintain formation symmetry. Analyze how this restriction impacts Insertion Sort’s ability to maintain order.</div>
+
+<div class="question"><span class="qno">6.</span> During temple guard selection, Insertion Sort compares a new guard only with the middle of the sorted list before insertion. Analyze how this modification affects correctness and efficiency.</div>
+
+<div class="question"><span class="qno">7.</span> Enemy threat levels are inserted only if the incoming value is lower than the previous one. Analyze whether the list can remain sorted over time using this conditional Insertion Sort.</div>
+
+<div class="question"><span class="qno">8.</span> During a sacred ritual, once a priest is placed using Insertion Sort, their position cannot be changed. Analyze how this restriction affects the sorted property of the list.</div>
+
+<h2>Shell Sort – RRR</h2>
+
+<div class="question"><span class="qno">9.</span> In RRR, communication priorities are sorted using Shell Sort with a fixed gap that is never reduced to 1. Analyze which elements may remain unsorted and explain why the final gap reduction is essential.</div>
+
+<div class="question"><span class="qno">10.</span> Secret messages are sorted using Shell Sort with randomly chosen gap values. Analyze how random gap selection affects performance and correctness.</div>
+
+<div class="question"><span class="qno">11.</span> British patrol timings are sorted using Shell Sort, but comparisons are restricted within regional clusters. Analyze how this affects global ordering.</div>
+
+<div class="question"><span class="qno">12.</span> Weapon supply data uses Shell Sort, but only half of the array is processed after each gap reduction. Analyze the impact of partial passes on disorder reduction.</div>
+
+<h2>Quick Sort – Baahubali</h2>
+
+<div class="question"><span class="qno">13.</span> Warrior strengths are sorted using Quick Sort where the weakest visible warrior is always chosen as pivot. Analyze how this pivot strategy affects partition balance and performance.</div>
+
+<div class="question"><span class="qno">14.</span> Quick Sort recursion stops when subarray size falls below three. Analyze whether this assumption maintains correctness.</div>
+
+<div class="question"><span class="qno">15.</span> Battle planners apply Quick Sort but recurse on only one side of the pivot. Analyze how delayed sorting impacts total execution time.</div>
+
+<div class="question"><span class="qno">16.</span> Equal-strength warriors are always placed on the same side of the pivot. Analyze how this affects recursion depth and worst-case complexity.</div>
+
+<h2>Merge Sort – KGF</h2>
+
+<div class="question"><span class="qno">17.</span> Gold shipment values are merged only halfway during each merge step. Analyze how premature merging affects global ordering.</div>
+
+<div class="question"><span class="qno">18.</span> Merge Sort uses a single reusable temporary array for all merges. Analyze how this impacts data integrity and memory usage.</div>
+
+<div class="question"><span class="qno">19.</span> Tunnel distances are merged with biased comparisons favoring one sublist. Analyze how this affects stability and correctness.</div>
+
+<div class="question"><span class="qno">20.</span> Merge Sort recursion is replaced with iteration to avoid stack overflow. Analyze whether this changes algorithmic behavior or only implementation.</div>
+
+<h2>Combined Sorting Algorithms – Avengers</h2>
+
+<div class="question"><span class="qno">21.</span> Avengers’ power levels switch from Quick Sort to Bubble Sort once nearly sorted. Analyze whether this hybrid strategy improves performance.</div>
+
+<div class="question"><span class="qno">22.</span> Infinity Stone data is locally sorted using Merge Sort but globally combined using Insertion Sort. Analyze the scalability of this approach.</div>
+
+<div class="question"><span class="qno">23.</span> Threat levels are continuously inserted using Insertion Sort, but Quick Sort is applied only to the newest half of the data. Analyze whether global order is preserved.</div>
+
+<div class="question"><span class="qno">24.</span> Multiverse data segments use different sorting algorithms based on estimated disorder. Analyze the risks of incorrect estimation.</div>
+
+<div class="question"><span class="qno">25.</span> Tony Stark combines Merge Sort, Quick Sort, and Insertion Sort with switching overhead. Analyze whether the overhead outweighs theoretical gains.</div>
+
+</body>
+</html>
