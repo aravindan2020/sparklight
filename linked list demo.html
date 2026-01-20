@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Linked List Song Player Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #5a2d0c, #3b1f0a);
+            color: gold;
+            animation: fadeIn 1.2s ease-in;
+        }
+        h2 {
+            color: gold;
+            text-shadow: 0 0 8px rgba(255,215,0,0.6);
+            animation: glow 2s infinite alternate;
+        }
+        .box {
+            background: rgba(90, 45, 12, 0.85);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255,215,0,0.25);
+            animation: slideUp 0.8s ease;
+        }
+        label { display: block; margin-top: 10px; }
+        input {
+            width: 300px;
+            padding: 6px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 8px 14px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .list {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px dashed #555;
+            background: #fafafa;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .node {
+            display: inline-flex;
+            border: 2px solid gold;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #8d5524, #5a2d0c);
+            box-shadow: 0 0 12px rgba(255,215,0,0.4);
+            transform: scale(1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .node:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 20px rgba(255,215,0,0.8);
+        }
+        .node-wrapper{
+            display:inline-block;
+            text-align:center;
+            margin-right:20px;
+        }
+        .film-label{
+            margin-top:6px;
+            font-size:14px;
+            font-weight:bold;
+            color: gold;
+            animation: pulse 1.5s infinite;
+        }
+        .data, .next {
+            background: linear-gradient(135deg, #f7e27e, #ffeaa7);
+            color: #3b1f0a;
+            border-left: 2px solid gold;
+        }
+        .data {
+            background: linear-gradient(135deg, #cfa32a, #ffd700);
+            color: #3b1f0a;
+            font-weight: bold;
+        }
+        .next {
+            background: #ffeaa7;
+            border-left: 2px solid #2d3436;
+        }
+        .arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: bold;
+            margin: 0 20px;
+            color: gold;
+            animation: arrowMove 1.2s infinite alternate;
+        }
+        .head {
+            font-weight: bold;
+            color: #d63031;
+            margin-right: 15px;
+        }
+    @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 5px gold; }
+            to { text-shadow: 0 0 15px gold; }
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+        @keyframes arrowMove {
+            from { transform: translateX(-5px); }
+            to { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body>
+
+<h2>Linked List Representation (Song Playlist)</h2>
+
+<div class="box">
+    <h3>Model Linked List (Reference for Input)</h3>
+    <div style="text-align:center; margin-bottom:15px;">
+        <img src="i8.png" alt="Linked List Model" style="max-width:100%; border:2px solid gold; border-radius:10px; box-shadow:0 0 15px rgba(255,215,0,0.6);">
+        <p style="margin-top:10px; font-weight:bold; color:gold;">Refer this model to understand how Song Name, Film Name and Next Film Name should be entered</p>
+    </div>
+    <h3>Enter Song Details (Max 5)</h3>
+    <label>Song Name</label>
+    <input type="text" id="song">
+
+    <label>Film Name</label>
+    <input type="text" id="film">
+
+    <label>Next Film Name</label>
+    <input type="text" id="nextFilm">
+
+    <br>
+    <button onclick="addSong()">Add Node (Singly Linked List)</button>
+</div>
+
+<div class="box">
+    <h3>Linked List Shape</h3>
+    <div id="output" class="list"></div>
+
+    <button onclick="reverseTraverse()">Reverse Traverse (Doubly Linked)</button>
+    <button onclick="makeCircular()">Play in Loop (Circular Linked)</button>
+</div>
+
+<script>
+    let list = [];
+
+    function addSong() {
+        if (list.length >= 5) {
+            alert("Only 5 nodes allowed");
+            return;
+        }
+        const song = document.getElementById("song").value;
+        const film = document.getElementById("film").value;
+
+        if (song === "" || film === "") {
+            alert("Enter both song and film name");
+            return;
+        }
+
+        const nextFilm = document.getElementById("nextFilm").value;
+
+        if (nextFilm === "") {
+            alert("Enter next song film name (address)");
+            return;
+        }
+
+        // if this is the 5th node, its next address should be NULL
+        if (list.length === 4) {
+            list.push({ song: song, film: film, nextFilm: "NULL" });
+        } else {
+            list.push({ song: song, film: film, nextFilm: nextFilm });
+        }
+        document.getElementById("nextFilm").value = "";
+        document.getElementById("song").value = "";
+        document.getElementById("film").value = "";
+        displayList();
+    }
+
+    function displayList(reverse = false, circular = false) {
+        const out = document.getElementById("output");
+        out.innerHTML = "";
+
+        let arr = reverse ? [...list].reverse() : list;
+
+        if (arr.length > 0) {
+            out.innerHTML += `<span class='head'>HEAD →</span>`;
+        }
+
+        arr.forEach((node, index) => {
+            out.innerHTML += `
+            <div class='node-wrapper'>
+                <div class='node'>
+                    <div class='data'>Data<br>${node.song}</div>
+                    <div class='next'>Next<br>${node.nextFilm}</div>
+                </div>
+                <div class='film-label'>Film : ${node.film}</div>
+            </div>`;
+
+            if (index !== arr.length - 1) {
+                if (reverse) {
+                    out.innerHTML += `<span class='arrow'>⇄</span>`; // doubly linked: forward & backward
+                } else {
+                    out.innerHTML += `<span class='arrow'>→</span>`; // singly linked
+                }
+            }
+        });
+
+        if (circular && arr.length > 0) {
+            out.innerHTML += `<span class='arrow'>↺ HEAD</span>`;
+        } else if (!circular && arr.length > 0) {
+            out.innerHTML += `<span class='arrow'>→ NULL</span>`;
+        }
+    }
+
+    function reverseTraverse() {
+        displayList(true, false);
+    }
+
+    function makeCircular() {
+        displayList(false, true);
+    }
+</script>
+
+</body>
+</html>
