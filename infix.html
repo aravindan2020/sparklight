@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Stack & Expression Notations</title>
+
+<style>
+    body {
+        background-color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #0a3d91;
+        margin: 40px;
+    }
+
+    h1, h2 {
+        text-align: center;
+        animation: slideDown 1s ease-out;
+    }
+
+    h2 {
+        margin-top: 50px;
+        border-bottom: 2px solid #0a3d91;
+        padding-bottom: 6px;
+    }
+
+    section {
+        margin-top: 30px;
+        opacity: 0;
+        animation: fadeInUp 1s ease forwards;
+    }
+
+    section:nth-of-type(1) { animation-delay: 0.3s; }
+    section:nth-of-type(2) { animation-delay: 0.6s; }
+    section:nth-of-type(3) { animation-delay: 0.9s; }
+    section:nth-of-type(4) { animation-delay: 1.2s; }
+    section:nth-of-type(5) { animation-delay: 1.5s; }
+
+    ul, ol {
+        font-size: 18px;
+        line-height: 1.8;
+        margin-left: 40px;
+    }
+
+    li:hover {
+        background-color: #f0f6ff;
+        padding-left: 10px;
+        border-left: 4px solid #0a3d91;
+        transition: all 0.3s ease;
+    }
+
+    table {
+        width: 70%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        font-size: 18px;
+    }
+
+    table, th, td {
+        border: 1px solid #0a3d91;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #e6f0ff;
+    }
+
+    .box {
+        background-color: #f5f9ff;
+        border: 1px solid #0a3d91;
+        border-radius: 6px;
+        padding: 15px;
+        margin-top: 15px;
+    }
+
+    img {
+        display: block;
+        margin: 20px auto;
+        max-width: 80%;
+        border-radius: 6px;
+        animation: fadeInUp 1s ease;
+    }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Stack & Expression Notations</h1>
+
+<!-- 1. Stack Definition -->
+<section>
+    <h2>1. Stack Definition</h2>
+    <div class="box">
+        <p>
+            A <b>Stack</b> is a linear data structure that follows the principle
+            <b>LIFO (Last In First Out)</b>.
+        </p>
+
+        <ul>
+            <li>
+                <b>Push Operation</b>: Inserts an element at the top of the stack.
+                <img src="https://techvidvan.com/tutorials/wp-content/uploads/sites/2/2021/06/Stack-normal-images02.jpg"
+                     alt="Stack Push Operation">
+            </li>
+
+            <li>
+                <b>Pop Operation</b>: Removes the top element from the stack.
+                <img src="https://techvidvan.com/tutorials/wp-content/uploads/sites/2/2021/06/Stack-normal-images03.jpg"
+                     alt="Stack Pop Operation">
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- Associativity -->
+<section>
+    <h2>What is Associativity?</h2>
+    <div class="box">
+        <p>
+            <b>Associativity</b> defines the order in which operators of the
+            <b>same precedence</b> are evaluated in an expression.
+        </p>
+
+        <ul>
+            <li><b>Left to Right</b>: Operators are evaluated from left to right.</li>
+            <li><b>Right to Left</b>: Operators are evaluated from right to left.</li>
+        </ul>
+
+        <p><b>Examples:</b></p>
+        <ul>
+            <li><b>A - B - C</b> → (A - B) - C</li>
+            <li><b>A ^ B ^ C</b> → A ^ (B ^ C)</li>
+        </ul>
+
+        <!-- Associativity Image -->
+        <img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1630589578665/SWq-WNeMb.jpeg"
+             alt="Operator Associativity Example">
+    </div>
+</section>
+
+<!-- 2. Operator Precedence -->
+<section>
+    <h2>2. Operator Precedence</h2>
+
+    <table>
+        <tr>
+            <th>Precedence</th>
+            <th>Operators</th>
+            <th>Associativity</th>
+        </tr>
+        <tr>
+            <td>Highest</td>
+            <td>( )</td>
+            <td>—</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>^</td>
+            <td>Right to Left</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>* /</td>
+            <td>Left to Right</td>
+        </tr>
+        <tr>
+            <td>Lowest</td>
+            <td>+ -</td>
+            <td>Left to Right</td>
+        </tr>
+    </table>
+</section>
+
+<!-- 3. Expression Types -->
+<section>
+    <h2>3. Expression Types</h2>
+
+    <div class="box">
+        <p><b>Infix Expression</b></p>
+        <ul>
+            <li>Operator between operands</li>
+            <li>Example: <b>A + B</b></li>
+        </ul>
+
+        <p><b>Postfix Expression</b></p>
+        <ul>
+            <li>Operator after operands</li>
+            <li>Example: <b>AB+</b></li>
+        </ul>
+
+        <p><b>Prefix Expression</b></p>
+        <ul>
+            <li>Operator before operands</li>
+            <li>Example: <b>+AB</b></li>
+        </ul>
+    </div>
+</section>
+
+<!-- 4. Infix to Postfix Rules -->
+<section>
+    <h2>4. Infix to Postfix Conversion Rules</h2>
+
+    <ol>
+        <li>Print operands as they arrive.</li>
+        <li>If stack is empty or top is <b>(</b>, push operator.</li>
+        <li>If symbol is <b>(</b>, push it.</li>
+        <li>If symbol is <b>)</b>, pop until <b>(</b> is found.</li>
+        <li>If higher precedence, push operator.</li>
+        <li>If lower precedence, pop and print.</li>
+        <li>If equal precedence, apply associativity.</li>
+        <li>Pop all remaining operators at the end.</li>
+    </ol>
+
+    <div class="box">
+        <b>Associativity Rule:</b><br>
+        Left → Right : Pop then Push<br>
+        Right → Left : Push directly
+    </div>
+</section>
+
+</body>
+</html>
