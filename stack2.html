@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Stack Using Linked List – Code Display</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Consolas, monospace;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.left {
+    width: 50%;
+    padding: 20px;
+    background: #f3e5c0;
+    color: #800000;
+    font-weight: bold;
+    overflow-y: auto;
+}
+
+.right {
+    width: 50%;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+}
+
+h1 {
+    color: #800000;
+    font-size: 32px;
+}
+
+button {
+    margin: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 22px;
+    background: #800000;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+}
+
+button:hover {
+    background: #5a0000;
+}
+
+.code-box {
+    background: #fff8e1;
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 26px;
+    line-height: 1.8;
+    color: #800000;
+    border: 2px solid #800000;
+    white-space: pre;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LEFT PANEL -->
+<div class="left">
+
+<h1>Stack Using Linked List – Code Display</h1>
+
+<button onclick="loadCase('node')">Node Structure</button>
+<button onclick="loadCase('top')">Top Pointer</button>
+<button onclick="loadCase('push')">Push</button>
+<button onclick="loadCase('pop')">Pop</button>
+<button onclick="loadCase('display')">Display</button>
+<button onclick="loadCase('main')">Main Function</button>
+
+<div id="code" class="code-box"></div>
+
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="right">
+<!-- Future: animation / explanation -->
+</div>
+
+</div>
+
+<script>
+const cases = {
+
+node: [
+"struct Node {",
+"    int data;",
+"    struct Node *next;",
+"};"
+],
+
+top: [
+"struct Node *top = NULL;"
+],
+
+push: [
+"void push() {",
+"    struct Node *newNode;",
+"    int value;",
+"",
+"    newNode = (struct Node *)malloc(sizeof(struct Node));",
+"",
+"    if (newNode == NULL) {",
+"        printf(\"Heap Overflow\\n\");",
+"        return;",
+"    }",
+"",
+"    printf(\"Enter value to push: \");",
+"    scanf(\"%d\", &value);",
+"",
+"    newNode->data = value;",
+"    newNode->next = top;",
+"    top = newNode;",
+"",
+"    printf(\"%d pushed successfully\\n\", value);",
+"}"
+],
+
+pop: [
+"void pop() {",
+"    struct Node *temp;",
+"",
+"    if (top == NULL) {",
+"        printf(\"Stack Underflow\\n\");",
+"        return;",
+"    }",
+"",
+"    temp = top;",
+"    printf(\"%d popped\\n\", temp->data);",
+"    top = top->next;",
+"    free(temp);",
+"}"
+],
+
+display: [
+"void display() {",
+"    struct Node *temp;",
+"",
+"    if (top == NULL) {",
+"        printf(\"Stack is empty\\n\");",
+"        return;",
+"    }",
+"",
+"    temp = top;",
+"    printf(\"Stack elements (Top to Bottom):\\n\");",
+"    while (temp != NULL) {",
+"        printf(\"%d\\n\", temp->data);",
+"        temp = temp->next;",
+"    }",
+"}"
+],
+
+main: [
+"int main() {",
+"    int choice;",
+"",
+"    while (1) {",
+"        printf(\"\\n--- STACK USING LINKED LIST ---\\n\");",
+"        printf(\"1. Push\\n\");",
+"        printf(\"2. Pop\\n\");",
+"        printf(\"3. Display\\n\");",
+"        printf(\"4. Exit\\n\");",
+"        printf(\"Enter your choice: \");",
+"        scanf(\"%d\", &choice);",
+"",
+"        switch (choice) {",
+"            case 1: push();",
+"                    break;",
+"            case 2: pop();",
+"                    break;",
+"            case 3: display();",
+"                    break;",
+"            case 4: exit(0);",
+"            default: printf(\"Invalid choice\\n\");",
+"        }",
+"    }",
+"}"
+]
+
+};
+
+function loadCase(caseName) {
+    const box = document.getElementById("code");
+    box.style.display = "block";
+    box.textContent = cases[caseName].join("\n");
+}
+</script>
+
+</body>
+</html>
