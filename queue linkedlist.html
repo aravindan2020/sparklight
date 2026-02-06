@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Queue Using Linked List – Code Display</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Consolas, monospace;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.left {
+    width: 50%;
+    padding: 20px;
+    background: #f3e5c0;
+    color: #800000;
+    font-weight: bold;
+    overflow-y: auto;
+}
+
+.right {
+    width: 50%;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+}
+
+h1 {
+    color: #800000;
+    font-size: 32px;
+}
+
+button {
+    margin: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 22px;
+    background: #800000;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+}
+
+button:hover {
+    background: #5a0000;
+}
+
+.code-box {
+    background: #fff8e1;
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 26px;
+    line-height: 1.8;
+    color: #800000;
+    border: 2px solid #800000;
+    white-space: pre;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LEFT PANEL -->
+<div class="left">
+
+<h1>Queue Using Linked List – Code Display</h1>
+
+<button onclick="loadCase('node')">Node Structure</button>
+<button onclick="loadCase('ptr')">Front & Rear</button>
+<button onclick="loadCase('enqueue')">Enqueue</button>
+<button onclick="loadCase('dequeue')">Dequeue</button>
+<button onclick="loadCase('display')">Display</button>
+<button onclick="loadCase('main')">Main Function</button>
+
+<div id="code" class="code-box"></div>
+
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="right">
+<!-- Reserved for explanation / animation -->
+</div>
+
+</div>
+
+<script>
+const cases = {
+
+node: [
+"struct node {",
+"    int data;",
+"    struct node *next;",
+"};"
+],
+
+ptr: [
+"struct node *front = NULL;",
+"struct node *rear  = NULL;"
+],
+
+enqueue: [
+"void enqueue(int x) {",
+"    struct node *newnode;",
+"    newnode = (struct node *)malloc(sizeof(struct node));",
+"",
+"    if (newnode == NULL) {",
+"        printf(\"Memory allocation failed\\n\");",
+"        return;",
+"    }",
+"",
+"    newnode->data = x;",
+"    newnode->next = NULL;",
+"",
+"    if (front == NULL && rear == NULL) {",
+"        front = rear = newnode;",
+"    } else {",
+"        rear->next = newnode;",
+"        rear = newnode;",
+"    }",
+"}"
+],
+
+dequeue: [
+"void dequeue() {",
+"    struct node *temp;",
+"",
+"    if (front == NULL && rear == NULL) {",
+"        printf(\"Queue is empty\\n\");",
+"        return;",
+"    }",
+"",
+"    temp = front;",
+"    front = front->next;",
+"    free(temp);",
+"",
+"    if (front == NULL)",
+"        rear = NULL;",
+"}"
+],
+
+display: [
+"void display() {",
+"    struct node *temp = front;",
+"",
+"    if (front == NULL) {",
+"        printf(\"Queue is empty\\n\");",
+"        return;",
+"    }",
+"",
+"    while (temp != NULL) {",
+"        printf(\"%d \", temp->data);",
+"        temp = temp->next;",
+"    }",
+"}"
+],
+
+main: [
+"int main() {",
+"    enqueue(10);",
+"    enqueue(20);",
+"    enqueue(30);",
+"    display();",
+"    dequeue();",
+"    display();",
+"    return 0;",
+"}"
+]
+};
+
+function loadCase(caseName) {
+    const box = document.getElementById("code");
+    box.style.display = "block";
+    box.textContent = cases[caseName].join("\n");
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Queue Using Array – Code Display</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Consolas, monospace;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.left {
+    width: 50%;
+    padding: 20px;
+    background: #f3e5c0;
+    color: #800000;
+    font-weight: bold;
+    overflow-y: auto;
+}
+
+.right {
+    width: 50%;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+}
+
+h1 {
+    color: #800000;
+    font-size: 32px;
+}
+
+button {
+    margin: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 22px;
+    background: #800000;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+}
+
+button:hover {
+    background: #5a0000;
+}
+
+.code-box {
+    background: #fff8e1;
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 26px;
+    line-height: 1.8;
+    color: #800000;
+    border: 2px solid #800000;
+    white-space: pre;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LEFT PANEL -->
+<div class="left">
+
+<h1>Queue Using Array – Code Display</h1>
+
+<button onclick="loadCode('macro')">Macro</button>
+<button onclick="loadCode('structure')">Structure</button>
+<button onclick="loadCode('global')">Global Queue</button>
+<button onclick="loadCode('init')">Initialize</button>
+<button onclick="loadCode('enqueue')">Enqueue</button>
+<button onclick="loadCode('dequeue')">Dequeue</button>
+<button onclick="loadCode('display')">Display</button>
+<button onclick="loadCode('main')">Main</button>
+
+<div id="code" class="code-box"></div>
+
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="right">
+<!-- For explanation / animation -->
+</div>
+
+</div>
+
+<script>
+function loadCode(type) {
+    const codeBox = document.getElementById("code");
+    codeBox.style.display = "block";
+    codeBox.textContent = codeData[type];
+}
+
+const codeData = {
+
+macro:
+`#define MAX 5`,
+
+structure:
+`struct Queue {
+    int arr[MAX];
+    int front;
+    int rear;
+};`,
+
+global:
+`struct Queue queue;`,
+
+init:
+`void init() {
+    queue.front = -1;
+    queue.rear = -1;
+}`,
+
+enqueue:
+`void enqueue(int value) {
+    if (queue.rear == MAX - 1) {
+        printf("Queue Overflow\\n");
+        return;
+    }
+
+    if (queue.front == -1) {
+        queue.front = 0;
+    }
+
+    queue.rear++;
+    queue.arr[queue.rear] = value;
+    printf("%d enqueued\\n", value);
+}`,
+
+dequeue:
+`void dequeue() {
+    if (queue.front == -1 || queue.front > queue.rear) {
+        printf("Queue Underflow\\n");
+        return;
+    }
+
+    printf("%d dequeued\\n", queue.arr[queue.front]);
+    queue.front++;
+
+    if (queue.front > queue.rear) {
+        queue.front = queue.rear = -1;
+    }
+}`,
+
+display:
+`void display() {
+    if (queue.front == -1) {
+        printf("Queue is empty\\n");
+        return;
+    }
+
+    printf("Queue elements:\\n");
+    for (int i = queue.front; i <= queue.rear; i++) {
+        printf("%d ", queue.arr[i]);
+    }
+    printf("\\n");
+}`,
+
+main:
+`int main() {
+    int n, value;
+
+    init();
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        printf("Enter value %d: ", i + 1);
+        scanf("%d", &value);
+        enqueue(value);
+    }
+
+    display();
+    dequeue();
+    display();
+
+    return 0;
+}`
+};
+</script>
+
+</body>
+</html>

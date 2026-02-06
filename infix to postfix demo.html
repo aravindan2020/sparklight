@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Infix to Postfix – Visual Explanation</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Consolas, monospace;
+    background: #f5f5f5;
+}
+
+.header, .footer {
+    width: 100%;
+    text-align: center;
+    font-size: 34px;
+    font-weight: bold;
+    color: #003366;
+    padding: 15px 0;
+}
+
+.container {
+    height: calc(100vh - 140px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.step {
+    font-size: 36px;
+    font-weight: bold;
+    color: #800000;
+    white-space: pre;
+    text-align: center;
+}
+
+img {
+    max-width: 520px;
+    margin-top: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    display: none;
+}
+
+.reason {
+    font-size: 26px;
+    margin-top: 15px;
+    color: #333;
+    max-width: 80%;
+}
+
+.controls {
+    position: fixed;
+    bottom: 15px;
+}
+
+button {
+    font-size: 22px;
+    padding: 10px 22px;
+    margin: 0 10px;
+    background: #800000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #5a0000;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Infix Expression -->
+<div class="header">
+Infix Expression: <span style="color:#800000">(A + B) / (C - D) * E</span>
+</div>
+
+<div class="container">
+    <div id="stepText" class="step"></div>
+    <img id="actionImage" alt="action">
+    <div id="reasonText" class="reason"></div>
+</div>
+
+<!-- Postfix Result -->
+<div class="footer">
+Postfix Expression: <span style="color:#800000">AB+CD-/E*</span>
+</div>
+
+<div class="controls">
+    <button onclick="prevStep()">Previous</button>
+    <button onclick="nextStep()">Next</button>
+</div>
+
+<script>
+const PUSH_IMG = "https://www.livemint.com/lm-img/img/2024/12/26/600x338/Allu-Arjun-in-Pushpa-2--Armed-with-a-chip-on-his-s_1735125101027_1735231519800.jpeg";
+const POP_IMG  = "https://preview.redd.it/i-designed-soda-pop-flavors-for-each-of-the-saja-boys-v0-k0lxfhx64rgf1.jpg?width=1080&crop=smart&auto=webp&s=3e38dd60aad22d2943b2f24d974a9e12a6124fad";
+
+const steps = [
+ { text: "1     (         (                ", action: "push", reason: "Opening bracket is always pushed to mark a new sub-expression." },
+ { text: "2     A         (                A", action: "none", reason: "Operand goes directly to postfix output." },
+ { text: "3     +         ( +              A", action: "push", reason: "Operator is pushed because stack top is '('." },
+ { text: "4     B         ( +              A B", action: "none", reason: "Operand is added directly to postfix expression." },
+ { text: "5     )                   AB +", action: "pop", reason: "Closing bracket causes operators to pop until '(' is removed." },
+ { text: "6     /         /                AB +", action: "push", reason: "Stack is empty, so '/' is pushed." },
+ { text: "7     (         / (              AB +", action: "push", reason: "Opening bracket is pushed to separate precedence." },
+ { text: "8     C         / (              AB + C", action: "none", reason: "Operand goes directly to postfix output." },
+ { text: "9     -         / ( -            AB + C", action: "push", reason: "'-' is pushed because stack top is '('" },
+ { text: "10    D         / ( -            AB + C D", action: "none", reason: "Operand is directly added to postfix." },
+ { text: "11    )         /                AB + C D -", action: "pop", reason: "Closing bracket pops '-' from stack." },
+ { text: "12    *         *                AB + C D - /", action: "pop", reason: "'*' has higher precedence than '/', so '/' is popped first." },
+ { text: "13    E         *                AB + C D - / E", action: "none", reason: "Operand is appended to postfix output." },
+ { text: "14    End                AB + C D - / E *", action: "pop", reason: "At end of expression, all remaining operators are popped." }
+];
+
+let index = 0;
+
+function render() {
+    const step = steps[index];
+    const img = document.getElementById("actionImage");
+    const reason = document.getElementById("reasonText");
+
+    document.getElementById("stepText").textContent = step.text;
+    reason.textContent = step.reason;
+
+    if (step.action === "push") {
+        img.src = PUSH_IMG;
+        img.style.display = "block";
+    } else if (step.action === "pop") {
+        img.src = POP_IMG;
+        img.style.display = "block";
+    } else {
+        img.style.display = "none";
+    }
+}
+
+function nextStep() {
+    if (index < steps.length - 1) {
+        index++;
+        render();
+    }
+}
+
+function prevStep() {
+    if (index > 0) {
+        index--;
+        render();
+    }
+}
+
+render();
+</script>
+
+</body>
+</html>
