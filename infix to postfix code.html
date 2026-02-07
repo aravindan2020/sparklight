@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Infix to Postfix – Smart Class</title>
+
+<style>
+body {
+    font-family: Consolas, monospace;
+    background: #f5deb3;
+    color: #002f6c;
+    padding: 60px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 48px;
+    color: #003f88;
+    margin-bottom: 40px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+}
+
+.code {
+    background: #fff8dc;
+    padding: 40px;
+    border-radius: 15px;
+    font-size: 34px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    border: 4px solid #003f88;
+}
+
+.explanation {
+    margin-top: 30px;
+    font-size: 28px;
+    color: #003366;
+    font-weight: bold;
+}
+
+.hint {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 24px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Infix to Postfix in C – Line by Line Explanation</h1>
+
+<div class="container">
+    <div class="code" id="codeBox"></div>
+    <div class="explanation" id="explainBox"></div>
+    <div class="hint">👉 Click anywhere to show next line</div>
+</div>
+
+<script>
+const steps = [
+
+{ code: "#include &lt;stdio.h&gt;",
+  explanation: "Includes standard input and output library.<br>Required for printf() and scanf()." },
+
+{ code: "#include &lt;ctype.h&gt;",
+  explanation: "Provides character handling functions.<br>isalnum() is used to detect operands." },
+
+{ code: "", explanation: "" },
+
+{ code: "char stack[15];",
+  explanation: "Array used to implement stack.<br>Stores operators temporarily." },
+
+{ code: "int top = -1;",
+  explanation: "Top indicates stack position.<br>-1 means stack is empty." },
+
+{ code: "", explanation: "" },
+
+{ code: "void push(char ch)",
+  explanation: "Defines push operation.<br>Used to insert operator into stack." },
+
+{ code: "{",
+  explanation: "Beginning of push function block.<br>Statements inside execute on push call." },
+
+{ code: "    stack[++top] = ch;",
+  explanation: "Increments top first.<br>Stores operator at top of stack." },
+
+{ code: "}",
+  explanation: "End of push function.<br>Control returns to caller." },
+
+{ code: "", explanation: "" },
+
+{ code: "char pop()",
+  explanation: "Defines pop operation.<br>Used to remove operator from stack." },
+
+{ code: "{",
+  explanation: "Beginning of pop function block.<br>Executes when pop is called." },
+
+{ code: "    return stack[top--];",
+  explanation: "Returns top element of stack.<br>Then decreases top value." },
+
+{ code: "}",
+  explanation: "End of pop function.<br>One element removed from stack." },
+
+{ code: "", explanation: "" },
+
+{ code: "int main()",
+  explanation: "Program execution starts here.<br>Main controls entire logic." },
+
+{ code: "{",
+  explanation: "Beginning of main function.<br>All statements execute inside." },
+
+{ code: "    char infix[20], postfix[20];",
+  explanation: "Infix array stores input expression.<br>Postfix array stores converted expression." },
+
+{ code: "    int i = 0, j = 0;",
+  explanation: "i is index for infix traversal.<br>j is index for postfix insertion." },
+
+{ code: "    char ch;",
+  explanation: "Variable to store current character.<br>Makes code readable." },
+
+{ code: "", explanation: "" },
+
+{ code: "    printf(\"Enter infix expression: \");",
+  explanation: "Prompts user to enter expression.<br>Displayed on screen." },
+
+{ code: "    scanf(\"%s\", infix);",
+  explanation: "Reads infix expression as string.<br>Stored in infix array." },
+
+{ code: "", explanation: "" },
+
+{ code: "    while (infix[i] != '\\0')",
+  explanation: "Loop runs till end of infix string.<br>Processes each character." },
+
+{ code: "    {",
+  explanation: "Start of while loop body.<br>Executed for each character." },
+
+{ code: "        ch = infix[i];",
+  explanation: "Stores current character.<br>Simplifies condition checks." },
+
+{ code: "", explanation: "" },
+
+{ code: "        if (isalnum(ch))",
+  explanation: "Checks if character is operand.<br>Operands are letters or digits." },
+
+{ code: "        {",
+  explanation: "Beginning of operand block.<br>Executed if operand is found." },
+
+{ code: "            postfix[j++] = ch;",
+  explanation: "Adds operand directly to postfix.<br>No stack operation needed." },
+
+{ code: "        }",
+  explanation: "End of operand block.<br>Moves to next condition." },
+
+{ code: "", explanation: "" },
+
+{ code: "        else if (ch == '(')",
+  explanation: "Checks for opening parenthesis.<br>Used to control precedence." },
+
+{ code: "        {",
+  explanation: "Beginning of '(' handling block.<br>Executes if '(' is found." },
+
+{ code: "            push(ch);",
+  explanation: "Pushes '(' into stack.<br>Marks start of sub-expression." },
+
+{ code: "        }",
+  explanation: "End of '(' handling.<br>Returns to loop." },
+
+{ code: "", explanation: "" },
+
+{ code: "        else if (ch == ')')",
+  explanation: "Checks for closing parenthesis.<br>Triggers pop operations." },
+
+{ code: "        {",
+  explanation: "Beginning of ')' handling block.<br>Executes if ')' is found." },
+
+{ code: "            while (stack[top] != '(')",
+  explanation: "Pops operators until '(' appears.<br>Maintains correct order." },
+
+{ code: "                postfix[j++] = pop();",
+  explanation: "Adds popped operator to postfix.<br>Preserves precedence." },
+
+{ code: "            pop();",
+  explanation: "Removes '(' from stack.<br>Bracket is discarded." },
+
+{ code: "        }",
+  explanation: "End of ')' handling block.<br>Returns to loop." },
+
+{ code: "", explanation: "" },
+
+{ code: "        else",
+  explanation: "Handles operators like +, -, *, /.<br>Applies precedence rules." },
+
+{ code: "        {",
+  explanation: "Beginning of operator handling block.<br>Executes for operators." },
+
+{ code: "            if (ch == '+' || ch == '-')",
+  explanation: "Checks for low precedence operators.<br>They pop all higher operators." },
+
+{ code: "            {",
+  explanation: "Beginning of + - block.<br>Executes for + or -." },
+
+{ code: "                while (top != -1 && stack[top] != '(')",
+  explanation: "Pops all operators except '('.<br>Ensures correct postfix order." },
+
+{ code: "                    postfix[j++] = pop();",
+  explanation: "Adds popped operator to postfix.<br>Maintains evaluation order." },
+
+{ code: "            }",
+  explanation: "End of + - block.<br>Control moves forward." },
+
+{ code: "", explanation: "" },
+
+{ code: "            else if (ch == '*' || ch == '/')",
+  explanation: "Checks for high precedence operators.<br>They pop only * and /." },
+
+{ code: "            {",
+  explanation: "Beginning of * / block.<br>Executes for * or /." },
+
+{ code: "                while (top != -1 && (stack[top] == '*' || stack[top] == '/'))",
+  explanation: "Pops same precedence operators.<br>Lower ones stay in stack." },
+
+{ code: "                    postfix[j++] = pop();",
+  explanation: "Adds popped operator to postfix.<br>Correct order preserved." },
+
+{ code: "            }",
+  explanation: "End of * / block.<br>Operator handling continues." },
+
+{ code: "", explanation: "" },
+
+{ code: "            push(ch);",
+  explanation: "Pushes current operator into stack.<br>Waits for correct time to pop." },
+
+{ code: "        }",
+  explanation: "End of operator handling block.<br>Returns to while loop." },
+
+{ code: "        i++;",
+  explanation: "Moves to next character in infix.<br>Continues conversion." },
+
+{ code: "    }",
+  explanation: "End of while loop.<br>All characters processed." },
+
+{ code: "", explanation: "" },
+
+{ code: "    while (top != -1)",
+  explanation: "Checks for remaining operators.<br>They must be popped." },
+
+{ code: "        postfix[j++] = pop();",
+  explanation: "Pops remaining operators.<br>Adds them to postfix." },
+
+{ code: "", explanation: "" },
+
+{ code: "    postfix[j] = '\\0';",
+  explanation: "Adds string terminator.<br>Marks end of postfix string." },
+
+{ code: "    printf(\"Postfix expression: %s\", postfix);",
+  explanation: "Displays postfix expression.<br>Final output shown to user." },
+
+{ code: "", explanation: "" },
+
+{ code: "    return 0;",
+  explanation: "Ends program execution.<br>Returns success." },
+
+{ code: "}",
+  explanation: "End of main function.<br>Program terminates." }
+
+];
+
+let index = 0;
+const codeBox = document.getElementById("codeBox");
+const explainBox = document.getElementById("explainBox");
+
+document.addEventListener("click", function () {
+    if (index < steps.length) {
+        codeBox.innerHTML += steps[index].code + "\n";
+        explainBox.innerHTML = "💡 " + steps[index].explanation;
+        index++;
+    }
+});
+</script>
+
+</body>
+</html>
