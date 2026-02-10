@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Circular Queue using Array</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Consolas, monospace;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* LEFT PANEL */
+.left {
+    width: 50%;
+    padding: 20px;
+    background: #e3f2fd;
+    color: #0d47a1;
+    overflow-y: auto;
+}
+
+/* RIGHT PANEL */
+.right {
+    width: 50%;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+h1 {
+    font-size: 28px;
+}
+
+button {
+    margin: 6px;
+    padding: 10px 14px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #0d47a1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+}
+
+button:hover {
+    background: #08306b;
+}
+
+.code-box {
+    background: #e1f5fe;
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 20px;
+    line-height: 1.7;
+    border: 2px solid #0d47a1;
+    white-space: pre;
+}
+
+.queue-img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    border: 2px solid #0d47a1;
+    border-radius: 6px;
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LEFT PANEL -->
+<div class="left">
+<h1>Circular Queue using Array</h1>
+
+<button onclick="showCode('enqueue')">Enqueue Code</button>
+<button onclick="showImage('enqueue')">Enqueue Image</button>
+
+<button onclick="showCode('dequeue')">Dequeue Code</button>
+<button onclick="showImage('dequeue')">Dequeue Image</button>
+
+<button onclick="showCode('display')">Display Code</button>
+<button onclick="showCode('main')">Main Function Code</button>
+
+<div id="codeBox" class="code-box"></div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="right">
+<img id="queueImage" class="queue-img">
+</div>
+
+</div>
+
+<script>
+const codeData = {
+
+enqueue: [
+"void enqueue(int x)",
+"{",
+"    if ((rear + 1) % SIZE == front)",
+"        printf(\"Queue is FULL\\n\");",
+"    else",
+"    {",
+"        if (front == -1)",
+"            front = 0;",
+"        rear = (rear + 1) % SIZE;",
+"        queue[rear] = x;",
+"        printf(\"Inserted %d\\n\", x);",
+"    }",
+"}"
+],
+
+dequeue: [
+"void dequeue()",
+"{",
+"    if (front == -1)",
+"        printf(\"Queue is EMPTY\\n\");",
+"    else",
+"    {",
+"        printf(\"Deleted %d\\n\", queue[front]);",
+"        if (front == rear)",
+"            front = rear = -1;",
+"        else",
+"            front = (front + 1) % SIZE;",
+"    }",
+"}"
+],
+
+display: [
+"void display()",
+"{",
+"    int i;",
+"    if (front == -1)",
+"        printf(\"Queue is EMPTY\\n\");",
+"    else",
+"    {",
+"        printf(\"Queue elements: \");",
+"        i = front;",
+"        while (i != rear)",
+"        {",
+"            printf(\"%d \", queue[i]);",
+"            i = (i + 1) % SIZE;",
+"        }",
+"        printf(\"%d\\n\", queue[rear]);",
+"    }",
+"}"
+],
+
+main: [
+"int main()",
+"{",
+"    enqueue(10);",
+"    enqueue(20);",
+"    enqueue(30);",
+"",
+"    display();",
+"",
+"    dequeue();",
+"",
+"    enqueue(40);",
+"    enqueue(50);",
+"",
+"    display();",
+"",
+"    return 0;",
+"}"
+]
+
+};
+
+function showCode(type) {
+    const box = document.getElementById("codeBox");
+    box.style.display = "block";
+    box.textContent = codeData[type].join("\n");
+}
+
+function showImage(type) {
+    const img = document.getElementById("queueImage");
+    img.style.display = "block";
+
+    if (type === "enqueue") {
+        img.src = "https://scaler.com/topics/images/sizequeue.webp";
+    } else if (type === "dequeue") {
+        img.src = "https://scaler.com/topics/images/queue3.webp";
+    }
+}
+</script>
+
+</body>
+</html>
