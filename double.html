@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Queue and Double Ended Queue</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f8fb;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.7;
+}
+
+h1, h2 {
+    color: #0d47a1;
+}
+
+.section {
+    background: #ffffff;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+img {
+    display: block;
+    margin: 15px auto;
+    max-width: 90%;
+    border: 2px solid #0d47a1;
+    border-radius: 6px;
+}
+
+ul {
+    margin-left: 25px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+table, th, td {
+    border: 2px solid #0d47a1;
+}
+
+th {
+    background-color: #0d47a1;
+    color: white;
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+    text-align: center;
+    background-color: #e3f2fd;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Queue and Double Ended Queue</h1>
+
+<!-- WHAT IS QUEUE -->
+<div class="section">
+<h2>1. What is Queue?</h2>
+
+<p>
+A <b>Queue</b> is a linear data structure that follows the principle
+<b>FIFO (First In First Out)</b>.  
+The element which is inserted first is removed first.
+</p>
+
+<p>
+In a queue:
+<ul>
+<li>Insertion is done at the <b>rear</b></li>
+<li>Deletion is done at the <b>front</b></li>
+</ul>
+</p>
+
+<img src="https://deen3evddmddt.cloudfront.net/uploads/content-images/what-is-queue-in-data-structure.webp"
+     alt="Queue Diagram">
+</div>
+
+<!-- WHAT IS DOUBLE ENDED QUEUE -->
+<div class="section">
+<h2>2. What is Double Ended Queue (Deque)?</h2>
+
+<p>
+A <b>Double Ended Queue (Deque)</b> is a special type of queue in which
+<b>insertion and deletion can be performed at both ends</b> — front and rear.
+</p>
+
+<p>
+This makes deque more flexible than a normal queue.
+</p>
+
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/anod.png"
+     alt="Deque Diagram">
+</div>
+
+<!-- ADVANTAGES -->
+<div class="section">
+<h2>3. Advantages of Double Ended Queue</h2>
+
+<ul>
+<li>Insertion and deletion possible at both ends</li>
+<li>More flexible than simple queue</li>
+<li>Can be used as both stack and queue</li>
+<li>Efficient memory usage when implemented as circular deque</li>
+</ul>
+</div>
+
+<!-- DISADVANTAGES -->
+<div class="section">
+<h2>4. Disadvantages of Double Ended Queue</h2>
+
+<ul>
+<li>Implementation is more complex</li>
+<li>Requires careful handling of front and rear pointers</li>
+<li>More conditions to check compared to simple queue</li>
+</ul>
+</div>
+
+<!-- COMPARISON TABLE -->
+<div class="section">
+<h2>5. Difference between Queue, Circular Queue and Deque</h2>
+
+<table>
+<tr>
+<th>Feature</th>
+<th>Queue</th>
+<th>Circular Queue</th>
+<th>Double Ended Queue</th>
+</tr>
+
+<tr>
+<td>Insertion</td>
+<td>Rear only</td>
+<td>Rear only</td>
+<td>Front & Rear</td>
+</tr>
+
+<tr>
+<td>Deletion</td>
+<td>Front only</td>
+<td>Front only</td>
+<td>Front & Rear</td>
+</tr>
+
+<tr>
+<td>Memory Utilization</td>
+<td>Less efficient</td>
+<td>Efficient</td>
+<td>Efficient</td>
+</tr>
+
+<tr>
+<td>Flexibility</td>
+<td>Low</td>
+<td>Medium</td>
+<td>High</td>
+</tr>
+
+<tr>
+<td>Complexity</td>
+<td>Simple</td>
+<td>Moderate</td>
+<td>More Complex</td>
+</tr>
+</table>
+</div>
+
+</body>
+</html>
