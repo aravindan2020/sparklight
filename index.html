@@ -2,161 +2,244 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Practice Zone – Horizontal Links</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SparkLight – Practice Zone</title>
 
 <style>
-body{
-  margin:0;
-  font-family:"Segoe UI", sans-serif;
-  background:linear-gradient(135deg,#4e54c8,#8f94fb);
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:white;
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f9;
+    color: #1a1a1a;
 }
 
-.container{
-  width:90%;
-  max-width:1000px;
-  text-align:center;
-  animation:fadeIn 1.5s ease-in-out;
+/* NAVBAR */
+nav {
+    background: #002f6c;
+    padding: 15px 30px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-h1{
-  font-size:42px;
-  margin-bottom:25px;
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 25px;
+    font-weight: bold;
 }
 
-table{
-  width:100%;
-  border-collapse:separate;
-  border-spacing:15px;
+nav a:hover {
+    text-decoration: underline;
 }
 
-td{
-  text-align:center;
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(to right, #003f88, #00509e);
+    color: white;
 }
 
-a.btn{
-  display:block;
-  padding:14px 20px;
-  font-size:18px;
-  font-weight:bold;
-  text-decoration:none;
-  color:white;
-  border-radius:50px;
-  background:rgba(255,255,255,0.25);
-  backdrop-filter:blur(8px);
-  border:2px solid rgba(255,255,255,0.4);
-  box-shadow:0 0 12px rgba(255,255,255,0.4);
-  transition:0.4s;
+.hero h1 {
+    font-size: 40px;
+    margin-bottom: 15px;
 }
 
-a.btn:hover{
-  transform:scale(1.08);
-  background:rgba(255,255,255,0.4);
-  box-shadow:0 0 18px white;
+.hero p {
+    font-size: 18px;
+    max-width: 850px;
+    margin: auto;
+    line-height: 1.6;
 }
 
-footer{
-  margin-top:20px;
-  font-size:14px;
-  opacity:0.9;
+/* SECTION */
+.section {
+    padding: 60px 8%;
 }
 
-@keyframes fadeIn{
-  from{opacity:0}
-  to{opacity:1}
+.section h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #003f88;
+    border-left: 6px solid #003f88;
+    padding-left: 15px;
+}
+
+/* CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #002f6c;
+}
+
+.card p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.card a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #00509e;
+    font-weight: bold;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 30px;
+    background: #002f6c;
+    color: white;
+    margin-top: 40px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-<h1>Welcome to Practice Zone</h1>
+<nav>
+    <a href="#c">C Programming</a>
+    <a href="#java">Java</a>
+    <a href="#sorting">Sorting</a>
+    <a href="#ds">Data Structures</a>
+</nav>
 
-<table>
-<tr>
-  <td><a href="program.html" class="btn">C Program Exercises</a></td>
-  <td><a href="index1.html" class="btn">Core Java Exercises</a></td>
-  <td><a href="stringintro.html" class="btn">String Introduction</a></td>
-</tr>
-
-<tr>
-  <td><a href="vowels.html" class="btn">Count Vowels</a></td>
-  <td><a href="palindrome.html" class="btn">Palindrome Check</a></td>
-  <td><a href="stringfunc.html" class="btn">String Functions</a></td>
-</tr>
-
-<tr>
-  <td><a href="time.html" class="btn">Time Complexity</a></td>
-  <td><a href="bubble.html" class="btn">Bubble Sort</a></td>
-  <td><a href="shell.html" class="btn">Shell Sort</a></td>
-</tr>
-
-<tr>
-  <td><a href="insertion.html" class="btn">Insertion Sort</a></td>
-  <td><a href="index101.html" class="btn">Sort Demo</a></td>
-  <td><a href="sortname.html" class="btn">Game Name Sort</a></td>
-</tr>
-<tr>
-  <td><a href="quick sort notes.html" class="btn">quick sort notes</a></td>
-  <td><a href="quick.html" class="btn">quick sort function explanation</a></td>
-  <td><a href="quick1.html" class="btn">quick sort code</a></td>
-</tr> 
-  <tr>
-  <td><a href="merge.html" class="btn">merge sort example</a></td>
-  <td><a href="mergesort1.html" class="btn">mergesort code</a></td>
-  <td><a href="theory sorting.html" class="btn">external and bucket sorting(only theory with example)</a></td>
-</tr> 
- <tr>
-  <td><a href="practice co1.html" class="btn">sorting practice examples</a></td>
-  <td><a href="linked list demo.html" class="btn">linked list demo</a></td>
-  <td><a href="sll.html" class="btn">singly linked list code</a></td>
-</tr> 
-  <tr>
-  <td><a href="linked list code.html" class="btn">singly linked list code</a></td>
-  <td><a href="doubly linked list code.html" class="btn">Doubly linked list code</a></td>
-  <td><a href="infix.html" class="btn">rules of infix to postfix</a></td>
-</tr>
- <tr>
-  <td><a href="stack1.html" class="btn">stack using array</a></td>
-  <td><a href="stack2.html" class="btn">stack using linked list</a></td>
-  <td><a href="queue.html" class="btn">queue using array</a></td>
-</tr>
- <tr>
-  <td><a href="queue linkedlist.html" class="btn">queue using linked list</a></td>
-  <td><a href="infix to postfix demo.html" class="btn">infix to postfix demo</a></td>
-  <td><a href="eval.html" class="btn">evaluation of postfix expression</a></td> 
-  </tr> 
- <tr>
-  <td><a href="infix to postfix code with eval.html" class="btn">infix postfix implementation,balanced parenthis,evaluation code</a></td>
-  <td><a href="circular queue.html" class="btn">circular queue</a></td>
-  <td><a href="double.html" class="btn">double ended queue</a></td> 
-</tr>   
-</table>
-
-<footer>© 2025 Learning Hub</footer>
+<div class="hero">
+    <h1>Welcome to SparkLight Practice Zone</h1>
+    <p>
+        A structured learning hub for mastering C Programming, Java, Sorting Algorithms,
+        and Data Structures through practical implementations, visual demos,
+        and detailed explanations.
+    </p>
 </div>
+
+<!-- C PROGRAMMING -->
+<div class="section" id="c">
+<h2>📘 C Programming</h2>
+<div class="cards">
+
+<div class="card">
+<h3>C Program Exercises</h3>
+<p>Basic structured programming exercises and implementations.</p>
+<a href="program.html">Open →</a>
+</div>
+
+<div class="card">
+<h3>String Introduction</h3>
+<p>Understanding string basics and operations in C.</p>
+<a href="stringintro.html">Open →</a>
+</div>
+
+<div class="card">
+<h3>String Functions</h3>
+<p>Implementation of built-in and custom string functions.</p>
+<a href="stringfunc.html">Open →</a>
+</div>
+
+<div class="card">
+<h3>Count Vowels</h3>
+<p>Program to count vowels in a string using loops.</p>
+<a href="vowels.html">Open →</a>
+</div>
+
+<div class="card">
+<h3>Palindrome Check</h3>
+<p>Check whether a string is palindrome.</p>
+<a href="palindrome.html">Open →</a>
+</div>
+
+<div class="card">
+<h3>Time Complexity</h3>
+<p>Introduction to algorithm complexity analysis.</p>
+<a href="time.html">Open →</a>
+</div>
+
+</div>
+</div>
+
+<!-- JAVA -->
+<div class="section" id="java">
+<h2>☕ Java Programming</h2>
+<div class="cards">
+
+<div class="card">
+<h3>Core Java Exercises</h3>
+<p>Practice object-oriented Java programs.</p>
+<a href="index1.html">Open →</a>
+</div>
+
+</div>
+</div>
+
+<!-- SORTING -->
+<div class="section" id="sorting">
+<h2>🔢 Sorting Algorithms</h2>
+<div class="cards">
+
+<div class="card"><h3>Bubble Sort</h3><p>Step-by-step bubble sort explanation.</p><a href="bubble.html">Open →</a></div>
+<div class="card"><h3>Insertion Sort</h3><p>Insertion sort implementation and demo.</p><a href="insertion.html">Open →</a></div>
+<div class="card"><h3>Shell Sort</h3><p>Shell sort algorithm example.</p><a href="shell.html">Open →</a></div>
+<div class="card"><h3>Quick Sort Notes</h3><p>Theory explanation of quick sort.</p><a href="quick sort notes.html">Open →</a></div>
+<div class="card"><h3>Quick Sort Code</h3><p>Complete quick sort implementation.</p><a href="quick1.html">Open →</a></div>
+<div class="card"><h3>Quick Sort Explanation</h3><p>Function-level explanation of quick sort.</p><a href="quick.html">Open →</a></div>
+<div class="card"><h3>Merge Sort Example</h3><p>Merge sort working example.</p><a href="merge.html">Open →</a></div>
+<div class="card"><h3>Merge Sort Code</h3><p>Full merge sort C implementation.</p><a href="mergesort1.html">Open →</a></div>
+<div class="card"><h3>Sorting Theory</h3><p>External and bucket sorting (theory).</p><a href="theory sorting.html">Open →</a></div>
+<div class="card"><h3>Sorting Practice</h3><p>Practice problems for sorting algorithms.</p><a href="practice co1.html">Open →</a></div>
+<div class="card"><h3>Sort Demo</h3><p>Interactive sorting demonstration.</p><a href="index101.html">Open →</a></div>
+<div class="card"><h3>Game Name Sort</h3><p>Sorting strings example.</p><a href="sortname.html">Open →</a></div>
+
+</div>
+</div>
+
+<!-- DATA STRUCTURES -->
+<div class="section" id="ds">
+<h2>🧠 Data Structures</h2>
+<div class="cards">
+
+<div class="card"><h3>Linked List Demo</h3><p>Visualization of linked list operations.</p><a href="linked list demo.html">Open →</a></div>
+<div class="card"><h3>Singly Linked List</h3><p>Implementation of SLL in C.</p><a href="sll.html">Open →</a></div>
+<div class="card"><h3>Doubly Linked List</h3><p>Doubly linked list implementation.</p><a href="doubly linked list code.html">Open →</a></div>
+<div class="card"><h3>Stack (Array)</h3><p>Stack implementation using array.</p><a href="stack1.html">Open →</a></div>
+<div class="card"><h3>Stack (Linked List)</h3><p>Stack using linked list.</p><a href="stack2.html">Open →</a></div>
+<div class="card"><h3>Queue (Array)</h3><p>Queue implementation using array.</p><a href="queue.html">Open →</a></div>
+<div class="card"><h3>Queue (Linked List)</h3><p>Queue implementation using linked list.</p><a href="queue linkedlist.html">Open →</a></div>
+<div class="card"><h3>Circular Queue</h3><p>Circular queue implementation.</p><a href="circular queue.html">Open →</a></div>
+<div class="card"><h3>Double Ended Queue</h3><p>Deque implementation.</p><a href="double.html">Open →</a></div>
+<div class="card"><h3>Infix Rules</h3><p>Rules for infix to postfix conversion.</p><a href="infix.html">Open →</a></div>
+<div class="card"><h3>Infix to Postfix Demo</h3><p>Conversion demonstration.</p><a href="infix to postfix demo.html">Open →</a></div>
+<div class="card"><h3>Postfix Evaluation</h3><p>Evaluation of postfix expression.</p><a href="eval.html">Open →</a></div>
+<div class="card"><h3>Full Implementation</h3><p>Infix, balanced parenthesis and evaluation code.</p><a href="infix to postfix code with eval.html">Open →</a></div>
+
+</div>
+</div>
+
+<footer>
+© 2026 SparkLight | Developed by S. Aravindan
+</footer>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
