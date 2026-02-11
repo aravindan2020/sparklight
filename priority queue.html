@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Priority Queue in C – Step by Step Explanation</title>
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+}
+
+/* Title */
+h1{
+    text-align:center;
+    padding:25px;
+    color:#003f88;
+    font-size:42px;   /* Increased */
+}
+
+/* Layout */
+.container{
+    display:flex;
+    height:85vh;
+}
+
+/* Code Section */
+.code-area{
+    width:60%;
+    background:#002f6c;
+    color:white;
+    padding:40px;
+    overflow:auto;
+}
+
+.code-line{
+    padding:12px;
+    font-size:26px;   /* BIG CODE FONT */
+    transition:0.3s;
+}
+
+/* Highlighted Line */
+.highlight{
+    background:#ffcc00;
+    color:black;
+    font-weight:bold;
+    border-radius:8px;
+    font-size:28px;   /* Slightly larger when highlighted */
+}
+
+/* Explanation Section */
+.explanation{
+    width:40%;
+    padding:40px;
+    background:white;
+    font-size:28px;   /* BIG EXPLANATION TEXT */
+    line-height:1.9;
+    font-weight:500;
+}
+
+/* Footer */
+.footer{
+    text-align:center;
+    padding:18px;
+    font-size:22px;
+    background:#003f88;
+    color:white;
+}
+</style>
+</head>
+
+<body onclick="nextStep()">
+
+<h1>Priority Queue in C – Click Anywhere to Move to Next Line</h1>
+
+<div class="container">
+
+<!-- CODE AREA -->
+<div class="code-area" id="code">
+
+<div class="code-line" id="l1">#define MAX 10</div>
+<div class="code-line" id="l2">int queue[MAX];</div>
+<div class="code-line" id="l3">int priority[MAX];</div>
+<div class="code-line" id="l4">int size = 0;</div>
+<br>
+<div class="code-line" id="l5">void insert(int value, int pr)</div>
+<div class="code-line" id="l6">{</div>
+<div class="code-line" id="l7">    if(size == MAX)</div>
+<div class="code-line" id="l8">        return;</div>
+<div class="code-line" id="l9">    queue[size] = value;</div>
+<div class="code-line" id="l10">    priority[size] = pr;</div>
+<div class="code-line" id="l11">    size++;</div>
+<div class="code-line" id="l12">}</div>
+<br>
+<div class="code-line" id="l13">void delete()</div>
+<div class="code-line" id="l14">{</div>
+<div class="code-line" id="l15">    int highest = 0;</div>
+<div class="code-line" id="l16">    for(int i=1; i&lt;size; i++)</div>
+<div class="code-line" id="l17">        if(priority[i] &gt; priority[highest])</div>
+<div class="code-line" id="l18">            highest = i;</div>
+<div class="code-line" id="l19">    for(int i=highest; i&lt;size-1; i++)</div>
+<div class="code-line" id="l20">    {</div>
+<div class="code-line" id="l21">        queue[i] = queue[i+1];</div>
+<div class="code-line" id="l22">        priority[i] = priority[i+1];</div>
+<div class="code-line" id="l23">    }</div>
+<div class="code-line" id="l24">    size--;</div>
+<div class="code-line" id="l25">}</div>
+
+</div>
+
+<!-- EXPLANATION AREA -->
+<div class="explanation" id="explanation">
+Click anywhere on the screen to start step-by-step explanation.
+</div>
+
+</div>
+
+<div class="footer">
+Click Anywhere on Screen → Next Explanation
+</div>
+
+<script>
+let steps = [
+{line:"l1", text:"We define a constant MAX with value 10. This means the priority queue can store maximum 10 elements. It fixes the array size at compile time."},
+
+{line:"l2", text:"We declare an integer array named 'queue'. This array stores the actual elements inserted into the priority queue."},
+
+{line:"l3", text:"We declare another array named 'priority'. This stores the priority value corresponding to each element. Both arrays work parallelly — same index means same element."},
+
+{line:"l4", text:"We initialize variable 'size' to 0. It keeps track of how many elements are currently present in the queue."},
+
+{line:"l5", text:"This is the insert function. It takes two inputs: the element value and its priority."},
+
+{line:"l7", text:"Before inserting, we check whether the queue is already full by comparing size with MAX."},
+
+{line:"l8", text:"If the queue is full, we simply return from the function without inserting anything."},
+
+{line:"l9", text:"If space is available, we store the new element at index 'size'. This means insertion happens at the end of the array."},
+
+{line:"l10", text:"We store the priority value in the priority array at the same index. This keeps element and priority synchronized."},
+
+{line:"l11", text:"After inserting, we increment size. Now the queue contains one more element."},
+
+{line:"l13", text:"Now we move to delete function. This function removes the element having highest priority."},
+
+{line:"l15", text:"We assume the first element (index 0) has the highest priority initially."},
+
+{line:"l16", text:"We start a loop from index 1 to size-1 to compare all priorities."},
+
+{line:"l17", text:"For each element, we compare its priority with the current highest priority."},
+
+{line:"l18", text:"If we find a higher priority value, we update 'highest' with that index."},
+
+{line:"l19", text:"After finding the highest priority index, we start shifting elements to the left from that index."},
+
+{line:"l21", text:"We move the next element one position left in the queue array."},
+
+{line:"l22", text:"We also shift the corresponding priority value to maintain synchronization."},
+
+{line:"l24", text:"Finally, we reduce size by 1 because one element has been deleted from the queue."},
+
+{line:null, text:"All steps of Priority Queue implementation using arrays are now explained in detail. Click again to restart."}
+];
+
+let current = -1;
+
+function clearHighlight(){
+document.querySelectorAll(".code-line").forEach(line=>{
+line.classList.remove("highlight");
+});
+}
+
+function nextStep(){
+current++;
+
+if(current >= steps.length){
+current = -1;
+clearHighlight();
+document.getElementById("explanation").innerHTML = "Restarting explanation... Click again.";
+return;
+}
+
+clearHighlight();
+
+if(steps[current].line){
+document.getElementById(steps[current].line).classList.add("highlight");
+}
+
+document.getElementById("explanation").innerHTML = steps[current].text;
+}
+</script>
+
+</body>
+</html>
