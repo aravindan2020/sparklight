@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Merge Sort C Program – Smart Class Display</title>
+
+<style>
+body {
+    font-family: Consolas, monospace;
+    background: #f5deb3;
+    color: #002f6c;
+    padding: 60px;
+    cursor: pointer;
+}
+
+h1 {
+    text-align: center;
+    color: #003f88;
+    font-size: 48px;
+    margin-bottom: 40px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+}
+
+.code {
+    background: #fff8dc;
+    padding: 40px;
+    border-radius: 15px;
+    font-size: 34px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    border: 4px solid #003f88;
+}
+
+.explanation {
+    margin-top: 30px;
+    font-size: 28px;
+    color: #003366;
+    font-weight: bold;
+}
+
+.hint {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 24px;
+    color: #002244;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Merge Sort in C – Line by Line Explanation</h1>
+
+<div class="container">
+    <div class="code" id="codeBox"></div>
+    <div class="explanation" id="explainBox"></div>
+    <div class="hint">👉 Click anywhere on the screen to show next line</div>
+</div>
+
+<script>
+
+const steps = [
+{code:"#include <stdio.h>", explanation:"Includes standard input and output functions."},
+{code:"", explanation:""},
+
+{code:"/* Function declarations */", explanation:"Declares functions before main function."},
+{code:"void mergeSort(int a[], int lb, int ub);", explanation:"Declaration of mergeSort function."},
+{code:"void merge(int a[], int lb, int mid, int ub);", explanation:"Declaration of merge function."},
+{code:"", explanation:""},
+
+{code:"int main()", explanation:"Program execution starts here."},
+{code:"{", explanation:"Beginning of main function."},
+{code:"    int a[100], n, i;", explanation:"Declares array, size variable and loop variable."},
+{code:"", explanation:""},
+
+{code:"    printf(\"Enter number of elements: \");", explanation:"Prompts user to enter number of elements."},
+{code:"    scanf(\"%d\", &n);", explanation:"Reads number of elements."},
+{code:"", explanation:""},
+
+{code:"    printf(\"Enter elements:\\n\");", explanation:"Prompts user to enter array elements."},
+{code:"    for (i = 0; i < n; i++)", explanation:"Loop to read elements."},
+{code:"    {", explanation:"Start of input loop."},
+{code:"        scanf(\"%d\", &a[i]);", explanation:"Stores each element into array."},
+{code:"    }", explanation:"End of input loop."},
+{code:"", explanation:""},
+
+{code:"    mergeSort(a, 0, n - 1);", explanation:"Calls mergeSort function to sort array."},
+{code:"", explanation:""},
+
+{code:"    printf(\"Sorted array:\\n\");", explanation:"Displays sorted array message."},
+{code:"    for (i = 0; i < n; i++)", explanation:"Loop to print sorted elements."},
+{code:"    {", explanation:"Start of output loop."},
+{code:"        printf(\"%d \", a[i]);", explanation:"Prints each sorted element."},
+{code:"    }", explanation:"End of output loop."},
+{code:"", explanation:""},
+
+{code:"    return 0;", explanation:"Ends program successfully."},
+{code:"}", explanation:"End of main function."},
+{code:"", explanation:""},
+
+{code:"void mergeSort(int a[], int lb, int ub)", explanation:"Recursive Merge Sort function definition."},
+{code:"{", explanation:"Start of mergeSort function."},
+{code:"    int mid;", explanation:"Declares mid variable."},
+{code:"", explanation:""},
+
+{code:"    if (lb < ub)", explanation:"Checks if more than one element exists."},
+{code:"    {", explanation:"Start of if block."},
+{code:"        mid = (lb + ub) / 2;", explanation:"Finds middle index."},
+{code:"", explanation:""},
+
+{code:"        mergeSort(a, lb, mid);", explanation:"Recursively sorts left half."},
+{code:"        mergeSort(a, mid + 1, ub);", explanation:"Recursively sorts right half."},
+{code:"        merge(a, lb, mid, ub);", explanation:"Merges the two sorted halves."},
+{code:"    }", explanation:"End of if condition."},
+{code:"}", explanation:"End of mergeSort function."},
+{code:"", explanation:""},
+
+{code:"void merge(int a[], int lb, int mid, int ub)", explanation:"Merge function definition."},
+{code:"{", explanation:"Start of merge function."},
+{code:"    int i, j, k;", explanation:"Loop control variables."},
+{code:"    int b[100];", explanation:"Temporary array for merging."},
+{code:"", explanation:""},
+
+{code:"    i = lb;", explanation:"Initialize left subarray pointer."},
+{code:"    j = mid + 1;", explanation:"Initialize right subarray pointer."},
+{code:"    k = lb;", explanation:"Initialize merged array index."},
+{code:"", explanation:""},
+
+{code:"    while (i <= mid && j <= ub)", explanation:"Compare elements of both subarrays."},
+{code:"    {", explanation:"Start comparison loop."},
+{code:"        if (a[i] <= a[j])", explanation:"Checks smaller element."},
+{code:"        {", explanation:"If left element is smaller."},
+{code:"            b[k] = a[i];", explanation:"Copy left element."},
+{code:"            i++;", explanation:"Move left pointer."},
+{code:"        }", explanation:"End if block."},
+{code:"        else", explanation:"If right element is smaller."},
+{code:"        {", explanation:"Else block."},
+{code:"            b[k] = a[j];", explanation:"Copy right element."},
+{code:"            j++;", explanation:"Move right pointer."},
+{code:"        }", explanation:"End else block."},
+{code:"        k++;", explanation:"Move merged array pointer."},
+{code:"    }", explanation:"End comparison loop."},
+{code:"", explanation:""},
+
+{code:"    while (i <= mid)", explanation:"Copy remaining left elements."},
+{code:"    {", explanation:"Start left remainder loop."},
+{code:"        b[k] = a[i];", explanation:"Copy remaining left element."},
+{code:"        i++;", explanation:"Increment left pointer."},
+{code:"        k++;", explanation:"Increment merged pointer."},
+{code:"    }", explanation:"End left remainder loop."},
+{code:"", explanation:""},
+
+{code:"    while (j <= ub)", explanation:"Copy remaining right elements."},
+{code:"    {", explanation:"Start right remainder loop."},
+{code:"        b[k] = a[j];", explanation:"Copy remaining right element."},
+{code:"        j++;", explanation:"Increment right pointer."},
+{code:"        k++;", explanation:"Increment merged pointer."},
+{code:"    }", explanation:"End right remainder loop."},
+{code:"", explanation:""},
+
+{code:"    for (k = lb; k <= ub; k++)", explanation:"Copy sorted elements back to original array."},
+{code:"    {", explanation:"Start copy-back loop."},
+{code:"        a[k] = b[k];", explanation:"Update original array."},
+{code:"    }", explanation:"End copy-back loop."},
+{code:"}", explanation:"End of merge function."}
+];
+
+let index = 0;
+const codeBox = document.getElementById("codeBox");
+const explainBox = document.getElementById("explainBox");
+
+document.body.addEventListener("click", () => {
+    if (index < steps.length) {
+        codeBox.innerHTML += steps[index].code + "\n";
+        explainBox.innerHTML = "💡 " + steps[index].explanation;
+        index++;
+    }
+});
+
+</script>
+
+</body>
+</html>
