@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Animated Priority Queue</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: linear-gradient(135deg,#e0f7fa,#e3f2fd);
+}
+
+h1 {
+    color: #003f88;
+}
+
+.controls {
+    margin: 20px;
+}
+
+input {
+    padding: 8px;
+    margin: 5px;
+    width: 120px;
+}
+
+button {
+    padding: 8px 15px;
+    margin: 5px;
+    background: #003f88;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #00509e;
+    transform: scale(1.05);
+}
+
+.queue-container {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.queue {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    min-height: 120px;
+}
+
+.element {
+    padding: 35px 40px;
+    min-width: 160px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    font-weight: bold;
+    font-size: 28px;       /* BIG TEXT */
+    position: relative;
+    transform: scale(0);
+    animation: popIn 0.4s forwards;
+    text-align: center;
+}
+
+.priority {
+    display: block;
+    font-size: 20px;       /* Bigger priority text */
+    margin-top: 10px;
+    color: #d00000;
+    font-weight: bold;
+}
+
+
+.element.highest {
+    border: 3px solid red;
+    background: #ffe5e5;
+}
+
+@keyframes popIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.fadeOut {
+    animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0); }
+}
+
+.label {
+    font-weight: bold;
+    margin-right: 10px;
+    color: #003f88;
+}
+
+.message {
+    margin-top: 30px;
+    font-weight: bold;
+    color: green;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Animated Priority Queue (Max Priority)</h1>
+
+<div class="controls">
+    <input type="text" id="element" placeholder="Element">
+    <input type="number" id="priority" placeholder="Priority">
+    <button onclick="insert()">Insert</button>
+    <button onclick="deleteElement()">Delete</button>
+</div>
+
+<div class="queue-container">
+    <span class="label">Front →</span>
+    <div class="queue" id="queueDisplay"></div>
+    <span class="label">← Rear</span>
+</div>
+
+<div class="message" id="message"></div>
+
+<script>
+
+let priorityQueue = [];
+
+function renderQueue() {
+    const display = document.getElementById("queueDisplay");
+    display.innerHTML = "";
+
+    priorityQueue.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "element";
+
+        if(index === 0) {
+            div.classList.add("highest");
+        }
+
+        div.innerHTML = item.element +
+            "<span class='priority'>Priority: " + item.priority + "</span>";
+
+        display.appendChild(div);
+    });
+}
+
+function insert() {
+    const element = document.getElementById("element").value;
+    const priority = parseInt(document.getElementById("priority").value);
+
+    if (element === "" || isNaN(priority)) {
+        alert("Enter valid element and priority");
+        return;
+    }
+
+    priorityQueue.push({ element, priority });
+
+    priorityQueue.sort((a, b) => b.priority - a.priority);
+
+    renderQueue();
+
+    document.getElementById("message").innerText =
+        "Inserted: " + element;
+
+    document.getElementById("element").value = "";
+    document.getElementById("priority").value = "";
+}
+
+function deleteElement() {
+    if (priorityQueue.length === 0) {
+        alert("Queue is Empty");
+        return;
+    }
+
+    const display = document.getElementById("queueDisplay");
+    const firstElement = display.firstChild;
+
+    firstElement.classList.add("fadeOut");
+
+    setTimeout(() => {
+        const removed = priorityQueue.shift();
+        renderQueue();
+        document.getElementById("message").innerText =
+            "Deleted: " + removed.element;
+    }, 500);
+}
+
+</script>
+
+</body>
+</html>
