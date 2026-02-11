@@ -1,54 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Merge Sort C Program – Smart Class Display</title>
-    <style>
-        body {
-            font-family: Consolas, monospace;
-            background: #f5deb3;   /* sandal */
-            color: #002f6c;        /* deep blue */
-            padding: 60px;
-            cursor: pointer;
-        }
+<meta charset="UTF-8">
+<title>Merge Sort C Program – Smart Class Display</title>
 
-        h1 {
-            text-align: center;
-            color: #003f88;
-            font-size: 48px;
-            margin-bottom: 40px;
-        }
+<style>
+body {
+    font-family: Consolas, monospace;
+    background: #f5deb3;
+    color: #002f6c;
+    padding: 60px;
+    cursor: pointer;
+}
 
-        .container {
-            max-width: 1400px;
-            margin: auto;
-        }
+h1 {
+    text-align: center;
+    color: #003f88;
+    font-size: 48px;
+    margin-bottom: 40px;
+}
 
-        .code {
-            background: #fff8dc;
-            padding: 40px;
-            border-radius: 15px;
-            font-size: 36px;
-            line-height: 1.5;
-            white-space: pre-wrap;
-            border: 4px solid #003f88;
-        }
+.container {
+    max-width: 1400px;
+    margin: auto;
+}
 
-        .explanation {
-            margin-top: 30px;
-            font-size: 30px;
-            color: #003366;
-            font-weight: bold;
-        }
+.code {
+    background: #fff8dc;
+    padding: 40px;
+    border-radius: 15px;
+    font-size: 34px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    border: 4px solid #003f88;
+}
 
-        .hint {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 24px;
-            color: #002244;
-        }
-    </style>
+.explanation {
+    margin-top: 30px;
+    font-size: 28px;
+    color: #003366;
+    font-weight: bold;
+}
+
+.hint {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 24px;
+    color: #002244;
+}
+</style>
 </head>
+
 <body>
 
 <h1>Merge Sort in C – Line by Line Explanation</h1>
@@ -60,78 +62,111 @@
 </div>
 
 <script>
+
 const steps = [
-    { code: "#include &lt;stdio.h&gt", explanation: "Includes standard input and output functions." },
-    { code: "", explanation: "" },
+{code:"#include <stdio.h>", explanation:"Includes standard input and output functions."},
+{code:"", explanation:""},
 
-    { code: "// Merge two sorted parts", explanation: "This function merges two already sorted subarrays." },
-    { code: "void merge(int a[], int low, int mid, int high) {", explanation: "Defines merge function with low, mid and high indexes." },
-    { code: "    int i = low, j = mid + 1, k = 0;", explanation: "i for left subarray, j for right subarray, k for temp array." },
-    { code: "    int temp[100];", explanation: "Temporary array to store merged elements." },
-    { code: "", explanation: "" },
+{code:"/* Function declarations */", explanation:"Declares functions before main function."},
+{code:"void mergeSort(int a[], int lb, int ub);", explanation:"Declaration of mergeSort function."},
+{code:"void merge(int a[], int lb, int mid, int ub);", explanation:"Declaration of merge function."},
+{code:"", explanation:""},
 
-    { code: "    while (i <= mid && j <= high) {", explanation: "Compares elements from left and right subarrays." },
-    { code: "        if (a[i] <= a[j])", explanation: "Checks which element is smaller." },
-    { code: "            temp[k++] = a[i++];", explanation: "Copies smaller element from left subarray." },
-    { code: "        else", explanation: "Otherwise choose element from right subarray." },
-    { code: "            temp[k++] = a[j++];", explanation: "Copies smaller element from right subarray." },
-    { code: "    }", explanation: "Ends comparison loop." },
-    { code: "", explanation: "" },
+{code:"int main()", explanation:"Program execution starts here."},
+{code:"{", explanation:"Beginning of main function."},
+{code:"    int a[100], n, i;", explanation:"Declares array, size variable and loop variable."},
+{code:"", explanation:""},
 
-    { code: "    while (i <= mid)", explanation: "Copies remaining elements from left subarray." },
-    { code: "        temp[k++] = a[i++];", explanation: "Adds leftover left elements to temp array." },
-    { code: "", explanation: "" },
+{code:"    printf(\"Enter number of elements: \");", explanation:"Prompts user to enter number of elements."},
+{code:"    scanf(\"%d\", &n);", explanation:"Reads number of elements."},
+{code:"", explanation:""},
 
-    { code: "    while (j <= high)", explanation: "Copies remaining elements from right subarray." },
-    { code: "        temp[k++] = a[j++];", explanation: "Adds leftover right elements to temp array." },
-    { code: "", explanation: "" },
+{code:"    printf(\"Enter elements:\\n\");", explanation:"Prompts user to enter array elements."},
+{code:"    for (i = 0; i < n; i++)", explanation:"Loop to read elements."},
+{code:"    {", explanation:"Start of input loop."},
+{code:"        scanf(\"%d\", &a[i]);", explanation:"Stores each element into array."},
+{code:"    }", explanation:"End of input loop."},
+{code:"", explanation:""},
 
-    { code: "    for (i = low, k = 0; i <= high; i++, k++)", explanation: "Copies sorted elements back to original array." },
-    { code: "        a[i] = temp[k];", explanation: "Updates original array with sorted values." },
-    { code: "}", explanation: "End of merge function." },
-    { code: "", explanation: "" },
+{code:"    mergeSort(a, 0, n - 1);", explanation:"Calls mergeSort function to sort array."},
+{code:"", explanation:""},
 
-    { code: "// Merge Sort function", explanation: "Recursive function that divides the array." },
-    { code: "void mergeSort(int a[], int low, int high) {", explanation: "Defines mergeSort function." },
-    { code: "    if (low < high) {", explanation: "Checks if array has more than one element." },
-    { code: "        int mid = (low + high) / 2;", explanation: "Finds the middle index." },
-    { code: "", explanation: "" },
+{code:"    printf(\"Sorted array:\\n\");", explanation:"Displays sorted array message."},
+{code:"    for (i = 0; i < n; i++)", explanation:"Loop to print sorted elements."},
+{code:"    {", explanation:"Start of output loop."},
+{code:"        printf(\"%d \", a[i]);", explanation:"Prints each sorted element."},
+{code:"    }", explanation:"End of output loop."},
+{code:"", explanation:""},
 
-    { code: "        mergeSort(a, low, mid);", explanation: "Recursively sorts the left half." },
-    { code: "        mergeSort(a, mid + 1, high);", explanation: "Recursively sorts the right half." },
-    { code: "        merge(a, low, mid, high);", explanation: "Merges both sorted halves." },
-    { code: "    }", explanation: "End of if condition." },
-    { code: "}", explanation: "End of mergeSort function." },
-    { code: "", explanation: "" },
+{code:"    return 0;", explanation:"Ends program successfully."},
+{code:"}", explanation:"End of main function."},
+{code:"", explanation:""},
 
-    { code: "int main() {", explanation: "Program execution starts here." },
-    { code: "    int n;", explanation: "Declares variable for number of elements." },
-    { code: "", explanation: "" },
+{code:"void mergeSort(int a[], int lb, int ub)", explanation:"Recursive Merge Sort function definition."},
+{code:"{", explanation:"Start of mergeSort function."},
+{code:"    int mid;", explanation:"Declares mid variable."},
+{code:"", explanation:""},
 
-    { code: "    printf(\"Enter number of elements: \");", explanation: "Asks user for array size." },
-    { code: "    scanf(\"%d\", &n);", explanation: "Reads number of elements." },
-    { code: "", explanation: "" },
+{code:"    if (lb < ub)", explanation:"Checks if more than one element exists."},
+{code:"    {", explanation:"Start of if block."},
+{code:"        mid = (lb + ub) / 2;", explanation:"Finds middle index."},
+{code:"", explanation:""},
 
-    { code: "    int a[n];", explanation: "Declares array of size n." },
-    { code: "", explanation: "" },
+{code:"        mergeSort(a, lb, mid);", explanation:"Recursively sorts left half."},
+{code:"        mergeSort(a, mid + 1, ub);", explanation:"Recursively sorts right half."},
+{code:"        merge(a, lb, mid, ub);", explanation:"Merges the two sorted halves."},
+{code:"    }", explanation:"End of if condition."},
+{code:"}", explanation:"End of mergeSort function."},
+{code:"", explanation:""},
 
-    { code: "    printf(\"Enter %d numbers:\\n\", n);", explanation: "Prompts user to enter array elements." },
-    { code: "    for (int i = 0; i < n; i++) {", explanation: "Loop to read array elements." },
-    { code: "        scanf(\"%d\", &a[i]);", explanation: "Stores each input value." },
-    { code: "    }", explanation: "Ends input loop." },
-    { code: "", explanation: "" },
+{code:"void merge(int a[], int lb, int mid, int ub)", explanation:"Merge function definition."},
+{code:"{", explanation:"Start of merge function."},
+{code:"    int i, j, k;", explanation:"Loop control variables."},
+{code:"    int b[100];", explanation:"Temporary array for merging."},
+{code:"", explanation:""},
 
-    { code: "    mergeSort(a, 0, n - 1);", explanation: "Calls merge sort on the entire array." },
-    { code: "", explanation: "" },
+{code:"    i = lb;", explanation:"Initialize left subarray pointer."},
+{code:"    j = mid + 1;", explanation:"Initialize right subarray pointer."},
+{code:"    k = lb;", explanation:"Initialize merged array index."},
+{code:"", explanation:""},
 
-    { code: "    printf(\"Sorted array: \");", explanation: "Displays output message." },
-    { code: "    for (int i = 0; i < n; i++) {", explanation: "Loop to print sorted elements." },
-    { code: "        printf(\"%d \", a[i]);", explanation: "Prints each sorted value." },
-    { code: "    }", explanation: "Ends printing loop." },
-    { code: "", explanation: "" },
+{code:"    while (i <= mid && j <= ub)", explanation:"Compare elements of both subarrays."},
+{code:"    {", explanation:"Start comparison loop."},
+{code:"        if (a[i] <= a[j])", explanation:"Checks smaller element."},
+{code:"        {", explanation:"If left element is smaller."},
+{code:"            b[k] = a[i];", explanation:"Copy left element."},
+{code:"            i++;", explanation:"Move left pointer."},
+{code:"        }", explanation:"End if block."},
+{code:"        else", explanation:"If right element is smaller."},
+{code:"        {", explanation:"Else block."},
+{code:"            b[k] = a[j];", explanation:"Copy right element."},
+{code:"            j++;", explanation:"Move right pointer."},
+{code:"        }", explanation:"End else block."},
+{code:"        k++;", explanation:"Move merged array pointer."},
+{code:"    }", explanation:"End comparison loop."},
+{code:"", explanation:""},
 
-    { code: "    return 0;", explanation: "Ends the program successfully." },
-    { code: "}", explanation: "End of main function." }
+{code:"    while (i <= mid)", explanation:"Copy remaining left elements."},
+{code:"    {", explanation:"Start left remainder loop."},
+{code:"        b[k] = a[i];", explanation:"Copy remaining left element."},
+{code:"        i++;", explanation:"Increment left pointer."},
+{code:"        k++;", explanation:"Increment merged pointer."},
+{code:"    }", explanation:"End left remainder loop."},
+{code:"", explanation:""},
+
+{code:"    while (j <= ub)", explanation:"Copy remaining right elements."},
+{code:"    {", explanation:"Start right remainder loop."},
+{code:"        b[k] = a[j];", explanation:"Copy remaining right element."},
+{code:"        j++;", explanation:"Increment right pointer."},
+{code:"        k++;", explanation:"Increment merged pointer."},
+{code:"    }", explanation:"End right remainder loop."},
+{code:"", explanation:""},
+
+{code:"    for (k = lb; k <= ub; k++)", explanation:"Copy sorted elements back to original array."},
+{code:"    {", explanation:"Start copy-back loop."},
+{code:"        a[k] = b[k];", explanation:"Update original array."},
+{code:"    }", explanation:"End copy-back loop."},
+{code:"}", explanation:"End of merge function."}
 ];
 
 let index = 0;
@@ -145,6 +180,7 @@ document.body.addEventListener("click", () => {
         index++;
     }
 });
+
 </script>
 
 </body>
