@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Priority Queue Using Linked List – Step by Step</title>
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+}
+
+h1{
+    text-align:center;
+    padding:25px;
+    color:#003f88;
+    font-size:42px;
+}
+
+.container{
+    display:flex;
+    height:85vh;
+}
+
+.code-area{
+    width:60%;
+    background:#002f6c;
+    color:white;
+    padding:40px;
+    overflow:auto;
+}
+
+.code-line{
+    padding:12px;
+    font-size:26px;
+    transition:0.3s;
+}
+
+.highlight{
+    background:#ffcc00;
+    color:black;
+    font-weight:bold;
+    border-radius:8px;
+    font-size:28px;
+}
+
+.explanation{
+    width:40%;
+    padding:40px;
+    background:white;
+    font-size:28px;
+    line-height:1.9;
+    font-weight:500;
+}
+
+.footer{
+    text-align:center;
+    padding:18px;
+    font-size:22px;
+    background:#003f88;
+    color:white;
+}
+</style>
+</head>
+
+<body onclick="nextStep()">
+
+<h1>Priority Queue Using Linked List – Click Anywhere</h1>
+
+<div class="container">
+
+<!-- CODE AREA -->
+<div class="code-area">
+
+<div class="code-line" id="l1">struct Node {</div>
+<div class="code-line" id="l2">    int data;</div>
+<div class="code-line" id="l3">    int priority;</div>
+<div class="code-line" id="l4">    struct Node* next;</div>
+<div class="code-line" id="l5">};</div>
+<br>
+
+<div class="code-line" id="l6">struct Node* front = NULL;</div>
+<br>
+
+<div class="code-line" id="l7">void insert(int value, int priority)</div>
+<div class="code-line" id="l8">{</div>
+<div class="code-line" id="l9">    struct Node* newNode = malloc(sizeof(struct Node));</div>
+<div class="code-line" id="l10">    newNode->data = value;</div>
+<div class="code-line" id="l11">    newNode->priority = priority;</div>
+<div class="code-line" id="l12">    newNode->next = NULL;</div>
+
+<div class="code-line" id="l13">    if(front == NULL || priority > front->priority)</div>
+<div class="code-line" id="l14">    {</div>
+<div class="code-line" id="l15">        newNode->next = front;</div>
+<div class="code-line" id="l16">        front = newNode;</div>
+<div class="code-line" id="l17">    }</div>
+<div class="code-line" id="l18">    else</div>
+<div class="code-line" id="l19">    {</div>
+<div class="code-line" id="l20">        struct Node* temp = front;</div>
+<div class="code-line" id="l21">        while(temp->next != NULL && temp->next->priority >= priority)</div>
+<div class="code-line" id="l22">            temp = temp->next;</div>
+
+<div class="code-line" id="l23">        newNode->next = temp->next;</div>
+<div class="code-line" id="l24">        temp->next = newNode;</div>
+<div class="code-line" id="l25">    }</div>
+<div class="code-line" id="l26">}</div>
+
+<br>
+
+<div class="code-line" id="l27">void delete()</div>
+<div class="code-line" id="l28">{</div>
+<div class="code-line" id="l29">    if(front == NULL)</div>
+<div class="code-line" id="l30">        return;</div>
+
+<div class="code-line" id="l31">    struct Node* temp = front;</div>
+<div class="code-line" id="l32">    front = front->next;</div>
+<div class="code-line" id="l33">    free(temp);</div>
+<div class="code-line" id="l34">}</div>
+
+<br>
+
+<div class="code-line" id="l35">void display()</div>
+<div class="code-line" id="l36">{</div>
+<div class="code-line" id="l37">    struct Node* temp = front;</div>
+<div class="code-line" id="l38">    while(temp != NULL)</div>
+<div class="code-line" id="l39">    {</div>
+<div class="code-line" id="l40">        printf("%d (%d)\\n", temp->data, temp->priority);</div>
+<div class="code-line" id="l41">        temp = temp->next;</div>
+<div class="code-line" id="l42">    }</div>
+<div class="code-line" id="l43">}</div>
+
+</div>
+
+<!-- EXPLANATION AREA -->
+<div class="explanation" id="explanation">
+Click anywhere to start explanation.
+</div>
+
+</div>
+
+<div class="footer">
+Click Anywhere → Next Step Explanation
+</div>
+
+<script>
+
+let steps = [
+
+{line:"l1", text:"We define a structure Node. Each node stores data, priority, and pointer to next node."},
+
+{line:"l6", text:"Front pointer always points to the highest priority element in the queue."},
+
+{line:"l7", text:"Insert function creates a new node and inserts it in sorted order based on priority."},
+
+{line:"l9", text:"We allocate memory dynamically for the new node using malloc."},
+
+{line:"l10", text:"We store the value inside the node."},
+
+{line:"l11", text:"We store the priority inside the node."},
+
+{line:"l13", text:"If queue is empty OR new node has highest priority, insert at beginning."},
+
+{line:"l15", text:"New node points to current front."},
+
+{line:"l16", text:"Front moves to new node. Now it becomes highest priority element."},
+
+{line:"l20", text:"Otherwise we traverse the list to find correct position."},
+
+{line:"l21", text:"We keep moving while next node has higher or equal priority."},
+
+{line:"l23", text:"Insert new node in between nodes."},
+
+{line:"l27", text:"Delete function removes highest priority element (front node)."},
+
+{line:"l31", text:"We store front node temporarily."},
+
+{line:"l32", text:"Front moves to next node."},
+
+{line:"l33", text:"We free memory of removed node."},
+
+{line:"l35", text:"Display function prints queue from front to end."},
+
+{line:"l38", text:"We traverse entire linked list."},
+
+{line:"l40", text:"Each element is printed with its priority."},
+
+{line:null, text:"Linked List Priority Queue fully explained. Click again to restart."}
+
+];
+
+let current=-1;
+
+function clearHighlight(){
+document.querySelectorAll(".code-line").forEach(l=>l.classList.remove("highlight"));
+}
+
+function nextStep(){
+current++;
+if(current>=steps.length){
+current=-1;
+clearHighlight();
+document.getElementById("explanation").innerHTML="Restarting explanation...";
+return;
+}
+clearHighlight();
+if(steps[current].line)
+document.getElementById(steps[current].line).classList.add("highlight");
+
+document.getElementById("explanation").innerHTML=steps[current].text;
+}
+</script>
+
+</body>
+</html>
