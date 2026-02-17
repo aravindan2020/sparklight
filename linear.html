@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Linear Probing - Hashing Technique</title>
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:20px;
+}
+
+h1{
+    text-align:center;
+    color:#2c3e50;
+}
+
+.section{
+    background:white;
+    padding:20px;
+    margin-bottom:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+img{
+    display:block;
+    margin:auto;
+    width:650px;
+    height:360px;
+    object-fit:contain;
+}
+
+button{
+    padding:8px 15px;
+    margin:10px;
+    cursor:pointer;
+    background:#2c3e50;
+    color:white;
+    border:none;
+    border-radius:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th,td{
+    border:1px solid #333;
+    padding:8px;
+    text-align:center;
+}
+
+th{
+    background:#2c3e50;
+    color:white;
+}
+
+.collision{
+    background:#ffb3b3;
+    font-weight:bold;
+}
+
+.code{
+    background:#1e1e1e;
+    color:#00ffcc;
+    padding:15px;
+    overflow-x:auto;
+}
+
+</style>
+</head>
+<body>
+
+<h1>Linear Probing in Hashing</h1>
+
+<div class="section">
+<h2>Definition</h2>
+<p>
+Linear Probing is an open addressing collision resolution technique in hashing.
+When a collision occurs, the algorithm checks the next consecutive slot 
+(i+1, i+2, i+3 …) until an empty slot is found.
+</p>
+
+<h2>Algorithm (Insertion using Linear Probing)</h2>
+<ol>
+<li>Start</li>
+<li>Read the key element <b>k</b> to be inserted</li>
+<li>Compute hash index using hash function  
+<b>index = h(k)</b></li>
+<li>If hashTable[index] is empty, insert element there</li>
+<li>If occupied, move to next slot  
+<b>index = (index + 1) % table_size</b></li>
+<li>Repeat step 4 until empty slot found</li>
+<li>Insert the element</li>
+<li>Stop</li>
+</ol>
+
+</div>
+
+<div class="section">
+<h2>Image Explanation (Click to Slide)</h2>
+
+<div style="text-align:center;">
+<button onclick="prevImage()">Previous</button>
+<button onclick="nextImage()">Next</button>
+</div>
+
+<img id="slider" src="l1.webp">
+
+</div>
+
+<div class="section">
+<h2>Tabulation (Division Method Example with Linear Probing)</h2>
+
+<p><b>Hash Function:</b> h(k) = k % 10</p>
+<p><b>Table Size:</b> 10</p>
+<p><b>Elements:</b> 23, 43, 13, 27, 33, 53, 63, 73, 83, 93</p>
+
+<table>
+<tr>
+<th>Element</th>
+<th>Formula for Index Derivation</th>
+<th>Initial Index</th>
+<th>Final Index</th>
+<th>Collision Occurs?</th>
+</tr>
+
+<tr>
+<td>23</td>
+<td>23 % 10 = 3</td>
+<td>3</td>
+<td>3</td>
+<td>No</td>
+</tr>
+
+<tr class="collision">
+<td>43</td>
+<td>43 % 10 = 3</td>
+<td>3</td>
+<td>4</td>
+<td>Yes</td>
+</tr>
+
+<tr class="collision">
+<td>13</td>
+<td>13 % 10 = 3</td>
+<td>3</td>
+<td>5</td>
+<td>Yes</td>
+</tr>
+
+<tr>
+<td>27</td>
+<td>27 % 10 = 7</td>
+<td>7</td>
+<td>7</td>
+<td>No</td>
+</tr>
+
+<tr class="collision">
+<td>33</td>
+<td>33 % 10 = 3</td>
+<td>3</td>
+<td>6</td>
+<td>Yes</td>
+</tr>
+
+<tr class="collision">
+<td>53</td>
+<td>53 % 10 = 3</td>
+<td>3</td>
+<td>8</td>
+<td>Yes</td>
+</tr>
+
+<tr class="collision">
+<td>63</td>
+<td>63 % 10 = 3</td>
+<td>3</td>
+<td>9</td>
+<td>Yes</td>
+</tr>
+
+<tr class="collision">
+<td>73</td>
+<td>73 % 10 = 3</td>
+<td>3</td>
+<td>0</td>
+<td>Yes</td>
+</tr>
+
+<tr class="collision">
+<td>83</td>
+<td>83 % 10 = 3</td>
+<td>3</td>
+<td>1</td>
+<td>Yes</td>
+</tr>
+
+<tr class="collision">
+<td>93</td>
+<td>93 % 10 = 3</td>
+<td>3</td>
+<td>2</td>
+<td>Yes</td>
+</tr>
+
+</table>
+</div>
+
+<div class="section">
+<h2>C Implementation using Array</h2>
+
+<div class="code">
+<pre>
+#include &lt;stdio.h&gt;
+#define SIZE 10
+
+int hashTable[SIZE];
+
+void init(){
+    for(int i=0;i&lt;SIZE;i++)
+        hashTable[i] = -1;
+}
+
+void insert(int key){
+    int index = key % SIZE;
+
+    while(hashTable[index] != -1){
+        index = (index + 1) % SIZE;
+    }
+
+    hashTable[index] = key;
+}
+
+void display(){
+    printf("Hash Table:\n");
+    for(int i=0;i&lt;SIZE;i++){
+        printf("%d --> %d\n", i, hashTable[i]);
+    }
+}
+
+int main(){
+    int elements[10] = {23,43,13,27,33,53,63,73,83,93};
+    init();
+
+    for(int i=0;i&lt;10;i++){
+        insert(elements[i]);
+    }
+
+    display();
+    return 0;
+}
+</pre>
+</div>
+
+</div>
+
+<script>
+var images = ["l1.webp","l2.webp","l3.webp","l4.webp","l5.webp","l6.webp"];
+var index = 0;
+
+function nextImage(){
+    index++;
+    if(index >= images.length) index = 0;
+    document.getElementById("slider").src = images[index];
+}
+
+function prevImage(){
+    index--;
+    if(index < 0) index = images.length-1;
+    document.getElementById("slider").src = images[index];
+}
+</script>
+
+</body>
+</html>

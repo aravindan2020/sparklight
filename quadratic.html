@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Quadratic Probing - Hashing Technique</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:20px;
+}
+
+h1{
+    text-align:center;
+    color:#1f3a5f;
+}
+
+.section{
+    background:white;
+    padding:20px;
+    margin-bottom:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+img{
+    display:block;
+    margin:auto;
+    width:650px;
+    height:360px;
+    object-fit:contain;
+}
+
+button{
+    padding:8px 15px;
+    margin:10px;
+    cursor:pointer;
+    background:#1f3a5f;
+    color:white;
+    border:none;
+    border-radius:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th,td{
+    border:1px solid #333;
+    padding:8px;
+    text-align:center;
+}
+
+th{
+    background:#1f3a5f;
+    color:white;
+}
+
+.collision{
+    background:#ffd2d2;
+    font-weight:bold;
+}
+
+.code{
+    background:#111;
+    color:#00ffcc;
+    padding:15px;
+    overflow-x:auto;
+}
+
+</style>
+</head>
+<body>
+
+<h1>Quadratic Probing in Hashing</h1>
+
+<div class="section">
+<h2>Definition</h2>
+<p>
+Quadratic Probing is an open addressing collision resolution technique.
+Instead of checking consecutive slots like linear probing,
+it checks positions using square increments:
+<b>h(k) + 1², h(k) + 2², h(k) + 3² …</b>
+This reduces primary clustering.
+</p>
+
+<h2>Algorithm (Insertion using Quadratic Probing)</h2>
+<ol>
+<li>Start</li>
+<li>Read key element <b>k</b></li>
+<li>Compute hash index  
+<b>index = h(k)</b></li>
+<li>If slot empty → insert</li>
+<li>If occupied, try  
+<b>index = (h(k) + i²) % table_size</b></li>
+<li>Increase i = i + 1</li>
+<li>Repeat until empty slot found</li>
+<li>Insert element</li>
+<li>Stop</li>
+</ol>
+</div>
+
+<div class="section">
+<h2>Image Explanation (Click to Slide)</h2>
+
+<div style="text-align:center;">
+<button onclick="prevImage()">Previous</button>
+<button onclick="nextImage()">Next</button>
+</div>
+
+<img id="slider" src="q1.webp">
+
+</div>
+
+<div class="section">
+<h2>Tabulation (Division Method Example with Quadratic Probing)</h2>
+
+<p><b>Hash Function:</b> h(k) = k % 10</p>
+<p><b>Table Size:</b> 10</p>
+<p><b>Elements:</b> 23, 43, 13, 27, 33, 53, 63, 73, 83, 93</p>
+
+<table>
+<tr>
+<th>Element</th>
+<th>Formula for Index Derivation</th>
+<th>Initial Index</th>
+<th>Final Index (Quadratic Probe)</th>
+<th>Collision Occurs?</th>
+</tr>
+
+<tr>
+<td>23</td>
+<td>23 % 10 = 3</td>
+<td>3</td>
+<td>3</td>
+<td>No</td>
+</tr>
+
+<tr class="collision">
+<td>43</td>
+<td>43 % 10 = 3</td>
+<td>3</td>
+<td>(3+1²)%10 = 4</td>
+<td>Yes</td>
+</tr>
+
+<tr class="collision">
+<td>13</td>
+<td>13 % 10 = 3</td>
+<td>3</td>
+<td>(3+2²)%10 = 7</td>
+<td>Yes</td>
+</tr>
+
+<tr>
+<td>27</td>
+<td>27 % 10 = 7</td>
+<td>7</td>
+<td>(7+1²)%10 = 8</td>
+<td>No (after probe)</td>
+</tr>
+
+<tr class="collision">
+<td>33</td>
+<td>33 % 10 = 3</td>
+<td>3</td>
+<td>(3+3²)%10 = 2</td>
+<td>Yes</td>
+</tr>
+
+<tr class="collision">
+<td>53</td>
+<td>53 % 10 = 3</td>
+<td>3</td>
+<td>(3+4²)%10 = 9</td>
+<td>Yes</td>
+</tr>
+
+<tr class="collision">
+<td>63</td>
+<td>63 % 10 = 3</td>
+<td>3</td>
+<td>(3+5²)%10 = 8</td>
+<td>Yes</td>
+</tr>
+
+<tr class="collision">
+<td>73</td>
+<td>73 % 10 = 3</td>
+<td>3</td>
+<td>(3+6²)%10 = 9</td>
+<td>Yes</td>
+</tr>
+
+<tr class="collision">
+<td>83</td>
+<td>83 % 10 = 3</td>
+<td>3</td>
+<td>(3+7²)%10 = 2</td>
+<td>Yes</td>
+</tr>
+
+<tr class="collision">
+<td>93</td>
+<td>93 % 10 = 3</td>
+<td>3</td>
+<td>(3+8²)%10 = 7</td>
+<td>Yes</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="section">
+<h2>C Implementation using Array</h2>
+
+<div class="code">
+<pre>
+#include &lt;stdio.h&gt;
+#define SIZE 10
+
+int hashTable[SIZE];
+
+void init(){
+    for(int i=0;i&lt;SIZE;i++)
+        hashTable[i] = -1;
+}
+
+void insert(int key){
+    int i = 0;
+    int index;
+
+    while(i &lt; SIZE){
+        index = (key % SIZE + i*i) % SIZE;
+
+        if(hashTable[index] == -1){
+            hashTable[index] = key;
+            return;
+        }
+        i++;
+    }
+
+    printf("Hash table full\n");
+}
+
+void display(){
+    printf("Hash Table:\n");
+    for(int i=0;i&lt;SIZE;i++){
+        printf("%d --> %d\n", i, hashTable[i]);
+    }
+}
+
+int main(){
+    int elements[10] = {23,43,13,27,33,53,63,73,83,93};
+
+    init();
+
+    for(int i=0;i&lt;10;i++){
+        insert(elements[i]);
+    }
+
+    display();
+    return 0;
+}
+</pre>
+</div>
+
+</div>
+
+<script>
+var images = ["q1.webp","q2.webp","q3.webp","q4.webp"];
+var index = 0;
+
+function nextImage(){
+    index++;
+    if(index >= images.length) index = 0;
+    document.getElementById("slider").src = images[index];
+}
+
+function prevImage(){
+    index--;
+    if(index < 0) index = images.length-1;
+    document.getElementById("slider").src = images[index];
+}
+</script>
+
+</body>
+</html>

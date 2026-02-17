@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Separate Chaining - Hashing Technique</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:20px;
+}
+
+h1{
+    text-align:center;
+    color:#1b5e20;
+}
+
+.section{
+    background:white;
+    padding:20px;
+    margin-bottom:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+img{
+    display:block;
+    margin:auto;
+    width:650px;
+    height:360px;
+    object-fit:contain;
+}
+
+button{
+    padding:8px 15px;
+    margin:10px;
+    cursor:pointer;
+    background:#1b5e20;
+    color:white;
+    border:none;
+    border-radius:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th,td{
+    border:1px solid #333;
+    padding:8px;
+    text-align:center;
+}
+
+th{
+    background:#1b5e20;
+    color:white;
+}
+
+.collision{
+    background:#d6ffd6;
+    font-weight:bold;
+}
+
+.code{
+    background:#111;
+    color:#00ffcc;
+    padding:15px;
+    overflow-x:auto;
+}
+
+</style>
+</head>
+<body>
+
+<h1>Separate Chaining in Hashing</h1>
+
+<div class="section">
+<h2>Definition</h2>
+<p>
+Separate Chaining is a collision resolution technique in hashing where
+each table index stores a linked list of elements.
+When multiple keys map to the same index,
+they are stored in a chain instead of probing other slots.
+</p>
+
+<h2>Algorithm (Insertion using Separate Chaining)</h2>
+<ol>
+<li>Start</li>
+<li>Read key element <b>k</b></li>
+<li>Compute index using hash function  
+<b>index = h(k)</b></li>
+<li>If slot empty → create new list and insert element</li>
+<li>If slot already contains elements → insert node at beginning/end of list</li>
+<li>Repeat for all elements</li>
+<li>Stop</li>
+</ol>
+</div>
+
+<div class="section">
+<h2>Image Explanation (Click to Slide)</h2>
+
+<div style="text-align:center;">
+<button onclick="prevImage()">Previous</button>
+<button onclick="nextImage()">Next</button>
+</div>
+
+<img id="slider" src="s1.png">
+
+</div>
+
+<div class="section">
+<h2>Tabulation (Division Method Example with Separate Chaining)</h2>
+
+<p><b>Hash Function:</b> h(k) = k % 10</p>
+<p><b>Elements:</b> 23, 43, 13, 27, 33, 53, 63, 73, 83, 93</p>
+
+<table>
+<tr>
+<th>Element</th>
+<th>Formula</th>
+<th>Index</th>
+<th>Collision Occurs?</th>
+<th>Chain After Insertion</th>
+</tr>
+
+<tr>
+<td>23</td>
+<td>23 % 10 = 3</td>
+<td>3</td>
+<td>No</td>
+<td>23</td>
+</tr>
+
+<tr class="collision">
+<td>43</td>
+<td>43 % 10 = 3</td>
+<td>3</td>
+<td>Yes</td>
+<td>23 → 43</td>
+</tr>
+
+<tr class="collision">
+<td>13</td>
+<td>13 % 10 = 3</td>
+<td>3</td>
+<td>Yes</td>
+<td>23 → 43 → 13</td>
+</tr>
+
+<tr>
+<td>27</td>
+<td>27 % 10 = 7</td>
+<td>7</td>
+<td>No</td>
+<td>27</td>
+</tr>
+
+<tr class="collision">
+<td>33</td>
+<td>33 % 10 = 3</td>
+<td>3</td>
+<td>Yes</td>
+<td>23 → 43 → 13 → 33</td>
+</tr>
+
+<tr class="collision">
+<td>53</td>
+<td>53 % 10 = 3</td>
+<td>3</td>
+<td>Yes</td>
+<td>23 → 43 → 13 → 33 → 53</td>
+</tr>
+
+<tr class="collision">
+<td>63</td>
+<td>63 % 10 = 3</td>
+<td>3</td>
+<td>Yes</td>
+<td>23 → 43 → 13 → 33 → 53 → 63</td>
+</tr>
+
+<tr class="collision">
+<td>73</td>
+<td>73 % 10 = 3</td>
+<td>3</td>
+<td>Yes</td>
+<td>23 → 43 → 13 → 33 → 53 → 63 → 73</td>
+</tr>
+
+<tr class="collision">
+<td>83</td>
+<td>83 % 10 = 3</td>
+<td>3</td>
+<td>Yes</td>
+<td>23 → 43 → 13 → 33 → 53 → 63 → 73 → 83</td>
+</tr>
+
+<tr class="collision">
+<td>93</td>
+<td>93 % 10 = 3</td>
+<td>3</td>
+<td>Yes</td>
+<td>23 → 43 → 13 → 33 → 53 → 63 → 73 → 83 → 93</td>
+</tr>
+
+</table>
+</div>
+
+<div class="section">
+<h2>C Implementation using Array of Linked Lists</h2>
+
+<div class="code">
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define SIZE 10
+
+struct node{
+    int data;
+    struct node* next;
+};
+
+struct node* hashTable[SIZE];
+
+void init(){
+    for(int i=0;i&lt;SIZE;i++)
+        hashTable[i] = NULL;
+}
+
+void insert(int key){
+    int index = key % SIZE;
+
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data = key;
+    newNode->next = NULL;
+
+    if(hashTable[index] == NULL){
+        hashTable[index] = newNode;
+    }else{
+        struct node* temp = hashTable[index];
+        while(temp->next != NULL)
+            temp = temp->next;
+        temp->next = newNode;
+    }
+}
+
+void display(){
+    for(int i=0;i&lt;SIZE;i++){
+        printf("%d :", i);
+        struct node* temp = hashTable[i];
+        while(temp){
+            printf(" %d ->", temp->data);
+            temp = temp->next;
+        }
+        printf(" NULL\n");
+    }
+}
+
+int main(){
+    int elements[10] = {23,43,13,27,33,53,63,73,83,93};
+
+    init();
+
+    for(int i=0;i&lt;10;i++)
+        insert(elements[i]);
+
+    display();
+    return 0;
+}
+</pre>
+</div>
+
+</div>
+
+<script>
+var images = ["s1.png","s2.png","s3.png","s4.png","s5.png","s6.png","s7.png","s8.png"];
+var index = 0;
+
+function nextImage(){
+    index++;
+    if(index >= images.length) index = 0;
+    document.getElementById("slider").src = images[index];
+}
+
+function prevImage(){
+    index--;
+    if(index < 0) index = images.length-1;
+    document.getElementById("slider").src = images[index];
+}
+</script>
+
+</body>
+</html>

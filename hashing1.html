@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hashing Data Structure</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:40px;
+    background:#f4f6f9;
+    line-height:1.6;
+}
+.container{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0px 0px 10px rgba(0,0,0,0.1);
+}
+h1,h2{
+    color:#0b3d91;
+}
+.section{
+    margin-bottom:35px;
+}
+.method{
+    background:#eef3ff;
+    padding:15px;
+    border-left:5px solid #0b3d91;
+    margin:15px 0;
+    border-radius:5px;
+}
+img{
+    display:block;
+    margin:25px auto;
+    width:80%;
+    max-width:750px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>Hashing Data Structure</h1>
+
+<!-- WHAT IS HASHING -->
+<div class="section">
+<h2>1. What is Hashing?</h2>
+
+<p>
+Hashing is a technique used to store and retrieve data very quickly. 
+Instead of searching data sequentially, hashing uses a mathematical function 
+called a <b>hash function</b> to convert a key into an index value. 
+This index tells exactly where the data should be stored in memory.
+</p>
+
+<p>
+For example, if student ID <b>105</b> is passed to a hash function like 
+<code>ID % 10</code>, the result will be <b>5</b>.  
+This means the student record is stored directly in index position 5,
+making searching extremely fast.
+</p>
+
+<img src="hash1.png" alt="Hashing Diagram">
+
+<!-- LOAD FACTOR -->
+<h3>Load Factor in Hashing</h3>
+
+<p>
+The <b>load factor</b> indicates how full a hash table is. It is the ratio of 
+the number of stored elements to the total table size. It helps determine 
+when the table must be resized to maintain efficient searching.
+</p>
+
+<p>
+Mathematically, Load Factor (α) is:
+<b>α = n / m</b>  
+where <b>n</b> = number of keys stored,  
+and <b>m</b> = total slots in the table.
+</p>
+
+<p>
+When the load factor becomes high, collisions increase because more elements 
+compete for the same positions. Therefore, when α exceeds about 0.7 or 0.75, 
+rehashing is usually performed to enlarge the table and reduce collisions.
+</p>
+
+<p>
+<b>Example:</b> If a table has 20 slots and stores 12 elements,  
+Load Factor = 12/20 = 0.6 → the table is 60% full.
+</p>
+
+</div>
+
+<!-- BIOTECHNOLOGY -->
+<div class="section">
+<h2>2. How Hashing is Used in Biotechnology</h2>
+
+<p>
+In modern biotechnology and bioinformatics, hashing is widely used to process
+massive DNA and protein datasets. Genome sequencing produces billions of
+nucleotide characters, and searching them directly would be extremely slow.
+To solve this, scientists break sequences into smaller fragments called
+<b>k-mers</b> and convert them into hash values.
+</p>
+
+<p>
+This allows very fast comparison of genetic sequences, mutation detection,
+protein similarity analysis, and genome assembly. Hash tables also help
+detect whether a DNA fragment exists in a reference genome.
+</p>
+
+<p>
+Modern metagenomics tools, disease research software, and CRISPR analysis
+systems rely heavily on hashing because it reduces computation time and
+memory usage when handling very large biological datasets.
+</p>
+
+</div>
+
+<!-- HASH FUNCTIONS -->
+<div class="section">
+<h2>3. Hash Functions</h2>
+
+<div class="method">
+<b>Division Method</b>
+<p>
+The division method computes the hash value by dividing the key by table size
+and taking the remainder. It is simple, fast, and works well when the table
+size is a prime number.
+</p>
+<p><b>Example:</b> Key 47, table size 10 → 47 % 10 = 7.</p>
+</div>
+
+<div class="method">
+<b>Mid-Square Method</b>
+<p>
+In this method, the key is squared and the middle digits are used as the index.
+Squaring spreads values widely and reduces clustering of similar keys.
+</p>
+<p><b>Example:</b> 24² = 576 → middle digit = 7.</p>
+</div>
+
+<div class="method">
+<b>Folding Method</b>
+<p>
+The key is split into parts and the parts are added together to form the index.
+This works well for long numeric keys like phone numbers or account numbers.
+</p>
+<p><b>Example:</b> 123456 → 123 + 456 = 579.</p>
+</div>
+
+<div class="method">
+<b>Multiplication Method</b>
+<p>
+The key is multiplied by a constant fraction and the fractional part is used
+to compute the index. This produces uniform distribution even when keys have patterns.
+</p>
+<p><b>Example:</b> h(k)=floor(m*(k*A mod 1)).</p>
+</div>
+
+</div>
+
+<!-- COLLISION -->
+<div class="section">
+<h2>4. Collision Resolution Techniques</h2>
+
+<div class="method">
+<b>Linear Probing</b>
+<p>
+When a collision occurs, the next slot is checked sequentially until an empty
+location is found. It is simple but may cause clustering.
+</p>
+<p><b>Example:</b> Index 4 full → try 5 → 6 → 7.</p>
+</div>
+
+<div class="method">
+<b>Quadratic Probing</b>
+<p>
+Slots are checked using squared increments instead of sequential steps.
+This reduces clustering and spreads elements more evenly.
+</p>
+<p><b>Example:</b> Try 4+1² → 4+2² → 4+3².</p>
+</div>
+
+<div class="method">
+<b>Double Hashing</b>
+<p>
+A second hash function determines the step size when collision occurs.
+This method distributes elements very effectively.
+</p>
+<p><b>Example:</b> New index = h1(k) + i*h2(k).</p>
+</div>
+
+<div class="method">
+<b>Separate Chaining</b>
+<p>
+Each index stores a linked list of elements. Colliding keys are inserted into
+that list, avoiding probing operations.
+</p>
+<p><b>Example:</b> Index 5 → [15 → 25 → 35].</p>
+</div>
+
+</div>
+
+<!-- ADVANCED -->
+<div class="section">
+<h2>5. Advanced Hashing Techniques</h2>
+
+<div class="method">
+<b>Perfect Hashing</b>
+<p>
+Perfect hashing ensures that no collisions occur. It is useful when the key
+set is fixed, such as compiler keyword tables.
+</p>
+<p><b>Example:</b> Each reserved word maps to a unique slot.</p>
+</div>
+
+<div class="method">
+<b>Cuckoo Hashing</b>
+<p>
+Uses two hash functions and moves existing elements if collision occurs.
+This ensures constant lookup time.
+</p>
+<p><b>Example:</b> Insert key → if occupied → move old key to alternate position.</p>
+</div>
+
+<div class="method">
+<b>Extendible Hashing</b>
+<p>
+A dynamic hashing method used in databases where directory structures expand
+as data grows.
+</p>
+<p><b>Example:</b> Buckets split when full.</p>
+</div>
+
+<div class="method">
+<b>Consistent Hashing</b>
+<p>
+Used in distributed systems so that only small portions of data move when
+servers are added or removed.
+</p>
+<p><b>Example:</b> Used in distributed caches and cloud storage.</p>
+</div>
+
+</div>
+
+</div>
+</body>
+</html>
