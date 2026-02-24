@@ -186,11 +186,13 @@ int main()
 <p>Square the key and take the middle digit(s).</p>
 
 <table>
-<tr><th>Key</th><th>Square</th><th>Index</th></tr>
-<tr><td>11</td><td>121</td><td>2</td></tr>
-<tr><td>21</td><td>441</td><td>4</td></tr>
-<tr><td>31</td><td>961</td><td>6</td></tr>
-<tr><td>41</td><td>1681</td><td>8</td></tr>
+<tr><th>Key</th><th>Square</th><th>Index</th><th>Collision</th></tr>
+<tr><td>11</td><td>121</td><td>2</td><td>No</td></tr>
+<tr><td>21</td><td>441</td><td>4</td><td>No</td></tr>
+<tr><td>31</td><td>961</td><td>6</td><td>No</td></tr>
+<tr><td>41</td><td>1681</td><td>8</td><td>No</td></tr>
+<tr><td>61</td><td>3721</td><td>2</td><td class="collision">Yes</td></tr>
+<tr><td>71</td><td>5041</td><td>4</td><td class="collision">Yes</td></tr>
 </table>
 
 <pre>
@@ -207,10 +209,12 @@ int hash(int key){
 <p>Split key into parts and add them.</p>
 
 <table>
-<tr><th>Key</th><th>Split</th><th>Index</th></tr>
-<tr><td>1234</td><td>12+34</td><td>6</td></tr>
-<tr><td>2345</td><td>23+45</td><td>8</td></tr>
-<tr><td>6789</td><td>67+89</td><td class="collision">6</td></tr>
+<tr><th>Key</th><th>Split</th><th>Index</th><th>Collision</th></tr>
+<tr><td>1234</td><td>12+34</td><td>6</td><td>No</td></tr>
+<tr><td>2345</td><td>23+45</td><td>8</td><td>No</td></tr>
+<tr><td>3456</td><td>34+56</td><td>0</td><td>No</td></tr>
+<tr><td>6789</td><td>67+89</td><td>6</td><td class="collision">Yes</td></tr>
+<tr><td>7890</td><td>78+90</td><td>8</td><td class="collision">Yes</td></tr>
 </table>
 
 <pre>
@@ -228,10 +232,12 @@ int hash(int key){
 <p>Multiply key by constant A and use fractional part.</p>
 
 <table>
-<tr><th>Key</th><th>k*A</th><th>Index</th></tr>
-<tr><td>10</td><td>6.18</td><td>1</td></tr>
-<tr><td>20</td><td>12.36</td><td>3</td></tr>
-<tr><td>40</td><td>24.72</td><td>7</td></tr>
+<tr><th>Key</th><th>k*A</th><th>Index</th><th>Collision</th></tr>
+<tr><td>10</td><td>6.18</td><td>1</td><td>No</td></tr>
+<tr><td>20</td><td>12.36</td><td>3</td><td>No</td></tr>
+<tr><td>30</td><td>18.54</td><td>5</td><td>No</td></tr>
+<tr><td>40</td><td>24.72</td><td>7</td><td>No</td></tr>
+<tr><td>60</td><td>37.08</td><td>0</td><td class="collision">Yes</td></tr>
 </table>
 
 <pre>
@@ -241,6 +247,5 @@ int hash(int key){
 }
 </pre>
 </div>
-
 </body>
 </html>
