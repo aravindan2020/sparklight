@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rehashing - Hashing Technique</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-bottom: 30px;
+        }
+        table, th, td {
+            border: 1px solid black;
+            text-align: center;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Rehashing</h1>
+
+<h2>Definition</h2>
+<p>
+Rehashing is a collision resolution technique in hashing where the hash table 
+size is increased (usually doubled and changed to a prime number) when the load 
+factor becomes high. All existing elements are reinserted into the new hash table 
+using a new hash function.
+</p>
+
+<h2>Algorithm</h2>
+<ol>
+    <li>Initialize hash table of size m.</li>
+    <li>Insert elements using hash function: h(k) = k % m.</li>
+    <li>If load factor (number of elements / table size) exceeds threshold (e.g., 0.7),</li>
+    <li>Create a new table with size = next prime number greater than 2*m.</li>
+    <li>Reinsert all existing elements into new table using new hash function.</li>
+    <li>Continue normal insertion process.</li>
+</ol>
+
+<h2>Example (Step-by-Step)</h2>
+
+<p><b>Initial Table Size = 5</b></p>
+<p>Hash Function: h(k) = k % 5</p>
+<p>Insert keys: 12, 22, 32, 42</p>
+
+<h3>Step 1: Insert 12</h3>
+<p>12 % 5 = 2</p>
+
+<table>
+<tr><th>Index</th><th>Value</th></tr>
+<tr><td>0</td><td>-</td></tr>
+<tr><td>1</td><td>-</td></tr>
+<tr><td>2</td><td>12</td></tr>
+<tr><td>3</td><td>-</td></tr>
+<tr><td>4</td><td>-</td></tr>
+</table>
+
+<h3>Step 2: Insert 22</h3>
+<p>22 % 5 = 2 → Collision → Linear probing → index 3</p>
+
+<h3>Step 3: Insert 32</h3>
+<p>32 % 5 = 2 → Collision → index 4</p>
+
+<h3>Step 4: Insert 42</h3>
+<p>42 % 5 = 2 → Collision → index 0</p>
+
+<p>
+Now load factor = 4/5 = 0.8 (greater than 0.7).  
+So we perform <b>Rehashing</b>.
+</p>
+
+<hr>
+
+<h3>Rehashing Step</h3>
+
+<p>
+New size = Next prime greater than 2 * 5 = 11  
+New hash function: h(k) = k % 11
+</p>
+
+<h3>Reinsert Elements</h3>
+
+<table>
+<tr><th>Key</th><th>k % 11</th><th>New Position</th></tr>
+<tr><td>12</td><td>1</td><td>1</td></tr>
+<tr><td>22</td><td>0</td><td>0</td></tr>
+<tr><td>32</td><td>10</td><td>10</td></tr>
+<tr><td>42</td><td>9</td><td>9</td></tr>
+</table>
+
+<p>
+Now collisions are reduced and table becomes more efficient.
+</p>
+
+<hr>
+
+<h2>C Implementation Using Array</h2>
+
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int size = 5;
+int count = 0;
+int *hashTable;
+
+void init() {
+    hashTable = (int*)malloc(size * sizeof(int));
+    for(int i = 0; i < size; i++)
+        hashTable[i] = -1;
+}
+
+int hashFunction(int key) {
+    return key % size;
+}
+
+void rehash() {
+    int oldSize = size;
+    int *oldTable = hashTable;
+
+    size = 11;   // new prime size
+    hashTable = (int*)malloc(size * sizeof(int));
+
+    for(int i = 0; i < size; i++)
+        hashTable[i] = -1;
+
+    count = 0;
+
+    for(int i = 0; i < oldSize; i++) {
+        if(oldTable[i] != -1) {
+            int key = oldTable[i];
+            int index = hashFunction(key);
+            while(hashTable[index] != -1)
+                index = (index + 1) % size;
+
+            hashTable[index] = key;
+            count++;
+        }
+    }
+}
+
+void insert(int key) {
+    float loadFactor = (float)count / size;
+
+    if(loadFactor >= 0.7) {
+        printf("Rehashing...\n");
+        rehash();
+    }
+
+    int index = hashFunction(key);
+
+    while(hashTable[index] != -1)
+        index = (index + 1) % size;
+
+    hashTable[index] = key;
+    count++;
+}
+
+void display() {
+    for(int i = 0; i < size; i++)
+        printf("Index %d : %d\n", i, hashTable[i]);
+}
+
+int main() {
+    init();
+
+    insert(12);
+    insert(22);
+    insert(32);
+    insert(42);
+
+    display();
+
+    return 0;
+}
+</pre>
+
+</body>
+</html>
