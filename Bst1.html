@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BST Operations in C</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .left {
+            width: 50%;
+            background-color: #F5DEB3; /* Sandal */
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .right {
+            width: 50%;
+            background-color: white;
+        }
+
+        button {
+            background-color: brown;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px 0;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        pre {
+            color: blue;
+            background-color: #ffffff;
+            padding: 10px;
+            white-space: pre-wrap;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LEFT SIDE -->
+    <div class="left">
+
+        <button onclick="showInsert()">Insertion</button>
+        <button onclick="showDelete()">Deletion</button>
+        <button onclick="showMin()">Min</button>
+        <button onclick="showMax()">Max</button>
+        <button onclick="showSearch()">Search</button>
+        <button onclick="showInorder()">Inorder</button>
+        <button onclick="showPreorder()">Preorder</button>
+        <button onclick="showPostorder()">Postorder</button>
+
+        <pre id="codeArea"></pre>
+
+    </div>
+
+    <!-- RIGHT SIDE EMPTY -->
+    <div class="right"></div>
+
+</div>
+
+<script>
+
+function showInsert() {
+document.getElementById("codeArea").textContent = `
+void insert(int value) {
+    struct Node* newNode = createNode(value);
+
+    if (root == NULL) {
+        root = newNode;
+        return;
+    }
+
+    struct Node* temp = root;
+    struct Node* parent = NULL;
+
+    while (temp != NULL) {
+        parent = temp;
+        if (value < temp->data)
+            temp = temp->left;
+        else
+            temp = temp->right;
+    }
+
+    if (value < parent->data)
+        parent->left = newNode;
+    else
+        parent->right = newNode;
+}`;
+}
+
+function showDelete() {
+document.getElementById("codeArea").textContent = `
+void delete(int key) {
+    struct Node* parent = NULL;
+    struct Node* current = root;
+
+    while (current != NULL && current->data != key) {
+        parent = current;
+        if (key < current->data)
+            current = current->left;
+        else
+            current = current->right;
+    }
+
+    if (current == NULL)
+        return;
+
+    if (current->left == NULL && current->right == NULL) {
+        if (current == root)
+            root = NULL;
+        else if (parent->left == current)
+            parent->left = NULL;
+        else
+            parent->right = NULL;
+        free(current);
+    }
+}`;
+}
+
+function showMin() {
+document.getElementById("codeArea").textContent = `
+void findMin() {
+    struct Node* temp = root;
+    while (temp->left != NULL)
+        temp = temp->left;
+    printf("Min: %d", temp->data);
+}`;
+}
+
+function showMax() {
+document.getElementById("codeArea").textContent = `
+void findMax() {
+    struct Node* temp = root;
+    while (temp->right != NULL)
+        temp = temp->right;
+    printf("Max: %d", temp->data);
+}`;
+}
+
+function showSearch() {
+document.getElementById("codeArea").textContent = `
+void search(int key) {
+    struct Node* temp = root;
+    while (temp != NULL) {
+        if (key == temp->data) {
+            printf("Found");
+            return;
+        }
+        else if (key < temp->data)
+            temp = temp->left;
+        else
+            temp = temp->right;
+    }
+    printf("Not Found");
+}`;
+}
+
+function showInorder() {
+document.getElementById("codeArea").textContent = `
+void inorder(struct Node* temp) {
+    if (temp != NULL) {
+        inorder(temp->left);
+        printf("%d ", temp->data);
+        inorder(temp->right);
+    }
+}`;
+}
+
+function showPreorder() {
+document.getElementById("codeArea").textContent = `
+void preorder(struct Node* temp) {
+    if (temp != NULL) {
+        printf("%d ", temp->data);
+        preorder(temp->left);
+        preorder(temp->right);
+    }
+}`;
+}
+
+function showPostorder() {
+document.getElementById("codeArea").textContent = `
+void postorder(struct Node* temp) {
+    if (temp != NULL) {
+        postorder(temp->left);
+        postorder(temp->right);
+        printf("%d ", temp->data);
+    }
+}`;
+}
+
+</script>
+
+</body>
+</html>
