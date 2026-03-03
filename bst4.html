@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Binary Search Tree Visualization</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<style>
+body{
+    font-family: Arial;
+    text-align:center;
+    background:#f4f4f4;
+}
+
+h1{
+    font-size:40px;
+}
+
+input{
+    padding:8px;
+    width:200px;
+}
+
+button{
+    padding:8px 15px;
+    margin:5px;
+    background:#4a4a4a;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+button:hover{
+    background:black;
+}
+
+svg{
+    margin-top:20px;
+}
+.activeTraversal{
+    background:green !important;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Binary Search Tree Visualization</h1>
+
+<input type="number" id="valueInput" placeholder="Enter value">
+<button onclick="insertValue()">Insert</button>
+<button onclick="clearTree()">Clear</button>
+
+<br><br>
+
+<button id="inBtn" onclick="runInorder(this)">Inorder</button>
+<button id="preBtn" onclick="runPreorder(this)">Preorder</button>
+<button id="postBtn" onclick="runPostorder(this)">Postorder</button>
+<button onclick="nextStep()">Next</button>
+
+<h3>Traversal Output: <span id="output"></span></h3>
+
+<svg width="1000" height="500"></svg>
+
+<script>
+
+// ---------------- Node Class ----------------
+
+class Node{
+    constructor(value){
+        this.value=value;
+        this.left=null;
+        this.right=null;
+    }
+}
+
+let root=null;
+
+// Traversal control variables
+let traversalOrder=[];
+let currentIndex=0;
+
+// ---------------- Insertion ----------------
+
+function insertNode(node,value){
+    if(node==null) return new Node(value);
+
+    if(value<node.value)
+        node.left=insertNode(node.left,value);
+    else if(value>node.value)
+        node.right=insertNode(node.right,value);
+
+    return node;
+}
+
+function insertValue(){
+    const value=parseInt(document.getElementById("valueInput").value);
+    if(isNaN(value)) return;
+
+    root=insertNode(root,value);
+    document.getElementById("valueInput").value="";
+    drawTree();
+}
+
+function clearTree(){
+    root=null;
+    traversalOrder=[];
+    currentIndex=0;
+    document.getElementById("output").innerHTML="";
+    drawTree();
+}
+
+// ---------------- Drawing ----------------
+
+const svg=d3.select("svg");
+const width=1000;
+const height=500;
+
+function drawTree(){
+
+    svg.selectAll("*").remove();
+    if(!root) return;
+
+    const treeLayout=d3.tree().size([width-100,height-100]);
+    const hierarchy=d3.hierarchy(root,d=>[d.left,d.right].filter(Boolean));
+    treeLayout(hierarchy);
+
+    // Draw links
+    svg.selectAll("line")
+        .data(hierarchy.links())
+        .enter()
+        .append("line")
+        .attr("x1",d=>d.source.x+50)
+        .attr("y1",d=>d.source.y+50)
+        .attr("x2",d=>d.target.x+50)
+        .attr("y2",d=>d.target.y+50)
+        .attr("stroke","black")
+        .attr("stroke-width",2);
+
+    // Draw nodes
+    const nodes=svg.selectAll("g")
+        .data(hierarchy.descendants())
+        .enter()
+        .append("g")
+        .attr("transform",d=>`translate(${d.x+50},${d.y+50})`);
+
+    nodes.append("circle")
+        .attr("r",25)
+        .attr("fill","steelblue")
+        .attr("stroke","black")
+        .attr("stroke-width",2)
+        .attr("id",d=>"node-"+d.data.value);
+
+    nodes.append("text")
+        .text(d=>d.data.value)
+        .attr("text-anchor","middle")
+        .attr("dy",5)
+        .attr("fill","white")
+        .attr("font-size","16px");
+}
+
+// ---------------- Traversals ----------------
+
+function inorder(node,res=[]){
+    if(!node) return res;
+    inorder(node.left,res);
+    res.push(node.value);
+    inorder(node.right,res);
+    return res;
+}
+
+function preorder(node,res=[]){
+    if(!node) return res;
+    res.push(node.value);
+    preorder(node.left,res);
+    preorder(node.right,res);
+    return res;
+}
+
+function postorder(node,res=[]){
+    if(!node) return res;
+    postorder(node.left,res);
+    postorder(node.right,res);
+    res.push(node.value);
+    return res;
+}
+
+// ---------------- Run Traversals ----------------
+
+function resetTraversal(){
+    d3.selectAll("circle").attr("fill","steelblue");
+    document.getElementById("output").innerHTML="";
+    currentIndex=0;
+}
+
+function runInorder(btn){
+    if(!root) return;
+    traversalOrder = inorder(root);
+    resetTraversal();
+    setActiveButton(btn);
+}
+
+function runPreorder(btn){
+    if(!root) return;
+    traversalOrder = preorder(root);
+    resetTraversal();
+    setActiveButton(btn);
+}
+
+function runPostorder(btn){
+    if(!root) return;
+    traversalOrder = postorder(root);
+    resetTraversal();
+    setActiveButton(btn);
+}
+// ---------------- Next Step Animation ----------------
+
+function nextStep(){
+
+    if(currentIndex>=traversalOrder.length) return;
+
+    const val=traversalOrder[currentIndex];
+
+    // Highlight node
+    d3.select("#node-"+val)
+        .attr("fill","orange");
+
+    // Print output one by one
+    document.getElementById("output").innerHTML+=val+" ";
+
+    currentIndex++;
+}
+function setActiveButton(button){
+
+    // remove active class from all traversal buttons
+    document.getElementById("inBtn").classList.remove("activeTraversal");
+    document.getElementById("preBtn").classList.remove("activeTraversal");
+    document.getElementById("postBtn").classList.remove("activeTraversal");
+
+    // add active class to selected button
+    button.classList.add("activeTraversal");
+}
+
+</script>
+
+</body>
+</html>
