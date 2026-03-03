@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)file:///C:/Users/kklar/OneDrive/Desktop/bio/bst4.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>Binary Search Tree - C Operations</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .left {
+            width: 50%;
+            background-color: #F5DEB3; /* Sandal */
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .right {
+            width: 50%;
+            background-color: white;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        button {
+            background-color: brown;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 6px 0;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #8B0000;
+        }
+
+        pre {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: white;
+            color: blue;
+            white-space: pre-wrap;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LEFT SIDE -->
+    <div class="left">
+        <h2>BST Operations in C</h2>
+
+        <button onclick="showInsert()">Insertion</button>
+        <button onclick="showDelete()">Deletion</button>
+        <button onclick="showMin()">Find Minimum</button>
+        <button onclick="showMax()">Find Maximum</button>
+        <button onclick="showSearch()">Search</button>
+        <button onclick="showInorder()">Inorder Traversal</button>
+        <button onclick="showPreorder()">Preorder Traversal</button>
+        <button onclick="showPostorder()">Postorder Traversal</button>
+
+        <pre id="codeArea">void deleteNode(int key) {
+    struct Node* parent = NULL;
+    struct Node* current = root;
+
+    // Step 1: Search the node
+    while (current != NULL &amp;&amp; current-&gt;data != key) {
+        parent = current;
+        if (key &lt; current-&gt;data)
+            current = current-&gt;left;
+        else
+            current = current-&gt;right;
+    }
+
+    // If node not found
+    if (current == NULL)
+        return;
+
+    // Case 1: Leaf node
+    if (current-&gt;left == NULL &amp;&amp; current-&gt;right == NULL) {
+        if (current == root)
+            root = NULL;
+        else if (parent-&gt;left == current)
+            parent-&gt;left = NULL;
+        else
+            parent-&gt;right = NULL;
+
+        free(current);
+    }
+
+    // Case 2: One child
+    else if (current-&gt;left == NULL || current-&gt;right == NULL) {
+
+        struct Node* child;
+
+        if (current-&gt;left != NULL)
+            child = current-&gt;left;
+        else
+            child = current-&gt;right;
+
+        if (current == root)
+            root = child;
+        else if (parent-&gt;left == current)
+            parent-&gt;left = child;
+        else
+            parent-&gt;right = child;
+
+        free(current);
+    }
+
+    // Case 3: Two children (Using Inorder Predecessor)
+    else {
+
+        struct Node* predParent = current;
+        struct Node* predecessor = current-&gt;left;
+
+        // Find maximum in left subtree
+        while (predecessor-&gt;right != NULL) {
+            predParent = predecessor;
+            predecessor = predecessor-&gt;right;
+        }
+
+        // Replace current data with predecessor data
+        current-&gt;data = predecessor-&gt;data;
+
+        // Delete predecessor node
+        if (predParent-&gt;right == predecessor)
+            predParent-&gt;right = predecessor-&gt;left;
+        else
+            predParent-&gt;left = predecessor-&gt;left;
+
+        free(predecessor);
+    }
+}</pre>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right">
+    </div>
+
+</div>
+
+<script>
+
+function showInsert() {
+document.getElementById("codeArea").textContent =
+`void insert(int value) {
+    struct Node* newNode = createNode(value);
+
+    if (root == NULL) {
+        root = newNode;
+        return;
+    }
+
+    struct Node* temp = root;
+    struct Node* parent = NULL;
+
+    while (temp != NULL) {
+        parent = temp;
+        if (value < temp->data)
+            temp = temp->left;
+        else
+            temp = temp->right;
+    }
+
+    if (value < parent->data)
+        parent->left = newNode;
+    else
+        parent->right = newNode;
+}`;
+}
+
+function showDelete() {
+document.getElementById("codeArea").textContent =
+`void deleteNode(int key) {
+    struct Node* parent = NULL;
+    struct Node* current = root;
+
+    // Step 1: Search the node
+    while (current != NULL && current->data != key) {
+        parent = current;
+        if (key < current->data)
+            current = current->left;
+        else
+            current = current->right;
+    }
+
+    // If node not found
+    if (current == NULL)
+        return;
+
+    // Case 1: Leaf node
+    if (current->left == NULL && current->right == NULL) {
+        if (current == root)
+            root = NULL;
+        else if (parent->left == current)
+            parent->left = NULL;
+        else
+            parent->right = NULL;
+
+        free(current);
+    }
+
+    // Case 2: One child
+    else if (current->left == NULL || current->right == NULL) {
+
+        struct Node* child;
+
+        if (current->left != NULL)
+            child = current->left;
+        else
+            child = current->right;
+
+        if (current == root)
+            root = child;
+        else if (parent->left == current)
+            parent->left = child;
+        else
+            parent->right = child;
+
+        free(current);
+    }
+
+    // Case 3: Two children (Using Inorder Predecessor)
+    else {
+
+        struct Node* predParent = current;
+        struct Node* predecessor = current->left;
+
+        // Find maximum in left subtree
+        while (predecessor->right != NULL) {
+            predParent = predecessor;
+            predecessor = predecessor->right;
+        }
+
+        // Replace current data with predecessor data
+        current->data = predecessor->data;
+
+        // Delete predecessor node
+        if (predParent->right == predecessor)
+            predParent->right = predecessor->left;
+        else
+            predParent->left = predecessor->left;
+
+        free(predecessor);
+    }
+}`;
+}
+
+function showMin() {
+document.getElementById("codeArea").textContent =
+`void findMin() {
+    struct Node* temp = root;
+
+    if (temp == NULL)
+        return;
+
+    while (temp->left != NULL)
+        temp = temp->left;
+
+    printf("Minimum: %d", temp->data);
+}`;
+}
+
+function showMax() {
+document.getElementById("codeArea").textContent =
+`void findMax() {
+    struct Node* temp = root;
+
+    if (temp == NULL)
+        return;
+
+    while (temp->right != NULL)
+        temp = temp->right;
+
+    printf("Maximum: %d", temp->data);
+}`;
+}
+
+function showSearch() {
+document.getElementById("codeArea").textContent =
+`void search(int key) {
+    struct Node* temp = root;
+
+    while (temp != NULL) {
+        if (key == temp->data) {
+            printf("Found");
+            return;
+        }
+        else if (key < temp->data)
+            temp = temp->left;
+        else
+            temp = temp->right;
+    }
+
+    printf("Not Found");
+}`;
+}
+
+function showInorder() {
+document.getElementById("codeArea").textContent =
+`void inorder(struct Node* temp) {
+    if (temp != NULL) {
+        inorder(temp->left);
+        printf("%d ", temp->data);
+        inorder(temp->right);
+    }
+}`;
+}
+
+function showPreorder() {
+document.getElementById("codeArea").textContent =
+`void preorder(struct Node* temp) {
+    if (temp != NULL) {
+        printf("%d ", temp->data);
+        preorder(temp->left);
+        preorder(temp->right);
+    }
+}`;
+}
+
+function showPostorder() {
+document.getElementById("codeArea").textContent =
+`void postorder(struct Node* temp) {
+    if (temp != NULL) {
+        postorder(temp->left);
+        postorder(temp->right);
+        printf("%d ", temp->data);
+    }
+}`;
+}
+
+</script>
+
+
+</body></html>
