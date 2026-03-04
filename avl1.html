@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AVL Tree Theory</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            margin:40px;
+            line-height:1.6;
+        }
+
+        h1,h2{
+            color:#1e3d59;
+        }
+
+        .highlight-box{
+            border:3px solid #ff6e40;
+            background-color:#fff3e0;
+            padding:20px;
+            margin:20px 0;
+            font-size:18px;
+        }
+
+        .rotation-box{
+            border:2px solid #4caf50;
+            padding:20px;
+            margin:25px 0;
+            background:#f1f8e9;
+        }
+
+        img{
+            width:400px;
+            display:block;
+            margin-top:15px;
+            border:1px solid #ccc;
+        }
+
+        ul{
+            margin-left:20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>AVL Tree</h1>
+
+<h2>1. Abbreviation of AVL</h2>
+<p>
+AVL stands for <b>Adelson-Velsky and Landis</b>, the two Russian scientists 
+who introduced this self-balancing binary search tree in 1962.
+</p>
+
+<h2>2. Definition of AVL Tree</h2>
+<p>
+An AVL Tree is a <b>self-balancing Binary Search Tree</b> where the difference 
+between heights of left and right subtrees (Balance Factor) of every node 
+is at most -1, 0, or +1.
+</p>
+
+<p>
+Balance Factor = Height(Left Subtree) − Height(Right Subtree)
+</p>
+
+<hr>
+
+<h2>Why AVL is Powerful? (1 Million Videos Example)</h2>
+
+<div class="highlight-box">
+Imagine <b>1,000,000 videos stored.</b> 
+If stored in a normal BST (worst case),  
+Height could become = 1,000,000  
+
+Searching time becomes very slow.
+
+But in AVL Tree:
+
+Height ≈ log₂(1,000,000) ≈ 20
+
+That means even with 1 million records,  
+maximum search depth is only 20 levels!
+
+This is why AVL gives O(log n) search time.
+</div>
+
+<hr>
+
+<h2>3. Types of Rotations in AVL Tree</h2>
+
+<!-- LL Rotation -->
+<div class="rotation-box">
+<h3>LL Rotation (Left-Left Rotation)</h3>
+
+<p><b>When it occurs:</b><br>
+When insertion happens in the left subtree of the left child.
+</p>
+
+<p><b>Problem Structure:</b></p>
+<pre>
+      30
+     /
+   20
+  /
+10
+</pre>
+
+<p>
+To fix this imbalance, a <b>Right Rotation</b> is performed.
+The left child becomes the new root.
+</p>
+
+<img src="ll.webp" alt="LL Rotation Image">
+</div>
+
+<!-- RR Rotation -->
+<div class="rotation-box">
+<h3>RR Rotation (Right-Right Rotation)</h3>
+
+<p><b>When it occurs:</b><br>
+When insertion happens in the right subtree of the right child.
+</p>
+
+<p><b>Problem Structure:</b></p>
+<pre>
+10
+  \
+   20
+     \
+      30
+</pre>
+
+<p>
+To fix this imbalance, a <b>Left Rotation</b> is performed.
+The right child becomes the new root.
+</p>
+
+<img src="rr.jpg" alt="RR Rotation Image">
+</div>
+
+<!-- LR Rotation -->
+<div class="rotation-box">
+<h3>LR Rotation (Left-Right Rotation)</h3>
+
+<p><b>When it occurs:</b><br>
+When insertion happens in the right subtree of the left child.
+</p>
+
+<p><b>Problem Structure:</b></p>
+<pre>
+      30
+     /
+   10
+     \
+      20
+</pre>
+
+<p>
+This is a double rotation:
+<br>1. Left Rotation on left child
+<br>2. Right Rotation on root
+</p>
+
+<img src="lr.webp" alt="LR Rotation Image">
+</div>
+
+<!-- RL Rotation -->
+<div class="rotation-box">
+<h3>RL Rotation (Right-Left Rotation)</h3>
+
+<p><b>When it occurs:</b><br>
+When insertion happens in the left subtree of the right child.
+</p>
+
+<p><b>Problem Structure:</b></p>
+<pre>
+10
+  \
+   30
+  /
+20
+</pre>
+
+<p>
+This is also a double rotation:
+<br>1. Right Rotation on right child
+<br>2. Left Rotation on root
+</p>
+
+<img src="rl.webp" alt="RL Rotation Image">
+</div>
+
+<hr>
+
+<h2>4. Applications of AVL Tree in Biotechnology</h2>
+
+<ul>
+<li>Fast searching of DNA sequences in genomic databases</li>
+<li>Protein structure indexing systems</li>
+<li>Gene mutation lookup systems</li>
+<li>Clinical data record management</li>
+<li>Bioinformatics database indexing</li>
+<li>Efficient storage of large biological datasets</li>
+<li>Searching drug compound information quickly</li>
+</ul>
+
+<p>
+In biotechnology, millions of biological records are stored.  
+AVL ensures fast retrieval in logarithmic time.
+</p>
+
+</body>
+</html>
