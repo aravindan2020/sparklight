@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AVL Tree Insertion in C</title>
+
+<style>
+body{
+    font-family: Consolas, monospace;
+    background:#f4f6f8;
+    padding:40px;
+}
+
+h1{
+    text-align:center;
+}
+
+pre{
+    background:white;
+    border:1px solid #ccc;
+    padding:25px;
+    overflow:auto;
+    line-height:1.6;
+}
+</style>
+</head>
+
+<body>
+
+<h1>AVL Tree Insertion Program (C Language)</h1>
+
+<pre>
+
+/*
+AVL TREE INSERTION PROGRAM
+--------------------------
+
+AVL Tree is a self-balancing Binary Search Tree.
+For every node in AVL Tree:
+
+Balance Factor = Height(Left Subtree) - Height(Right Subtree)
+
+Possible values are:
+-1  -> Right heavy
+ 0  -> Balanced
++1  -> Left heavy
+
+If balance factor becomes:
++2 or -2  → Tree becomes unbalanced and rotation is required.
+
+Types of Rotations:
+1. LL Rotation
+2. RR Rotation
+3. LR Rotation
+4. RL Rotation
+*/
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/*
+Node structure for AVL Tree
+Each node contains:
+1. key → value stored in node
+2. left pointer → points to left child
+3. right pointer → points to right child
+4. height → height of the node
+*/
+struct Node {
+    int key;
+    struct Node *left;
+    struct Node *right;
+    int height;
+};
+
+
+/*
+Function: max()
+
+Purpose:
+Returns the maximum of two numbers.
+Used to calculate node height.
+*/
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+
+/*
+Function: height()
+
+Purpose:
+Returns height of a node.
+
+If node is NULL → height = 0
+Otherwise return stored height.
+*/
+int height(struct Node *N) {
+    if (N == NULL)
+        return 0;
+    return N->height;
+}
+
+
+/*
+Function: newNode()
+
+Purpose:
+Creates a new node for AVL Tree.
+
+Steps:
+1. Allocate memory using malloc
+2. Store key value
+3. Initialize left and right pointers as NULL
+4. Set height = 1 (because new node is leaf node)
+*/
+struct Node* newNode(int key) {
+
+    struct Node* node = (struct Node*) malloc(sizeof(struct Node));
+
+    node->key = key;
+    node->left = NULL;
+    node->right = NULL;
+
+    // Leaf node height = 1
+    node->height = 1;
+
+    return node;
+}
+
+
+/*
+Function: rightRotate()
+
+Used in LL Rotation.
+
+Example case:
+
+        y
+       /
+      x
+     /
+    T1
+
+After rotation:
+
+        x
+       / \
+      T1  y
+
+Steps:
+1. x becomes new root
+2. y becomes right child of x
+3. subtree T2 is rearranged
+*/
+struct Node *rightRotate(struct Node *y) {
+
+    struct Node *x = y->left;
+    struct Node *T2 = x->right;
+
+    x->right = y;
+    y->left = T2;
+
+    // update heights
+    y->height = max(height(y->left), height(y->right)) + 1;
+    x->height = max(height(x->left), height(x->right)) + 1;
+
+    return x;
+}
+
+
+/*
+Function: leftRotate()
+
+Used in RR Rotation.
+
+Example case:
+
+    x
+     \
+      y
+       \
+        T3
+
+After rotation:
+
+        y
+       / \
+      x   T3
+*/
+struct Node *leftRotate(struct Node *x) {
+
+    struct Node *y = x->right;
+    struct Node *T2 = y->left;
+
+    y->left = x;
+    x->right = T2;
+
+    // update heights
+    x->height = max(height(x->left), height(x->right)) + 1;
+    y->height = max(height(y->left), height(y->right)) + 1;
+
+    return y;
+}
+
+
+/*
+Function: getBalance()
+
+Balance Factor = height(left subtree) - height(right subtree)
+
+Possible results:
++2 → Left heavy
+-2 → Right heavy
+*/
+int getBalance(struct Node *N) {
+
+    if (N == NULL)
+        return 0;
+
+    return height(N->left) - height(N->right);
+}
+
+
+/*
+Function: insert()
+
+Steps of AVL insertion:
+
+1. Perform normal BST insertion
+2. Update height of node
+3. Compute balance factor
+4. If node becomes unbalanced → perform rotations
+*/
+struct Node* insert(struct Node* node, int key) {
+
+    // Step 1: Normal BST insertion
+    if (node == NULL)
+        return newNode(key);
+
+    if (key < node->key)
+        node->left = insert(node->left, key);
+
+    else if (key > node->key)
+        node->right = insert(node->right, key);
+
+    else
+        return node; // duplicates not allowed
+
+
+    // Step 2: Update height
+    node->height = 1 + max(height(node->left),
+                           height(node->right));
+
+
+    // Step 3: Check balance factor
+    int balance = getBalance(node);
+
+
+    // Case 1: LL Rotation
+    if (balance > 1 && key < node->left->key)
+        return rightRotate(node);
+
+
+    // Case 2: RR Rotation
+    if (balance < -1 && key > node->right->key)
+        return leftRotate(node);
+
+
+    // Case 3: LR Rotation
+    if (balance > 1 && key > node->left->key) {
+
+        node->left = leftRotate(node->left);
+
+        return rightRotate(node);
+    }
+
+
+    // Case 4: RL Rotation
+    if (balance < -1 && key < node->right->key) {
+
+        node->right = rightRotate(node->right);
+
+        return leftRotate(node);
+    }
+
+    return node;
+}
+
+
+/*
+Preorder Traversal
+
+Visit order:
+Root → Left → Right
+
+Used to print AVL Tree structure
+*/
+void preorder(struct Node *root) {
+
+    if(root != NULL) {
+
+        printf("%d ", root->key);
+
+        preorder(root->left);
+
+        preorder(root->right);
+    }
+}
+
+
+/*
+Main Function
+
+Insert elements and display AVL Tree
+*/
+int main() {
+
+    struct Node *root = NULL;
+
+    // inserting elements
+    root = insert(root, 10);
+    root = insert(root, 20);
+    root = insert(root, 30);
+    root = insert(root, 40);
+    root = insert(root, 50);
+    root = insert(root, 25);
+
+    printf("Preorder traversal of AVL tree:\n");
+
+    preorder(root);
+
+    return 0;
+}
+
+</pre>
+
+</body>
+</html>
