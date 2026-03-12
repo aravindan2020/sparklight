@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Expression Tree - Data Structures</title>
+
+<style>
+body{
+font-family: Arial;
+background:#f4f6f8;
+margin:40px;
+line-height:1.6;
+}
+
+h1{
+text-align:center;
+color:#2c3e50;
+}
+
+h2{
+color:#1a5276;
+border-bottom:2px solid #ccc;
+padding-bottom:5px;
+}
+
+.container{
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+code{
+background:#eef;
+padding:5px;
+border-radius:4px;
+}
+
+.button{
+display:inline-block;
+padding:12px 20px;
+background:#007BFF;
+color:white;
+text-decoration:none;
+border-radius:6px;
+margin-top:10px;
+}
+
+.button:hover{
+background:#0056b3;
+}
+
+.tree{
+text-align:center;
+font-family:monospace;
+font-size:18px;
+margin-top:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Expression Tree</h1>
+
+<h2>Definition</h2>
+<p>
+An <b>Expression Tree</b> is a binary tree used to represent arithmetic expressions.
+In this tree:
+<ul>
+<li>Leaf nodes represent <b>operands</b> (variables or constants)</li>
+<li>Internal nodes represent <b>operators</b> (+, −, ×, ÷)</li>
+</ul>
+Expression trees help computers evaluate expressions and maintain the correct order of operations.
+</p>
+
+
+<h2>Example</h2>
+
+<p>Expression : <code>A + B × C</code></p>
+
+<div class="tree">
+<pre>
+      +
+     / \
+    A   *
+       / \
+      B   C
+</pre>
+</div>
+
+
+<h2>Algorithm to Construct Expression Tree (From Postfix)</h2>
+
+<ol>
+<li>Create an empty stack.</li>
+<li>Scan the postfix expression from left to right.</li>
+<li>If the symbol is an operand, create a node and push it into the stack.</li>
+<li>If the symbol is an operator:
+    <ul>
+        <li>Pop two nodes from the stack.</li>
+        <li>Create a new node with the operator.</li>
+        <li>Make the first popped node as right child.</li>
+        <li>Make the second popped node as left child.</li>
+        <li>Push the new node back to the stack.</li>
+    </ul>
+</li>
+<li>Repeat until the expression ends.</li>
+<li>The final node in the stack becomes the root of the expression tree.</li>
+</ol>
+
+
+<h2>Purpose of Expression Tree</h2>
+
+<ul>
+<li>Represents mathematical expressions in tree structure.</li>
+<li>Maintains operator precedence automatically.</li>
+<li>Used for expression evaluation.</li>
+<li>Helps convert between infix, prefix, and postfix expressions.</li>
+<li>Widely used in compiler design.</li>
+</ul>
+
+
+<h2>Traversal Results of Expression Tree</h2>
+
+<p>For the expression <code>A + B × C</code>:</p>
+
+<table border="1" cellpadding="10">
+<tr>
+<th>Traversal</th>
+<th>Result</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>Inorder</td>
+<td>A + B × C</td>
+<td>Produces the original infix expression</td>
+</tr>
+
+<tr>
+<td>Preorder</td>
+<td>+ A × B C</td>
+<td>Produces prefix notation</td>
+</tr>
+
+<tr>
+<td>Postorder</td>
+<td>A B C × +</td>
+<td>Produces postfix notation</td>
+</tr>
+
+</table>
+
+
+<h2>Why Traversals are Important</h2>
+
+<ul>
+<li><b>Inorder:</b> Displays the normal mathematical expression.</li>
+<li><b>Preorder:</b> Used in prefix expression evaluation.</li>
+<li><b>Postorder:</b> Used in postfix evaluation and stack-based computation.</li>
+</ul>
+
+
+<h2>Expression Tree Animation</h2>
+
+<p>Click the button below to view animation explaining Expression Trees.</p>
+
+<a class="button" href="https://www.canva.com/design/DAHDtcQwva4/-rPr6OEFEpkR1Td3hnBJDQ/view?utm_content=DAHDtcQwva4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h9fe1f65f73" target="_blank">
+Click Here for Animation
+</a>
+
+
+<h2>Application in Biotechnology</h2>
+
+<p>
+Expression trees can be used in <b>bioinformatics</b> for evaluating complex biological formulas.
+</p>
+
+<ul>
+<li>Gene sequence pattern analysis</li>
+<li>Mathematical modeling of protein interactions</li>
+<li>Drug discovery simulations</li>
+<li>Genomic data processing</li>
+</ul>
+
+<p>
+For example, computational biology models often evaluate complex formulas representing 
+gene expression levels or protein interaction scores using tree-based representations.
+</p>
+
+
+</div>
+
+</body>
+</html>
