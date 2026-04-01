@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Linear Search C Program – Smart Class Display</title>
+    <title>Binary Search C Program – Smart Class Display</title>
     <style>
         body {
             font-family: Consolas, monospace;
@@ -51,7 +51,7 @@
 </head>
 <body>
 
-<h1>Linear Search in C – Line by Line Explanation</h1>
+<h1>Binary Search in C – Line by Line Explanation</h1>
 
 <div class="container">
     <div class="code" id="codeBox"></div>
@@ -64,32 +64,44 @@ const steps = [
     { code: "#include <stdio.h>", explanation: "Includes input and output functions." },
     { code: "", explanation: "" },
     { code: "int main() {", explanation: "Program execution starts from main function." },
-    { code: "    int n, key, found = 0;", explanation: "n = size, key = element to search, found = flag variable." },
+    { code: "    int n, key, low = 0, high, mid, found = 0;", explanation: "Declare variables for binary search." },
     { code: "", explanation: "" },
-    { code: "    printf(\"Enter number of elements: \");", explanation: "Ask user for number of elements." },
+    { code: "    printf(\"Enter number of elements: \");", explanation: "Ask user for size of array." },
     { code: "    scanf(\"%d\", &n);", explanation: "Store size in n." },
     { code: "", explanation: "" },
-    { code: "    int a[n];", explanation: "Declare array of size n." },
+    { code: "    int a[n];", explanation: "Declare array." },
     { code: "", explanation: "" },
-    { code: "    printf(\"Enter %d elements:\\n\", n);", explanation: "Prompt user to input elements." },
+    { code: "    printf(\"Enter %d sorted elements:\\n\", n);", explanation: "Binary search requires sorted input." },
     { code: "    for(int i = 0; i < n; i++) {", explanation: "Loop to read elements." },
-    { code: "        scanf(\"%d\", &a[i]);", explanation: "Store each element in array." },
+    { code: "        scanf(\"%d\", &a[i]);", explanation: "Store elements in array." },
     { code: "    }", explanation: "End of input loop." },
+    { code: "", explanation: "" },
+    { code: "    high = n - 1;", explanation: "Set high index." },
     { code: "", explanation: "" },
     { code: "    printf(\"Enter element to search: \");", explanation: "Ask user for key element." },
     { code: "    scanf(\"%d\", &key);", explanation: "Store key value." },
     { code: "", explanation: "" },
-    { code: "    for(int i = 0; i < n; i++) {", explanation: "Loop to check each element." },
-    { code: "        if(a[i] == key) {", explanation: "Compare key with array element." },
-    { code: "            printf(\"Element found at position %d\", i + 1);", explanation: "Display position if found." },
-    { code: "            found = 1;", explanation: "Set flag to indicate element is found." },
-    { code: "            break;", explanation: "Exit loop once found." },
-    { code: "        }", explanation: "End of if condition." },
-    { code: "    }", explanation: "End of search loop." },
+    { code: "    while(low <= high) {", explanation: "Loop until search space is valid." },
+    { code: "        mid = (low + high) / 2;", explanation: "Find middle index." },
     { code: "", explanation: "" },
-    { code: "    if(found == 0) {", explanation: "Check if element was not found." },
-    { code: "        printf(\"Element not found\");", explanation: "Display message if not present." },
-    { code: "    }", explanation: "End of condition." },
+    { code: "        if(a[mid] == key) {", explanation: "Check if middle element is key." },
+    { code: "            printf(\"Element found at position %d\", mid + 1);", explanation: "Display position." },
+    { code: "            found = 1;", explanation: "Set found flag." },
+    { code: "            break;", explanation: "Exit loop." },
+    { code: "        }", explanation: "End if." },
+    { code: "", explanation: "" },
+    { code: "        else if(a[mid] < key) {", explanation: "If key is greater, search right side." },
+    { code: "            low = mid + 1;", explanation: "Move low pointer." },
+    { code: "        }", explanation: "End else if." },
+    { code: "", explanation: "" },
+    { code: "        else {", explanation: "If key is smaller, search left side." },
+    { code: "            high = mid - 1;", explanation: "Move high pointer." },
+    { code: "        }", explanation: "End else." },
+    { code: "    }", explanation: "End while loop." },
+    { code: "", explanation: "" },
+    { code: "    if(found == 0) {", explanation: "Check if element not found." },
+    { code: "        printf(\"Element not found\");", explanation: "Display message." },
+    { code: "    }", explanation: "End condition." },
     { code: "", explanation: "" },
     { code: "    return 0;", explanation: "End of program." },
     { code: "}", explanation: "End of main function." }
