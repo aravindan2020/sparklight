@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>B-Tree Data Structure</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fb;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2d6cdf;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            padding: 20px;
+        }
+        .box {
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2d6cdf;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ff7a18;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #e56a12;
+        }
+        pre {
+            background: #eee;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>B-Tree Data Structure</h1>
+</header>
+
+<div class="container">
+
+    <div class="box">
+        <h2>Definition</h2>
+        <p>
+            A B-Tree is a self-balancing multi-way search tree in which each node can have more than two children.
+            It maintains sorted data and allows searching, insertion, and deletion in logarithmic time.
+        </p>
+    </div>
+
+    <div class="box">
+        <h2>Order of m in B-Tree</h2>
+        <p>
+            The order <b>m</b> of a B-Tree defines the maximum number of children a node can have.
+        </p>
+        <ul>
+            <li>Each node can have at most <b>m children</b></li>
+            <li>Each node can have at most <b>m-1 keys</b></li>
+            <li>Minimum children (except root) = <b>⌈m/2⌉</b></li>
+            <li>Minimum keys = <b>⌈m/2⌉ - 1</b></li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>Why B-Tree is Used in Secondary Storage</h2>
+        <ul>
+            <li>Minimizes disk I/O operations</li>
+            <li>Stores large data efficiently</li>
+            <li>Height of tree is small → faster access</li>
+            <li>Reads/writes are done in blocks (pages)</li>
+            <li>Widely used in databases and file systems</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>Algorithm to Form B-Tree (Insertion)</h2>
+        <pre>
+Step 1: Start from root
+Step 2: Insert key in sorted order
+Step 3: If node has space → insert directly
+Step 4: If node is full:
+        - Split the node
+        - Move middle key to parent
+Step 5: Repeat until tree is balanced
+Step 6: If root splits → create new root
+        </pre>
+    </div>
+
+    <div class="box">
+        <h2>Animation</h2>
+        <p>Click below to view B-Tree animation:</p>
+        <a href="https://canva.link/yvym596s6gqlyhz" target="_blank" class="btn">
+            View Animation
+        </a>
+    </div>
+
+    <div class="box">
+        <h2>Advantages (Biotechnology Department Perspective)</h2>
+        <ul>
+            <li>Efficient storage of large biological datasets (DNA, genome sequences)</li>
+            <li>Fast searching in bioinformatics databases</li>
+            <li>Supports indexing for protein and gene data</li>
+            <li>Handles massive experimental data efficiently</li>
+            <li>Useful in medical data systems and research databases</li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>

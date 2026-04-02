@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Red-Black Tree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fb;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            padding: 20px;
+        }
+        .box {
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #c0392b;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th {
+            background-color: #333;
+            color: white;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Red-Black Tree</h1>
+</header>
+
+<div class="container">
+
+    <div class="box">
+        <h2>Definition</h2>
+        <p>
+            A Red-Black Tree is a self-balancing binary search tree where each node is assigned a color (Red or Black).
+            It ensures that the tree remains approximately balanced, enabling efficient searching, insertion, and deletion operations in O(log n) time.
+        </p>
+    </div>
+
+    <div class="box">
+        <h2>Why it is Colored as Red and Black</h2>
+        <ul>
+            <li>Colors help maintain balance of the tree</li>
+            <li>Red nodes cannot be adjacent → prevents skewed trees</li>
+            <li>Black nodes ensure equal black height on all paths</li>
+            <li>Helps control height without strict balancing</li>
+            <li>Provides faster insertion and deletion than strict balanced trees</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>Difference Between AVL Tree and Red-Black Tree</h2>
+        <table>
+            <tr>
+                <th>Feature</th>
+                <th>AVL Tree</th>
+                <th>Red-Black Tree</th>
+            </tr>
+            <tr>
+                <td>Balancing</td>
+                <td>Strictly balanced</td>
+                <td>Loosely balanced</td>
+            </tr>
+            <tr>
+                <td>Height</td>
+                <td>Smaller height</td>
+                <td>Slightly larger height</td>
+            </tr>
+            <tr>
+                <td>Rotation</td>
+                <td>More rotations</td>
+                <td>Fewer rotations</td>
+            </tr>
+            <tr>
+                <td>Insertion/Deletion</td>
+                <td>Slower</td>
+                <td>Faster</td>
+            </tr>
+            <tr>
+                <td>Searching</td>
+                <td>Faster</td>
+                <td>Slightly slower</td>
+            </tr>
+            <tr>
+                <td>Usage</td>
+                <td>Read-heavy systems</td>
+                <td>Write-heavy systems</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="box">
+        <h2>When Red-Black Tree is Useful</h2>
+        <ul>
+            <li>When frequent insertions and deletions are required</li>
+            <li>Used in implementation of maps, sets, and dictionaries</li>
+            <li>Used in operating systems (process scheduling)</li>
+            <li>Used in memory management</li>
+            <li>Preferred in real-time applications</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>Rules for Forming Red-Black Tree</h2>
+        <ul>
+            <li>Each node is either Red or Black</li>
+            <li>The root node must be Black</li>
+            <li>No two Red nodes can be adjacent</li>
+            <li>Every path from root to leaf has same number of Black nodes</li>
+            <li>All leaf nodes (NULL nodes) are considered Black</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>Visualization</h2>
+        <p>Click below to explore interactive Red-Black Tree:</p>
+        <a href="https://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" class="btn">
+            Open Visualization
+        </a>
+    </div>
+
+    <div class="box">
+        <h2>Advantages (Biotechnology Perspective)</h2>
+        <ul>
+            <li>Efficient handling of dynamic biological datasets</li>
+            <li>Fast updates in genomic and protein databases</li>
+            <li>Supports real-time analysis in bioinformatics systems</li>
+            <li>Useful in managing large-scale medical records</li>
+            <li>Ensures consistent performance for research data processing</li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>

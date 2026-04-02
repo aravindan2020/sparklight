@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Splay Tree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f6f9;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        ul {
+            font-size: 16px;
+        }
+        .box {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        iframe {
+            display: block;
+            margin: auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Splay Tree</h1>
+
+<div class="box">
+    <h2>Definition</h2>
+    <p>
+        A <b>Splay Tree</b> is a self-adjusting binary search tree where 
+        recently accessed elements are moved to the root using a process 
+        called <b>splaying</b>. This improves access time for frequently used data. 
+        It performs operations like search, insert, and delete in 
+        <b>O(log n) amortized time</b>.
+    </p>
+</div>
+
+<div class="box">
+    <h2>Step-by-Step Procedure (Splaying)</h2>
+    <ul>
+        <li>Step 1: Search the required node in the tree.</li>
+        <li>Step 2: Move the node to root using rotations.</li>
+        <li><b>Zig:</b> Node is child of root → single rotation.</li>
+        <li><b>Zig-Zig:</b> Node and parent both left/right → double rotation.</li>
+        <li><b>Zig-Zag:</b> Node and parent opposite direction → rotation twice.</li>
+        <li>Step 3: After operation, accessed node becomes root.</li>
+    </ul>
+</div>
+
+<div class="box">
+    <h2>Real-Time Example (Instagram Reels)</h2>
+    <p>
+        Consider Instagram Reels:
+    </p>
+    <ul>
+        <li>You watch Tech reels frequently</li>
+        <li>Instagram shows Tech reels more often</li>
+        <li>Less watched categories move down</li>
+    </ul>
+
+    <p>
+        👉 Similar to Splay Tree:
+        Frequently accessed data moves to the root and is accessed faster.
+    </p>
+</div>
+
+<div class="box">
+    <h2>Animation</h2>
+    <p>Watch the animation below:</p>
+
+    <a href="https://canva.link/r9fbpuaaks2hedb" target="_blank">
+        Click here to view Splay Tree Animation
+    </a>
+</div>
+<div class="box">
+    <h2>Advantages (Biotechnology Perspective)</h2>
+    <ul>
+        <li>Frequently used gene/protein data can be accessed faster.</li>
+        <li>Useful in DNA sequence search where repeated queries occur.</li>
+        <li>Improves performance in medical databases with repeated patient data access.</li>
+        <li>Efficient for bioinformatics tools handling large datasets.</li>
+        <li>Requires less memory (no extra balance information).</li>
+    </ul>
+</div>
+
+</body>
+</html>
