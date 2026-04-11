@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Graph Data Structure</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F5E6D3;
+    color: #5A3E2B;
+    margin: 0;
+}
+
+header {
+    background: #8B5E3C;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+section {
+    padding: 20px;
+    margin: 15px;
+    background: #FFF8F0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    border-bottom: 2px solid #8B5E3C;
+}
+
+img {
+    width: 60%;
+    display: block;
+    margin: 20px auto;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background: #8B5E3C;
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    animation: zoomBlink 2s infinite;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #5A3E2B;
+}
+
+@keyframes zoomBlink {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid brown;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h1>Graph Data Structure</h1>
+</header>
+
+<section>
+<h2>Definition</h2>
+<p>
+A Graph is a non-linear data structure consisting of vertices (nodes) and edges that connect them.
+It is used to represent relationships between objects.
+</p>
+</section>
+
+<section>
+<h2>Types of Graph</h2>
+
+<img src="https://cdn-images-1.medium.com/v2/resize:fit:800/1*dX9TdlR6wD5lkPnWG1h80g.png">
+
+<ul>
+<li><b>1. Directed Graph:</b> Edges have direction (A → B).</li>
+<li><b>2. Undirected Graph:</b> Edges have no direction.</li>
+<li><b>3. Weighted Graph:</b> Edges contain weights like cost or distance.</li>
+<li><b>4. Unweighted Graph:</b> No weights on edges.</li>
+<li><b>5. Simple Graph:</b> No self-loops or multiple edges.</li>
+<li><b>6. Multigraph:</b> Multiple edges between same vertices.</li>
+<li><b>7. Connected Graph:</b> Every node is reachable.</li>
+<li><b>8. Disconnected Graph:</b> Some nodes are not reachable.</li>
+<li><b>9. Complete Graph:</b> Every vertex connects to every other vertex.</li>
+<li><b>10. Null Graph:</b> Nodes exist but no edges.</li>
+<li><b>11. Cyclic Graph:</b> Contains at least one cycle.</li>
+<li><b>12. Acyclic Graph:</b> No cycles present.</li>
+<li><b>13. Subgraph:</b> Derived from another graph.</li>
+<li><b>14. Regular Graph:</b> All vertices have same degree.</li>
+<li><b>15. Pseudograph:</b> Allows self-loops.</li>
+</ul>
+
+</section>
+
+<section>
+<h2>Adjacency Matrix</h2>
+
+<h3>Why?</h3>
+<ul>
+<li>Easy to implement</li>
+<li>Fast edge lookup</li>
+<li>Good for dense graphs</li>
+</ul>
+
+<h3>Procedure</h3>
+<ol>
+<li>Create n × n matrix</li>
+<li>Mark 1 if edge exists</li>
+<li>Mark 0 if no edge</li>
+</ol>
+
+</section>
+
+<section>
+<h2>Transitive Closure</h2>
+
+<h3>Why?</h3>
+<p>Used to find reachability between nodes.</p>
+
+<h3>Procedure (Warshall’s Algorithm)</h3>
+<ol>
+<li>Start with adjacency matrix</li>
+<li>Check indirect paths</li>
+<li>Update matrix accordingly</li>
+<li>Repeat for all nodes</li>
+</ol>
+
+</section>
+
+<section>
+<h2>Comparison</h2>
+
+<table>
+<tr>
+<th>Feature</th>
+<th>Adjacency Matrix</th>
+<th>Transitive Closure</th>
+</tr>
+
+<tr>
+<td>Purpose</td>
+<td>Direct connection</td>
+<td>Reachability</td>
+</tr>
+
+<tr>
+<td>Complexity</td>
+<td>O(n²)</td>
+<td>O(n³)</td>
+</tr>
+
+<tr>
+<td>Usage</td>
+<td>Edge representation</td>
+<td>Path detection</td>
+</tr>
+
+</table>
+
+</section>
+
+<section>
+<h2>Applications in Biotechnology</h2>
+
+<ul>
+<li>Gene interaction networks</li>
+<li>Protein interaction analysis</li>
+<li>Disease spread modeling</li>
+<li>Drug discovery</li>
+<li>DNA sequencing</li>
+</ul>
+
+<a href="https://canva.link/jefk48ab098m8qj" target="_blank" class="btn">
+🎬 Watch Graph Animation
+</a>
+
+</section>
+
+</body>
+</html>
