@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depth First Search (DFS)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5deb3; /* sandal */
+            color: #5a3e2b; /* brown */
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #8b5a2b;
+            color: white;
+        }
+
+        section {
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #fff8dc;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h2 {
+            border-bottom: 2px solid #8b5a2b;
+            padding-bottom: 5px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 15px;
+            background: #8b5a2b;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #a0522d;
+            transform: scale(1.1);
+        }
+
+        ul {
+            line-height: 1.8;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Depth First Search (DFS)</h1>
+</header>
+
+<section>
+    <h2>Definition</h2>
+    <p>
+        Depth First Search (DFS) is a graph traversal algorithm that explores as far as possible
+        along each branch before backtracking. It starts from a source node and explores deeper
+        nodes first before moving to adjacent nodes.
+    </p>
+</section>
+
+<section>
+    <h2>Why Stack is Used in DFS?</h2>
+    <ul>
+        <li>DFS follows Last In First Out (LIFO) principle.</li>
+        <li>Stack helps to keep track of nodes to be visited next.</li>
+        <li>It supports backtracking when a node has no unvisited neighbors.</li>
+        <li>DFS can be implemented using recursion (implicit stack) or explicit stack.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Procedure to Traverse Graph using DFS</h2>
+    <ol>
+        <li>Start from the root node.</li>
+        <li>Mark the node as visited.</li>
+        <li>Visit any unvisited adjacent node.</li>
+        <li>Repeat steps recursively until no unvisited nodes remain.</li>
+        <li>Backtrack to previous node and continue traversal.</li>
+    </ol>
+</section>
+
+<section>
+    <h2>DFS Animation Example</h2>
+    <p>Click below to see DFS animation:</p>
+    <a href="https://canva.link/ylewqo3sv1a6s4z" target="_blank" class="btn">View DFS Animation</a>
+</section>
+
+<section>
+    <h2>Advantages of DFS in Biotechnology</h2>
+    <ul>
+        <li>Used in genome sequencing to explore possible gene paths.</li>
+        <li>Helps in protein interaction network analysis.</li>
+        <li>Useful in phylogenetic tree construction.</li>
+        <li>Supports pathway analysis in metabolic networks.</li>
+    </ul>
+</section>
+
+</body>
+</html>
