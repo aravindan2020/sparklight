@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breadth First Search (BFS)</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f5deb3; /* sandal */
+    color: #5a3e2b; /* brown */
+}
+header {
+    background: #8b5a2b;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+section {
+    padding: 20px;
+    margin: 20px;
+    background: #fff8dc;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+h2 {
+    border-bottom: 2px solid #8b5a2b;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table, th, td {
+    border: 1px solid #8b5a2b;
+}
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+button {
+    background: #8b5a2b;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.3s;
+}
+button:hover {
+    transform: scale(1.1);
+}
+.blink {
+    animation: blinkZoom 1.5s infinite;
+}
+@keyframes blinkZoom {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.6; }
+    100% { transform: scale(1); opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Breadth First Search (BFS)</h1>
+</header>
+
+<section>
+    <h2>Definition</h2>
+    <p>
+        Breadth First Search (BFS) is a graph traversal algorithm that explores all the vertices of a graph level by level. 
+        It starts from a source node and visits all its immediate neighbors before moving to the next level nodes.
+    </p>
+</section>
+
+<section>
+    <h2>Why Queue is Used in BFS</h2>
+    <p>
+        BFS uses a Queue data structure because it follows the FIFO (First In First Out) principle. 
+        The first node that is discovered is processed first, ensuring level-by-level traversal of the graph.
+    </p>
+    <ul>
+        <li>Maintains order of traversal</li>
+        <li>Ensures shortest path in unweighted graph</li>
+        <li>Processes nodes level-wise</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Step-by-Step Procedure to Traverse using BFS</h2>
+    <ol>
+        <li><b>Start</b>: Choose a starting node (source vertex).</li>
+        <li><b>Initialize</b>: Create an empty queue and a visited array/set.</li>
+        <li><b>Enqueue Source</b>: Add the starting node to the queue and mark it as visited.</li>
+        <li><b>Repeat until Queue is Empty</b>:
+            <ul>
+                <li>Dequeue a node from the front of the queue.</li>
+                <li>Visit (process) the dequeued node.</li>
+                <li>Check all adjacent (neighbor) nodes of this node.</li>
+                <li>If a neighbor is not visited:
+                    <ul>
+                        <li>Mark it as visited.</li>
+                        <li>Enqueue it to the queue.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><b>Stop</b>: When the queue becomes empty, traversal is complete.</li>
+    </ol>
+    <p><b>Note:</b> This ensures level-by-level traversal and guarantees the shortest path in unweighted graphs.</p>
+</section>
+
+<section>
+    <h2>BFS vs DFS</h2>
+    <table>
+        <tr>
+            <th>Aspect</th>
+            <th>BFS</th>
+            <th>DFS</th>
+        </tr>
+        <tr>
+            <td>Data Structure</td>
+            <td>Queue</td>
+            <td>Stack / Recursion</td>
+        </tr>
+        <tr>
+            <td>Traversal</td>
+            <td>Level-wise</td>
+            <td>Depth-wise</td>
+        </tr>
+        <tr>
+            <td>Shortest Path</td>
+            <td>Yes (Unweighted Graph)</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>Memory Usage</td>
+            <td>High</td>
+            <td>Low</td>
+        </tr>
+        <tr>
+            <td>When to Use</td>
+            <td>Shortest path, networking, GPS</td>
+            <td>Path finding, puzzles, topological sorting</td>
+        </tr>
+    </table>
+</section>
+
+<section>
+    <h2>Example Animation</h2>
+    <p>Click below to view BFS animation:</p>
+    <a href="https://canva.link/107wrlcvxfeqli3" target="_blank">
+        <button class="blink">View Animation</button>
+    </a>
+</section>
+
+<section>
+    <h2>Advantages in Biotechnology</h2>
+    <ul>
+        <li>Helps in analyzing biological networks like protein-protein interaction</li>
+        <li>Used in gene mapping and DNA sequence analysis</li>
+        <li>Efficient in shortest pathway identification in metabolic networks</li>
+        <li>Supports bioinformatics tools for data traversal</li>
+    </ul>
+</section>
+
+</body>
+</html>
