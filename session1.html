@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UniFlow | Session 1 Revision Notes</title>
+  <style>
+    :root {
+      --navy: #071a35;
+      --ink: #12274a;
+      --muted: #59708f;
+      --paper: #f6f9ff;
+      --white: #ffffff;
+      --blue: #3978f6;
+      --cyan: #32c9dd;
+      --mint: #3acb9b;
+      --amber: #ffbf55;
+      --coral: #fa6c68;
+      --line: #dfe8f7;
+      --shadow: 0 18px 45px rgba(20, 53, 99, .12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--paper);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      min-height: 560px;
+      position: relative;
+      overflow: hidden;
+      padding: 34px max(6vw, 28px) 88px;
+      color: white;
+      background: radial-gradient(circle at 10% 15%, #285ebd 0, transparent 28%), linear-gradient(135deg, #06152f 0%, #102d62 58%, #154e8a 100%);
+    }
+    .hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; filter: blur(2px); opacity: .7; }
+    .hero::before { width: 430px; height: 430px; background: #2ad1df; right: -140px; top: -90px; animation: drift 13s ease-in-out infinite alternate; }
+    .hero::after { width: 330px; height: 330px; border: 1px solid rgba(255,255,255,.35); left: -120px; bottom: -180px; animation: spin 22s linear infinite; }
+    nav, .hero-content, main, footer { position: relative; z-index: 1; max-width: 1180px; margin: auto; }
+    nav { display: flex; justify-content: space-between; align-items: center; font-weight: 800; letter-spacing: .02em; }
+    .brand { display: flex; align-items: center; gap: 10px; font-size: 1.08rem; }
+    .logo { display: grid; place-items: center; width: 36px; aspect-ratio: 1; border: 1px solid rgba(255,255,255,.45); border-radius: 11px; background: rgba(255,255,255,.12); }
+    .tag { color: #d9e9ff; font-size: .82rem; }
+    .hero-content { padding-top: 85px; max-width: 1180px; }
+    .eyebrow { display: inline-flex; gap: 8px; align-items: center; padding: 7px 12px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18); border-radius: 999px; color: #d5faff; font-weight: 700; font-size: .82rem; }
+    .eyebrow i { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 16px var(--cyan); }
+    h1 { max-width: 760px; margin: 18px 0 14px; font-size: clamp(2.5rem, 6vw, 5.35rem); line-height: .98; letter-spacing: -.055em; }
+    .hero p { max-width: 670px; font-size: clamp(1rem, 2vw, 1.25rem); color: #d7e7ff; margin: 0; }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .hero-chips span { padding: 8px 13px; border-radius: 10px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); font-size: .86rem; font-weight: 700; }
+
+    main { margin-top: -48px; padding: 0 max(4vw, 18px) 70px; }
+    .overview { display: grid; grid-template-columns: 1.2fr .8fr; gap: 22px; margin-bottom: 32px; }
+    .card { background: var(--white); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); }
+    .intro { padding: 28px 30px; }
+    .intro h2, .section-title h2 { font-size: clamp(1.7rem, 3vw, 2.45rem); letter-spacing: -.035em; line-height: 1.12; margin: 0 0 12px; }
+    .intro p { margin: 0; color: var(--muted); }
+    .outcomes { padding: 25px 28px; background: linear-gradient(145deg, #eaf4ff, #fff); }
+    .outcomes h3 { margin: 0 0 12px; font-size: 1rem; text-transform: uppercase; letter-spacing: .09em; color: #3070d2; }
+    .outcomes ul { margin: 0; padding: 0; list-style: none; }
+    .outcomes li { display: flex; gap: 10px; padding: 6px 0; font-weight: 600; color: #304967; }
+    .outcomes li::before { content: "✓"; color: var(--mint); font-weight: 900; }
+
+    section { margin-top: 70px; scroll-margin-top: 24px; }
+    .section-title { max-width: 760px; margin-bottom: 24px; }
+    .section-title p { margin: 0; color: var(--muted); }
+    .number { color: var(--blue); font-size: .84rem; font-weight: 900; text-transform: uppercase; letter-spacing: .13em; margin-bottom: 5px; }
+    .why-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 13px; }
+    .why { padding: 20px 16px; min-height: 166px; transition: transform .35s ease, box-shadow .35s ease; }
+    .why:hover { transform: translateY(-8px); box-shadow: 0 22px 35px rgba(20, 53, 99, .16); }
+    .why .icon { font-size: 1.55rem; }
+    .why h3 { margin: 11px 0 6px; font-size: 1rem; line-height: 1.25; }
+    .why p { margin: 0; font-size: .86rem; color: var(--muted); line-height: 1.48; }
+
+    .quote { margin: 25px 0 0; padding: 25px 28px; color: #e9f5ff; font-size: clamp(1.1rem, 2vw, 1.4rem); font-weight: 700; line-height: 1.45; border-radius: 20px; background: linear-gradient(110deg, #0c326f, #177b9d); box-shadow: var(--shadow); }
+    .quote strong { color: #75f2ff; }
+    .architecture { padding: 32px 18px; overflow: hidden; }
+    .hub { display: grid; place-items: center; width: 142px; height: 142px; margin: 0 auto 28px; border-radius: 50%; text-align: center; color: white; font-size: 1.35rem; font-weight: 900; background: linear-gradient(135deg, #3978f6, #28cddc); box-shadow: 0 0 0 13px #e9f6ff, 0 0 0 14px #bde5fa; animation: breathe 2.8s ease-in-out infinite; }
+    .modules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 850px; margin: auto; }
+    .module { text-align: center; padding: 14px; border-radius: 14px; background: #f1f7ff; border: 1px solid #dbeafa; font-weight: 800; color: #31527d; }
+    .module:nth-child(2n) { transform: translateY(14px); background: #effcf8; border-color: #cdf2e6; }
+    .module:nth-child(3n) { background: #fff8e8; border-color: #ffe6aa; }
+
+    .thinking-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+    .thinking { position: relative; min-height: 310px; padding: 23px; overflow: hidden; }
+    .thinking::after { content: ""; position: absolute; width: 135px; height: 135px; border-radius: 50%; right: -55px; bottom: -55px; opacity: .1; background: currentColor; }
+    .thinking:nth-child(1) { color: #2877d6; background: #f3f9ff; }
+    .thinking:nth-child(2) { color: #b06620; background: #fff9ed; }
+    .thinking:nth-child(3) { color: #168b68; background: #effcf7; }
+    .thinking:nth-child(4) { color: #bc4e78; background: #fff3f7; }
+    .thinking .symbol { font-size: 2.05rem; font-weight: 900; }
+    .thinking h3 { margin: 12px 0 8px; font-size: 1.15rem; color: var(--ink); }
+    .thinking p { margin: 0 0 12px; color: #536b87; font-size: .91rem; line-height: 1.52; }
+    .thinking .prompt { padding-top: 12px; border-top: 1px solid currentColor; font-size: .84rem; font-weight: 800; }
+
+    .ipo-layout { display: grid; grid-template-columns: .85fr 1.3fr .85fr; align-items: stretch; gap: 14px; }
+    .ipo-col { padding: 23px; }
+    .ipo-col h3 { margin: 0 0 14px; font-size: 1.1rem; }
+    .ipo-col ul { padding: 0; margin: 0; list-style: none; }
+    .ipo-col li { padding: 10px 0; border-bottom: 1px dashed var(--line); font-weight: 650; color: #48617e; }
+    .ipo-col li:last-child { border-bottom: 0; }
+    .input { border-top: 5px solid #4489f8; }
+    .process { border-top: 5px solid #32c9a4; }
+    .output { border-top: 5px solid #ffbd54; }
+    .process li::before { content: "→ "; color: var(--mint); font-weight: 900; }
+    .ipo-note { margin-top: 16px; padding: 16px 20px; border-left: 4px solid var(--coral); background: #fff7f6; border-radius: 0 12px 12px 0; color: #7a4b4c; }
+
+    .activity { padding: 31px; color: white; background: linear-gradient(130deg, #172852, #3b407e 55%, #9c4f78); }
+    .activity h2 { margin: 0 0 7px; font-size: 1.8rem; }
+    .activity > p { margin: 0; color: #e7e9ff; }
+    .activity-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; margin-top: 22px; }
+    .activity-grid div { padding: 17px; border-radius: 14px; background: rgba(255,255,255,.11); border: 1px solid rgba(255,255,255,.16); }
+    .activity-grid b { display: block; margin-bottom: 4px; color: #8cf5ed; }
+    .review { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .review .card { padding: 27px; }
+    .review h3 { margin-top: 0; font-size: 1.2rem; }
+    .review ol { padding-left: 23px; margin-bottom: 0; }
+    .review li { padding: 6px 0; color: #405b7a; font-weight: 600; }
+    .exam { background: linear-gradient(145deg, #fff9ed, #fff); border-color: #ffe5ad; }
+    footer { padding: 0 20px 45px; color: #6a809c; text-align: center; font-size: .9rem; }
+    .reveal { animation: rise .7s both; animation-timeline: view(); animation-range: entry 8% cover 28%; }
+
+    @keyframes drift { to { transform: translate(-60px, 65px) scale(1.1); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes breathe { 50% { transform: scale(1.045); box-shadow: 0 0 0 18px #e9f6ff, 0 0 0 19px #bde5fa; } }
+    @keyframes rise { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 900px) { .why-grid { grid-template-columns: repeat(3, 1fr); } .thinking-grid { grid-template-columns: repeat(2, 1fr); } .ipo-layout { grid-template-columns: 1fr; } }
+    @media (max-width: 660px) { .hero { min-height: 510px; } nav .tag { display: none; } .overview, .review { grid-template-columns: 1fr; } .why-grid, .modules, .activity-grid { grid-template-columns: repeat(2, 1fr); } .thinking-grid { grid-template-columns: 1fr; } .module:nth-child(2n) { transform: none; } .hero-content { padding-top: 72px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <nav><div class="brand"><span class="logo">U</span> UniFlow Notes</div><span class="tag">Computational Thinking &amp; Java Foundations</span></nav>
+    <div class="hero-content">
+      <span class="eyebrow"><i></i> SESSION 01 · REVISION NOTES</span>
+      <h1>Think first.<br>Then build.</h1>
+      <p>An examination-ready introduction to programming, computational thinking, the IPO model, and the UniFlow university management project.</p>
+      <div class="hero-chips"><span>Programming</span><span>Computational Thinking</span><span>IPO Model</span><span>Student Admission</span></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="overview reveal">
+      <article class="card intro"><div class="number">The big idea</div><h2>We are not writing random programs.</h2><p>Throughout the semester, each Java concept will be used to create a feature for one meaningful project: <strong>UniFlow – Smart University Academic Management System.</strong> Programming is the tool we use to turn a real-world problem into a useful software solution.</p></article>
+      <aside class="card outcomes"><h3>Learning outcomes</h3><ul><li>Define programming and its purpose</li><li>Explain computational thinking</li><li>Describe the IPO model</li><li>Identify UniFlow modules</li><li>Design a basic admission module</li></ul></aside>
+    </div>
+
+    <section class="reveal">
+      <div class="section-title"><div class="number">01 · Programming</div><h2>Why do we need programming?</h2><p>When a university handles thousands of applications, notebooks and paper become slow, difficult to search, and easy to misplace. A program handles repeated work accurately and quickly.</p></div>
+      <div class="why-grid">
+        <article class="card why"><div class="icon">⚙️</div><h3>Automate work</h3><p>Repeat routine tasks without doing them manually each time.</p></article>
+        <article class="card why"><div class="icon">🗂️</div><h3>Store information</h3><p>Keep student data organised, available, and easy to retrieve.</p></article>
+        <article class="card why"><div class="icon">⚡</div><h3>Process data</h3><p>Work with large numbers of applications in less time.</p></article>
+        <article class="card why"><div class="icon">🛡️</div><h3>Reduce errors</h3><p>Use validation rules to prevent common human mistakes.</p></article>
+        <article class="card why"><div class="icon">📊</div><h3>Create reports</h3><p>Generate useful summaries for staff and management.</p></article>
+      </div>
+      <blockquote class="quote">UniFlow helps a university manage <strong>admissions, attendance, examinations, results,</strong> and <strong>reports.</strong></blockquote>
+    </section>
+
+    <section class="reveal">
+      <div class="section-title"><div class="number">02 · The semester project</div><h2>Meet UniFlow</h2><p>UniFlow is a Smart University Academic Management System. It is made of connected modules, each solving one part of the university workflow.</p></div>
+      <div class="card architecture"><div class="hub">Uni<br>Flow</div><div class="modules"><div class="module">Student Admission</div><div class="module">Course Registration</div><div class="module">Attendance</div><div class="module">Examination</div><div class="module">Results</div><div class="module">Reports</div></div></div>
+    </section>
+
+    <section class="reveal">
+      <div class="section-title"><div class="number">03 · Problem-solving method</div><h2>Computational Thinking</h2><p>Computational thinking is a structured way of solving problems so that a computer can help us. It has four connected components.</p></div>
+      <div class="thinking-grid">
+        <article class="card thinking"><div class="symbol">01</div><h3>Decomposition</h3><p>Break a large, complex problem into smaller and manageable parts.</p><p><strong>UniFlow example:</strong> divide the system into Admission, Attendance, Examination, and Reports.</p><div class="prompt">ASK: Can we build the complete system in one day?</div></article>
+        <article class="card thinking"><div class="symbol">02</div><h3>Pattern Recognition</h3><p>Look for similarities and common features among problems or data.</p><p><strong>UniFlow example:</strong> every student has common details such as Student ID, Name, and Department.</p><div class="prompt">ASK: What details are common to every student?</div></article>
+        <article class="card thinking"><div class="symbol">03</div><h3>Abstraction</h3><p>Keep only the information that is important for solving the problem; ignore irrelevant details.</p><p><strong>UniFlow example:</strong> admission needs academic and contact details, not a student's favourite movie.</p><div class="prompt">ASK: Which information is actually necessary?</div></article>
+        <article class="card thinking"><div class="symbol">04</div><h3>Algorithmic Thinking</h3><p>Arrange instructions in a clear, logical order to achieve an outcome.</p><p><strong>UniFlow example:</strong> receive form → validate details → store record → generate admission number.</p><div class="prompt">ASK: What should happen first?</div></article>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="section-title"><div class="number">04 · Program model</div><h2>IPO: Input → Process → Output</h2><p>Every program takes some data, works on that data, and produces a useful result. This is the IPO model.</p></div>
+      <div class="ipo-layout">
+        <article class="card ipo-col input"><h3>Input</h3><ul><li>Student ID</li><li>Student Name</li><li>Department</li><li>Mobile Number</li></ul></article>
+        <article class="card ipo-col process"><h3>Process</h3><ul><li>Validate Student ID</li><li>Validate Mobile Number</li><li>Check required fields</li><li>Store student information</li><li>Generate admission record</li></ul></article>
+        <article class="card ipo-col output"><h3>Output</h3><ul><li>Admission confirmation</li><li>Student details</li><li>Registration successful</li><li>Admission number</li></ul></article>
+      </div>
+      <p class="ipo-note"><strong>Remember:</strong> Input is what the user gives, Process is what the program does, and Output is the result the user receives.</p>
+    </section>
+
+    <section class="reveal">
+      <article class="card activity"><div class="number" style="color:#9dfaf1">Classroom / self-practice</div><h2>Design the Student Admission Module</h2><p>Work as a group or use this as a revision exercise. Think like a software engineer before writing code.</p><div class="activity-grid"><div><b>1. Required Inputs</b>What details must be collected from a student?</div><div><b>2. Processing Steps</b>What should the system do with the details?</div><div><b>3. Expected Outputs</b>What result should the student and office receive?</div><div><b>4. Validation Rules</b>What mistakes or invalid data should be prevented?</div></div></article>
+    </section>
+
+    <section class="review reveal">
+      <article class="card"><div class="number">Quick recap</div><h3>Key points to remember</h3><ol><li>Programming solves real-world problems using instructions for a computer.</li><li>UniFlow is a university academic management system.</li><li>Computational thinking has four parts: decomposition, pattern recognition, abstraction, and algorithmic thinking.</li><li>IPO means Input → Process → Output.</li><li>The Student Admission Module requires inputs, processing steps, outputs, and validation rules.</li></ol></article>
+      <article class="card exam"><div class="number" style="color:#c47d13">Examination revision</div><h3>Practice questions</h3><ol><li>Define programming. Why is it needed in a university?</li><li>What is UniFlow? List any four of its modules.</li><li>Explain computational thinking and its four components with examples.</li><li>Describe the IPO model using the Student Admission Module.</li><li>Suggest four validation rules for an online admission form.</li></ol></article>
+    </section>
+  </main>
+  <footer>UniFlow · Smart University Academic Management System · Session 01 Revision Notes</footer>
+</body>
+</html>
