@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UniFlow Session — Algorithm, Pseudocode & Flowchart</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#f4f7fb;color:#1f2937;line-height:1.6}
+header{background:linear-gradient(135deg,#172554,#2563eb);color:white;text-align:center;padding:42px 20px}
+header h1{margin:0 0 10px;font-size:clamp(28px,5vw,46px)}
+header p{margin:auto;max-width:850px;font-size:18px}
+.container{max-width:1100px;margin:auto;padding:22px 18px 60px}
+.card{background:white;border-radius:18px;padding:25px;margin:20px 0;box-shadow:0 8px 25px rgba(15,23,42,.08)}
+h2{color:#1d4ed8;margin-top:0} h3{color:#334155}
+.eli{background:#eff6ff;border-left:6px solid #2563eb;padding:16px 18px;border-radius:10px;margin:15px 0}
+.story{background:#fff7ed;border-left:6px solid #f97316;padding:16px 18px;border-radius:10px}
+.compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
+.compare article{padding:20px;border-radius:15px;background:#f8fafc;border:1px solid #dbeafe}
+.compare span{font-size:34px}
+.flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;margin:25px 0}
+.box{padding:14px 18px;border:2px solid #6366f1;background:#eef2ff;border-radius:12px;text-align:center;font-weight:600}
+.start{border-radius:30px}.decision{background:#fef3c7;border-color:#d97706}.good{background:#dcfce7;border-color:#16a34a}.bad{background:#fee2e2;border-color:#dc2626}
+pre{background:#0f172a;color:#e2e8f0;padding:20px;border-radius:12px;overflow:auto;line-height:1.55}
+table{width:100%;border-collapse:collapse;margin:15px 0}
+th,td{padding:13px;border:1px solid #dbe2ea;text-align:left}
+th{background:#dbeafe;color:#1e3a8a}
+.flowchart{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px;background:#f8fafc;border-radius:15px}
+.flowchart .arrow{font-size:24px}
+.flowchart .node{min-width:260px;max-width:90%;padding:14px 20px;text-align:center;border:2px solid #6366f1;background:#eef2ff;border-radius:10px;font-weight:600}
+.flowchart .terminal{border-radius:40px;background:#e0f2fe}
+.flowchart .diamond{background:#fef3c7;border-color:#d97706;transform:rotate(0deg)}
+.branch{display:flex;gap:80px;justify-content:center;align-items:flex-start;width:100%}
+.branch>div{display:flex;flex-direction:column;align-items:center;gap:8px}
+.label{font-weight:700}
+.quiz button{border:0;background:#2563eb;color:white;padding:10px 15px;margin:5px;border-radius:9px;cursor:pointer}
+.answer{display:none;margin-top:10px;padding:12px;background:#ecfdf5;border-radius:8px}
+.highlight{font-size:20px;font-weight:700;color:#1d4ed8}
+footer{text-align:center;padding:25px;color:#64748b}
+@media(max-width:700px){.branch{gap:15px}.flow{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🧠 Algorithm → Pseudocode → Flowchart → Java</h1>
+<p>UniFlow Student Admission Module — ELI10 Learning Session</p>
+</header>
+
+<div class="container">
+
+<section class="card">
+<h2>🎯 Today's Big Idea</h2>
+<div class="eli">
+<strong>ELI10:</strong> Before asking a computer to solve a problem, we need to tell it exactly what to do.
+We can describe the solution in three useful ways:
+<strong>Algorithm</strong> = steps, <strong>Pseudocode</strong> = code-like English,
+and <strong>Flowchart</strong> = a picture of the steps.
+</div>
+<div class="story">
+Imagine telling a friend how to make tea. You can explain the steps, write them in a simple instruction format,
+or draw a picture showing the order. The tea recipe is the same — only the representation changes.
+</div>
+</section>
+
+<section class="card">
+<h2>🔍 Algorithm vs Pseudocode vs Program</h2>
+<div class="compare">
+<article>
+<span>📋</span>
+<h3>Algorithm</h3>
+<p>A clear list of steps for solving a problem.</p>
+<p><strong>ELI10:</strong> Like a recipe written in normal language.</p>
+</article>
+<article>
+<span>📝</span>
+<h3>Pseudocode</h3>
+<p>A structured, code-like description of the solution without using a specific programming language.</p>
+<p><strong>ELI10:</strong> Like a recipe written so that a programmer can easily convert it into code.</p>
+</article>
+<article>
+<span>☕</span>
+<h3>Program</h3>
+<p>The actual solution written in a programming language such as Java.</p>
+<p><strong>ELI10:</strong> The computer-ready recipe.</p>
+</article>
+</div>
+
+<table>
+<tr><th>Representation</th><th>UniFlow Example</th></tr>
+<tr><td>Algorithm</td><td>Read student details → display them → confirm registration.</td></tr>
+<tr><td>Pseudocode</td><td>INPUT student ID, name, department, mobile → DISPLAY details.</td></tr>
+<tr><td>Java Program</td><td>Uses Scanner, variables, System.out.println(), etc.</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🏫 UniFlow Scenario</h2>
+<p>A student wants to join the university. UniFlow needs to collect and display:</p>
+<ul>
+<li>Student ID</li>
+<li>Student Name</li>
+<li>Department</li>
+<li>Mobile Number</li>
+</ul>
+<div class="eli">
+<strong>Our question:</strong> How can we convert this real-world requirement into a solution that a Java programmer can implement?
+</div>
+</section>
+
+<section class="card">
+<h2>1️⃣ Task 1 — Identify the Input Data</h2>
+<table>
+<tr><th>Input</th><th>Example</th><th>Purpose</th></tr>
+<tr><td>Student ID</td><td>24CSE101</td><td>Identify the student uniquely</td></tr>
+<tr><td>Student Name</td><td>Ravi Kumar</td><td>Identify the student's name</td></tr>
+<tr><td>Department</td><td>CSE</td><td>Identify the academic department</td></tr>
+<tr><td>Mobile Number</td><td>9876543210</td><td>Contact information</td></tr>
+</table>
+<p class="highlight">Required Input = Student ID + Name + Department + Mobile Number</p>
+</section>
+
+<section class="card">
+<h2>2️⃣ Design the Algorithm</h2>
+<div class="eli">
+<strong>ELI10:</strong> An algorithm is simply a numbered set of instructions. It should be so clear that another person could follow it without guessing.
+</div>
+
+<h3>Algorithm — Student Admission Information</h3>
+<ol>
+<li>Start.</li>
+<li>Read Student ID.</li>
+<li>Read Student Name.</li>
+<li>Read Department.</li>
+<li>Read Mobile Number.</li>
+<li>Display Student ID.</li>
+<li>Display Student Name.</li>
+<li>Display Department.</li>
+<li>Display Mobile Number.</li>
+<li>Display “Registration Information Recorded Successfully”.</li>
+<li>Stop.</li>
+</ol>
+
+<div class="flow">
+<div class="box start">START</div><div>➡️</div>
+<div class="box">Read Student Details</div><div>➡️</div>
+<div class="box">Display Details</div><div>➡️</div>
+<div class="box good">Registration Confirmed</div><div>➡️</div>
+<div class="box start">STOP</div>
+</div>
+</section>
+
+<section class="card">
+<h2>3️⃣ Write the Pseudocode</h2>
+<div class="eli">
+<strong>ELI10:</strong> Pseudocode looks a little like programming, but it is not Java.
+We use simple words such as INPUT, DISPLAY, IF and ELSE.
+</div>
+
+<pre>
+BEGIN
+
+    INPUT StudentID
+    INPUT StudentName
+    INPUT Department
+    INPUT MobileNumber
+
+    DISPLAY "Student ID: ", StudentID
+    DISPLAY "Student Name: ", StudentName
+    DISPLAY "Department: ", Department
+    DISPLAY "Mobile Number: ", MobileNumber
+
+    DISPLAY "Registration Information Recorded Successfully"
+
+END
+</pre>
+
+<h3>Why not write Java immediately?</h3>
+<p>Because the logic should be correct before we worry about Java syntax such as
+<code>Scanner</code>, data types, semicolons and braces.</p>
+</section>
+
+<section class="card">
+<h2>4️⃣ Draw the Flowchart</h2>
+<div class="eli">
+<strong>ELI10:</strong> A flowchart is a map of the solution.
+It lets us <strong>see</strong> what happens first, next and last.
+</div>
+
+<div class="flowchart">
+<div class="node terminal">START</div>
+<div class="arrow">⬇</div>
+<div class="node">Input Student ID</div>
+<div class="arrow">⬇</div>
+<div class="node">Input Student Name</div>
+<div class="arrow">⬇</div>
+<div class="node">Input Department</div>
+<div class="arrow">⬇</div>
+<div class="node">Input Mobile Number</div>
+<div class="arrow">⬇</div>
+<div class="node">Display Student Information</div>
+<div class="arrow">⬇</div>
+<div class="node good">Display Registration Confirmation</div>
+<div class="arrow">⬇</div>
+<div class="node terminal">STOP</div>
+</div>
+
+<p><strong>Flowchart reading rule:</strong> Start at the top and follow the arrows downward.</p>
+</section>
+
+<section class="card">
+<h2>🛡️ Add Validation — Making UniFlow Smarter</h2>
+<p>In a real admission system, simply reading data is not enough. We should check whether the information is valid.</p>
+
+<div class="flowchart">
+<div class="node terminal">START</div>
+<div class="arrow">⬇</div>
+<div class="node">Read Student Information</div>
+<div class="arrow">⬇</div>
+<div class="node decision">Is Student ID unique?</div>
+
+<div class="branch">
+<div>
+<div class="label">NO ❌</div>
+<div class="arrow">⬇</div>
+<div class="node bad">Show “Student ID already exists”</div>
+</div>
+<div>
+<div class="label">YES ✅</div>
+<div class="arrow">⬇</div>
+<div class="node decision">Is Mobile Number exactly 10 digits?</div>
+<div class="branch">
+<div>
+<div class="label">NO ❌</div>
+<div class="arrow">⬇</div>
+<div class="node bad">Show “Invalid Mobile Number”</div>
+</div>
+<div>
+<div class="label">YES ✅</div>
+<div class="arrow">⬇</div>
+<div class="node good">Display Details & Registration Confirmed</div>
+</div>
+</div>
+</div>
+</div>
+<div class="arrow">⬇</div>
+<div class="node terminal">STOP</div>
+</div>
+</section>
+
+<section class="card">
+<h2>📊 Complete IPO Model</h2>
+<table>
+<tr><th>INPUT</th><th>PROCESS</th><th>OUTPUT</th></tr>
+<tr>
+<td>Student ID<br>Student Name<br>Department<br>Mobile Number</td>
+<td>
+Read information<br>
+Validate Student ID<br>
+Validate Mobile Number<br>
+Display valid information<br>
+Confirm registration
+</td>
+<td>
+Student information displayed<br>
+Registration confirmation<br>
+OR error message
+</td>
+</tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🎯 Expected Output</h2>
+<pre>
+----- STUDENT ADMISSION -----
+
+Student ID     : 24CSE101
+Student Name   : Ravi Kumar
+Department     : CSE
+Mobile Number  : 9876543210
+
+Registration Information Recorded Successfully
+</pre>
+
+<p>If the information is invalid, the output should explain the problem clearly.</p>
+
+<pre>
+Student ID already exists.
+Admission cannot be completed.
+</pre>
+</section>
+
+<section class="card">
+<h2>🧪 Quick Student Challenge</h2>
+<p><strong>Question:</strong> Which one is easiest for a beginner to understand first?</p>
+<button onclick="show('q1')">Algorithm</button>
+<button onclick="show('q2')">Pseudocode</button>
+<button onclick="show('q3')">Program</button>
+<div id="q1" class="answer"><strong>Good starting point!</strong> The algorithm explains the solution as simple steps.</div>
+<div id="q2" class="answer">Pseudocode is useful after the algorithm because it prepares the logic for coding.</div>
+<div id="q3" class="answer">A program is the final implementation. It is easier when the logic is already clear.</div>
+
+<hr>
+
+<p><strong>Think:</strong> If you receive a new UniFlow requirement tomorrow, what should you create first?</p>
+<button onclick="show('q4')">Show Answer</button>
+<div id="q4" class="answer">Start by understanding the problem and designing the solution. Then create the algorithm, pseudocode/flowchart, and finally the Java program.</div>
+</section>
+
+<section class="card">
+<h2>🌟 The Big Picture</h2>
+<div class="flow">
+<div class="box">🌍 Real-World Problem</div><div>→</div>
+<div class="box">🧠 Understand</div><div>→</div>
+<div class="box">📋 Algorithm</div><div>→</div>
+<div class="box">📝 Pseudocode</div><div>→</div>
+<div class="box">🔷 Flowchart</div><div>→</div>
+<div class="box good">☕ Java Program</div>
+</div>
+<div class="eli">
+<strong>Remember:</strong> Algorithm tells us <strong>what steps to follow</strong>.
+Pseudocode tells us <strong>how those steps may look like code</strong>.
+Flowchart lets us <strong>see the logic</strong>.
+A Java program makes the solution <strong>executable by the computer</strong>.
+</div>
+<p class="highlight">Think first. Draw it. Write it. Then code it. 🚀</p>
+</section>
+
+</div>
+
+<footer>
+Programming for Problem Solving with Java • UniFlow – Smart University Academic Management System
+</footer>
+
+<script>
+function show(id){
+  document.querySelectorAll('.answer').forEach(x => x.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Expression Evaluation & Type Conversion — UniFlow</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#f5f7fb;color:#1f2937;line-height:1.65}
+header{background:linear-gradient(135deg,#0f766e,#0891b2,#2563eb);color:#fff;text-align:center;padding:45px 20px}
+header h1{margin:0 0 10px;font-size:clamp(28px,5vw,46px)}
+header p{margin:auto;max-width:980px;font-size:18px}
+.container{max-width:1180px;margin:auto;padding:22px 18px 65px}
+.card{background:#fff;border-radius:20px;padding:27px;margin:20px 0;box-shadow:0 9px 28px rgba(15,23,42,.09)}
+h2{color:#0f766e;margin-top:0}h3{color:#334155}
+.eli{background:#ecfeff;border-left:7px solid #06b6d4;padding:17px 20px;border-radius:12px;margin:16px 0}
+.robot{background:#eef2ff;border-left:7px solid #6366f1;padding:18px 20px;border-radius:12px}
+.robotbig{font-size:55px;text-align:center;margin:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}
+.tile{border-radius:16px;padding:20px;min-height:180px;border:2px solid transparent}
+.tile .icon{font-size:42px}.tile h3{margin:7px 0}
+.t1{background:#dbeafe;border-color:#60a5fa}.t2{background:#dcfce7;border-color:#4ade80}
+.t3{background:#fef3c7;border-color:#facc15}.t4{background:#ede9fe;border-color:#a78bfa}
+.t5{background:#fce7f3;border-color:#f472b6}.t6{background:#cffafe;border-color:#22d3ee}
+.t7{background:#ffedd5;border-color:#fb923c}
+.diagram{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;margin:25px 0}
+.box{padding:15px 19px;border-radius:14px;text-align:center;font-weight:700;border:2px solid #0891b2;background:#cffafe;min-width:145px}
+.arrow{font-size:25px;color:#0f766e}
+.blue{background:#dbeafe;border-color:#3b82f6}.green{background:#dcfce7;border-color:#22c55e}
+.yellow{background:#fef3c7;border-color:#eab308}.purple{background:#ede9fe;border-color:#8b5cf6}
+.pink{background:#fce7f3;border-color:#ec4899}.orange{background:#ffedd5;border-color:#f97316}
+.red{background:#fee2e2;border-color:#ef4444}
+table{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0;border:1px solid #dbe2ea;border-radius:13px;overflow:hidden}
+th,td{padding:13px;border-bottom:1px solid #dbe2ea;border-right:1px solid #dbe2ea;text-align:left;vertical-align:top}
+th{background:#0891b2;color:#fff}.striped tr:nth-child(even) td{background:#f0fdfa}
+.code{background:#0f172a;color:#e5e7eb;border-radius:15px;padding:22px;overflow:auto;font-family:Consolas,monospace;font-size:15px;line-height:1.7}
+.kw{color:#93c5fd}.type{color:#86efac}.var{color:#f9a8d4}.str{color:#fde68a}.num{color:#67e8f9}.comment{color:#94a3b8}.op{color:#c4b5fd}
+.example{border:3px solid #67e8f9;border-radius:16px;padding:20px;margin:18px 0;background:linear-gradient(135deg,#fff,#ecfeff)}
+.example h3{color:#0f766e;margin-top:0}
+.line{display:grid;grid-template-columns:55px 1fr 1.3fr;gap:10px;padding:9px 0;border-bottom:1px solid #d7eef1}
+.line:last-child{border-bottom:0}.ln{font-weight:bold;color:#0f766e}
+.output{background:#111827;color:#e5e7eb;padding:15px;border-radius:10px;font-family:Consolas,monospace}
+.note{background:#ecfdf5;border-left:7px solid #10b981;padding:17px;border-radius:12px}
+.warning{background:#fff7ed;border-left:7px solid #f97316;padding:17px;border-radius:12px}
+.highlight{font-size:21px;font-weight:800;color:#0f766e}
+.quiz button{border:0;background:#0891b2;color:white;padding:10px 15px;margin:5px;border-radius:9px;cursor:pointer}
+.answer{display:none;margin-top:10px;padding:12px;background:#ecfdf5;border-left:5px solid #10b981;border-radius:8px}
+footer{text-align:center;padding:25px;color:#64748b}
+@media(max-width:700px){.diagram{flex-direction:column}.arrow{transform:rotate(90deg)}.line{grid-template-columns:40px 1fr}.line .explain{grid-column:2}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🤖 Java Expression Evaluation & Type Conversion</h1>
+<p>UniFlow Examination Management Module — ELI10 + Robot Story + Colorful Diagrams + 9 Line-by-Line Examples</p>
+</header>
+
+<div class="container">
+
+<section class="card">
+<h2>🎯 Meet Robo-Examiner!</h2>
+<div class="robot">
+<div class="robotbig">🤖</div>
+<strong>Imagine UniFlow has a robot called Robo-Examiner.</strong><br>
+Robo-Examiner receives marks such as 22 and 29. It must add them, calculate averages,
+convert numbers when necessary, and prepare accurate academic results.
+</div>
+
+<div class="eli">
+<strong>ELI10:</strong> Think of numbers as different-sized robot batteries.
+An <code>int</code> battery stores whole numbers.
+A <code>double</code> battery can store numbers with decimal points.
+Sometimes Java can automatically move a value into a bigger/compatible numeric type.
+Sometimes we must explicitly tell Java: <strong>“Please convert this value.”</strong>
+</div>
+
+<p class="highlight">Today: Learn how Java evaluates expressions and moves values between data types.</p>
+</section>
+
+<section class="card">
+<h2>🤖 1. Robot Kitchen — Concepts Through a Story</h2>
+<div class="grid">
+<div class="tile t1"><div class="icon">🧮</div><h3>Expression</h3><p>A combination of values, variables and operators that produces a value.</p><p><code>internal + external</code></p></div>
+<div class="tile t2"><div class="icon">🥣</div><h3>Arithmetic Evaluation</h3><p>Robo-Examiner follows mathematical operations to calculate a result.</p></div>
+<div class="tile t3"><div class="icon">📐</div><h3>Precedence</h3><p>Java follows an order of operations, just like school mathematics.</p></div>
+<div class="tile t4"><div class="icon">🔄</div><h3>Implicit Conversion</h3><p>Java automatically converts some values to a compatible wider type.</p></div>
+<div class="tile t5"><div class="icon">🎯</div><h3>Explicit Casting</h3><p>The programmer explicitly requests a conversion, such as <code>(int) average</code>.</p></div>
+<div class="tile t6"><div class="icon">💯</div><h3>Precision</h3><p>Decimal information can be lost when converting from double to int.</p></div>
+<div class="tile t7"><div class="icon">🎓</div><h3>UniFlow Goal</h3><p>Calculate total, average, attendance and CGPA correctly.</p></div>
+</div>
+</section>
+
+<section class="card">
+<h2>🔢 2. Arithmetic Expression Evaluation</h2>
+
+<div class="diagram">
+<div class="box blue">Internal = 22</div>
+<div class="arrow">➕</div>
+<div class="box yellow">External = 29</div>
+<div class="arrow">=</div>
+<div class="box green">Total = 51</div>
+</div>
+
+<table class="striped">
+<tr><th>Expression</th><th>Robot's Thinking</th><th>Result</th></tr>
+<tr><td><code>22 + 29</code></td><td>Add 22 and 29.</td><td>51</td></tr>
+<tr><td><code>51 - 5</code></td><td>Subtract 5 from 51.</td><td>46</td></tr>
+<tr><td><code>51 * 2</code></td><td>Multiply 51 by 2.</td><td>102</td></tr>
+<tr><td><code>51 / 5</code></td><td>Divide 51 by 5.</td><td>10 for integer division</td></tr>
+<tr><td><code>51 % 5</code></td><td>Find the remainder after division.</td><td>1</td></tr>
+</table>
+
+<div class="warning">
+<strong>Important:</strong> If both operands of <code>/</code> are integers, Java performs integer division.
+For example, <code>51 / 5</code> produces <strong>10</strong>, not 10.2.
+</div>
+</section>
+
+<section class="card">
+<h2>📐 3. Operator Precedence — Robo Follows the Order</h2>
+
+<div class="robot">
+<div class="robotbig">🤖 ➡️ 🧠</div>
+Robo-Examiner does not simply calculate from left to right. It follows Java's precedence rules.
+</div>
+
+<table>
+<tr><th>Priority</th><th>Operators</th><th>Simple Meaning</th></tr>
+<tr><td>1</td><td><code>()</code></td><td>Parentheses first</td></tr>
+<tr><td>2</td><td><code>* / %</code></td><td>Multiplication, division, remainder</td></tr>
+<tr><td>3</td><td><code>+ -</code></td><td>Addition and subtraction</td></tr>
+<tr><td>4</td><td>Assignment</td><td>Store the final result</td></tr>
+</table>
+
+<div class="diagram">
+<div class="box purple">10 + 20 * 2</div>
+<div class="arrow">➡️</div>
+<div class="box yellow">20 * 2 = 40</div>
+<div class="arrow">➡️</div>
+<div class="box green">10 + 40 = 50</div>
+</div>
+
+<div class="eli">
+<strong>ELI10:</strong> Multiplication gets served before addition — just like a VIP customer going through the queue first.
+Use parentheses when you want to make the intended order very clear.
+</div>
+</section>
+
+<section class="card">
+<h2>🔄 4. Implicit Type Conversion — Java Helps Automatically</h2>
+
+<div class="diagram">
+<div class="box blue">int<br>51</div>
+<div class="arrow">➡️</div>
+<div class="box cyan">Java converts<br>int → double</div>
+<div class="arrow">➡️</div>
+<div class="box green">double<br>51.0</div>
+</div>
+
+<div class="eli">
+<strong>ELI10:</strong> Imagine a small robot battery being placed into a larger compatible battery compartment.
+Java can automatically widen an <code>int</code> to a <code>double</code> when the assignment requires it.
+</div>
+
+<div class="code">
+<span class="type">int</span> totalMarks = <span class="num">51</span>;<br>
+<span class="type">double</span> average = totalMarks;<br>
+System.out.println(average);
+</div>
+
+<div class="output">51.0</div>
+
+<p>Here Java automatically converts <code>51</code> into <code>51.0</code> because the destination variable is a <code>double</code>.</p>
+</section>
+
+<section class="card">
+<h2>🎯 5. Explicit Type Casting — Tell Java Exactly What You Want</h2>
+
+<div class="diagram">
+<div class="box purple">double<br>51.8</div>
+<div class="arrow">➡️</div>
+<div class="box orange">(int)</div>
+<div class="arrow">➡️</div>
+<div class="box green">int<br>51</div>
+</div>
+
+<div class="warning">
+<strong>Decimal part is lost.</strong> Converting <code>51.8</code> to <code>int</code> gives <code>51</code>.
+This is a conversion, not rounding to the nearest integer.
+</div>
+
+<div class="code">
+<span class="type">double</span> average = <span class="num">51.8</span>;<br>
+<span class="type">int</span> wholeAverage = (<span class="type">int</span>) average;
+</div>
+
+<div class="output">average = 51.8<br>wholeAverage = 51</div>
+</section>
+
+<section class="card">
+<h2>⚠️ 6. The Most Important Example: Average</h2>
+
+<div class="diagram">
+<div class="box blue">22 + 29</div>
+<div class="arrow">➡️</div>
+<div class="box yellow">51</div>
+<div class="arrow">➡️</div>
+<div class="box purple">÷ 2</div>
+<div class="arrow">➡️</div>
+<div class="box red">25 ❌</div>
+</div>
+
+<p>Why 25? Because both operands are integers:</p>
+
+<div class="code">
+<span class="type">int</span> internalMarks = <span class="num">22</span>;<br>
+<span class="type">int</span> externalMarks = <span class="num">29</span>;<br>
+<span class="type">double</span> average = (internalMarks + externalMarks) / <span class="num">2</span>;
+</div>
+
+<p>The addition gives 51. Then <code>51 / 2</code> is integer division, producing 25. The result is then assigned to double as <strong>25.0</strong>.</p>
+
+<div class="good">
+<strong>Correct approach:</strong> Make one operand a double before division.
+</div>
+
+<div class="code">
+<span class="type">double</span> average = (internalMarks + externalMarks) / <span class="num">2.0</span>;
+</div>
+
+<div class="output">Correct average = 25.5</div>
+</section>
+
+<section class="card">
+<h2>📊 7. int vs double — Side-by-Side</h2>
+
+<table class="striped">
+<tr><th>Expression</th><th>Type of operands</th><th>Result</th><th>Why?</th></tr>
+<tr><td><code>51 / 2</code></td><td>int / int</td><td>25</td><td>Integer division removes decimal part.</td></tr>
+<tr><td><code>51 / 2.0</code></td><td>int / double</td><td>25.5</td><td>Java performs floating-point division.</td></tr>
+<tr><td><code>(double) 51 / 2</code></td><td>double / int</td><td>25.5</td><td>Explicit cast makes the first operand double.</td></tr>
+<tr><td><code>(double)(51 / 2)</code></td><td>Cast after integer division</td><td>25.0</td><td>The decimal was already lost before casting.</td></tr>
+</table>
+
+<div class="eli">
+<strong>ELI10:</strong> Casting at the wrong time is like taking a photo after throwing away half the information.
+Once the decimal is lost, casting the final answer cannot bring it back.
+</div>
+</section>
+
+<section class="card">
+<h2>☕ 8. Complete UniFlow Examination Program</h2>
+
+<div class="code">
+<span class="kw">public class</span> <span class="var">ExpressionEvaluation</span> {<br><br>
+&nbsp;&nbsp;<span class="kw">public static void</span> main(String[] args) {<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">int</span> internalMarks = <span class="num">22</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">int</span> externalMarks = <span class="num">29</span>;<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">int</span> totalMarks = internalMarks + externalMarks;<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">double</span> averageAutomatic = totalMarks / <span class="num">2.0</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">int</span> averageInteger = totalMarks / <span class="num">2</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">int</span> averageCast = (<span class="type">int</span>) averageAutomatic;<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Internal Marks : "</span> + internalMarks);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"External Marks : "</span> + externalMarks);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Total Marks    : "</span> + totalMarks);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Average (double): "</span> + averageAutomatic);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Average (int)   : "</span> + averageInteger);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Average cast    : "</span> + averageCast);<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Without casting: "</span> + (internalMarks + externalMarks) / <span class="num">2</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"With casting   : "</span> + (double)(internalMarks + externalMarks) / <span class="num">2</span>);<br><br>
+
+&nbsp;&nbsp;}<br>
+}
+</div>
+</section>
+
+<section class="card">
+<h2>🔬 9. Nine Examples — Every Line Explained</h2>
+
+<div class="example">
+<h3>Example 1 — Basic Total</h3>
+<div class="line"><div class="ln">1</div><code>int internal = 22;</code><div class="explain">Creates an integer variable and stores 22.</div></div>
+<div class="line"><div class="ln">2</div><code>int external = 29;</code><div class="explain">Creates another integer variable and stores 29.</div></div>
+<div class="line"><div class="ln">3</div><code>int total = internal + external;</code><div class="explain">The + operator adds 22 and 29. Total becomes 51.</div></div>
+<div class="output">Total = 51</div>
+</div>
+
+<div class="example">
+<h3>Example 2 — Integer Division</h3>
+<div class="line"><div class="ln">1</div><code>int total = 51;</code><div class="explain">Stores 51 as an integer.</div></div>
+<div class="line"><div class="ln">2</div><code>int subjects = 2;</code><div class="explain">Stores the number of subjects as an integer.</div></div>
+<div class="line"><div class="ln">3</div><code>int average = total / subjects;</code><div class="explain">51 divided by 2 using integer division gives 25, so the decimal .5 is discarded.</div></div>
+<div class="output">Average = 25</div>
+</div>
+
+<div class="example">
+<h3>Example 3 — Correct Double Average</h3>
+<div class="line"><div class="ln">1</div><code>int total = 51;</code><div class="explain">Stores the total marks.</div></div>
+<div class="line"><div class="ln">2</div><code>double average = total / 2.0;</code><div class="explain">Because 2.0 is double, Java performs floating-point division.</div></div>
+<div class="line"><div class="ln">3</div><code>average</code><div class="explain">The result is 25.5, preserving the decimal.</div></div>
+<div class="output">Average = 25.5</div>
+</div>
+
+<div class="example">
+<h3>Example 4 — Explicit Cast</h3>
+<div class="line"><div class="ln">1</div><code>double average = 25.8;</code><div class="explain">Stores a decimal value in a double variable.</div></div>
+<div class="line"><div class="ln">2</div><code>int whole = (int) average;</code><div class="explain">Explicitly converts double to int. The decimal part is discarded.</div></div>
+<div class="line"><div class="ln">3</div><code>System.out.println(whole);</code><div class="explain">Displays 25.</div></div>
+<div class="output">25</div>
+</div>
+
+<div class="example">
+<h3>Example 5 — Cast Before Division</h3>
+<div class="line"><div class="ln">1</div><code>int total = 51;</code><div class="explain">Stores the total.</div></div>
+<div class="line"><div class="ln">2</div><code>double average = (double) total / 2;</code><div class="explain">The cast changes total from int 51 to double 51.0 before division.</div></div>
+<div class="line"><div class="ln">3</div><code>average</code><div class="explain">51.0 / 2 produces 25.5.</div></div>
+<div class="output">25.5</div>
+</div>
+
+<div class="example">
+<h3>Example 6 — Cast Too Late</h3>
+<div class="line"><div class="ln">1</div><code>int total = 51;</code><div class="explain">Stores 51.</div></div>
+<div class="line"><div class="ln">2</div><code>double average = (double)(total / 2);</code><div class="explain">First Java calculates 51 / 2 as integer division = 25. Only after that does it convert 25 to 25.0.</div></div>
+<div class="line"><div class="ln">3</div><code>average</code><div class="explain">The lost .5 cannot return.</div></div>
+<div class="output">25.0</div>
+</div>
+
+<div class="example">
+<h3>Example 7 — Attendance Percentage</h3>
+<div class="line"><div class="ln">1</div><code>int present = 43;</code><div class="explain">Stores 43 days present.</div></div>
+<div class="line"><div class="ln">2</div><code>int workingDays = 50;</code><div class="explain">Stores 50 total working days.</div></div>
+<div class="line"><div class="ln">3</div><code>double attendance = (double) present / workingDays * 100;</code><div class="explain">Casting present to double makes the division decimal-based. Then multiply by 100.</div></div>
+<div class="output">Attendance = 86.0%</div>
+</div>
+
+<div class="example">
+<h3>Example 8 — CGPA Calculation</h3>
+<div class="line"><div class="ln">1</div><code>double totalPoints = 42.5;</code><div class="explain">Stores total grade points with decimals.</div></div>
+<div class="line"><div class="ln">2</div><code>int subjects = 5;</code><div class="explain">Stores the number of subjects.</div></div>
+<div class="line"><div class="ln">3</div><code>double cgpa = totalPoints / subjects;</code><div class="explain">Because totalPoints is double, Java performs floating-point division automatically.</div></div>
+<div class="output">CGPA = 8.5</div>
+</div>
+
+<div class="example">
+<h3>Example 9 — Mixed-Mode Expression</h3>
+<div class="line"><div class="ln">1</div><code>int internal = 22;</code><div class="explain">Integer value.</div></div>
+<div class="line"><div class="ln">2</div><code>double external = 29.5;</code><div class="explain">Decimal value.</div></div>
+<div class="line"><div class="ln">3</div><code>double total = internal + external;</code><div class="explain">Java widens the int 22 to double 22.0 before adding it to 29.5.</div></div>
+<div class="line"><div class="ln">4</div><code>total</code><div class="explain">22.0 + 29.5 gives 51.5.</div></div>
+<div class="output">Total = 51.5</div>
+</div>
+</section>
+
+<section class="card">
+<h2>📊 10. Automatic vs Explicit Conversion</h2>
+
+<table>
+<tr><th>Situation</th><th>Example</th><th>Conversion</th><th>Result</th></tr>
+<tr><td>int assigned to double</td><td><code>double x = 51;</code></td><td>Automatic widening</td><td>51.0</td></tr>
+<tr><td>int + double</td><td><code>22 + 29.5</code></td><td>int widened to double</td><td>51.5</td></tr>
+<tr><td>double to int</td><td><code>int x = (int)25.8;</code></td><td>Explicit narrowing</td><td>25</td></tr>
+<tr><td>int division</td><td><code>51 / 2</code></td><td>No decimal conversion</td><td>25</td></tr>
+<tr><td>double division</td><td><code>51 / 2.0</code></td><td>Floating-point calculation</td><td>25.5</td></tr>
+</table>
+
+<div class="eli">
+<strong>ELI10:</strong> Widening is usually safe because the destination can represent the source value's range.
+Narrowing can lose information, so Java requires an explicit cast in many cases.
+</div>
+</section>
+
+<section class="card">
+<h2>🧮 11. Complete Calculation Flow for UniFlow</h2>
+
+<div class="diagram">
+<div class="box blue">📥 Read<br>Internal + External</div>
+<div class="arrow">➡️</div>
+<div class="box yellow">➕ Total</div>
+<div class="arrow">➡️</div>
+<div class="box purple">➗ Average</div>
+<div class="arrow">➡️</div>
+<div class="box cyan">🔄 Convert Types</div>
+<div class="arrow">➡️</div>
+<div class="box green">📊 Display</div>
+</div>
+
+<table class="striped">
+<tr><th>Step</th><th>Calculation</th><th>Expected Value</th></tr>
+<tr><td>1</td><td>Internal = 22</td><td>22</td></tr>
+<tr><td>2</td><td>External = 29</td><td>29</td></tr>
+<tr><td>3</td><td>Total = 22 + 29</td><td>51</td></tr>
+<tr><td>4</td><td>Average using <code>/ 2</code></td><td>25 if integer division</td></tr>
+<tr><td>5</td><td>Average using <code>/ 2.0</code></td><td>25.5</td></tr>
+<tr><td>6</td><td><code>(int)25.5</code></td><td>25</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🖥️ 12. Well-Formatted Output</h2>
+
+<div class="output">
+======================================<br>
+&nbsp;&nbsp;&nbsp;&nbsp;UNIFLOW EXAMINATION REPORT<br>
+======================================<br>
+Internal Marks&nbsp;&nbsp;&nbsp;&nbsp;: 22<br>
+External Marks&nbsp;&nbsp;&nbsp;&nbsp;: 29<br>
+Total Marks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 51<br>
+Average (double)&nbsp;&nbsp;: 25.5<br>
+Average (int)&nbsp;&nbsp;&nbsp;&nbsp;: 25<br>
+Without cast&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 25<br>
+With cast&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 25.5<br>
+======================================
+</div>
+
+<div class="note">
+<strong>Key observation:</strong> The double calculation preserves 25.5.
+The integer calculation loses the decimal portion and gives 25.
+</div>
+</section>
+
+<section class="card">
+<h2>🧪 13. Quick Robot Challenge</h2>
+
+<p><strong>Q1. What is 51 / 2 when both are int?</strong></p>
+<button onclick="show('a1')">Show Answer</button>
+<div id="a1" class="answer">🤖 25 — integer division discards the decimal portion.</div>
+
+<p><strong>Q2. What is 51 / 2.0?</strong></p>
+<button onclick="show('a2')">Show Answer</button>
+<div id="a2" class="answer">🤖 25.5 — the presence of a double causes floating-point division.</div>
+
+<p><strong>Q3. What is (int)25.9?</strong></p>
+<button onclick="show('a3')">Show Answer</button>
+<div id="a3" class="answer">🤖 25 — explicit cast to int removes the fractional part; it does not round to 26.</div>
+
+<p><strong>Q4. Why is (double)(51 / 2) still 25.0?</strong></p>
+<button onclick="show('a4')">Show Answer</button>
+<div id="a4" class="answer">🤖 Because 51 / 2 is calculated first as integer division. Only the final 25 is then converted to double.</div>
+
+<p><strong>Q5. Which is better for an average: /2 or /2.0?</strong></p>
+<button onclick="show('a5')">Show Answer</button>
+<div id="a5" class="answer">🤖 /2.0 when a decimal average is required.</div>
+</section>
+
+<section class="card">
+<h2>🌟 Final Mental Model</h2>
+
+<div class="diagram">
+<div class="box blue">🧮 Expression</div>
+<div class="arrow">→</div>
+<div class="box yellow">📐 Precedence</div>
+<div class="arrow">→</div>
+<div class="box purple">🔄 Type Conversion</div>
+<div class="arrow">→</div>
+<div class="box orange">🎯 Result</div>
+<div class="arrow">→</div>
+<div class="box green">🎓 Accurate Report</div>
+</div>
+
+<table>
+<tr><th>Concept</th><th>Robot Story</th><th>UniFlow Example</th></tr>
+<tr><td>Expression</td><td>🤖 A calculation instruction</td><td><code>internal + external</code></td></tr>
+<tr><td>Precedence</td><td>📐 Robot's calculation order</td><td><code>10 + 20 * 2</code></td></tr>
+<tr><td>Implicit conversion</td><td>🔄 Robot automatically changes compatible type</td><td><code>double x = 51;</code></td></tr>
+<tr><td>Explicit casting</td><td>🎯 Programmer tells robot to convert</td><td><code>(int)25.8</code></td></tr>
+<tr><td>Integer division</td><td>✂️ Decimal part is discarded</td><td><code>51 / 2 = 25</code></td></tr>
+<tr><td>Floating-point division</td><td>💎 Decimal information preserved</td><td><code>51 / 2.0 = 25.5</code></td></tr>
+</table>
+
+<div class="robot">
+<div class="robotbig">🤖🎓</div>
+<strong>Robo-Examiner's Golden Rule:</strong><br>
+“Before calculating marks, understand the data types involved.
+If you need decimal accuracy, make sure the expression performs floating-point arithmetic.”
+</div>
+
+<p class="highlight">Don't just ask “What is the answer?” Ask “How did Java get the answer?” 🚀</p>
+</section>
+
+</div>
+
+<footer>
+Programming for Problem Solving with Java • UniFlow – Smart University Academic Management System
+</footer>
+
+<script>
+function show(id){
+  document.querySelectorAll('.answer').forEach(x=>x.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+</script>
+</body>
+</html>

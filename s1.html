@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programming for Problem Solving with Java — UniFlow Session</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f7fb;
+    color: #1f2937;
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(135deg, #172554, #2563eb);
+    color: white;
+    padding: 42px 20px;
+    text-align: center;
+  }
+  header h1 { margin: 0 0 10px; font-size: clamp(28px, 5vw, 46px); }
+  header p { margin: 0 auto; max-width: 850px; font-size: 18px; }
+  .container { max-width: 1100px; margin: auto; padding: 25px 18px 60px; }
+  .card {
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, .08);
+  }
+  h2 { color: #1d4ed8; margin-top: 0; }
+  h3 { color: #334155; }
+  .eli {
+    background: #eff6ff;
+    border-left: 6px solid #2563eb;
+    padding: 16px 18px;
+    border-radius: 10px;
+    margin: 15px 0;
+  }
+  .story {
+    background: #fff7ed;
+    border-left: 6px solid #f97316;
+    padding: 16px 18px;
+    border-radius: 10px;
+  }
+  .modules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 14px;
+  }
+  .module {
+    padding: 18px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+  }
+  .module strong { display: block; color: #1e40af; margin-bottom: 6px; }
+  .ipo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+  }
+  .ipo div {
+    padding: 22px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    font-weight: 600;
+  }
+  .input { background: #2563eb; }
+  .process { background: #7c3aed; }
+  .output { background: #059669; }
+  .arrow { font-size: 28px; display: block; margin-top: 8px; }
+  .thinking {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+  }
+  .thinking article {
+    background: #f8fafc;
+    border: 1px solid #dbeafe;
+    border-radius: 14px;
+    padding: 18px;
+  }
+  .thinking span {
+    font-size: 30px;
+    display: block;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+  th, td { padding: 13px; border: 1px solid #dbe2ea; text-align: left; }
+  th { background: #dbeafe; color: #1e3a8a; }
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 25px 0;
+  }
+  .step {
+    background: #eef2ff;
+    border: 2px solid #6366f1;
+    border-radius: 12px;
+    padding: 13px 17px;
+    text-align: center;
+    font-weight: 600;
+  }
+  .decision {
+    background: #fef3c7;
+    border-color: #d97706;
+  }
+  .good { background: #dcfce7; border-color: #16a34a; }
+  .bad { background: #fee2e2; border-color: #dc2626; }
+  .quiz button {
+    border: 0;
+    background: #2563eb;
+    color: white;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 9px;
+    cursor: pointer;
+  }
+  .quiz button:hover { background: #1d4ed8; }
+  .answer { display: none; margin-top: 12px; padding: 12px; background: #ecfdf5; border-radius: 8px; }
+  .highlight {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1d4ed8;
+  }
+  footer {
+    text-align: center;
+    padding: 25px;
+    color: #64748b;
+  }
+  @media (max-width: 700px) {
+    .ipo { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; }
+  }
+</style>
+</head>
+
+<body>
+<header>
+  <h1>🚀 Programming for Problem Solving with Java</h1>
+  <p>Session 1: From a Real University Problem → Thinking → Algorithm → Java Program</p>
+</header>
+
+<div class="container">
+
+  <section class="card">
+    <h2>🎯 What are we learning today?</h2>
+    <div class="eli">
+      <strong>ELI10:</strong> Imagine your university is a huge school. Thousands of students need admission,
+      courses, attendance, marks and reports. Instead of managing everything with notebooks, we want to build
+      one smart computer system called <strong>UniFlow</strong>.
+    </div>
+    <p class="highlight">Java is the tool. Problem-solving is the skill. UniFlow is our real-world project.</p>
+  </section>
+
+  <section class="card">
+    <h2>🏫 Meet UniFlow</h2>
+    <div class="story">
+      <strong>Imagine this:</strong> A student joins the university. First, we collect admission details.
+      Then the student registers for courses. Every day, attendance is recorded. Later, marks are entered.
+      Finally, the system prepares results and academic reports.
+    </div>
+
+    <h3>The UniFlow journey</h3>
+    <div class="modules">
+      <div class="module"><strong>1. Student Admission</strong>Register a new student.</div>
+      <div class="module"><strong>2. Course Registration</strong>Choose and register courses.</div>
+      <div class="module"><strong>3. Attendance</strong>Record daily attendance.</div>
+      <div class="module"><strong>4. Examination</strong>Store and process marks.</div>
+      <div class="module"><strong>5. Result Processing</strong>Calculate totals, averages and results.</div>
+      <div class="module"><strong>6. Reports</strong>Create useful academic reports.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🧩 Why do we need Problem Solving?</h2>
+    <p>Computers are very good at following instructions, but they cannot magically understand a messy real-world problem.</p>
+
+    <div class="eli">
+      <strong>ELI10 example:</strong> If I say, “Manage all students,” the computer asks:
+      <em>Which students? What information? What rules? What should I do with the information? What should I show?</em>
+    </div>
+
+    <p>So we first convert a big problem into small, clear problems.</p>
+  </section>
+
+  <section class="card">
+    <h2>🧠 Computational Thinking</h2>
+    <p>Computational thinking means <strong>thinking like a problem-solving computer scientist</strong> before writing code.</p>
+
+    <div class="thinking">
+      <article>
+        <span>🧱</span>
+        <h3>1. Decomposition</h3>
+        <p>Break one big problem into smaller pieces.</p>
+        <p><strong>UniFlow:</strong> Admission → Registration → Attendance → Examination → Reports</p>
+      </article>
+
+      <article>
+        <span>🔍</span>
+        <h3>2. Pattern Recognition</h3>
+        <p>Find things that happen again and again.</p>
+        <p><strong>Example:</strong> Many modules need student ID and student name.</p>
+      </article>
+
+      <article>
+        <span>🎯</span>
+        <h3>3. Abstraction</h3>
+        <p>Focus on important information and ignore unnecessary details.</p>
+        <p><strong>Example:</strong> Admission needs a mobile number, but may not need the student's favorite color.</p>
+      </article>
+
+      <article>
+        <span>📋</span>
+        <h3>4. Algorithmic Thinking</h3>
+        <p>Arrange the solution as clear step-by-step instructions.</p>
+        <p><strong>Example:</strong> Read ID → Check ID → Read mobile → Check mobile → Accept or reject.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🔄 The IPO Model</h2>
+    <div class="eli">
+      <strong>ELI10:</strong> Think about a sandwich machine.
+      You give it ingredients <strong>(Input)</strong>, it makes the sandwich <strong>(Process)</strong>,
+      and you receive the sandwich <strong>(Output)</strong>.
+    </div>
+
+    <div class="ipo">
+      <div class="input">INPUT<br><span class="arrow">⬇</span>Information we give</div>
+      <div class="process">PROCESS<br><span class="arrow">⚙️</span>Rules + calculations</div>
+      <div class="output">OUTPUT<br><span class="arrow">⬇</span>Result we get</div>
+    </div>
+
+    <h3>UniFlow example</h3>
+    <p><strong>Input:</strong> Student ID, Name, Department, Mobile Number</p>
+    <p><strong>Process:</strong> Check whether ID is unique and mobile number has exactly 10 digits.</p>
+    <p><strong>Output:</strong> Admission successful OR an error message.</p>
+  </section>
+
+  <section class="card">
+    <h2>👨‍🎓 Student Admission Module</h2>
+    <div class="eli">
+      <strong>Our mission:</strong> Build the first small piece of UniFlow — a module that safely admits a student.
+    </div>
+
+    <h3>Required Student Information</h3>
+    <table>
+      <thead>
+        <tr><th>Input</th><th>Example</th><th>Why do we need it?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Student ID</td><td>24CSE101</td><td>Uniquely identify the student</td></tr>
+        <tr><td>Student Name</td><td>Arun Kumar</td><td>Identify the student by name</td></tr>
+        <tr><td>Department</td><td>CSE</td><td>Know the student's academic department</td></tr>
+        <tr><td>Mobile Number</td><td>9876543210</td><td>Contact the student</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>📥 Task 1 — Identify Inputs and Outputs</h2>
+
+    <h3>Inputs</h3>
+    <ul>
+      <li>Student ID</li>
+      <li>Student Name</li>
+      <li>Department</li>
+      <li>Mobile Number</li>
+    </ul>
+
+    <h3>Expected Outputs</h3>
+    <ul>
+      <li>Admission Successful</li>
+      <li>OR Student ID already exists</li>
+      <li>OR Invalid mobile number</li>
+      <li>OR another validation error</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>⚙️ Task 2 — Design the IPO Model</h2>
+
+    <table>
+      <thead>
+        <tr><th>INPUT</th><th>PROCESS</th><th>OUTPUT</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Student ID<br>
+            Student Name<br>
+            Department<br>
+            Mobile Number
+          </td>
+          <td>
+            1. Read student details<br>
+            2. Check Student ID uniqueness<br>
+            3. Check mobile number length<br>
+            4. Accept or reject admission
+          </td>
+          <td>
+            Admission Successful<br>
+            OR<br>
+            Error Message
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="flow">
+      <div class="step">👤 Enter Student Details</div>
+      <div>➡️</div>
+      <div class="step decision">🔎 ID Unique?</div>
+      <div>➡️</div>
+      <div class="step decision">📱 10 Digits?</div>
+      <div>➡️</div>
+      <div class="step good">✅ Admission Successful</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🛡️ Task 3 — Admission Validation Rules</h2>
+
+    <table>
+      <thead>
+        <tr><th>Rule</th><th>Condition</th><th>If it fails</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Student ID must be unique</td>
+          <td>ID should not already exist in the system.</td>
+          <td>Show “Student ID already exists.”</td>
+        </tr>
+        <tr>
+          <td>Mobile number must have exactly 10 digits</td>
+          <td>Length must be 10 and characters must be digits.</td>
+          <td>Show “Invalid mobile number.”</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="eli">
+      <strong>ELI10:</strong> Validation is like a security guard at the university gate.
+      The guard checks the rules before allowing the student inside.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🧪 Try the Thinking Challenge</h2>
+    <div class="quiz">
+      <p><strong>Question 1:</strong> Student ID “24CSE101” is already stored. What should happen?</p>
+      <button onclick="showAnswer('a1')">Show Answer</button>
+      <div id="a1" class="answer">❌ Reject the admission because Student ID must be unique.</div>
+
+      <p><strong>Question 2:</strong> Mobile number is “987654321”. What should happen?</p>
+      <button onclick="showAnswer('a2')">Show Answer</button>
+      <div id="a2" class="answer">❌ Reject it because it contains only 9 digits.</div>
+
+      <p><strong>Question 3:</strong> Mobile number is “9876543210” and Student ID is unique. What should happen?</p>
+      <button onclick="showAnswer('a3')">Show Answer</button>
+      <div id="a3" class="answer">✅ Admission can be accepted, assuming the other required details are valid.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>💡 From Thinking to Java</h2>
+    <div class="flow">
+      <div class="step">🌍 Real Problem</div>
+      <div>→</div>
+      <div class="step">🧠 Computational Thinking</div>
+      <div>→</div>
+      <div class="step">📋 IPO</div>
+      <div>→</div>
+      <div class="step">🔢 Algorithm</div>
+      <div>→</div>
+      <div class="step">☕ Java Program</div>
+      <div>→</div>
+      <div class="step good">🚀 UniFlow Module</div>
+    </div>
+
+    <div class="eli">
+      <strong>Important idea for students:</strong>
+      Do not start with Java code immediately. First understand the problem,
+      identify inputs, define the rules, decide the process, and decide the expected output.
+      <strong>Then write Java.</strong>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🎓 End-of-Session Learning Check</h2>
+    <ul>
+      <li>Can I explain what UniFlow is?</li>
+      <li>Can I explain why problem solving is needed before coding?</li>
+      <li>Can I explain decomposition, pattern recognition, abstraction and algorithmic thinking?</li>
+      <li>Can I create an IPO model?</li>
+      <li>Can I identify inputs and outputs for the admission module?</li>
+      <li>Can I write the admission validation rules in simple words?</li>
+    </ul>
+
+    <p class="highlight">Remember: Good programmers don't just write code. They first learn how to think about the problem. 🧠☕</p>
+  </section>
+
+</div>
+
+<footer>
+  Programming for Problem Solving with Java • UniFlow – Smart University Academic Management System
+</footer>
+
+<script>
+function showAnswer(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === "block" ? "none" : "block";
+}
+</script>
+</body>
+</html>

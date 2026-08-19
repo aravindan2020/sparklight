@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Operators — UniFlow Examination Management</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#f6f8fc;color:#1f2937;line-height:1.6}
+header{background:linear-gradient(135deg,#581c87,#db2777,#f97316);color:#fff;text-align:center;padding:44px 20px}
+header h1{margin:0 0 10px;font-size:clamp(28px,5vw,46px)}
+header p{margin:auto;max-width:950px;font-size:18px}
+.container{max-width:1180px;margin:auto;padding:22px 18px 60px}
+.card{background:#fff;border-radius:20px;padding:27px;margin:20px 0;box-shadow:0 9px 28px rgba(15,23,42,.09)}
+h2{color:#9d174d;margin-top:0} h3{color:#334155}
+.eli{background:#fff1f2;border-left:7px solid #ec4899;padding:17px 20px;border-radius:12px;margin:16px 0}
+.story{background:#fef3c7;border-left:7px solid #f59e0b;padding:18px 20px;border-radius:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}
+.tile{border-radius:16px;padding:20px;min-height:185px;border:2px solid transparent}
+.tile .icon{font-size:40px}.tile h3{margin:8px 0}
+.t1{background:#fee2e2;border-color:#f87171}.t2{background:#dcfce7;border-color:#4ade80}
+.t3{background:#dbeafe;border-color:#60a5fa}.t4{background:#f3e8ff;border-color:#a78bfa}
+.t5{background:#fef3c7;border-color:#facc15}.t6{background:#cffafe;border-color:#22d3ee}
+.t7{background:#fce7f3;border-color:#f472b6}
+.diagram{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;margin:25px 0}
+.box{padding:15px 19px;border-radius:14px;text-align:center;font-weight:700;border:2px solid #db2777;background:#fce7f3;min-width:145px}
+.arrow{font-size:25px;color:#9d174d}
+.green{background:#dcfce7;border-color:#22c55e}.blue{background:#dbeafe;border-color:#3b82f6}
+.purple{background:#ede9fe;border-color:#8b5cf6}.yellow{background:#fef3c7;border-color:#eab308}
+.cyan{background:#cffafe;border-color:#06b6d4}.orange{background:#ffedd5;border-color:#f97316}
+.red{background:#fee2e2;border-color:#ef4444}
+table{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0;border:1px solid #dbe2ea;border-radius:13px;overflow:hidden}
+th,td{padding:13px;border-bottom:1px solid #dbe2ea;border-right:1px solid #dbe2ea;text-align:left;vertical-align:top}
+th{background:#db2777;color:white}.striped tr:nth-child(even) td{background:#fff7fb}
+.code{background:#111827;color:#e5e7eb;border-radius:15px;padding:22px;overflow:auto;font-family:Consolas,monospace;font-size:15px;line-height:1.7}
+.kw{color:#93c5fd}.type{color:#86efac}.var{color:#f9a8d4}.str{color:#fde68a}.num{color:#67e8f9}.comment{color:#94a3b8}.op{color:#c4b5fd}
+.example{border:3px solid #f9a8d4;border-radius:16px;padding:20px;margin:18px 0;background:linear-gradient(135deg,#fff,#fff1f2)}
+.example h3{color:#be185d;margin-top:0}
+.line{display:grid;grid-template-columns:70px 1fr 1.25fr;gap:10px;padding:9px 0;border-bottom:1px solid #f1d5df}
+.line:last-child{border-bottom:0}.ln{font-weight:bold;color:#be185d}
+.output{background:#111827;color:#e5e7eb;padding:15px;border-radius:10px;font-family:Consolas,monospace}
+.badge{display:inline-block;padding:6px 11px;border-radius:20px;background:#fce7f3;color:#9d174d;font-weight:700;margin:3px}
+.highlight{font-size:21px;font-weight:800;color:#9d174d}
+.note{background:#ecfdf5;border-left:7px solid #10b981;padding:17px;border-radius:12px}
+.warning{background:#fff7ed;border-left:7px solid #f97316;padding:17px;border-radius:12px}
+.quiz button{border:0;background:#db2777;color:#fff;padding:10px 15px;margin:5px;border-radius:9px;cursor:pointer}
+.answer{display:none;margin-top:10px;padding:12px;background:#ecfdf5;border-left:5px solid #10b981;border-radius:8px}
+footer{text-align:center;padding:25px;color:#64748b}
+@media(max-width:700px){.diagram{flex-direction:column}.arrow{transform:rotate(90deg)}.line{grid-template-columns:45px 1fr}.line .explain{grid-column:2}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🍱 Java Operators & Examination Results</h1>
+<p>UniFlow Examination Management Module — ELI10 + Food Story + Colorful Diagrams + 7 Extra Examples</p>
+</header>
+
+<div class="container">
+
+<section class="card">
+<h2>🎯 Today's Big Idea</h2>
+<div class="story">
+<strong>🍕 Imagine a university pizza shop!</strong><br><br>
+You have 30 rupees for a pizza and 20 rupees for a drink.
+You add them to find the bill. Then you ask questions:
+“Is the bill at least ₹50?” “Did the student pay enough?” “Are both conditions true?”
+Operators are the tiny symbols that help Java perform these actions.
+</div>
+
+<div class="eli">
+<strong>ELI10:</strong> Operators are like the tools in a kitchen:
+➕ add ingredients, ➖ remove ingredients, 🔍 compare ingredients, 🧠 combine conditions,
+🔄 change quantities, and ❓ choose between two outcomes.
+</div>
+</section>
+
+<section class="card">
+<h2>🍽️ 1. Operators as Food-Kitchen Tools</h2>
+<div class="grid">
+<div class="tile t1"><div class="icon">➕</div><h3>Arithmetic</h3><p><code>+ - * / %</code></p><p>Like adding, removing or dividing ingredients.</p></div>
+<div class="tile t2"><div class="icon">🔍</div><h3>Relational</h3><p><code>&gt; &lt; &gt;= &lt;= == !=</code></p><p>Like asking “Which plate has more?”</p></div>
+<div class="tile t3"><div class="icon">🧠</div><h3>Logical</h3><p><code>&& || !</code></p><p>Like combining “AND”, “OR” and “NOT”.</p></div>
+<div class="tile t4"><div class="icon">📦</div><h3>Assignment</h3><p><code>= += -= *= /=</code></p><p>Like putting a new quantity into a container.</p></div>
+<div class="tile t5"><div class="icon">🔢</div><h3>Increment / Decrement</h3><p><code>++ --</code></p><p>Like adding or removing exactly one spoonful.</p></div>
+<div class="tile t6"><div class="icon">❓</div><h3>Ternary</h3><p><code>condition ? A : B</code></p><p>Like choosing one of two dishes.</p></div>
+<div class="tile t7"><div class="icon">🎓</div><h3>UniFlow Use</h3><p>Calculate marks, check eligibility, apply grace marks and decide Pass/Fail.</p></div>
+</div>
+</section>
+
+<section class="card">
+<h2>🧑‍🎓 2. UniFlow Examination Scenario</h2>
+<div class="story">
+A student has:
+<strong>Internal Marks = 22</strong> and <strong>External Marks = 28</strong>.
+UniFlow must calculate the total, check university rules, apply 5 grace marks, and decide whether the student passes.
+</div>
+
+<table class="striped">
+<tr><th>Information</th><th>Sample Value</th><th>Purpose</th></tr>
+<tr><td>Internal Marks</td><td>22</td><td>Continuous/internal assessment</td></tr>
+<tr><td>External Marks</td><td>28</td><td>External examination</td></tr>
+<tr><td>Total Marks</td><td>22 + 28 = 50</td><td>Overall marks before grace</td></tr>
+<tr><td>Grace Marks</td><td>5</td><td>Additional marks according to the assumed rule</td></tr>
+<tr><td>Updated Total</td><td>55</td><td>Total after grace</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>➕ 3. Arithmetic Operators</h2>
+<div class="diagram">
+<div class="box blue">Internal<br>22</div><div class="arrow">➕</div>
+<div class="box yellow">External<br>28</div><div class="arrow">=</div>
+<div class="box green">Total<br>50</div>
+</div>
+
+<table>
+<tr><th>Operator</th><th>Meaning</th><th>Example</th><th>Result</th></tr>
+<tr><td><code>+</code></td><td>Addition</td><td><code>22 + 28</code></td><td>50</td></tr>
+<tr><td><code>-</code></td><td>Subtraction</td><td><code>50 - 5</code></td><td>45</td></tr>
+<tr><td><code>*</code></td><td>Multiplication</td><td><code>5 * 10</code></td><td>50</td></tr>
+<tr><td><code>/</code></td><td>Division</td><td><code>100 / 5</code></td><td>20</td></tr>
+<tr><td><code>%</code></td><td>Remainder</td><td><code>53 % 5</code></td><td>3</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🔍 4. Relational Operators — Asking Questions</h2>
+<div class="eli">
+<strong>ELI10:</strong> Relational operators ask Java a question. The answer is always <strong>true</strong> or <strong>false</strong>.
+</div>
+
+<table>
+<tr><th>Expression</th><th>Question in English</th><th>With Sample Data</th><th>Answer</th></tr>
+<tr><td><code>totalMarks &gt;= 50</code></td><td>Is total at least 50?</td><td>50 &gt;= 50</td><td>✅ true</td></tr>
+<tr><td><code>internalMarks &gt;= 20</code></td><td>Is internal at least 20?</td><td>22 &gt;= 20</td><td>✅ true</td></tr>
+<tr><td><code>externalMarks &gt;= 30</code></td><td>Is external at least 30?</td><td>28 &gt;= 30</td><td>❌ false</td></tr>
+</table>
+
+<div class="diagram">
+<div class="box green">22 ≥ 20<br>TRUE</div>
+<div class="box red">28 ≥ 30<br>FALSE</div>
+</div>
+</section>
+
+<section class="card">
+<h2>🧠 5. Logical Operators — Combining Questions</h2>
+<p>UniFlow's assumed pass rule is:</p>
+<div class="diagram">
+<div class="box blue">Total ≥ 50</div>
+<div class="arrow">&&</div>
+<div class="box yellow">External ≥ 30</div>
+<div class="arrow">=</div>
+<div class="box red">FAIL</div>
+</div>
+
+<table>
+<tr><th>Expression</th><th>Meaning</th><th>Sample Evaluation</th></tr>
+<tr><td><code>A &amp;&amp; B</code></td><td>Both must be true.</td><td>true && false = false</td></tr>
+<tr><td><code>A || B</code></td><td>At least one must be true.</td><td>true || false = true</td></tr>
+<tr><td><code>!A</code></td><td>Reverse true/false.</td><td>!true = false</td></tr>
+</table>
+
+<div class="eli">
+<strong>ELI10:</strong> <code>&&</code> is like “You can enter the party if you have a ticket <strong>AND</strong> your name is on the list.”
+Both conditions must be satisfied.
+</div>
+</section>
+
+<section class="card">
+<h2>📦 6. Assignment Operators — Updating the Marks</h2>
+<div class="diagram">
+<div class="box purple">totalMarks = 50</div>
+<div class="arrow">➡️</div>
+<div class="box orange">totalMarks += 5</div>
+<div class="arrow">➡️</div>
+<div class="box green">totalMarks = 55</div>
+</div>
+
+<table>
+<tr><th>Operator</th><th>Equivalent</th><th>Example</th></tr>
+<tr><td><code>=</code></td><td>Assign</td><td><code>total = 50</code></td></tr>
+<tr><td><code>+=</code></td><td><code>total = total + 5</code></td><td><code>total += 5</code></td></tr>
+<tr><td><code>-=</code></td><td><code>total = total - 5</code></td><td><code>total -= 5</code></td></tr>
+<tr><td><code>*=</code></td><td><code>total = total * 2</code></td><td><code>total *= 2</code></td></tr>
+<tr><td><code>/=</code></td><td><code>total = total / 2</code></td><td><code>total /= 2</code></td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🔢 7. Increment & Decrement</h2>
+<div class="diagram">
+<div class="box blue">Attempts = 1</div><div class="arrow">➡️</div>
+<div class="box yellow">attempts++</div><div class="arrow">➡️</div>
+<div class="box green">Attempts = 2</div>
+</div>
+
+<table>
+<tr><th>Operator</th><th>Meaning</th><th>Example</th><th>New Value</th></tr>
+<tr><td><code>++</code></td><td>Increase by 1</td><td><code>attempts++</code></td><td>2</td></tr>
+<tr><td><code>--</code></td><td>Decrease by 1</td><td><code>attempts--</code></td><td>0 if starting from 1</td></tr>
+</table>
+
+<p>In examination systems, these operators can be useful for counters such as number of students processed, question numbers, or attempts.</p>
+</section>
+
+<section class="card">
+<h2>❓ 8. Conditional (Ternary) Operator</h2>
+
+<div class="diagram">
+<div class="box yellow">Updated Total ≥ 50<br>AND<br>External ≥ 30?</div>
+<div class="arrow">➡️</div>
+<div class="box green">YES → "Pass"</div>
+<div class="box red">NO → "Fail"</div>
+</div>
+
+<div class="code">
+String result = (totalMarks &gt;= 50 &amp;&amp; externalMarks &gt;= 30)
+                ? <span class="str">"Pass"</span>
+                : <span class="str">"Fail"</span>;
+</div>
+
+<div class="eli">
+<strong>ELI10:</strong> The ternary operator is a tiny decision maker:
+<strong>“If this is true, choose this; otherwise choose that.”</strong>
+</div>
+</section>
+
+<section class="card">
+<h2>☕ 9. Complete UniFlow Examination Program</h2>
+
+<div class="code">
+<span class="kw">public class</span> <span class="var">ExaminationManagement</span> {<br><br>
+&nbsp;&nbsp;<span class="kw">public static void</span> main(String[] args) {<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">int</span> internalMarks = <span class="num">22</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">int</span> externalMarks = <span class="num">28</span>;<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">int</span> totalMarks = internalMarks + externalMarks;<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Total >= 50: "</span> + (totalMarks &gt;= <span class="num">50</span>));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Internal >= 20: "</span> + (internalMarks &gt;= <span class="num">20</span>));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"External >= 30: "</span> + (externalMarks &gt;= <span class="num">30</span>));<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">boolean</span> eligible = totalMarks &gt;= <span class="num">50</span> &amp;&amp; externalMarks &gt;= <span class="num">30</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Eligible before grace: "</span> + eligible);<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;totalMarks += <span class="num">5</span>;<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">String</span> result =<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(totalMarks &gt;= <span class="num">50</span> &amp;&amp; externalMarks &gt;= <span class="num">30</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;? <span class="str">"Pass"</span> : <span class="str">"Fail"</span>;<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Updated Total: "</span> + totalMarks);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Result: "</span> + result);<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+</section>
+
+<section class="card">
+<h2>📊 10. Program Evaluation — Line by Line</h2>
+
+<div class="example">
+<h3>Example 1 — Calculate Total Marks</h3>
+<div class="line"><div class="ln">1</div><code>int internalMarks = 22;</code><div class="explain">Creates an integer variable called internalMarks and stores 22.</div></div>
+<div class="line"><div class="ln">2</div><code>int externalMarks = 28;</code><div class="explain">Creates externalMarks and stores 28.</div></div>
+<div class="line"><div class="ln">3</div><code>int totalMarks = internalMarks + externalMarks;</code><div class="explain">The + operator adds 22 and 28. The result 50 is stored in totalMarks.</div></div>
+<div class="output">Output idea: Total = 50</div>
+</div>
+
+<div class="example">
+<h3>Example 2 — Relational Operators</h3>
+<div class="line"><div class="ln">1</div><code>totalMarks &gt;= 50</code><div class="explain">Asks: Is 50 greater than or equal to 50? Yes, so the result is true.</div></div>
+<div class="line"><div class="ln">2</div><code>internalMarks &gt;= 20</code><div class="explain">Asks: Is 22 greater than or equal to 20? Yes, true.</div></div>
+<div class="line"><div class="ln">3</div><code>externalMarks &gt;= 30</code><div class="explain">Asks: Is 28 greater than or equal to 30? No, false.</div></div>
+<div class="output">true<br>true<br>false</div>
+</div>
+
+<div class="example">
+<h3>Example 3 — Logical AND</h3>
+<div class="line"><div class="ln">1</div><code>boolean eligible = totalMarks &gt;= 50 &amp;&amp; externalMarks &gt;= 30;</code><div class="explain">First condition is true. Second condition is false. AND requires both to be true.</div></div>
+<div class="line"><div class="ln">2</div><code>true &amp;&amp; false</code><div class="explain">Because one condition is false, the complete expression is false.</div></div>
+<div class="output">Eligible before grace: false</div>
+</div>
+
+<div class="example">
+<h3>Example 4 — Grace Marks with +=</h3>
+<div class="line"><div class="ln">1</div><code>totalMarks = 50;</code><div class="explain">Before grace, totalMarks contains 50.</div></div>
+<div class="line"><div class="ln">2</div><code>totalMarks += 5;</code><div class="explain">Shortcut for totalMarks = totalMarks + 5. Java calculates 50 + 5.</div></div>
+<div class="line"><div class="ln">3</div><code>totalMarks</code><div class="explain">The updated value is now 55.</div></div>
+<div class="output">Updated Total: 55</div>
+</div>
+
+<div class="example">
+<h3>Example 5 — Ternary Pass/Fail</h3>
+<div class="line"><div class="ln">1</div><code>totalMarks &gt;= 50</code><div class="explain">55 >= 50 is true.</div></div>
+<div class="line"><div class="ln">2</div><code>externalMarks &gt;= 30</code><div class="explain">28 >= 30 is false.</div></div>
+<div class="line"><div class="ln">3</div><code>true &amp;&amp; false</code><div class="explain">The combined condition is false.</div></div>
+<div class="line"><div class="ln">4</div><code>? "Pass" : "Fail"</code><div class="explain">Because the condition is false, Java selects "Fail".</div></div>
+<div class="output">Result: Fail</div>
+</div>
+
+<div class="example">
+<h3>Example 6 — Increment a Student Counter</h3>
+<div class="line"><div class="ln">1</div><code>int studentsProcessed = 0;</code><div class="explain">Creates a counter and starts it at zero.</div></div>
+<div class="line"><div class="ln">2</div><code>studentsProcessed++;</code><div class="explain">++ increases the value by exactly one.</div></div>
+<div class="line"><div class="ln">3</div><code>studentsProcessed++;</code><div class="explain">Another student is processed, so the counter becomes 2.</div></div>
+<div class="output">Students processed: 2</div>
+</div>
+
+<div class="example">
+<h3>Example 7 — Arithmetic Average</h3>
+<div class="line"><div class="ln">1</div><code>int total = 420;</code><div class="explain">Stores the student's total marks.</div></div>
+<div class="line"><div class="ln">2</div><code>int subjects = 5;</code><div class="explain">Stores the number of subjects.</div></div>
+<div class="line"><div class="ln">3</div><code>double average = (double) total / subjects;</code><div class="explain">Converts total to double so decimal precision can be retained, then divides 420 by 5.</div></div>
+<div class="output">Average = 84.0</div>
+</div>
+
+<div class="example">
+<h3>Example 8 — Logical OR for Special Eligibility</h3>
+<div class="line"><div class="ln">1</div><code>boolean scholarship = cgpa &gt;= 9.0 || attendance &gt;= 95.0;</code><div class="explain">OR means at least one condition must be true.</div></div>
+<div class="line"><div class="ln">2</div><code>cgpa = 9.2</code><div class="explain">9.2 >= 9.0 is true.</div></div>
+<div class="line"><div class="ln">3</div><code>attendance = 82.0</code><div class="explain">82.0 >= 95.0 is false.</div></div>
+<div class="line"><div class="ln">4</div><code>true || false</code><div class="explain">At least one condition is true, so the result is true.</div></div>
+<div class="output">Scholarship eligible: true</div>
+</div>
+
+<div class="example">
+<h3>Example 9 — Assignment Operators in a Marks Adjustment</h3>
+<div class="line"><div class="ln">1</div><code>int marks = 40;</code><div class="explain">The student initially has 40 marks.</div></div>
+<div class="line"><div class="ln">2</div><code>marks += 5;</code><div class="explain">Adds 5, making the marks 45.</div></div>
+<div class="line"><div class="ln">3</div><code>marks -= 2;</code><div class="explain">Subtracts 2, making the marks 43.</div></div>
+<div class="line"><div class="ln">4</div><code>marks *= 2;</code><div class="explain">Multiplies 43 by 2, making the marks 86. This is an illustration of the operator, not a real university grading rule.</div></div>
+<div class="output">Final demonstration value: 86</div>
+</div>
+</section>
+
+<section class="card">
+<h2>🧾 11. Complete Sample Output</h2>
+<div class="output">
+Total &gt;= 50: true<br>
+Internal &gt;= 20: true<br>
+External &gt;= 30: false<br>
+Eligible before grace: false<br>
+Updated Total: 55<br>
+Result: Fail
+</div>
+
+<div class="warning">
+<strong>Important reasoning point:</strong> The 5 grace marks increase the total from 50 to 55,
+but they do not change the external mark of 28. Under the stated rule,
+the student still gets <strong>Fail</strong> because <code>externalMarks &gt;= 30</code> is false.
+</div>
+</section>
+
+<section class="card">
+<h2>🔄 12. The Complete Examination Decision Flow</h2>
+
+<div class="diagram">
+<div class="box blue">📥 Read Internal + External</div>
+<div class="arrow">➡️</div>
+<div class="box yellow">➕ Calculate Total</div>
+<div class="arrow">➡️</div>
+<div class="box purple">🔍 Check Conditions</div>
+<div class="arrow">➡️</div>
+<div class="box orange">🎁 Add 5 Grace Marks</div>
+<div class="arrow">➡️</div>
+<div class="box green">❓ Ternary Decision</div>
+<div class="arrow">➡️</div>
+<div class="box pink">🎓 Pass / Fail</div>
+</div>
+
+<table>
+<tr><th>Stage</th><th>Operator</th><th>Purpose</th></tr>
+<tr><td>Calculate Total</td><td>Arithmetic <code>+</code></td><td>Add internal and external marks.</td></tr>
+<tr><td>Check individual rules</td><td>Relational <code>&gt;=</code></td><td>Compare marks with minimum requirements.</td></tr>
+<tr><td>Combine rules</td><td>Logical <code>&amp;&amp;</code></td><td>Require both total and external conditions.</td></tr>
+<tr><td>Apply grace</td><td>Assignment <code>+=</code></td><td>Increase total by 5.</td></tr>
+<tr><td>Decide result</td><td>Ternary <code>?:</code></td><td>Select Pass or Fail.</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🧪 13. Quick Student Challenge</h2>
+
+<p><strong>Q1. What is the result of 25 + 30?</strong></p>
+<button onclick="show('a1')">Show Answer</button>
+<div id="a1" class="answer">✅ 55</div>
+
+<p><strong>Q2. What is the result of 49 &gt;= 50?</strong></p>
+<button onclick="show('a2')">Show Answer</button>
+<div id="a2" class="answer">❌ false</div>
+
+<p><strong>Q3. What is true &amp;&amp; false?</strong></p>
+<button onclick="show('a3')">Show Answer</button>
+<div id="a3" class="answer">❌ false</div>
+
+<p><strong>Q4. If totalMarks = 48, what is totalMarks += 5?</strong></p>
+<button onclick="show('a4')">Show Answer</button>
+<div id="a4" class="answer">✅ 53</div>
+
+<p><strong>Q5. If condition is true, what does condition ? "Pass" : "Fail" return?</strong></p>
+<button onclick="show('a5')">Show Answer</button>
+<div id="a5" class="answer">✅ "Pass"</div>
+
+<p><strong>Q6. If internal = 22 and external = 28, does the stated pass rule succeed?</strong></p>
+<button onclick="show('a6')">Show Answer</button>
+<div id="a6" class="answer">❌ No. Total is 50, but external is only 28, so external >= 30 is false.</div>
+</section>
+
+<section class="card">
+<h2>🌟 Final Mental Model</h2>
+
+<div class="diagram">
+<div class="box blue">➕ Calculate</div>
+<div class="arrow">→</div>
+<div class="box yellow">🔍 Compare</div>
+<div class="arrow">→</div>
+<div class="box purple">🧠 Combine</div>
+<div class="arrow">→</div>
+<div class="box orange">📦 Update</div>
+<div class="arrow">→</div>
+<div class="box green">❓ Decide</div>
+<div class="arrow">→</div>
+<div class="box pink">🎓 Result</div>
+</div>
+
+<table>
+<tr><th>Operator Family</th><th>Think of it as</th><th>UniFlow Job</th></tr>
+<tr><td>Arithmetic</td><td>🍴 Calculator</td><td>Calculate marks.</td></tr>
+<tr><td>Relational</td><td>🔍 Question</td><td>Check minimum marks.</td></tr>
+<tr><td>Logical</td><td>🧠 Rule combiner</td><td>Combine eligibility conditions.</td></tr>
+<tr><td>Assignment</td><td>📦 Update box</td><td>Apply grace marks.</td></tr>
+<tr><td>Increment / Decrement</td><td>🔢 Counter</td><td>Count students, attempts, questions, etc.</td></tr>
+<tr><td>Ternary</td><td>❓ Two-way choice</td><td>Display Pass or Fail.</td></tr>
+</table>
+
+<div class="eli">
+<strong>Remember the food story:</strong><br>
+➕ Add ingredients → Arithmetic<br>
+🔍 Check the plate → Relational<br>
+🧠 Combine two rules → Logical<br>
+📦 Add something to the box → Assignment<br>
+🔢 Count one more → Increment<br>
+❓ Choose one dish → Ternary<br><br>
+<strong>Good programmers don't memorize operators only. They understand what question each operator helps Java answer.</strong>
+</div>
+
+<p class="highlight">Operators turn UniFlow rules into executable decisions. 🚀</p>
+</section>
+
+</div>
+
+<footer>
+Programming for Problem Solving with Java • UniFlow – Smart University Academic Management System
+</footer>
+
+<script>
+function show(id){
+  document.querySelectorAll('.answer').forEach(x=>x.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+</script>
+</body>
+</html>

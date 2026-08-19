@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UniFlow Java Course — Sessions 1 to 70</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Segoe UI",Arial,sans-serif;
+  background:#07111f;
+  color:#e5eefc;
+  overflow-x:hidden;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  background:
+    radial-gradient(circle at 10% 20%,rgba(59,130,246,.22),transparent 28%),
+    radial-gradient(circle at 90% 10%,rgba(168,85,247,.20),transparent 25%),
+    radial-gradient(circle at 50% 90%,rgba(20,184,166,.16),transparent 30%);
+}
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+header{
+  min-height:330px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:50px 20px;
+  background:linear-gradient(135deg,rgba(37,99,235,.92),rgba(124,58,237,.90),rgba(8,145,178,.88));
+  position:relative;
+  overflow:hidden;
+}
+header:before,header:after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  filter:blur(2px);
+  animation:float 8s ease-in-out infinite;
+}
+header:before{
+  width:240px;height:240px;
+  background:rgba(255,255,255,.08);
+  left:-60px;top:-70px;
+}
+header:after{
+  width:320px;height:320px;
+  background:rgba(255,255,255,.06);
+  right:-100px;bottom:-150px;
+  animation-delay:2s;
+}
+.logo{
+  font-size:58px;
+  animation:zoomIn 1s ease both;
+}
+h1{
+  font-size:clamp(32px,6vw,58px);
+  margin:10px 0;
+  animation:fadeUp .9s ease both;
+}
+header p{
+  max-width:850px;
+  font-size:18px;
+  color:#e0f2fe;
+  animation:fadeUp 1.2s ease both;
+}
+.container{max-width:1250px;margin:auto;padding:30px 20px 80px}
+.toolbar{
+  position:sticky;
+  top:12px;
+  z-index:20;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin:-5px auto 30px;
+}
+.filter{
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(15,23,42,.78);
+  backdrop-filter:blur(14px);
+  color:#dbeafe;
+  padding:10px 18px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:.3s;
+}
+.filter:hover,.filter.active{
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(37,99,235,.3);
+}
+.section-title{
+  text-align:center;
+  margin:35px 0 22px;
+}
+.section-title h2{font-size:30px}
+.section-title p{color:#94a3b8;margin-top:6px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:18px;
+}
+.card{
+  position:relative;
+  min-height:205px;
+  padding:22px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(145deg,rgba(15,23,42,.94),rgba(30,41,59,.78));
+  box-shadow:0 12px 35px rgba(0,0,0,.22);
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(35px) scale(.96);
+  animation:cardIn .7s cubic-bezier(.2,.7,.2,1) forwards;
+  transition:transform .35s,box-shadow .35s,border-color .35s;
+}
+.card:nth-child(1){animation-delay:.04s}.card:nth-child(2){animation-delay:.08s}
+.card:nth-child(3){animation-delay:.12s}.card:nth-child(4){animation-delay:.16s}
+.card:nth-child(5){animation-delay:.20s}.card:nth-child(6){animation-delay:.24s}
+.card:nth-child(7){animation-delay:.28s}.card:nth-child(8){animation-delay:.32s}
+.card:nth-child(9){animation-delay:.36s}.card:nth-child(10){animation-delay:.40s}
+.card:hover{
+  transform:translateY(-8px) scale(1.025);
+  box-shadow:0 22px 50px rgba(0,0,0,.38);
+  border-color:rgba(96,165,250,.5);
+}
+.card:before{
+  content:"";
+  position:absolute;
+  width:130px;height:130px;
+  right:-55px;top:-55px;
+  border-radius:50%;
+  background:var(--accent);
+  opacity:.14;
+  transition:.4s;
+}
+.card:hover:before{transform:scale(1.8)}
+.number{
+  display:inline-flex;
+  width:48px;height:48px;
+  align-items:center;justify-content:center;
+  border-radius:14px;
+  background:var(--accent);
+  color:white;
+  font-weight:900;
+  font-size:18px;
+  box-shadow:0 8px 20px color-mix(in srgb,var(--accent),transparent 60%);
+}
+.icon{font-size:30px;margin:14px 0 6px}
+.card h3{font-size:19px;margin-bottom:8px;color:#f8fafc}
+.card p{font-size:14px;color:#aebed4}
+.card .status{
+  display:inline-block;
+  margin-top:15px;
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+  background:rgba(255,255,255,.08);
+  color:#94a3b8;
+}
+.card.completed .status{
+  background:rgba(34,197,94,.14);
+  color:#86efac;
+}
+.card.completed{
+  border-color:rgba(34,197,94,.22);
+}
+.card a{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  text-decoration:none;
+  color:inherit;
+}
+.completed .number{animation:pulse 2.5s infinite}
+.legend{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:25px 0;
+}
+.legend span{
+  padding:7px 13px;
+  border-radius:999px;
+  background:rgba(255,255,255,.06);
+  color:#cbd5e1;
+  font-size:13px;
+}
+.progress{
+  max-width:650px;
+  margin:25px auto;
+  background:rgba(255,255,255,.08);
+  height:10px;
+  border-radius:999px;
+  overflow:hidden;
+}
+.progress div{
+  width:10%;
+  height:100%;
+  background:linear-gradient(90deg,#22c55e,#06b6d4,#8b5cf6);
+  border-radius:999px;
+  transition:width .8s ease;
+}
+footer{
+  text-align:center;
+  padding:35px 20px;
+  color:#64748b;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.hidden{display:none!important}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
+@keyframes zoomIn{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+@keyframes cardIn{to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes float{50%{transform:translate(35px,25px) scale(1.08)}}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(34,197,94,.04)}}
+
+@media(max-width:650px){
+  .container{padding:20px 12px 60px}
+  .grid{grid-template-columns:1fr}
+  .card{min-height:185px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">☕🚀</div>
+  <h1>UniFlow Java Learning Journey</h1>
+  <p>
+    Programming for Problem Solving with Java<br>
+    <strong>Session 1 → Session 70</strong>
+  </p>
+</header>
+
+<div class="container">
+
+  <div class="toolbar">
+    <button class="filter active" onclick="showAll()">All Sessions</button>
+    <button class="filter" onclick="showCompleted()">Saved Sessions</button>
+    <button class="filter" onclick="scrollToSection('foundation')">Foundation</button>
+    <button class="filter" onclick="scrollToSection('programming')">Programming</button>
+    <button class="filter" onclick="scrollToSection('advanced')">Advanced</button>
+  </div>
+
+  <div class="legend">
+    <span>🟢 Green = HTML file linked</span>
+    <span>🔵 Blue = Upcoming session</span>
+    <span>✨ Hover = Zoom effect</span>
+  </div>
+
+  <div class="progress"><div id="progressBar"></div></div>
+
+  <!-- SESSION 1-10 -->
+  <section id="foundation">
+    <div class="section-title">
+      <h2>🌱 Foundation</h2>
+      <p>Build the thinking and Java foundations</p>
+    </div>
+
+    <div class="grid">
+
+      <div class="card completed" style="--accent:#2563eb">
+        <a href="s1.html" aria-label="Open Session 1"></a>
+        <span class="number">01</span><div class="icon">🧠</div>
+        <h3>Programming for Problem Solving & UniFlow</h3>
+        <p>Computational thinking, IPO model and Student Admission Module.</p>
+        <span class="status">OPEN S1</span>
+      </div>
+
+      <div class="card completed" style="--accent:#7c3aed">
+        <a href="s2.html" aria-label="Open Session 2"></a>
+        <span class="number">02</span><div class="icon">📋</div>
+        <h3>Algorithm, Pseudocode & Flowchart</h3>
+        <p>Designing solutions before writing Java code.</p>
+        <span class="status">OPEN S2</span>
+      </div>
+
+      <div class="card completed" style="--accent:#0891b2">
+        <a href="s3.html" aria-label="Open Session 3"></a>
+        <span class="number">03</span><div class="icon">🔎</div>
+        <h3>Stepwise Refinement & Desk Checking</h3>
+        <p>Decomposition, trace tables and Academic Report processing.</p>
+        <span class="status">OPEN S3</span>
+      </div>
+
+      <div class="card completed" style="--accent:#db2777">
+        <a href="s4.html" aria-label="Open Session 4"></a>
+        <span class="number">04</span><div class="icon">☕</div>
+        <h3>Java Environment & Program Structure</h3>
+        <p>Source code, javac, bytecode, JVM and Write Once Run Anywhere.</p>
+        <span class="status">OPEN S4</span>
+      </div>
+
+      <div class="card completed" style="--accent:#ea580c">
+        <a href="s5.html" aria-label="Open Session 5"></a>
+        <span class="number">05</span><div class="icon">🍱</div>
+        <h3>Variables, Identifiers & Data Types</h3>
+        <p>Student Profile Management using appropriate Java data types.</p>
+        <span class="status">OPEN S5</span>
+      </div>
+
+      <div class="card completed" style="--accent:#be123c">
+        <a href="s6.html" aria-label="Open Session 6"></a>
+        <span class="number">06</span><div class="icon">🎓</div>
+        <h3>Java Operators</h3>
+        <p>Arithmetic, relational, logical, assignment and ternary operators.</p>
+        <span class="status">OPEN S6</span>
+      </div>
+
+      <div class="card completed" style="--accent:#0f766e">
+        <a href="s7.html" aria-label="Open Session 7"></a>
+        <span class="number">07</span><div class="icon">🤖</div>
+        <h3>Expressions & Type Conversion</h3>
+        <p>Expression evaluation, integer division, implicit conversion and casting.</p>
+        <span class="status">OPEN S7</span>
+      </div>
+
+      <div class="card" style="--accent:#2563eb">
+        <span class="number">08</span><div class="icon">⌨️</div>
+        <h3>Java Input & Output</h3>
+        <p>Reading student information and displaying results.</p>
+        <span class="status">UPCOMING</span>
+      </div>
+
+      <div class="card" style="--accent:#7c3aed">
+        <span class="number">09</span><div class="icon">🔤</div>
+        <h3>Strings & Character Data</h3>
+        <p>Working with names, departments and academic text.</p>
+        <span class="status">UPCOMING</span>
+      </div>
+
+      <div class="card" style="--accent:#0891b2">
+        <span class="number">10</span><div class="icon">🧮</div>
+        <h3>Expressions & Evaluation Practice</h3>
+        <p>Apply expressions to UniFlow academic calculations.</p>
+        <span class="status">UPCOMING</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 11-30 -->
+  <section id="programming">
+    <div class="section-title">
+      <h2>🚀 Core Java Programming</h2>
+      <p>Build the UniFlow modules step by step</p>
+    </div>
+
+    <div class="grid">
+
+      <div class="card" style="--accent:#16a34a"><span class="number">11</span><div class="icon">🔀</div><h3>Decision Making — if</h3><p>Academic eligibility decisions.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#ca8a04"><span class="number">12</span><div class="icon">🔁</div><h3>if-else & Nested Decisions</h3><p>Multi-level academic rules.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#dc2626"><span class="number">13</span><div class="icon">🎯</div><h3>switch Statement</h3><p>Department and menu selection.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#2563eb"><span class="number">14</span><div class="icon">🔄</div><h3>while Loop</h3><p>Repeated student processing.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#7c3aed"><span class="number">15</span><div class="icon">🔁</div><h3>do-while Loop</h3><p>Menu-driven UniFlow operations.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#0891b2"><span class="number">16</span><div class="icon">➿</div><h3>for Loop</h3><p>Process multiple subjects and students.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#ea580c"><span class="number">17</span><div class="icon">🪆</div><h3>Nested Loops</h3><p>Student-subject processing.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#db2777"><span class="number">18</span><div class="icon">🧩</div><h3>Pattern & Loop Problems</h3><p>Strengthen algorithmic thinking.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#059669"><span class="number">19</span><div class="icon">🧮</div><h3>Number Processing</h3><p>Digit, palindrome and Armstrong applications.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#9333ea"><span class="number">20</span><div class="icon">🔢</div><h3>Mathematical Algorithms</h3><p>Fibonacci, factors and number analysis.</p><span class="status">UPCOMING</span></div>
+
+      <div class="card" style="--accent:#0891b2"><span class="number">21</span><div class="icon">🧰</div><h3>Methods — Introduction</h3><p>Reusable UniFlow operations.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#16a34a"><span class="number">22</span><div class="icon">📥</div><h3>Methods with Parameters</h3><p>Passing academic information.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#f59e0b"><span class="number">23</span><div class="icon">📤</div><h3>Methods with Return Values</h3><p>Return totals, averages and status.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#ef4444"><span class="number">24</span><div class="icon">🧠</div><h3>Method Overloading</h3><p>Flexible UniFlow operations.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#6366f1"><span class="number">25</span><div class="icon">📦</div><h3>Arrays — Introduction</h3><p>Store multiple student values.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#14b8a6"><span class="number">26</span><div class="icon">📊</div><h3>One-Dimensional Arrays</h3><p>Subject marks and student lists.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#f97316"><span class="number">27</span><div class="icon">📚</div><h3>Methods with Arrays</h3><p>Build the UniFlow Result Processing Engine.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#ec4899"><span class="number">28</span><div class="icon">🔢</div><h3>Array Searching</h3><p>Find students and academic records.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#22c55e"><span class="number">29</span><div class="icon">↕️</div><h3>Array Sorting</h3><p>Rank and organize academic data.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#8b5cf6"><span class="number">30</span><div class="icon">📈</div><h3>Array-Based Analytics</h3><p>Totals, averages and highest marks.</p><span class="status">UPCOMING</span></div>
+
+    </div>
+  </section>
+
+  <!-- 31-50 -->
+  <section id="advanced">
+    <div class="section-title">
+      <h2>🧠 Advanced UniFlow Modules</h2>
+      <p>Move from basic programming to structured application design</p>
+    </div>
+
+    <div class="grid">
+
+      <div class="card" style="--accent:#2563eb"><span class="number">31</span><div class="icon">🧮</div><h3>Two-Dimensional Arrays</h3><p>Student × subject marks matrix.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#7c3aed"><span class="number">32</span><div class="icon">📅</div><h3>Attendance Matrix</h3><p>Student attendance across working days.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#0891b2"><span class="number">33</span><div class="icon">📊</div><h3>Academic Performance Dashboard</h3><p>Combine admission, attendance and examination arrays.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#16a34a"><span class="number">34</span><div class="icon">🧾</div><h3>Student Profile Module</h3><p>Structured profile information management.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#f97316"><span class="number">35</span><div class="icon">🎓</div><h3>Student Enrollment Module</h3><p>Course enrollment workflows.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#db2777"><span class="number">36</span><div class="icon">📚</div><h3>Course Management</h3><p>Course records and academic structure.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#ca8a04"><span class="number">37</span><div class="icon">📝</div><h3>Registration Processing</h3><p>Student course registration.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#ef4444"><span class="number">38</span><div class="icon">🔐</div><h3>Validation & Error Handling</h3><p>Protect academic data from invalid input.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#14b8a6"><span class="number">39</span><div class="icon">🔍</div><h3>Search Module</h3><p>Search student and course records.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#6366f1"><span class="number">40</span><div class="icon">📄</div><h3>Report Generation</h3><p>Generate academic reports.</p><span class="status">UPCOMING</span></div>
+
+      <div class="card" style="--accent:#22c55e"><span class="number">41</span><div class="icon">🏗️</div><h3>Object-Oriented Thinking</h3><p>Model UniFlow entities as objects.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#8b5cf6"><span class="number">42</span><div class="icon">🧱</div><h3>Classes & Objects</h3><p>Student, Course and Examination classes.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#0891b2"><span class="number">43</span><div class="icon">🔒</div><h3>Encapsulation</h3><p>Protect academic data using class design.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#f59e0b"><span class="number">44</span><div class="icon">🏭</div><h3>Constructors</h3><p>Create Student and Course objects.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#ec4899"><span class="number">45</span><div class="icon">🧬</div><h3>Inheritance</h3><p>Reuse common UniFlow features.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#2563eb"><span class="number">46</span><div class="icon">🎭</div><h3>Polymorphism</h3><p>Flexible behavior in academic modules.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#16a34a"><span class="number">47</span><div class="icon">🧩</div><h3>Abstraction</h3><p>Hide unnecessary implementation details.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#f97316"><span class="number">48</span><div class="icon">📦</div><h3>Packages</h3><p>Organize UniFlow Java classes.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#7c3aed"><span class="number">49</span><div class="icon">🧯</div><h3>Exception Handling</h3><p>Handle runtime problems safely.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#0891b2"><span class="number">50</span><div class="icon">💾</div><h3>File Handling</h3><p>Store and retrieve academic records.</p><span class="status">UPCOMING</span></div>
+
+    </div>
+  </section>
+
+  <!-- 51-70 -->
+  <section>
+    <div class="section-title">
+      <h2>🚀 UniFlow Integration & Project</h2>
+      <p>Bring the modules together into an end-to-end application</p>
+    </div>
+
+    <div class="grid">
+
+      <div class="card" style="--accent:#2563eb"><span class="number">51</span><div class="icon">📂</div><h3>Collections Introduction</h3><p>Manage dynamic academic records.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#16a34a"><span class="number">52</span><div class="icon">📋</div><h3>ArrayList</h3><p>Dynamic student and course lists.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#7c3aed"><span class="number">53</span><div class="icon">🔗</div><h3>HashSet</h3><p>Unique student IDs and registrations.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#0891b2"><span class="number">54</span><div class="icon">🗺️</div><h3>HashMap</h3><p>Fast student ID to profile lookup.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#f97316"><span class="number">55</span><div class="icon">🔄</div><h3>Iterators & Enhanced for</h3><p>Traverse academic collections.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#db2777"><span class="number">56</span><div class="icon">🧪</div><h3>Testing UniFlow Modules</h3><p>Verify expected behavior with test cases.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#22c55e"><span class="number">57</span><div class="icon">🐞</div><h3>Debugging Strategies</h3><p>Find and fix logic errors.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#8b5cf6"><span class="number">58</span><div class="icon">📐</div><h3>Algorithm Efficiency</h3><p>Think about performance and scalability.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#14b8a6"><span class="number">59</span><div class="icon">🔗</div><h3>Module Integration</h3><p>Connect admission, registration and examination.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#ef4444"><span class="number">60</span><div class="icon">🧭</div><h3>UniFlow Architecture</h3><p>Design the end-to-end application structure.</p><span class="status">UPCOMING</span></div>
+
+      <div class="card" style="--accent:#2563eb"><span class="number">61</span><div class="icon">🎓</div><h3>Admission Integration</h3><p>Connect student admission with profiles.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#16a34a"><span class="number">62</span><div class="icon">📚</div><h3>Course Registration Integration</h3><p>Connect students and courses.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#f59e0b"><span class="number">63</span><div class="icon">📅</div><h3>Attendance Integration</h3><p>Connect attendance with student records.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#db2777"><span class="number">64</span><div class="icon">📝</div><h3>Examination Integration</h3><p>Connect marks and result processing.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#7c3aed"><span class="number">65</span><div class="icon">📊</div><h3>Academic Analytics</h3><p>Student and subject-level performance analysis.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#0891b2"><span class="number">66</span><div class="icon">📄</div><h3>Final Report System</h3><p>Generate complete academic reports.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#ef4444"><span class="number">67</span><div class="icon">🛡️</div><h3>Validation & Security Review</h3><p>Improve reliability and protect academic data.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#22c55e"><span class="number">68</span><div class="icon">🧪</div><h3>End-to-End Testing</h3><p>Test the complete UniFlow workflow.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#f97316"><span class="number">69</span><div class="icon">🚀</div><h3>UniFlow Final Integration</h3><p>Bring all modules together.</p><span class="status">UPCOMING</span></div>
+      <div class="card" style="--accent:#a855f7"><span class="number">70</span><div class="icon">🏆</div><h3>UniFlow Capstone & Presentation</h3><p>Demonstrate the complete Smart University Academic Management System.</p><span class="status">UPCOMING</span></div>
+
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  ☕ UniFlow — Programming for Problem Solving with Java<br>
+  <small>Sessions 1–70 • Interactive Course Navigation</small>
+</footer>
+
+<script>
+function showAll(){
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('hidden'));
+  setActive(0);
+}
+function showCompleted(){
+  document.querySelectorAll('.card').forEach(c=>{
+    c.classList.toggle('hidden',!c.classList.contains('completed'));
+  });
+  setActive(1);
+}
+function scrollToSection(id){
+  showAll();
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+  setActive(id==='foundation'?2: id==='programming'?3:4);
+}
+function setActive(index){
+  document.querySelectorAll('.filter').forEach((b,i)=>b.classList.toggle('active',i===index));
+}
+</script>
+
+</body>
+</html>

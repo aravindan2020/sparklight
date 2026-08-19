@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Variables & Data Types — UniFlow Student Profile</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#f5f7fb;color:#1f2937;line-height:1.6}
+header{background:linear-gradient(135deg,#7c2d12,#ea580c,#f59e0b);color:#fff;text-align:center;padding:44px 20px}
+header h1{margin:0 0 10px;font-size:clamp(28px,5vw,46px)}
+header p{margin:auto;max-width:950px;font-size:18px}
+.container{max-width:1150px;margin:auto;padding:22px 18px 60px}
+.card{background:#fff;border-radius:20px;padding:27px;margin:20px 0;box-shadow:0 9px 28px rgba(15,23,42,.09)}
+h2{color:#c2410c;margin-top:0} h3{color:#334155}
+.eli{background:#fff7ed;border-left:7px solid #f97316;padding:17px 20px;border-radius:12px;margin:16px 0}
+.story{background:#fef3c7;border-left:7px solid #eab308;padding:18px 20px;border-radius:12px}
+.foodgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}
+.food{border-radius:16px;padding:20px;min-height:180px;border:2px solid transparent}
+.food .icon{font-size:40px}.food h3{margin:8px 0}
+.f1{background:#fee2e2;border-color:#f87171}.f2{background:#dcfce7;border-color:#4ade80}
+.f3{background:#dbeafe;border-color:#60a5fa}.f4{background:#f3e8ff;border-color:#a78bfa}
+.f5{background:#cffafe;border-color:#22d3ee}.f6{background:#fce7f3;border-color:#f472b6}
+.diagram{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;margin:25px 0}
+.box{padding:15px 19px;border-radius:14px;text-align:center;font-weight:700;border:2px solid #f97316;background:#ffedd5;min-width:150px}
+.arrow{font-size:25px;color:#c2410c}
+.green{background:#dcfce7;border-color:#22c55e}.blue{background:#dbeafe;border-color:#3b82f6}
+.purple{background:#ede9fe;border-color:#8b5cf6}.pink{background:#fce7f3;border-color:#ec4899}
+.yellow{background:#fef3c7;border-color:#eab308}
+table{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0;border:1px solid #dbe2ea;border-radius:13px;overflow:hidden}
+th,td{padding:13px;border-bottom:1px solid #dbe2ea;border-right:1px solid #dbe2ea;text-align:left;vertical-align:top}
+th{background:#ea580c;color:white}.striped tr:nth-child(even) td{background:#fff7ed}
+.code{background:#111827;color:#e5e7eb;border-radius:15px;padding:22px;overflow:auto;font-family:Consolas,monospace;font-size:15px;line-height:1.7}
+.kw{color:#93c5fd}.type{color:#86efac}.var{color:#f9a8d4}.str{color:#fde68a}.num{color:#67e8f9}.comment{color:#94a3b8}
+.memory{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.mem{padding:18px;text-align:center;border-radius:14px;background:#eef2ff;border:2px solid #818cf8}
+.mem strong{display:block;font-size:21px;color:#3730a3}
+.badge{display:inline-block;padding:6px 11px;border-radius:20px;background:#ffedd5;color:#9a3412;font-weight:700;margin:3px}
+.warning{background:#fee2e2;border-left:7px solid #ef4444;padding:17px;border-radius:12px}
+.good{background:#dcfce7;border-left:7px solid #22c55e;padding:17px;border-radius:12px}
+.quiz button{border:0;background:#ea580c;color:white;padding:10px 15px;margin:5px;border-radius:9px;cursor:pointer}
+.answer{display:none;margin-top:10px;padding:12px;background:#ecfdf5;border-left:5px solid #10b981;border-radius:8px}
+.highlight{font-size:21px;font-weight:800;color:#c2410c}
+footer{text-align:center;padding:25px;color:#64748b}
+@media(max-width:700px){.diagram{flex-direction:column}.arrow{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🍱 Java Variables & Data Types</h1>
+<p>UniFlow Student Profile Management Module — ELI10 + Food Story + Colorful Diagrams</p>
+</header>
+
+<div class="container">
+
+<section class="card">
+<h2>🎯 Today's Big Idea</h2>
+<div class="story">
+<strong>🍱 Imagine a university lunch box!</strong><br><br>
+You have separate containers for rice, curry, pickle, dessert and a drink.
+You would not pour soup into a tiny pickle container. Each item needs a suitable container.
+<br><br>
+<strong>Java variables work the same way.</strong> A variable is a named container in computer memory,
+and a data type tells Java what kind of information that container should hold.
+</div>
+
+<div class="eli">
+<strong>ELI10:</strong> Variable = a labeled box 📦.<br>
+Data type = tells us what kind of thing can go inside the box.<br>
+Value = the actual thing we put inside the box.
+</div>
+
+<p class="highlight">Java idea: Choose the right box for the right information.</p>
+</section>
+
+<section class="card">
+<h2>🍽️ 1. Food Story — Understanding Java Concepts</h2>
+
+<div class="foodgrid">
+<div class="food f1">
+<div class="icon">📦</div>
+<h3>Variable</h3>
+<p>A named storage place whose value can change.</p>
+<p><strong>Food:</strong> A lunch box where today's food can be replaced tomorrow.</p>
+</div>
+
+<div class="food f2">
+<div class="icon">🏷️</div>
+<h3>Identifier</h3>
+<p>The name we give to a variable.</p>
+<p><strong>Food:</strong> A label saying “Rice Box” or “Dessert Box”.</p>
+</div>
+
+<div class="food f3">
+<div class="icon">🍚</div>
+<h3>Literal</h3>
+<p>A value written directly in the program.</p>
+<p><strong>Food:</strong> Actually putting “80” or “Ravi” into the order.</p>
+</div>
+
+<div class="food f4">
+<div class="icon">🔒</div>
+<h3>Constant</h3>
+<p>A value that should not change.</p>
+<p><strong>Food:</strong> A fixed recipe rule: “There are 5 subjects.”</p>
+</div>
+
+<div class="food f5">
+<div class="icon">🥣</div>
+<h3>Data Type</h3>
+<p>Defines what kind of value the variable can store.</p>
+<p><strong>Food:</strong> Choosing a container suitable for liquid, solid or dessert.</p>
+</div>
+
+<div class="food f6">
+<div class="icon">🧑‍🍳</div>
+<h3>Programmer</h3>
+<p>Chooses the correct containers and fills them with useful information.</p>
+<p><strong>Food:</strong> The chef organizing every ingredient.</p>
+</div>
+</div>
+</section>
+
+<section class="card">
+<h2>🧠 2. Variable = Labeled Memory Box</h2>
+
+<div class="diagram">
+<div class="box blue">🧠 Memory</div>
+<div class="arrow">➡️</div>
+<div class="box yellow">📦 Variable</div>
+<div class="arrow">➡️</div>
+<div class="box green">🏷️ studentName</div>
+<div class="arrow">➡️</div>
+<div class="box pink">"Ravi Kumar"</div>
+</div>
+
+<table class="striped">
+<tr><th>Concept</th><th>Example</th><th>Simple Meaning</th></tr>
+<tr><td>Data Type</td><td><code>String</code></td><td>What kind of information is allowed?</td></tr>
+<tr><td>Identifier</td><td><code>studentName</code></td><td>What is the variable called?</td></tr>
+<tr><td>Value / Literal</td><td><code>"Ravi Kumar"</code></td><td>What information is stored?</td></tr>
+<tr><td>Variable</td><td><code>String studentName</code></td><td>The named storage location.</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🥗 3. UniFlow Data as Food Containers</h2>
+
+<div class="diagram">
+<div class="box blue">🆔 Student ID<br><small>String</small></div>
+<div class="box green">👤 Name<br><small>String</small></div>
+<div class="box yellow">🏢 Department<br><small>String</small></div>
+<div class="box purple">📅 Semester<br><small>int</small></div>
+<div class="box pink">📊 Attendance<br><small>double</small></div>
+<div class="box green">🎓 CGPA<br><small>double</small></div>
+<div class="box blue">💳 Fee Paid?<br><small>boolean</small></div>
+</div>
+
+<div class="eli">
+<strong>ELI10:</strong> Student ID is not a number for calculation — it is an identity.
+So storing <code>24CSE101</code> as a <code>String</code> is more appropriate than treating it as an integer.
+</div>
+</section>
+
+<section class="card">
+<h2>📚 4. Java Primitive Data Types</h2>
+
+<table class="striped">
+<tr><th>Type</th><th>Stores</th><th>UniFlow Example</th><th>Why?</th></tr>
+<tr><td><code>byte</code></td><td>Small whole numbers</td><td>Rarely needed for core profile data</td><td>Very small range</td></tr>
+<tr><td><code>short</code></td><td>Small/medium whole numbers</td><td>Could represent a small count</td><td>Smaller range than int</td></tr>
+<tr><td><code>int</code></td><td>Whole numbers</td><td>Semester = 3</td><td>Good general integer choice</td></tr>
+<tr><td><code>long</code></td><td>Very large whole numbers</td><td>Large numeric IDs, if truly numeric</td><td>Larger range</td></tr>
+<tr><td><code>float</code></td><td>Decimal numbers</td><td>Attendance, if lower precision is enough</td><td>Less precision than double</td></tr>
+<tr><td><code>double</code></td><td>Decimal numbers</td><td>CGPA = 8.72</td><td>Useful for decimal calculations</td></tr>
+<tr><td><code>char</code></td><td>One character</td><td>Grade = 'A'</td><td>Stores one character</td></tr>
+<tr><td><code>boolean</code></td><td>true / false</td><td>feePaid = true</td><td>Perfect for yes/no status</td></tr>
+</table>
+
+<div class="eli">
+<strong>Important:</strong> <code>String</code> is not a primitive data type in Java. It is a class,
+but it is commonly used for text such as names, department names and IDs.
+</div>
+</section>
+
+<section class="card">
+<h2>🧑‍🎓 5. Student Profile Management Module</h2>
+
+<p>Our UniFlow module needs to store:</p>
+
+<table>
+<tr><th>Information</th><th>Sample Value</th><th>Recommended Type</th><th>Reason</th></tr>
+<tr><td>Student ID</td><td>24CSE101</td><td><code>String</code></td><td>Contains letters and digits; identity, not arithmetic.</td></tr>
+<tr><td>Student Name</td><td>Ravi Kumar</td><td><code>String</code></td><td>Text.</td></tr>
+<tr><td>Department</td><td>CSE</td><td><code>String</code></td><td>Text/code.</td></tr>
+<tr><td>Semester</td><td>3</td><td><code>int</code></td><td>Whole number.</td></tr>
+<tr><td>Attendance %</td><td>86.5</td><td><code>double</code></td><td>Decimal value.</td></tr>
+<tr><td>CGPA</td><td>8.72</td><td><code>double</code></td><td>Decimal value.</td></tr>
+<tr><td>Fee Payment Status</td><td>true</td><td><code>boolean</code></td><td>Paid / not paid.</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>✏️ 6. Declaration → Initialization → Usage</h2>
+
+<div class="diagram">
+<div class="box blue"><strong>1. Declaration</strong><br><code>int semester;</code><br><small>Make the box</small></div>
+<div class="arrow">➡️</div>
+<div class="box yellow"><strong>2. Initialization</strong><br><code>semester = 3;</code><br><small>Put value inside</small></div>
+<div class="arrow">➡️</div>
+<div class="box green"><strong>3. Usage</strong><br><code>println(semester);</code><br><small>Use the value</small></div>
+</div>
+
+<div class="eli">
+<strong>ELI10:</strong> Declaration = “I need a box.”<br>
+Initialization = “Put this value into the box.”<br>
+Usage = “Now use what's inside the box.”
+</div>
+</section>
+
+<section class="card">
+<h2>☕ 7. Complete Java Implementation</h2>
+
+<div class="code">
+<span class="kw">public class</span> <span class="var">StudentProfile</span> {<br><br>
+
+&nbsp;&nbsp;<span class="kw">public static void</span> main(String[] args) {<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">String</span> studentId = <span class="str">"24CSE101"</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">String</span> studentName = <span class="str">"Ravi Kumar"</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">String</span> department = <span class="str">"CSE"</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">int</span> semester = <span class="num">3</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">double</span> attendancePercentage = <span class="num">86.5</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">double</span> cgpa = <span class="num">8.72</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">boolean</span> feePaid = <span class="kw">true</span>;<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"----- STUDENT PROFILE -----"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Student ID: "</span> + studentId);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Student Name: "</span> + studentName);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Department: "</span> + department);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Semester: "</span> + semester);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Attendance: "</span> + attendancePercentage + <span class="str">"%"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"CGPA: "</span> + cgpa);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Fee Paid: "</span> + feePaid);<br><br>
+
+&nbsp;&nbsp;}<br>
+}
+</div>
+</section>
+
+<section class="card">
+<h2>🖥️ 8. Expected Output</h2>
+
+<div style="background:#111827;color:#e5e7eb;border-radius:15px;padding:22px;font-family:Consolas,monospace">
+<span style="color:#67e8f9">----- STUDENT PROFILE -----</span><br>
+Student ID: 24CSE101<br>
+Student Name: Ravi Kumar<br>
+Department: CSE<br>
+Semester: 3<br>
+Attendance: 86.5%<br>
+CGPA: 8.72<br>
+Fee Paid: true
+</div>
+</section>
+
+<section class="card">
+<h2>🧠 9. Why Choosing the Right Data Type Matters</h2>
+
+<div class="foodgrid">
+<div class="food f1">
+<div class="icon">🍲</div>
+<h3>Correct Container</h3>
+<p><code>double cgpa = 8.72;</code></p>
+<p>The decimal value is preserved.</p>
+</div>
+
+<div class="food f2">
+<div class="icon">🧂</div>
+<h3>Wrong Container</h3>
+<p><code>int cgpa = 8;</code></p>
+<p>The decimal part cannot be stored.</p>
+</div>
+
+<div class="food f3">
+<div class="icon">🏷️</div>
+<h3>ID as String</h3>
+<p><code>"24CSE101"</code></p>
+<p>Letters and digits are preserved.</p>
+</div>
+
+<div class="food f4">
+<div class="icon">🔢</div>
+<h3>ID as int</h3>
+<p><code>int studentId</code></p>
+<p>Cannot store an ID containing letters.</p>
+</div>
+</div>
+</section>
+
+<section class="card">
+<h2>⚠️ 10. Inappropriate Data Types — What Goes Wrong?</h2>
+
+<table>
+<tr><th>Information</th><th>Bad Choice</th><th>Problem</th><th>Impact</th></tr>
+<tr><td>Student ID = 24CSE101</td><td><code>int</code></td><td>Contains letters.</td><td>Compilation error if treated as numeric literal.</td></tr>
+<tr><td>Student Name</td><td><code>char</code></td><td><code>char</code> stores only one character.</td><td>Cannot store the complete name.</td></tr>
+<tr><td>Attendance = 86.5%</td><td><code>int</code></td><td>Decimal portion cannot be represented.</td><td>86.5 may become 86 if converted/truncated.</td></tr>
+<tr><td>CGPA = 8.72</td><td><code>int</code></td><td>Decimal precision is lost.</td><td>Academic information becomes inaccurate.</td></tr>
+<tr><td>Fee Paid</td><td><code>double</code></td><td>Uses a numeric type for yes/no information.</td><td>Less meaningful and harder to read.</td></tr>
+<tr><td>Semester = 3</td><td><code>double</code></td><td>Allows decimals unnecessarily.</td><td>Semantically weaker representation.</td></tr>
+</table>
+
+<div class="warning">
+<strong>🚨 Academic accuracy matters!</strong><br>
+If CGPA 8.72 is stored as an integer, the system can lose information.
+If attendance 86.5 is stored as an integer, the student record can become inaccurate.
+Choosing a data type is therefore not just a coding decision — it affects the correctness of UniFlow.
+</div>
+</section>
+
+<section class="card">
+<h2>💾 11. Data Type and Memory Thinking</h2>
+
+<div class="memory">
+<div class="mem"><strong>byte</strong>1 byte*</div>
+<div class="mem"><strong>short</strong>2 bytes*</div>
+<div class="mem"><strong>int</strong>4 bytes*</div>
+<div class="mem"><strong>long</strong>8 bytes*</div>
+<div class="mem"><strong>float</strong>4 bytes*</div>
+<div class="mem"><strong>double</strong>8 bytes*</div>
+<div class="mem"><strong>char</strong>2 bytes*</div>
+<div class="mem"><strong>boolean</strong>logical true/false*</div>
+</div>
+
+<p><small>*These are the standard Java language sizes for the numeric and char primitive types. The exact memory footprint of objects and JVM implementation details can be different.</small></p>
+
+<div class="eli">
+<strong>ELI10:</strong> If you need a small container, don't automatically choose the biggest container.
+But do not choose a container that is too small for the information either.
+The goal is an appropriate representation, not simply “smallest possible.”
+</div>
+</section>
+
+<section class="card">
+<h2>🔒 12. What is a Constant?</h2>
+
+<div class="diagram">
+<div class="box yellow">🍱 UniFlow Rule</div>
+<div class="arrow">➡️</div>
+<div class="box purple"><code>final int SUBJECTS = 5;</code></div>
+<div class="arrow">➡️</div>
+<div class="box green">🔒 Cannot be reassigned</div>
+</div>
+
+<div class="eli">
+<strong>ELI10:</strong> A constant is like a recipe rule printed on the kitchen wall.
+You use it, but you don't keep changing it while preparing the meal.
+</div>
+
+<div class="code">
+<span class="kw">final int</span> SUBJECTS = <span class="num">5</span>;
+</div>
+
+<p>This is useful when a value represents a fixed rule that should not be reassigned during program execution.</p>
+</section>
+
+<section class="card">
+<h2>🧪 13. Quick Student Challenge</h2>
+
+<p><strong>Q1. Which type is suitable for CGPA = 8.72?</strong></p>
+<button onclick="show('a1')">Show Answer</button>
+<div id="a1" class="answer">✅ double</div>
+
+<p><strong>Q2. Which type is suitable for feePaid = true?</strong></p>
+<button onclick="show('a2')">Show Answer</button>
+<div id="a2" class="answer">✅ boolean</div>
+
+<p><strong>Q3. Why is Student ID better represented as String?</strong></p>
+<button onclick="show('a3')">Show Answer</button>
+<div id="a3" class="answer">✅ An ID is an identity, not a number for arithmetic, and it may contain letters such as 24CSE101.</div>
+
+<p><strong>Q4. What happens if CGPA 8.72 is stored in an int variable?</strong></p>
+<button onclick="show('a4')">Show Answer</button>
+<div id="a4" class="answer">⚠️ The decimal portion cannot be represented by int, so academic precision can be lost.</div>
+
+<p><strong>Q5. What is an identifier?</strong></p>
+<button onclick="show('a5')">Show Answer</button>
+<div id="a5" class="answer">🏷️ The name used to identify a program element, such as the variable name studentName.</div>
+</section>
+
+<section class="card">
+<h2>🌟 Final Mental Model</h2>
+
+<div class="diagram">
+<div class="box blue">📦 Variable</div>
+<div class="arrow">+</div>
+<div class="box yellow">🏷️ Identifier</div>
+<div class="arrow">+</div>
+<div class="box purple">🥣 Data Type</div>
+<div class="arrow">+</div>
+<div class="box pink">🍚 Value</div>
+<div class="arrow">=</div>
+<div class="box green">🚀 UniFlow Data</div>
+</div>
+
+<table>
+<tr><th>Concept</th><th>Remember it as...</th><th>UniFlow Example</th></tr>
+<tr><td>Variable</td><td>📦 Storage box</td><td><code>double cgpa</code></td></tr>
+<tr><td>Identifier</td><td>🏷️ Label</td><td><code>cgpa</code></td></tr>
+<tr><td>Literal</td><td>🍚 Actual value</td><td><code>8.72</code></td></tr>
+<tr><td>Constant</td><td>🔒 Fixed rule</td><td><code>final int SUBJECTS = 5</code></td></tr>
+<tr><td>Data Type</td><td>🥣 Container type</td><td><code>double</code></td></tr>
+</table>
+
+<div class="eli">
+<strong>Remember the food story:</strong><br>
+🍱 A variable is your container.<br>
+🏷️ An identifier is the label.<br>
+🥣 The data type tells you what kind of container it is.<br>
+🍚 The literal is what you put inside.<br>
+🔒 A constant is a value you decide should not be reassigned.<br><br>
+<strong>Good Java programmers choose the right container before storing the data.</strong>
+</div>
+
+<p class="highlight">Right data type → Correct data → Reliable UniFlow → Better academic processing. 🚀</p>
+</section>
+
+</div>
+
+<footer>
+Programming for Problem Solving with Java • UniFlow – Smart University Academic Management System
+</footer>
+
+<script>
+function show(id){
+  document.querySelectorAll('.answer').forEach(x=>x.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+</script>
+</body>
+</html>

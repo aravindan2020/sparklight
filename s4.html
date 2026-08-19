@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Environment & Program Structure — UniFlow</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#f4f7fb;color:#1f2937;line-height:1.6}
+header{background:linear-gradient(135deg,#4c1d95,#2563eb,#0891b2);color:white;text-align:center;padding:42px 20px}
+header h1{margin:0 0 10px;font-size:clamp(28px,5vw,46px)}
+header p{margin:auto;max-width:900px;font-size:18px}
+.container{max-width:1150px;margin:auto;padding:22px 18px 60px}
+.card{background:#fff;border-radius:20px;padding:26px;margin:20px 0;box-shadow:0 9px 28px rgba(15,23,42,.09)}
+h2{color:#1d4ed8;margin-top:0} h3{color:#334155}
+.eli{background:#eff6ff;border-left:7px solid #2563eb;padding:17px 20px;border-radius:12px;margin:16px 0}
+.story{background:#fff7ed;border-left:7px solid #f97316;padding:17px 20px;border-radius:12px}
+.colorgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}
+.tile{border-radius:16px;padding:20px;color:#172033;min-height:170px;border:2px solid transparent}
+.tile .icon{font-size:38px}
+.t1{background:#dbeafe;border-color:#60a5fa}.t2{background:#fef3c7;border-color:#f59e0b}
+.t3{background:#ede9fe;border-color:#8b5cf6}.t4{background:#dcfce7;border-color:#22c55e}
+.t5{background:#fce7f3;border-color:#ec4899}.t6{background:#cffafe;border-color:#06b6d4}
+.pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:stretch;margin:25px 0}
+.pipe{position:relative;text-align:center;padding:20px 10px;border-radius:15px;font-weight:700;min-height:145px;display:flex;flex-direction:column;justify-content:center}
+.pipe .big{font-size:35px}.p1{background:#dbeafe}.p2{background:#fef3c7}.p3{background:#ede9fe}.p4{background:#dcfce7}.p5{background:#fce7f3}
+.arrow{display:flex;align-items:center;justify-content:center;font-size:25px}
+@media(min-width:850px){.pipe:not(:last-child):after{content:"➜";position:absolute;right:-25px;top:48%;z-index:2;color:#2563eb;font-size:22px}}
+.codebox{background:#0f172a;color:#e2e8f0;border-radius:15px;padding:22px;overflow:auto;font-family:Consolas,monospace;font-size:15px}
+.kw{color:#93c5fd}.name{color:#f9a8d4}.str{color:#86efac}.comment{color:#94a3b8}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:15px 0}.legend span{padding:7px 12px;border-radius:20px;font-size:13px;font-weight:700}
+.l-class{background:#dbeafe}.l-main{background:#fef3c7}.l-statement{background:#dcfce7}.l-block{background:#ede9fe}.l-comment{background:#e2e8f0}
+table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;margin:18px 0;border-radius:12px;border:1px solid #dbe2ea}
+th,td{padding:13px;border-bottom:1px solid #dbe2ea;border-right:1px solid #dbe2ea;text-align:left;vertical-align:top}
+th{background:#2563eb;color:#fff}.striped tr:nth-child(even) td{background:#f8fafc}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin:25px 0}
+.box{padding:15px 19px;border-radius:13px;font-weight:700;text-align:center;border:2px solid #6366f1;background:#eef2ff}
+.start{border-radius:30px;background:#dcfce7;border-color:#16a34a}.output{background:#fce7f3;border-color:#ec4899}
+.way{background:#cffafe;border-color:#06b6d4}
+.diagram{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
+.screen{background:#111827;border-radius:16px;padding:20px;color:#e5e7eb;box-shadow:inset 0 0 0 2px #374151}
+.screen .title{color:#67e8f9;font-weight:bold;margin-bottom:12px}
+.badge{display:inline-block;padding:7px 12px;border-radius:20px;background:#dbeafe;color:#1e3a8a;font-weight:700}
+.quiz button{border:0;background:#2563eb;color:white;padding:10px 15px;margin:5px;border-radius:9px;cursor:pointer}
+.answer{display:none;margin-top:10px;padding:12px;background:#ecfdf5;border-left:5px solid #10b981;border-radius:8px}
+.highlight{font-size:21px;font-weight:800;color:#1d4ed8}
+footer{text-align:center;padding:25px;color:#64748b}
+@media(max-width:800px){.pipeline{grid-template-columns:1fr}.diagram{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>☕ Java Development Environment & Program Structure</h1>
+<p>UniFlow Welcome Application — ELI10, Colorful & Diagram-Based Learning Session</p>
+</header>
+
+<div class="container">
+
+<section class="card">
+<h2>🎯 Today's Big Question</h2>
+<div class="eli">
+<strong>ELI10:</strong> How does a Java program go from something we type on the keyboard
+to something the computer can actually run?
+</div>
+
+<div class="story">
+Imagine writing a letter in English. The computer's JVM does not directly execute your Java source code.
+Java first turns the source into <strong>bytecode</strong>, and then the <strong>JVM</strong> runs that bytecode.
+</div>
+
+<p class="highlight">Java idea: Write Once → Compile → Run Anywhere there is a compatible JVM.</p>
+</section>
+
+<section class="card">
+<h2>🌈 1. Java Development Environment</h2>
+
+<div class="colorgrid">
+<div class="tile t1">
+<div class="icon">📝</div>
+<h3>Source Code</h3>
+<p>The Java instructions written by the programmer.</p>
+<strong>Example:</strong> UniFlowWelcome.java
+</div>
+
+<div class="tile t2">
+<div class="icon">⚙️</div>
+<h3>Compiler — javac</h3>
+<p>Checks the Java source code and converts it into bytecode.</p>
+<strong>Command:</strong> javac UniFlowWelcome.java
+</div>
+
+<div class="tile t3">
+<div class="icon">📦</div>
+<h3>Bytecode</h3>
+<p>Intermediate code stored in a <code>.class</code> file.</p>
+<strong>Example:</strong> UniFlowWelcome.class
+</div>
+
+<div class="tile t4">
+<div class="icon">☕</div>
+<h3>JVM</h3>
+<p>Java Virtual Machine reads and executes bytecode.</p>
+<strong>Command:</strong> java UniFlowWelcome
+</div>
+
+<div class="tile t5">
+<div class="icon">🖥️</div>
+<h3>Output</h3>
+<p>The result shown to the user.</p>
+<strong>Example:</strong> Welcome to UniFlow.
+</div>
+
+<div class="tile t6">
+<div class="icon">🌍</div>
+<h3>Write Once, Run Anywhere</h3>
+<p>The same bytecode can run on different operating systems when a suitable JVM is available.</p>
+</div>
+</div>
+</section>
+
+<section class="card">
+<h2>🔄 2. Java Execution Pipeline</h2>
+
+<div class="pipeline">
+<div class="pipe p1"><div class="big">📝</div>Source Code<small>.java</small></div>
+<div class="pipe p2"><div class="big">⚙️</div>Compilation<small>javac</small></div>
+<div class="pipe p3"><div class="big">📦</div>Bytecode<small>.class</small></div>
+<div class="pipe p4"><div class="big">☕</div>JVM Execution<small>java</small></div>
+<div class="pipe p5"><div class="big">🖥️</div>Output<small>Screen</small></div>
+</div>
+
+<table class="striped">
+<tr><th>Stage</th><th>What happens?</th><th>Example</th></tr>
+<tr><td>1. Source Code</td><td>Programmer writes Java instructions.</td><td>UniFlowWelcome.java</td></tr>
+<tr><td>2. Compilation</td><td><code>javac</code> checks and compiles the source.</td><td>javac UniFlowWelcome.java</td></tr>
+<tr><td>3. Bytecode</td><td>Compiler produces intermediate bytecode.</td><td>UniFlowWelcome.class</td></tr>
+<tr><td>4. JVM Execution</td><td>JVM loads and executes the bytecode.</td><td>java UniFlowWelcome</td></tr>
+<tr><td>5. Output</td><td>User sees the result.</td><td>Welcome to UniFlow.</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🌍 3. What Does “Write Once, Run Anywhere” Mean?</h2>
+
+<div class="diagram">
+<div>
+<div class="flow">
+<div class="box way">☕ Java Source</div>
+<div>↓</div>
+<div class="box">📦 Bytecode</div>
+</div>
+<p class="highlight">One .class file</p>
+</div>
+<div>
+<div class="flow">
+<div class="box">🪟 Windows JVM</div>
+<div class="box">🍎 macOS JVM</div>
+<div class="box">🐧 Linux JVM</div>
+</div>
+</div>
+</div>
+
+<div class="eli">
+<strong>ELI10:</strong> Think of bytecode as a common language. Windows, macOS and Linux
+can each have a JVM that understands that common language.
+So the same compiled Java bytecode can run on different systems.
+</div>
+
+<p><span class="badge">Important:</span> “Write Once, Run Anywhere” does not mean Java never needs compilation.
+Normally, you compile the source into bytecode first, then run that bytecode with a suitable JVM.</p>
+</section>
+
+<section class="card">
+<h2>☕ 4. UniFlow Welcome Application</h2>
+
+<p>Let's build the smallest possible UniFlow Java application.</p>
+
+<div class="codebox">
+<span class="kw">public class</span> <span class="name">UniFlowWelcome</span> {<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Display a welcome message</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">public static void</span> main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Welcome to UniFlow."</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="legend">
+<span class="l-class">🔵 Class Declaration</span>
+<span class="l-main">🟡 main() Method</span>
+<span class="l-statement">🟢 Statement</span>
+<span class="l-block">🟣 Code Block</span>
+<span class="l-comment">⚪ Comment</span>
+</div>
+</section>
+
+<section class="card">
+<h2>🔍 5. Analyze the Java Program</h2>
+
+<table class="striped">
+<tr><th>Program Part</th><th>Code</th><th>ELI10 Explanation</th></tr>
+<tr><td>Class Declaration</td><td><code>public class UniFlowWelcome</code></td><td>Creates a class named UniFlowWelcome. Think of it as the container for our program.</td></tr>
+<tr><td>main() Method</td><td><code>public static void main(String[] args)</code></td><td>This is where Java starts executing this application.</td></tr>
+<tr><td>Statement</td><td><code>System.out.println(...);</code></td><td>An instruction telling Java to print something.</td></tr>
+<tr><td>Code Block</td><td><code>{ ... }</code></td><td>Curly braces group related code together.</td></tr>
+<tr><td>Comment</td><td><code>// Display a welcome message</code></td><td>A note for humans. Java ignores it during execution.</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🧩 6. Understand the Braces</h2>
+
+<div class="flow">
+<div class="box">Class Block<br><code>{ }</code></div>
+<div>contains</div>
+<div class="box">main() Method Block<br><code>{ }</code></div>
+<div>contains</div>
+<div class="box output">Statement<br><code>System.out.println()</code></div>
+</div>
+
+<div class="eli">
+<strong>ELI10:</strong> Think of nested boxes. The big box is the class.
+Inside it is another box called <code>main()</code>. Inside that box are the instructions.
+</div>
+</section>
+
+<section class="card">
+<h2>▶️ 7. Exact Execution Sequence</h2>
+
+<div class="flow">
+<div class="box">📝<br>Source Code<br><small>UniFlowWelcome.java</small></div>
+<div class="arrow">➡️</div>
+<div class="box">⚙️<br>javac<br>Compile</div>
+<div class="arrow">➡️</div>
+<div class="box">📦<br>Bytecode<br><small>UniFlowWelcome.class</small></div>
+<div class="arrow">➡️</div>
+<div class="box">☕<br>JVM<br>Execute</div>
+<div class="arrow">➡️</div>
+<div class="box output">🖥️<br>Output</div>
+</div>
+
+<table>
+<tr><th>Correct Order</th><th>Stage</th></tr>
+<tr><td>1️⃣</td><td>Source Code</td></tr>
+<tr><td>2️⃣</td><td>Compilation using <code>javac</code></td></tr>
+<tr><td>3️⃣</td><td>Bytecode generation</td></tr>
+<tr><td>4️⃣</td><td>JVM execution</td></tr>
+<tr><td>5️⃣</td><td>Output</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🖥️ 8. Predict the Program Output</h2>
+
+<div class="screen">
+<div class="title">UniFlow Console</div>
+Welcome to UniFlow.
+</div>
+
+<p class="highlight">Expected Output: Welcome to UniFlow.</p>
+</section>
+
+<section class="card">
+<h2>✏️ 9. Modify the Program</h2>
+
+<p>Now change the message to:</p>
+<div class="story">
+<strong>“Welcome to UniFlow – Smart University Academic Management System.”</strong>
+</div>
+
+<div class="codebox">
+<span class="kw">public class</span> <span class="name">UniFlowWelcome</span> {<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">public static void</span> main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="str">"Welcome to UniFlow – Smart University Academic Management System."</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="screen">
+<div class="title">UniFlow Console</div>
+Welcome to UniFlow – Smart University Academic Management System.
+</div>
+</section>
+
+<section class="card">
+<h2>🧪 10. Quick Student Challenge</h2>
+
+<p><strong>Q1. Which tool converts .java into .class?</strong></p>
+<button onclick="show('a1')">Show Answer</button>
+<div id="a1" class="answer">⚙️ javac — the Java compiler.</div>
+
+<p><strong>Q2. What does the JVM execute?</strong></p>
+<button onclick="show('a2')">Show Answer</button>
+<div id="a2" class="answer">📦 Java bytecode stored in the .class file.</div>
+
+<p><strong>Q3. Where does Java start executing a normal standalone application?</strong></p>
+<button onclick="show('a3')">Show Answer</button>
+<div id="a3" class="answer">☕ The main() method.</div>
+
+<p><strong>Q4. Does a comment produce an output?</strong></p>
+<button onclick="show('a4')">Show Answer</button>
+<div id="a4" class="answer">❌ No. Comments are for humans and are ignored by the compiler as program instructions.</div>
+
+<p><strong>Q5. What is the final output after modifying the program?</strong></p>
+<button onclick="show('a5')">Show Answer</button>
+<div id="a5" class="answer">Welcome to UniFlow – Smart University Academic Management System.</div>
+</section>
+
+<section class="card">
+<h2>🌟 Final Mental Model</h2>
+
+<div class="pipeline">
+<div class="pipe p1"><div class="big">🧑‍💻</div>Write<br><strong>.java</strong></div>
+<div class="pipe p2"><div class="big">⚙️</div>Compile<br><strong>javac</strong></div>
+<div class="pipe p3"><div class="big">📦</div>Generate<br><strong>.class</strong></div>
+<div class="pipe p4"><div class="big">☕</div>Run<br><strong>JVM</strong></div>
+<div class="pipe p5"><div class="big">🎉</div>See<br><strong>Output</strong></div>
+</div>
+
+<div class="eli">
+<strong>Remember this sentence:</strong><br>
+📝 <strong>Source Code</strong> is what we write → ⚙️ <strong>javac</strong> compiles it →
+📦 <strong>Bytecode</strong> is created → ☕ <strong>JVM</strong> runs it → 🖥️ <strong>Output</strong> appears.
+</div>
+
+<p class="highlight">Java is not just “writing code.” Understand what happens to your code after you write it. 🚀</p>
+</section>
+
+</div>
+
+<footer>
+Programming for Problem Solving with Java • UniFlow – Smart University Academic Management System
+</footer>
+
+<script>
+function show(id){
+  document.querySelectorAll('.answer').forEach(x=>x.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+</script>
+</body>
+</html>

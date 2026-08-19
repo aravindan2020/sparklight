@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UniFlow — Stepwise Refinement, Desk Checking & Trace Tables</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#f4f7fb;color:#1f2937;line-height:1.6}
+header{background:linear-gradient(135deg,#172554,#2563eb);color:#fff;text-align:center;padding:42px 20px}
+header h1{margin:0 0 10px;font-size:clamp(28px,5vw,44px)}
+header p{margin:auto;max-width:900px;font-size:18px}
+.container{max-width:1100px;margin:auto;padding:22px 18px 60px}
+.card{background:#fff;border-radius:18px;padding:25px;margin:20px 0;box-shadow:0 8px 25px rgba(15,23,42,.08)}
+h2{color:#1d4ed8;margin-top:0} h3{color:#334155}
+.eli{background:#eff6ff;border-left:6px solid #2563eb;padding:16px 18px;border-radius:10px;margin:15px 0}
+.story{background:#fff7ed;border-left:6px solid #f97316;padding:16px 18px;border-radius:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+.tile{background:#f8fafc;border:1px solid #dbeafe;border-radius:14px;padding:18px}
+.tile .icon{font-size:32px}
+.stepflow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;margin:25px 0}
+.box{padding:14px 18px;background:#eef2ff;border:2px solid #6366f1;border-radius:12px;text-align:center;font-weight:600}
+.arrow{font-size:25px}
+.good{background:#dcfce7;border-color:#16a34a}
+.warn{background:#fef3c7;border-color:#d97706}
+.bad{background:#fee2e2;border-color:#dc2626}
+.refine{margin:20px 0}
+.level{display:flex;gap:12px;align-items:center;margin:12px 0}
+.level span{display:inline-block;padding:13px 17px;border-radius:10px;background:#eef2ff;border:2px solid #6366f1;font-weight:600}
+.level.l1 span{width:100%}.level.l2 span{margin-left:35px;width:90%}.level.l3 span{margin-left:70px;width:80%}
+table{width:100%;border-collapse:collapse;margin:15px 0}
+th,td{padding:12px;border:1px solid #dbe2ea;text-align:left}
+th{background:#dbeafe;color:#1e3a8a}
+pre{background:#0f172a;color:#e2e8f0;padding:20px;border-radius:12px;overflow:auto}
+.note{background:#ecfdf5;border-left:6px solid #10b981;padding:15px;border-radius:10px}
+.quiz button{border:0;background:#2563eb;color:#fff;padding:10px 15px;margin:5px;border-radius:9px;cursor:pointer}
+.answer{display:none;margin-top:10px;padding:12px;background:#ecfdf5;border-radius:8px}
+.highlight{font-size:20px;font-weight:700;color:#1d4ed8}
+footer{text-align:center;padding:25px;color:#64748b}
+@media(max-width:700px){.stepflow{flex-direction:column}.arrow{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🧠 Stepwise Refinement + Desk Checking</h1>
+<p>UniFlow Academic Report Generation — ELI10 Learning Session</p>
+</header>
+
+<div class="container">
+
+<section class="card">
+<h2>🎯 What are we learning today?</h2>
+<div class="eli">
+<strong>ELI10:</strong> Imagine you are asked to clean an entire house. “Clean the house” is too big.
+So you break it into smaller jobs: clean the bedroom, clean the kitchen, clean the living room.
+That is the basic idea of <strong>stepwise refinement</strong>.
+</div>
+<p>Then, after designing the steps, we need to check whether our logic actually works. We can do this without running Java code by using <strong>desk checking</strong> and a <strong>trace table</strong>.</p>
+</section>
+
+<section class="card">
+<h2>🧩 1. What is Stepwise Refinement?</h2>
+<div class="story">
+<strong>Big problem:</strong> “Register a student in UniFlow.”
+<br><br>
+That sounds simple, but registration contains many smaller jobs.
+</div>
+
+<div class="refine">
+<div class="level l1"><span>🏫 Student Registration Process</span></div>
+<div class="level l2"><span>1️⃣ Validate Student Profile</span></div>
+<div class="level l2"><span>2️⃣ Allocate Department</span></div>
+<div class="level l2"><span>3️⃣ Confirm Registration</span></div>
+</div>
+
+<h3>Break each module down again</h3>
+<div class="grid">
+<div class="tile"><div class="icon">👤</div><h3>Profile Validation</h3><p>Check Student ID, name and required information.</p></div>
+<div class="tile"><div class="icon">🏢</div><h3>Department Allocation</h3><p>Check the selected department and assign the student correctly.</p></div>
+<div class="tile"><div class="icon">✅</div><h3>Registration Confirmation</h3><p>Save the registration and display a confirmation message.</p></div>
+</div>
+
+<div class="eli">
+<strong>ELI10 rule:</strong> If a problem feels too big, keep breaking it into smaller tasks until each task is easy to understand and implement.
+</div>
+</section>
+
+<section class="card">
+<h2>🔽 Stepwise Refinement in UniFlow</h2>
+<div class="stepflow">
+<div class="box">Student Registration</div><div class="arrow">➡️</div>
+<div class="box">Validate Profile</div><div class="arrow">➡️</div>
+<div class="box">Allocate Department</div><div class="arrow">➡️</div>
+<div class="box good">Confirm Registration</div>
+</div>
+
+<table>
+<tr><th>Large Task</th><th>Smaller Task</th><th>Possible Java Module</th></tr>
+<tr><td>Student Registration</td><td>Validate profile</td><td>validateProfile()</td></tr>
+<tr><td>Student Registration</td><td>Allocate department</td><td>allocateDepartment()</td></tr>
+<tr><td>Student Registration</td><td>Confirm registration</td><td>confirmRegistration()</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🔎 2. What is Desk Checking?</h2>
+<div class="eli">
+<strong>ELI10:</strong> Desk checking means pretending to be the computer.
+Take sample input, go through the algorithm one step at a time, and write down what happens.
+</div>
+
+<div class="note">
+<strong>Important:</strong> We do not need to execute the Java program. We manually follow the logic using sample values.
+</div>
+
+<h3>Example Student</h3>
+<table>
+<tr><th>Student ID</th><td>24CSE101</td></tr>
+<tr><th>Student Name</th><td>Ravi</td></tr>
+<tr><th>Subject 1</th><td>80</td></tr>
+<tr><th>Subject 2</th><td>70</td></tr>
+<tr><th>Subject 3</th><td>90</td></tr>
+<tr><th>Subject 4</th><td>60</td></tr>
+<tr><th>Subject 5</th><td>100</td></tr>
+</table>
+
+<p>Total should be:</p>
+<p class="highlight">80 + 70 + 90 + 60 + 100 = 400</p>
+<p>Average should be:</p>
+<p class="highlight">400 ÷ 5 = 80</p>
+</section>
+
+<section class="card">
+<h2>📊 3. What is a Trace Table?</h2>
+<div class="eli">
+<strong>ELI10:</strong> A trace table is like a detective's notebook.
+At every important step, we record the values of variables so we can see whether the program is doing the right thing.
+</div>
+
+<table>
+<tr>
+<th>Step</th><th>Action</th><th>Mark</th><th>Total</th><th>Average</th>
+</tr>
+<tr><td>1</td><td>Read Student ID & Name</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>2</td><td>Read Subject 1</td><td>80</td><td>80</td><td>—</td></tr>
+<tr><td>3</td><td>Read Subject 2</td><td>70</td><td>150</td><td>—</td></tr>
+<tr><td>4</td><td>Read Subject 3</td><td>90</td><td>240</td><td>—</td></tr>
+<tr><td>5</td><td>Read Subject 4</td><td>60</td><td>300</td><td>—</td></tr>
+<tr><td>6</td><td>Read Subject 5</td><td>100</td><td>400</td><td>—</td></tr>
+<tr><td>7</td><td>Calculate Average</td><td>—</td><td>400</td><td>80</td></tr>
+<tr><td>8</td><td>Display Report</td><td>—</td><td>400</td><td>80</td></tr>
+</table>
+
+<div class="eli">
+<strong>What did we discover?</strong> The trace table lets us watch the total grow:
+<strong>80 → 150 → 240 → 300 → 400</strong>.
+That gives us confidence that the calculation logic is working.
+</div>
+</section>
+
+<section class="card">
+<h2>🏫 4. Analyze the UniFlow Academic Report Process</h2>
+<p>The given Academic Report Module performs:</p>
+<ol>
+<li>Read Student ID and Student Name.</li>
+<li>Read marks in five subjects.</li>
+<li>Calculate Total Marks.</li>
+<li>Calculate Average Marks.</li>
+<li>Display Academic Report.</li>
+</ol>
+
+<div class="stepflow">
+<div class="box">👤 Student ID + Name</div><div class="arrow">➡️</div>
+<div class="box">📚 5 Subject Marks</div><div class="arrow">➡️</div>
+<div class="box warn">➕ Calculate Total</div><div class="arrow">➡️</div>
+<div class="box warn">➗ Calculate Average</div><div class="arrow">➡️</div>
+<div class="box good">📄 Display Report</div>
+</div>
+</section>
+
+<section class="card">
+<h2>1️⃣ Task 1 — Arrange the Correct Sequence</h2>
+<div class="eli">
+<strong>Correct sequence:</strong> First collect the information, then calculate values, then display the final report.
+</div>
+
+<table>
+<tr><th>Order</th><th>Step</th><th>Why?</th></tr>
+<tr><td>1</td><td>Read Student ID and Student Name</td><td>We need to know whose report is being generated.</td></tr>
+<tr><td>2</td><td>Read marks in five subjects</td><td>Marks are needed for calculations.</td></tr>
+<tr><td>3</td><td>Calculate Total Marks</td><td>Total requires all five marks.</td></tr>
+<tr><td>4</td><td>Calculate Average Marks</td><td>Average requires the total and number of subjects.</td></tr>
+<tr><td>5</td><td>Display Academic Report</td><td>Display only after all values are ready.</td></tr>
+</table>
+
+<p class="highlight">Input → Calculate Total → Calculate Average → Display</p>
+</section>
+
+<section class="card">
+<h2>2️⃣ Task 2 — Information Required Before Generating the Report</h2>
+<div class="grid">
+<div class="tile"><div class="icon">🆔</div><h3>Student ID</h3><p>Identifies the student.</p></div>
+<div class="tile"><div class="icon">👤</div><h3>Student Name</h3><p>Displays the student's identity.</p></div>
+<div class="tile"><div class="icon">📚</div><h3>Five Subject Marks</h3><p>Used to calculate total and average.</p></div>
+<div class="tile"><div class="icon">🔢</div><h3>Number of Subjects</h3><p>Needed for average calculation. Here it is 5.</p></div>
+</div>
+
+<div class="eli">
+<strong>ELI10:</strong> To calculate a student's average, you cannot just know the student's name.
+You need the marks and you need to know how many subjects those marks belong to.
+</div>
+</section>
+
+<section class="card">
+<h2>3️⃣ Task 3 — Expected Output</h2>
+<pre>
+================================
+       ACADEMIC REPORT
+================================
+Student ID    : 24CSE101
+Student Name  : Ravi
+
+Subject Marks:
+Subject 1     : 80
+Subject 2     : 70
+Subject 3     : 90
+Subject 4     : 60
+Subject 5     : 100
+
+Total Marks   : 400
+Average Marks : 80.0
+================================
+</pre>
+<p class="highlight">The output should contain student details + subject marks + total + average.</p>
+</section>
+
+<section class="card">
+<h2>4️⃣ Task 4 — Find the Missing or Incorrect Step</h2>
+<div class="eli">
+<strong>Detective question:</strong> Is the five-step process enough for a real academic report?
+Not necessarily. We should check whether the marks are valid before calculating the report.
+</div>
+
+<h3>Potential Missing Step: Validate Marks</h3>
+<p>For example, if a mark is <strong>150</strong> when the maximum is 100, the system should not blindly calculate the report.</p>
+
+<div class="stepflow">
+<div class="box">Read Marks</div><div class="arrow">➡️</div>
+<div class="box warn">Validate Marks</div><div class="arrow">➡️</div>
+<div class="box">Calculate Total</div><div class="arrow">➡️</div>
+<div class="box">Calculate Average</div><div class="arrow">➡️</div>
+<div class="box good">Display Report</div>
+</div>
+
+<table>
+<tr><th>Potential Problem</th><th>Why It Matters</th><th>Improvement</th></tr>
+<tr><td>Invalid marks are accepted</td><td>Total and average can become incorrect.</td><td>Validate each mark before calculation.</td></tr>
+<tr><td>Wrong number of subjects</td><td>Average may use the wrong divisor.</td><td>Use the actual number of subjects or clearly define 5.</td></tr>
+<tr><td>Average calculated before total</td><td>Required value may not exist yet.</td><td>Calculate total first.</td></tr>
+<tr><td>Report displayed before calculations</td><td>Output may contain missing or old values.</td><td>Display only after calculations are complete.</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🧠 Corrected Academic Report Algorithm</h2>
+<ol>
+<li>Start.</li>
+<li>Read Student ID.</li>
+<li>Read Student Name.</li>
+<li>Read marks for five subjects.</li>
+<li>Validate each mark.</li>
+<li>Calculate Total Marks.</li>
+<li>Calculate Average Marks = Total Marks ÷ 5.</li>
+<li>Display Student ID and Student Name.</li>
+<li>Display the five subject marks.</li>
+<li>Display Total Marks and Average Marks.</li>
+<li>Stop.</li>
+</ol>
+
+<pre>
+BEGIN
+
+    INPUT StudentID
+    INPUT StudentName
+
+    INPUT Mark1, Mark2, Mark3, Mark4, Mark5
+
+    VALIDATE all marks
+
+    Total = Mark1 + Mark2 + Mark3 + Mark4 + Mark5
+    Average = Total / 5
+
+    DISPLAY StudentID
+    DISPLAY StudentName
+    DISPLAY Mark1, Mark2, Mark3, Mark4, Mark5
+    DISPLAY Total
+    DISPLAY Average
+
+END
+</pre>
+</section>
+
+<section class="card">
+<h2>🔍 Desk Checking the Corrected Logic</h2>
+<table>
+<tr><th>Variable</th><th>Initial</th><th>After Mark 1</th><th>After Mark 2</th><th>After Mark 3</th><th>After Mark 4</th><th>After Mark 5</th></tr>
+<tr><td>Mark</td><td>—</td><td>80</td><td>70</td><td>90</td><td>60</td><td>100</td></tr>
+<tr><td>Total</td><td>0</td><td>80</td><td>150</td><td>240</td><td>300</td><td>400</td></tr>
+</table>
+
+<div class="note">
+<strong>Verification:</strong> Final Total = 400. Average = 400 ÷ 5 = 80.
+Therefore the sample processing logic produces the expected result.
+</div>
+</section>
+
+<section class="card">
+<h2>🧪 Quick Student Challenge</h2>
+
+<p><strong>1. Why do we use stepwise refinement?</strong></p>
+<button onclick="show('a1')">Show Answer</button>
+<div id="a1" class="answer">To break a large problem into smaller, easier-to-understand and easier-to-implement modules.</div>
+
+<p><strong>2. What does a trace table help us find?</strong></p>
+<button onclick="show('a2')">Show Answer</button>
+<div id="a2" class="answer">It helps us follow variable values step by step and identify incorrect processing logic.</div>
+
+<p><strong>3. What happens if we calculate Average before Total?</strong></p>
+<button onclick="show('a3')">Show Answer</button>
+<div id="a3" class="answer">The average calculation may use an unavailable or incorrect total. Total should be calculated first.</div>
+
+<p><strong>4. A mark is 120 out of 100. What should UniFlow do?</strong></p>
+<button onclick="show('a4')">Show Answer</button>
+<div id="a4" class="answer">Reject or flag the invalid mark before calculating the total and average.</div>
+</section>
+
+<section class="card">
+<h2>🌟 The Big Picture</h2>
+<div class="stepflow">
+<div class="box">🌍 Big Problem</div><div class="arrow">→</div>
+<div class="box">🧩 Break into Modules</div><div class="arrow">→</div>
+<div class="box">📋 Design Logic</div><div class="arrow">→</div>
+<div class="box">🔎 Desk Check</div><div class="arrow">→</div>
+<div class="box">📊 Trace Table</div><div class="arrow">→</div>
+<div class="box good">☕ Reliable Java Program</div>
+</div>
+
+<div class="eli">
+<strong>Remember:</strong> A programmer should not only ask,
+“Does my program run?” Ask,
+<strong>“Does my program produce the correct answer for the right reasons?”</strong>
+Desk checking and trace tables help us answer that question.
+</div>
+
+<p class="highlight">Break the problem → Trace the logic → Find mistakes → Then code. 🚀</p>
+</section>
+
+</div>
+
+<footer>
+Programming for Problem Solving with Java • UniFlow – Smart University Academic Management System
+</footer>
+
+<script>
+function show(id){
+  document.querySelectorAll('.answer').forEach(x=>x.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+</script>
+</body>
+</html>
