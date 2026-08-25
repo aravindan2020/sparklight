@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cybersecurity Mission Center</title>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:"Trebuchet MS",Arial,sans-serif;
+    color:#f5f5f5;
+    background:
+        radial-gradient(circle at 50% 0%,#5f0000 0%,#160000 35%,#050505 75%);
+    overflow-x:hidden;
+}
+
+/* =========================================================
+   ANIMATED FIRE BACKGROUND
+========================================================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-2;
+
+    background:
+        radial-gradient(circle at 20% 80%,rgba(255,30,0,.20),transparent 25%),
+        radial-gradient(circle at 80% 70%,rgba(255,80,0,.16),transparent 25%),
+        radial-gradient(circle at 50% 40%,rgba(255,0,0,.08),transparent 35%);
+}
+
+/* glowing fire particles */
+
+.fire-particle{
+    position:fixed;
+    bottom:-30px;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#ff3b00;
+    box-shadow:
+        0 0 10px #ff3b00,
+        0 0 25px #ff1700,
+        0 0 40px #ff0000;
+    opacity:.7;
+    animation:riseFire linear infinite;
+    z-index:-1;
+}
+
+.p1{left:5%;animation-duration:7s;}
+.p2{left:12%;animation-duration:10s;animation-delay:2s;}
+.p3{left:20%;animation-duration:8s;animation-delay:1s;}
+.p4{left:30%;animation-duration:11s;animation-delay:4s;}
+.p5{left:40%;animation-duration:9s;animation-delay:3s;}
+.p6{left:50%;animation-duration:12s;animation-delay:1s;}
+.p7{left:60%;animation-duration:8s;animation-delay:5s;}
+.p8{left:70%;animation-duration:10s;animation-delay:2s;}
+.p9{left:80%;animation-duration:7s;animation-delay:4s;}
+.p10{left:90%;animation-duration:11s;animation-delay:1s;}
+
+@keyframes riseFire{
+
+    0%{
+        transform:
+            translateY(0)
+            translateX(0)
+            scale(.5);
+        opacity:0;
+    }
+
+    15%{
+        opacity:.8;
+    }
+
+    50%{
+        transform:
+            translateY(-50vh)
+            translateX(30px)
+            scale(1);
+    }
+
+    100%{
+        transform:
+            translateY(-110vh)
+            translateX(-30px)
+            scale(.2);
+        opacity:0;
+    }
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.hero{
+    min-height:620px;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(90,0,0,.85),
+            rgba(20,0,0,.90)
+        );
+
+    border-bottom:3px solid #ff1a00;
+}
+
+/* rotating rings */
+
+.hero::before,
+.hero::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    border:2px solid rgba(255,50,0,.25);
+}
+
+.hero::before{
+    width:700px;
+    height:700px;
+    animation:rotateRing 20s linear infinite;
+}
+
+.hero::after{
+    width:480px;
+    height:480px;
+    border-style:dashed;
+    animation:rotateRingReverse 14s linear infinite;
+}
+
+@keyframes rotateRing{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@keyframes rotateRingReverse{
+    from{transform:rotate(360deg);}
+    to{transform:rotate(0deg);}
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:1000px;
+    padding:30px;
+}
+
+.game-badge{
+    display:inline-block;
+    padding:12px 28px;
+    border:2px solid #ff2a00;
+    border-radius:50px;
+
+    background:rgba(255,0,0,.08);
+
+    color:#ff5a36;
+    font-weight:bold;
+    letter-spacing:3px;
+
+    box-shadow:
+        0 0 15px rgba(255,30,0,.5),
+        inset 0 0 15px rgba(255,30,0,.1);
+
+    animation:dangerPulse 2s infinite;
+}
+
+@keyframes dangerPulse{
+
+    0%,100%{
+        box-shadow:
+            0 0 10px rgba(255,30,0,.3);
+    }
+
+    50%{
+        box-shadow:
+            0 0 35px rgba(255,30,0,.8);
+    }
+}
+
+.fire-icon{
+    font-size:100px;
+    margin:20px;
+
+    filter:
+        drop-shadow(0 0 10px #ff0000)
+        drop-shadow(0 0 30px #ff3300);
+
+    animation:
+        fireFloat 2s infinite ease-in-out,
+        fireShake 4s infinite;
+}
+
+@keyframes fireFloat{
+
+    0%,100%{
+        transform:translateY(0) scale(1);
+    }
+
+    50%{
+        transform:translateY(-15px) scale(1.08);
+    }
+}
+
+@keyframes fireShake{
+
+    0%,90%,100%{
+        transform:rotate(0deg);
+    }
+
+    92%{
+        transform:rotate(-4deg);
+    }
+
+    94%{
+        transform:rotate(4deg);
+    }
+
+    96%{
+        transform:rotate(-3deg);
+    }
+}
+
+.hero h1{
+
+    margin:10px 0;
+
+    font-size:65px;
+    font-weight:900;
+
+    text-transform:uppercase;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #ffb199,
+            #ff3217,
+            #ffffff
+        );
+
+    background-size:300%;
+
+    -webkit-background-clip:text;
+    color:transparent;
+
+    animation:titleFire 4s infinite;
+}
+
+@keyframes titleFire{
+
+    0%{
+        background-position:0%;
+    }
+
+    50%{
+        background-position:100%;
+    }
+
+    100%{
+        background-position:0%;
+    }
+}
+
+.hero p{
+    font-size:22px;
+    color:#ffc7bd;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.container{
+    width:92%;
+    max-width:1250px;
+    margin:auto;
+}
+
+/* =========================================================
+   MISSION STATUS
+========================================================= */
+
+.status-panel{
+
+    margin-top:-50px;
+
+    position:relative;
+    z-index:5;
+
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+}
+
+.status{
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(50,0,0,.95),
+            rgba(20,5,5,.95)
+        );
+
+    border:1px solid #5c170f;
+
+    text-align:center;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.6),
+        inset 0 0 20px rgba(255,40,0,.05);
+
+    transition:.4s;
+}
+
+.status:hover{
+
+    transform:translateY(-10px);
+
+    border-color:#ff2b00;
+
+    box-shadow:
+        0 20px 50px rgba(255,30,0,.18);
+}
+
+.status-number{
+
+    font-size:38px;
+    font-weight:bold;
+    color:#ff3b17;
+}
+
+.status-label{
+
+    color:#c7c7c7;
+}
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
+
+.section-title{
+
+    margin:80px 0 35px;
+
+    text-align:center;
+}
+
+.section-title h2{
+
+    font-size:40px;
+
+    color:#ff4b2b;
+
+    text-shadow:
+        0 0 10px rgba(255,40,0,.5);
+}
+
+.section-title p{
+    color:#aaa;
+}
+
+/* =========================================================
+   SESSION GRID
+========================================================= */
+
+.session-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(300px,1fr));
+
+    gap:28px;
+
+    padding-bottom:60px;
+}
+
+/* =========================================================
+   MISSION CARD
+========================================================= */
+
+.session-card{
+
+    position:relative;
+
+    min-height:330px;
+
+    padding:28px;
+
+    border-radius:25px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(35,10,8,.97),
+            rgba(10,10,10,.98)
+        );
+
+    border:1px solid #43130e;
+
+    overflow:hidden;
+
+    transition:
+        transform .5s,
+        box-shadow .5s,
+        border-color .5s;
+
+    opacity:0;
+
+    animation:missionAppear .8s forwards;
+}
+
+/* animation delay */
+
+.session-card:nth-child(1){animation-delay:.1s;}
+.session-card:nth-child(2){animation-delay:.2s;}
+.session-card:nth-child(3){animation-delay:.3s;}
+.session-card:nth-child(4){animation-delay:.4s;}
+.session-card:nth-child(5){animation-delay:.5s;}
+.session-card:nth-child(6){animation-delay:.6s;}
+.session-card:nth-child(7){animation-delay:.7s;}
+.session-card:nth-child(8){animation-delay:.8s;}
+.session-card:nth-child(9){animation-delay:.9s;}
+.session-card:nth-child(10){animation-delay:1s;}
+.session-card:nth-child(11){animation-delay:1.1s;}
+.session-card:nth-child(12){animation-delay:1.2s;}
+.session-card:nth-child(13){animation-delay:1.3s;}
+.session-card:nth-child(14){animation-delay:1.4s;}
+.session-card:nth-child(15){animation-delay:1.5s;}
+
+@keyframes missionAppear{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(60px)
+            scale(.9);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+/* fire glow */
+
+.session-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    right:-70px;
+    bottom:-80px;
+
+    border-radius:50%;
+
+    background:#ff2200;
+
+    filter:blur(70px);
+
+    opacity:.12;
+
+    transition:.5s;
+}
+
+.session-card:hover::before{
+
+    opacity:.35;
+
+    transform:scale(1.5);
+}
+
+.session-card:hover{
+
+    transform:
+        perspective(900px)
+        rotateX(5deg)
+        rotateY(-5deg)
+        translateY(-15px);
+
+    border-color:#ff2b00;
+
+    box-shadow:
+
+        0 25px 70px rgba(0,0,0,.7),
+
+        0 0 30px rgba(255,30,0,.20);
+}
+
+/* =========================================================
+   SESSION NUMBER
+========================================================= */
+
+.session-number{
+
+    position:absolute;
+
+    top:18px;
+    right:20px;
+
+    width:50px;
+    height:50px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #ff3b17,
+            #7f0000
+        );
+
+    color:white;
+
+    font-weight:bold;
+    font-size:18px;
+
+    box-shadow:
+        0 0 15px rgba(255,40,0,.5);
+}
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.session-icon{
+
+    font-size:65px;
+
+    display:inline-block;
+
+    margin-bottom:10px;
+
+    filter:
+        drop-shadow(0 0 7px rgba(255,40,0,.6));
+
+    transition:.4s;
+}
+
+.session-card:hover .session-icon{
+
+    transform:
+        scale(1.25)
+        rotate(-8deg);
+
+}
+
+/* =========================================================
+   CARD TEXT
+========================================================= */
+
+.session-card h3{
+
+    color:#ff765e;
+
+    font-size:25px;
+
+    margin:5px 0 12px;
+
+}
+
+.session-card p{
+
+    color:#bdbdbd;
+
+    min-height:65px;
+
+}
+
+.eli{
+
+    padding:12px;
+
+    margin-top:15px;
+
+    border-radius:12px;
+
+    background:
+        rgba(255,30,0,.07);
+
+    border-left:4px solid #ff3b17;
+
+    color:#ffc1b4;
+
+}
+
+/* =========================================================
+   START BUTTON
+========================================================= */
+
+.start-btn{
+
+    display:inline-block;
+
+    margin-top:20px;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    color:white;
+
+    font-weight:bold;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d92300,
+            #760000
+        );
+
+    border:1px solid #ff3b17;
+
+    transition:.3s;
+
+    box-shadow:
+        0 0 10px rgba(255,40,0,.2);
+
+}
+
+.start-btn:hover{
+
+    transform:
+        scale(1.08);
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff3b17,
+            #a80000
+        );
+
+    box-shadow:
+        0 0 25px rgba(255,40,0,.6);
+
+}
+
+/* =========================================================
+   DIFFICULTY
+========================================================= */
+
+.difficulty{
+
+    display:inline-block;
+
+    padding:5px 12px;
+
+    margin-top:8px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    color:#ffb3a5;
+
+    background:#320b07;
+
+    border:1px solid #652016;
+
+}
+
+/* =========================================================
+   ROADMAP
+========================================================= */
+
+.roadmap{
+
+    position:relative;
+
+    margin:50px auto;
+
+    max-width:1000px;
+
+}
+
+.roadmap::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+
+    top:0;
+    bottom:0;
+
+    width:4px;
+
+    transform:translateX(-50%);
+
+    background:
+        linear-gradient(
+            #ff2200,
+            #6b0000,
+            #ff2200
+        );
+
+    box-shadow:
+        0 0 15px rgba(255,30,0,.5);
+
+}
+
+.road{
+
+    position:relative;
+
+    width:50%;
+
+    padding:20px 40px;
+
+}
+
+.road:nth-child(odd){
+
+    left:0;
+    text-align:right;
+
+}
+
+.road:nth-child(even){
+
+    left:50%;
+
+}
+
+.road-dot{
+
+    position:absolute;
+
+    top:30px;
+
+    width:20px;
+    height:20px;
+
+    border-radius:50%;
+
+    background:#ff3217;
+
+    box-shadow:
+        0 0 10px #ff3217,
+        0 0 25px #ff3217;
+
+    animation:dotPulse 2s infinite;
+
+}
+
+.road:nth-child(odd) .road-dot{
+
+    right:-10px;
+
+}
+
+.road:nth-child(even) .road-dot{
+
+    left:-10px;
+
+}
+
+@keyframes dotPulse{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.5);
+    }
+
+}
+
+.road-box{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:#160908;
+
+    border:1px solid #49130e;
+
+}
+
+.road-box strong{
+
+    color:#ff5b40;
+
+}
+
+/* =========================================================
+   FINAL MISSION
+========================================================= */
+
+.final-mission{
+
+    margin:80px 0;
+
+    padding:60px 30px;
+
+    text-align:center;
+
+    border-radius:30px;
+
+    background:
+
+        radial-gradient(
+            circle,
+            rgba(255,40,0,.15),
+            transparent 60%
+        ),
+
+        #0c0504;
+
+    border:2px solid #6e1b10;
+
+    box-shadow:
+        0 0 60px rgba(255,30,0,.12);
+
+}
+
+.final-icon{
+
+    font-size:100px;
+
+    animation:
+        finalFire 2s infinite;
+}
+
+@keyframes finalFire{
+
+    0%,100%{
+        transform:
+            scale(1)
+            rotate(0deg);
+    }
+
+    50%{
+        transform:
+            scale(1.15)
+            rotate(-5deg);
+    }
+
+}
+
+.final-mission h2{
+
+    font-size:42px;
+
+    color:#ff4b2b;
+
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    padding:50px;
+
+    text-align:center;
+
+    background:#030303;
+
+    border-top:2px solid #4b110b;
+
+    color:#888;
+
+}
+
+footer strong{
+
+    color:#ff4b2b;
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+    .hero h1{
+        font-size:40px;
+    }
+
+    .fire-icon{
+        font-size:70px;
+    }
+
+    .roadmap::before{
+        left:20px;
+    }
+
+    .road,
+    .road:nth-child(even),
+    .road:nth-child(odd){
+
+        width:100%;
+
+        left:0;
+
+        padding-left:60px;
+
+        text-align:left;
+
+    }
+
+    .road:nth-child(odd) .road-dot,
+    .road:nth-child(even) .road-dot{
+
+        left:10px;
+        right:auto;
+
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     FIRE PARTICLES
+===================================================== -->
+
+<div class="fire-particle p1"></div>
+<div class="fire-particle p2"></div>
+<div class="fire-particle p3"></div>
+<div class="fire-particle p4"></div>
+<div class="fire-particle p5"></div>
+<div class="fire-particle p6"></div>
+<div class="fire-particle p7"></div>
+<div class="fire-particle p8"></div>
+<div class="fire-particle p9"></div>
+<div class="fire-particle p10"></div>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<header class="hero">
+
+<div class="hero-content">
+
+<div class="game-badge">
+    🔥 CYBERSECURITY TRAINING MODE 🔥
+</div>
+
+<div class="fire-icon">
+    🛡️
+</div>
+
+<h1>
+    CYBER<br>
+    MISSION CENTER
+</h1>
+
+<p>
+    ⚔️ 15 Missions • 15 Skills • 1 Cybersecurity Journey
+</p>
+
+<p>
+    <strong>
+        ELI10 Learning Mode — Learn • Play • Investigate • Defend
+    </strong>
+</p>
+
+</div>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     STATUS
+===================================================== -->
+
+<div class="status-panel">
+
+<div class="status">
+
+<div class="status-number">15</div>
+
+<div class="status-label">
+Cybersecurity Missions
+</div>
+
+</div>
+
+
+<div class="status">
+
+<div class="status-number">🔥</div>
+
+<div class="status-label">
+Beginner → Researcher
+</div>
+
+</div>
+
+
+<div class="status">
+
+<div class="status-number">🕵️</div>
+
+<div class="status-label">
+Cyber Detective Mode
+</div>
+
+</div>
+
+
+<div class="status">
+
+<div class="status-number">🏆</div>
+
+<div class="status-label">
+Final Research Mission
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
+<div class="section-title">
+
+<h2>🔥 YOUR CYBERSECURITY QUEST</h2>
+
+<p>
+Complete every mission and level up your cybersecurity knowledge.
+</p>
+
+</div>
+
+
+<!-- =====================================================
+     SESSION GRID
+===================================================== -->
+
+<div class="session-grid">
+
+
+<!-- SESSION 1 -->
+
+<div class="session-card">
+
+<div class="session-number">01</div>
+
+<div class="session-icon">🛡️</div>
+
+<h3>
+What is Cybersecurity?
+</h3>
+
+<p>
+Discover what cybersecurity means and why computers,
+networks and data need protection.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+Your computer is like a house.
+Cybersecurity protects the house.
+</div>
+
+<span class="difficulty">
+⭐ BEGINNER
+</span>
+
+<br>
+
+<a href="session 1.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 2 -->
+
+<div class="session-card">
+
+<div class="session-number">02</div>
+
+<div class="session-icon">👾</div>
+
+<h3>
+Cyber Threats & Attackers
+</h3>
+
+<p>
+Learn about threats, vulnerabilities, attacks,
+risks and different types of attackers.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+Who is trying to break the digital house?
+</div>
+
+<span class="difficulty">
+⭐ BEGINNER
+</span>
+
+<br>
+
+<a href="session 2.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 3 -->
+
+<div class="session-card">
+
+<div class="session-number">03</div>
+
+<div class="session-icon">🔑</div>
+
+<h3>
+Password & Authentication
+</h3>
+
+<p>
+Understand passwords, authentication,
+authorization, OTP and MFA.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+Show your ID before entering the house!
+</div>
+
+<span class="difficulty">
+⭐ BEGINNER
+</span>
+
+<br>
+
+<a href="session 3.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 4 -->
+
+<div class="session-card">
+
+<div class="session-number">04</div>
+
+<div class="session-icon">🔐</div>
+
+<h3>
+Cryptography
+</h3>
+
+<p>
+Learn how computers protect secret information
+using encryption, keys and hashing.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+Turn a secret message into a secret code!
+</div>
+
+<span class="difficulty">
+⭐⭐ EASY
+</span>
+
+<br>
+
+<a href="session4.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 5 -->
+
+<div class="session-card">
+
+<div class="session-number">05</div>
+
+<div class="session-icon">🌐</div>
+
+<h3>
+Network Security
+</h3>
+
+<p>
+Understand computer networks, protocols,
+ports, firewalls and secure communication.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+Protect the roads connecting all the houses.
+</div>
+
+<span class="difficulty">
+⭐⭐ EASY
+</span>
+
+<br>
+
+<a href="session5.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 6 -->
+
+<div class="session-card">
+
+<div class="session-number">06</div>
+
+<div class="session-icon">⚔️</div>
+
+<h3>
+Network Attacks
+</h3>
+
+<p>
+Learn the basic concepts behind scanning,
+sniffing, spoofing and denial-of-service attacks.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+What happens when someone attacks the digital road?
+</div>
+
+<span class="difficulty">
+⭐⭐ EASY
+</span>
+
+<br>
+
+<a href="session6.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 7 -->
+
+<div class="session-card">
+
+<div class="session-number">07</div>
+
+<div class="session-icon">🧱</div>
+
+<h3>
+Firewalls, IDS & IPS
+</h3>
+
+<p>
+Learn how security systems detect,
+block and monitor suspicious activity.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+A guard checks who is allowed through the gate.
+</div>
+
+<span class="difficulty">
+⭐⭐ EASY
+</span>
+
+<br>
+
+<a href="session7.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 8 -->
+
+<div class="session-card">
+
+<div class="session-number">08</div>
+
+<div class="session-icon">🌍</div>
+
+<h3>
+Web Application Security
+</h3>
+
+<p>
+Learn how websites work and how developers
+protect web applications.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+Protect the doors and windows of an online shop.
+</div>
+
+<span class="difficulty">
+⭐⭐⭐ INTERMEDIATE
+</span>
+
+<br>
+
+<a href="session8.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 9 -->
+
+<div class="session-card">
+
+<div class="session-number">09</div>
+
+<div class="session-icon">🦠</div>
+
+<h3>
+Malware & Social Engineering
+</h3>
+
+<p>
+Understand malicious software, phishing,
+ransomware and human manipulation.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+Sometimes the attacker tricks the person instead of the computer.
+</div>
+
+<span class="difficulty">
+⭐⭐⭐ INTERMEDIATE
+</span>
+
+<br>
+
+<a href="session9.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 10 -->
+
+<div class="session-card">
+
+<div class="session-number">10</div>
+
+<div class="session-icon">☁️</div>
+
+<h3>
+Cloud & IoT Security
+</h3>
+
+<p>
+Discover security challenges in cloud systems
+and smart connected devices.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+Protect your smart house and its cloud brain.
+</div>
+
+<span class="difficulty">
+⭐⭐⭐ INTERMEDIATE
+</span>
+
+<br>
+
+<a href="session10.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 11 -->
+
+<div class="session-card">
+
+<div class="session-number">11</div>
+
+<div class="session-icon">📊</div>
+
+<h3>
+Security Monitoring & Logs
+</h3>
+
+<p>
+Learn how security teams observe systems,
+read logs and identify suspicious events.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+Computer CCTV records what happened.
+</div>
+
+<span class="difficulty">
+⭐⭐⭐ INTERMEDIATE
+</span>
+
+<br>
+
+<a href="session11.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 12 -->
+
+<div class="session-card">
+
+<div class="session-number">12</div>
+
+<div class="session-icon">🤖</div>
+
+<h3>
+AI & Machine Learning Security
+</h3>
+
+<p>
+Explore how AI can detect unusual patterns
+and assist cybersecurity teams.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+Train a robot detective to spot strange behaviour.
+</div>
+
+<span class="difficulty">
+⭐⭐⭐⭐ ADVANCED
+</span>
+
+<br>
+
+<a href="session12.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 13 -->
+
+<div class="session-card">
+
+<div class="session-number">13</div>
+
+<div class="session-icon">🧪</div>
+
+<h3>
+Ethical Hacking & Security Testing
+</h3>
+
+<p>
+Learn the concepts behind authorized security
+testing and vulnerability assessment.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+Test your own house before a real burglar finds the weakness.
+</div>
+
+<span class="difficulty">
+⭐⭐⭐⭐ ADVANCED
+</span>
+
+<br>
+
+<a href="session13.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 14 -->
+
+<div class="session-card">
+
+<div class="session-number">14</div>
+
+<div class="session-icon">🚨</div>
+
+<h3>
+Incident Response & Forensics
+</h3>
+
+<p>
+Learn how security teams detect incidents,
+investigate evidence and recover systems.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+Become the cyber police investigator.
+</div>
+
+<span class="difficulty">
+⭐⭐⭐⭐ ADVANCED
+</span>
+
+<br>
+
+<a href="session14.html" class="start-btn">
+START MISSION →
+</a>
+
+</div>
+
+
+<!-- SESSION 15 -->
+
+<div class="session-card">
+
+<div class="session-number">15</div>
+
+<div class="session-icon">🔬</div>
+
+<h3>
+Cybersecurity Research Project
+</h3>
+
+<p>
+Turn a cybersecurity problem into a research
+question, experiment and evidence-based solution.
+</p>
+
+<div class="eli">
+🧒 <strong>ELI10:</strong>
+Stop asking "What tool can I use?"
+Ask "What problem can I solve better?"
+</div>
+
+<span class="difficulty">
+⭐⭐⭐⭐⭐ RESEARCHER
+</span>
+
+<br>
+
+<a href="session15.html" class="start-btn">
+FINAL MISSION →
+</a>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     ROADMAP
+===================================================== -->
+
+<div class="section-title">
+
+<h2>🔥 YOUR LEVEL-UP ROADMAP</h2>
+
+<p>
+From complete beginner to cybersecurity researcher.
+</p>
+
+</div>
+
+
+<div class="roadmap">
+
+
+<div class="road">
+
+<div class="road-dot"></div>
+
+<div class="road-box">
+
+<strong>LEVEL 1 — FOUNDATION</strong>
+
+<br>
+
+Sessions 1–3
+
+<br><br>
+
+🛡️ Cybersecurity
+<br>
+👾 Threats
+<br>
+🔑 Authentication
+
+</div>
+
+</div>
+
+
+<div class="road">
+
+<div class="road-dot"></div>
+
+<div class="road-box">
+
+<strong>LEVEL 2 — PROTECTION</strong>
+
+<br>
+
+Sessions 4–7
+
+<br><br>
+
+🔐 Cryptography
+<br>
+🌐 Network Security
+<br>
+⚔️ Network Attacks
+<br>
+🧱 Security Controls
+
+</div>
+
+</div>
+
+
+<div class="road">
+
+<div class="road-dot"></div>
+
+<div class="road-box">
+
+<strong>LEVEL 3 — APPLICATION SECURITY</strong>
+
+<br>
+
+Sessions 8–10
+
+<br><br>
+
+🌍 Web Security
+<br>
+🦠 Malware
+<br>
+☁️ Cloud & IoT
+
+</div>
+
+</div>
+
+
+<div class="road">
+
+<div class="road-dot"></div>
+
+<div class="road-box">
+
+<strong>LEVEL 4 — SECURITY OPERATIONS</strong>
+
+<br>
+
+Sessions 11–14
+
+<br><br>
+
+📊 Monitoring
+<br>
+🤖 AI Security
+<br>
+🧪 Security Testing
+<br>
+🚨 Incident Response
+
+</div>
+
+</div>
+
+
+<div class="road">
+
+<div class="road-dot"></div>
+
+<div class="road-box">
+
+<strong>🔥 FINAL LEVEL</strong>
+
+<br>
+
+Session 15
+
+<br><br>
+
+🔬 Cybersecurity Researcher
+
+<br><br>
+
+Problem → Gap → Idea → Experiment → Evidence
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     FINAL MISSION
+===================================================== -->
+
+<div class="final-mission">
+
+<div class="final-icon">
+🔥🛡️🔥
+</div>
+
+<h2>
+READY TO ENTER THE CYBER WORLD?
+</h2>
+
+<p>
+
+Every session gives you a new cybersecurity skill.
+
+</p>
+
+<p>
+
+Every challenge makes you a better
+<strong>Cyber Detective.</strong>
+
+</p>
+
+<p>
+
+And the final mission turns you into a
+<strong>Cybersecurity Researcher.</strong>
+
+</p>
+
+<a href="session1.html" class="start-btn">
+
+🚀 BEGIN MISSION 01
+
+</a>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+<p>
+🔥 <strong>CYBERSECURITY MISSION CENTER</strong>
+</p>
+
+<p>
+15 Missions • Learn • Investigate • Defend • Research
+</p>
+
+<p>
+🛡️ <strong>Mission Status:</strong>
+The journey begins now.
+</p>
+
+</footer>
+
+
+</body>
+</html>

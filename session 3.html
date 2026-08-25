@@ -1,0 +1,3408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cybersecurity Session 3 - Password & Authentication</title>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:"Trebuchet MS",Arial,sans-serif;
+    line-height:1.7;
+    color:#f5f5f5;
+
+    background:
+        radial-gradient(circle at 10% 10%,rgba(239,68,68,.18),transparent 25%),
+        radial-gradient(circle at 90% 30%,rgba(220,38,38,.15),transparent 25%),
+        linear-gradient(135deg,#020202,#170303,#080808);
+
+    overflow-x:hidden;
+}
+
+/* =========================================================
+   ANIMATED BACKGROUND
+========================================================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-2;
+
+    background:
+        radial-gradient(circle at 30% 80%,rgba(255,30,0,.12),transparent 25%),
+        radial-gradient(circle at 70% 60%,rgba(255,80,0,.08),transparent 25%);
+}
+
+.particle{
+    position:fixed;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#ef4444;
+    box-shadow:
+        0 0 10px #ef4444,
+        0 0 25px #dc2626;
+    bottom:-20px;
+    opacity:.6;
+    animation:rise 10s infinite linear;
+    z-index:-1;
+}
+
+.p1{left:5%;animation-delay:1s;}
+.p2{left:15%;animation-delay:3s;}
+.p3{left:25%;animation-delay:5s;}
+.p4{left:35%;animation-delay:2s;}
+.p5{left:45%;animation-delay:7s;}
+.p6{left:55%;animation-delay:4s;}
+.p7{left:65%;animation-delay:6s;}
+.p8{left:75%;animation-delay:1s;}
+.p9{left:85%;animation-delay:8s;}
+.p10{left:95%;animation-delay:3s;}
+
+@keyframes rise{
+
+    0%{
+        transform:translateY(0) translateX(0);
+        opacity:0;
+    }
+
+    20%{
+        opacity:.8;
+    }
+
+    100%{
+        transform:translateY(-110vh) translateX(40px);
+        opacity:0;
+    }
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    min-height:550px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    position:relative;
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(70,0,0,.95),
+            rgba(20,0,0,.95),
+            rgba(50,5,5,.9)
+        );
+
+    border-bottom:3px solid #ef2b16;
+}
+
+.hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:700px;
+    height:700px;
+
+    border:2px solid rgba(239,68,68,.15);
+
+    border-radius:50%;
+
+    animation:rotate 20s linear infinite;
+}
+
+.hero::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+    height:450px;
+
+    border:2px dashed rgba(248,113,113,.18);
+
+    border-radius:50%;
+
+    animation:rotateReverse 14s linear infinite;
+}
+
+@keyframes rotate{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@keyframes rotateReverse{
+    from{transform:rotate(360deg);}
+    to{transform:rotate(0deg);}
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:1000px;
+    padding:30px;
+}
+
+.badge{
+
+    display:inline-block;
+
+    padding:10px 25px;
+
+    border:2px solid #ef4444;
+
+    border-radius:40px;
+
+    color:#ff9c8f;
+
+    background:rgba(239,68,68,.08);
+
+    box-shadow:0 0 25px rgba(239,68,68,.25);
+
+    letter-spacing:2px;
+
+    animation:glow 2s infinite;
+}
+
+@keyframes glow{
+
+    0%,100%{
+        box-shadow:0 0 10px rgba(239,68,68,.2);
+    }
+
+    50%{
+        box-shadow:0 0 35px rgba(239,68,68,.65);
+    }
+}
+
+.lock{
+
+    font-size:100px;
+
+    margin:20px;
+
+    filter:
+        drop-shadow(0 0 10px #ef4444)
+        drop-shadow(0 0 30px #dc2626);
+
+    animation:lockFloat 3s infinite ease-in-out;
+}
+
+@keyframes lockFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-15px) rotate(-3deg);
+    }
+}
+
+.hero h1{
+
+    font-size:58px;
+
+    margin:10px 0;
+
+    text-transform:uppercase;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #ffb4aa,
+            #ef4444,
+            #fff
+        );
+
+    background-size:300%;
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+    animation:titleMove 5s infinite;
+}
+
+@keyframes titleMove{
+
+    0%{background-position:0%;}
+    50%{background-position:100%;}
+    100%{background-position:0%;}
+
+}
+
+.hero p{
+
+    font-size:21px;
+
+    color:#ffc9c3;
+
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.container{
+
+    width:92%;
+    max-width:1250px;
+    margin:auto;
+
+}
+
+section{
+
+    margin:60px 0;
+
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card{
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30,8,8,.95),
+            rgba(12,12,12,.96)
+        );
+
+    border:1px solid rgba(239,68,68,.18);
+
+    border-radius:25px;
+
+    padding:32px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.5),
+        inset 0 1px rgba(255,255,255,.03);
+
+    transition:.4s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:rgba(239,68,68,.5);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.7),
+        0 0 30px rgba(239,68,68,.08);
+
+}
+
+h2{
+
+    color:#ff6b57;
+
+    font-size:34px;
+
+    text-shadow:
+        0 0 10px rgba(239,68,68,.25);
+
+}
+
+h3{
+
+    color:#ff9d91;
+
+}
+
+/* =========================================================
+   ROBOT / ELI10
+========================================================= */
+
+.robot{
+
+    position:relative;
+
+    padding:28px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(127,29,29,.25),
+            rgba(69,10,10,.2)
+        );
+
+    border-left:7px solid #ef4444;
+
+    font-size:19px;
+
+    overflow:hidden;
+
+}
+
+.robot::after{
+
+    content:"🤖";
+
+    position:absolute;
+
+    right:20px;
+
+    bottom:5px;
+
+    font-size:75px;
+
+    opacity:.10;
+
+    animation:robotMove 3s infinite ease-in-out;
+
+}
+
+@keyframes robotMove{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-12px);
+    }
+
+}
+
+/* =========================================================
+   HIGHLIGHT
+========================================================= */
+
+.highlight{
+
+    padding:20px;
+
+    margin:20px 0;
+
+    border-radius:15px;
+
+    background:rgba(245,158,11,.08);
+
+    border-left:6px solid #f59e0b;
+
+}
+
+/* =========================================================
+   SAFE
+========================================================= */
+
+.safe{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:rgba(34,197,94,.08);
+
+    border-left:6px solid #22c55e;
+
+}
+
+/* =========================================================
+   DANGER
+========================================================= */
+
+.danger{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:rgba(239,68,68,.10);
+
+    border-left:6px solid #ef4444;
+
+}
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+.table-wrapper{
+
+    overflow-x:auto;
+
+    border-radius:16px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:700px;
+
+    margin:20px 0;
+
+}
+
+th{
+
+    padding:16px;
+
+    text-align:left;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #991b1b,
+            #dc2626
+        );
+
+}
+
+td{
+
+    padding:15px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+tr{
+
+    transition:.3s;
+
+}
+
+tr:hover{
+
+    background:rgba(239,68,68,.08);
+
+}
+
+/* =========================================================
+   DIAGRAM
+========================================================= */
+
+.diagram{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin:35px 0;
+
+}
+
+.diagram-box{
+
+    min-width:170px;
+
+    padding:20px;
+
+    text-align:center;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #991b1b,
+            #450a0a
+        );
+
+    border:1px solid #ef4444;
+
+    box-shadow:
+        0 0 15px rgba(239,68,68,.15);
+
+    animation:diagramPulse 2s infinite;
+
+}
+
+.diagram-box:nth-child(1){animation-delay:.1s;}
+.diagram-box:nth-child(3){animation-delay:.4s;}
+.diagram-box:nth-child(5){animation-delay:.7s;}
+.diagram-box:nth-child(7){animation-delay:1s;}
+.diagram-box:nth-child(9){animation-delay:1.3s;}
+
+@keyframes diagramPulse{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.06);
+        box-shadow:0 0 25px rgba(239,68,68,.4);
+    }
+
+}
+
+.arrow{
+
+    font-size:32px;
+
+    color:#ff735f;
+
+    animation:arrowMove 1.5s infinite;
+
+}
+
+@keyframes arrowMove{
+
+    0%,100%{
+        transform:translateX(0);
+    }
+
+    50%{
+        transform:translateX(8px);
+    }
+
+}
+
+/* =========================================================
+   PASSWORD VISUAL
+========================================================= */
+
+.password-box{
+
+    padding:35px;
+
+    text-align:center;
+
+    border-radius:20px;
+
+    background:#050505;
+
+    border:1px solid #4b1111;
+
+}
+
+.password{
+
+    font-size:35px;
+
+    letter-spacing:8px;
+
+    color:#ff6250;
+
+    text-shadow:0 0 20px #ef4444;
+
+    animation:passwordGlow 2s infinite;
+
+}
+
+@keyframes passwordGlow{
+
+    0%,100%{
+        text-shadow:0 0 8px #ef4444;
+    }
+
+    50%{
+        text-shadow:
+            0 0 15px #ef4444,
+            0 0 35px #dc2626;
+    }
+
+}
+
+/* =========================================================
+   AUTHENTICATION FACTORS
+========================================================= */
+
+.factor-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(240px,1fr));
+
+    gap:22px;
+
+}
+
+.factor{
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:#100707;
+
+    border:1px solid #451414;
+
+    text-align:center;
+
+    transition:.4s;
+
+}
+
+.factor:hover{
+
+    transform:
+        translateY(-10px)
+        scale(1.02);
+
+    border-color:#ef4444;
+
+}
+
+.factor-icon{
+
+    font-size:60px;
+
+    animation:factorFloat 3s infinite;
+
+}
+
+@keyframes factorFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+}
+
+/* =========================================================
+   STEP CARDS
+========================================================= */
+
+.steps{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+
+    gap:18px;
+
+}
+
+.step{
+
+    position:relative;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    background:#100707;
+
+    border:1px solid #481313;
+
+    transition:.4s;
+
+}
+
+.step:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#ef4444;
+
+}
+
+.step-number{
+
+    width:45px;
+    height:45px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ef4444,
+            #7f1d1d
+        );
+
+    font-weight:bold;
+
+    margin-bottom:15px;
+
+}
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+.question{
+
+    margin:20px 0;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    background:#0e0808;
+
+    border:1px solid #461515;
+
+}
+
+.answer{
+
+    margin-top:15px;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    background:rgba(34,197,94,.08);
+
+    border-left:5px solid #22c55e;
+
+}
+
+/* =========================================================
+   EXERCISES
+========================================================= */
+
+.exercise{
+
+    padding:25px;
+
+    margin:20px 0;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(127,29,29,.20),
+            rgba(20,5,5,.9)
+        );
+
+    border:1px solid #551515;
+
+    transition:.4s;
+
+}
+
+.exercise:hover{
+
+    transform:translateX(8px);
+
+    border-color:#ef4444;
+
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    margin-top:80px;
+
+    padding:50px;
+
+    text-align:center;
+
+    background:#030303;
+
+    border-top:2px solid #4b1111;
+
+}
+
+footer strong{
+
+    color:#ff5945;
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+    .hero h1{
+        font-size:38px;
+    }
+
+    .lock{
+        font-size:70px;
+    }
+
+    .diagram{
+        flex-direction:column;
+    }
+
+    .arrow{
+        transform:rotate(90deg);
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND PARTICLES -->
+
+<div class="particle p1"></div>
+<div class="particle p2"></div>
+<div class="particle p3"></div>
+<div class="particle p4"></div>
+<div class="particle p5"></div>
+<div class="particle p6"></div>
+<div class="particle p7"></div>
+<div class="particle p8"></div>
+<div class="particle p9"></div>
+<div class="particle p10"></div>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<header class="hero">
+
+<div class="hero-content">
+
+<div class="badge">
+🔥 CYBERSECURITY MISSION — SESSION 03 🔥
+</div>
+
+<div class="lock">
+🔐
+</div>
+
+<h1>
+PASSWORD &<br>
+AUTHENTICATION SECURITY
+</h1>
+
+<p>
+🧒 ELI10 Learning Mode
+</p>
+
+<p>
+"Before entering the digital house... prove who you are!"
+</p>
+
+</div>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     LEARNING OBJECTIVES
+===================================================== -->
+
+<section>
+
+<div class="card">
+
+<h2>🎯 What Will You Learn?</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+<th>No.</th>
+<th>Topic</th>
+<th>ELI10 Meaning</th>
+<th>Learning Goal</th>
+</tr>
+
+<tr>
+<td>1</td>
+<td>Password</td>
+<td>A secret word used to prove identity</td>
+<td>Understand password security</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>Authentication</td>
+<td>Proving who you are</td>
+<td>Understand identity verification</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>Authorization</td>
+<td>Checking what you are allowed to do</td>
+<td>Understand permissions</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>MFA</td>
+<td>Using more than one proof</td>
+<td>Understand layered security</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>OTP</td>
+<td>A temporary secret code</td>
+<td>Understand one-time verification</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>Password Hashing</td>
+<td>Storing a scrambled fingerprint</td>
+<td>Understand secure password storage</td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>Account Security</td>
+<td>Protecting digital identity</td>
+<td>Apply safe practices</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     STORY 1
+===================================================== -->
+
+<section>
+
+<div class="card">
+
+<h2>🏠 1. Story: The Digital House</h2>
+
+<div class="robot">
+
+<h3>🧒 ELI10 STORY</h3>
+
+<p>
+Imagine that you have a very special house.
+</p>
+
+<p>
+Inside the house you have:
+</p>
+
+<ul>
+<li>💰 Money</li>
+<li>📚 Your books</li>
+<li>📸 Family photographs</li>
+<li>🎮 Games</li>
+<li>💻 Your laptop</li>
+<li>🔐 Your secret diary</li>
+</ul>
+
+<p>
+You don't want everyone to enter.
+</p>
+
+<p>
+So you put a lock on the door.
+</p>
+
+<p>
+But imagine someone says:
+</p>
+
+<div class="highlight">
+
+"I am Aravindan. Please open the door!"
+
+</div>
+
+<p>
+Should the door automatically open?
+</p>
+
+<p>
+<strong>NO!</strong>
+</p>
+
+<p>
+The house needs a way to check:
+</p>
+
+<div class="diagram">
+
+<div class="diagram-box">
+👤<br>
+Who are you?
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🔑<br>
+Prove it
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🚪<br>
+Allow Entry
+</div>
+
+</div>
+
+</div>
+
+<div class="safe">
+
+<strong>🧠 Cybersecurity Connection:</strong>
+
+<p>
+A computer system also needs to know:
+</p>
+
+<strong>
+"Are you really the person you claim to be?"
+</strong>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     AUTHENTICATION
+===================================================== -->
+
+<section>
+
+<div class="card">
+
+<h2>🔐 2. What Is Authentication?</h2>
+
+<div class="robot">
+
+<p>
+<strong>Authentication means proving your identity.</strong>
+</p>
+
+<p>
+In simple words:
+</p>
+
+<div class="highlight">
+
+"Tell me who you are... and prove it!"
+</div>
+
+<p>
+For example, when you log into an email account:
+</p>
+
+<div class="diagram">
+
+<div class="diagram-box">
+👤<br>
+Username
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🔑<br>
+Password
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🖥️<br>
+System Checks
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+✅<br>
+Access
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     AUTHENTICATION VS AUTHORIZATION
+===================================================== -->
+
+<section>
+
+<div class="card">
+
+<h2>⚔️ 3. Authentication vs Authorization</h2>
+
+<div class="robot">
+
+<p>
+These two words sound similar.
+But they answer two different questions.
+</p>
+
+<h3>Authentication</h3>
+
+<p>
+<strong>"WHO ARE YOU?"</strong>
+</p>
+
+<h3>Authorization</h3>
+
+<p>
+<strong>"WHAT ARE YOU ALLOWED TO DO?"</strong>
+</p>
+
+</div>
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+<th>Feature</th>
+<th>Authentication</th>
+<th>Authorization</th>
+</tr>
+
+<tr>
+<td>Main Question</td>
+<td>Who are you?</td>
+<td>What can you do?</td>
+</tr>
+
+<tr>
+<td>Example</td>
+<td>Enter username + password</td>
+<td>Access student records</td>
+</tr>
+
+<tr>
+<td>Happens</td>
+<td>Usually before authorization</td>
+<td>After identity is established</td>
+</tr>
+
+<tr>
+<td>ELI10</td>
+<td>Show your school ID</td>
+<td>Teacher decides which room you can enter</td>
+</tr>
+
+<tr>
+<td>Security Goal</td>
+<td>Verify identity</td>
+<td>Control permissions</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="highlight">
+
+<h3>🧠 Memory Trick</h3>
+
+<p>
+
+<strong>Authentication = WHO?</strong>
+
+<br><br>
+
+<strong>Authorization = WHAT?</strong>
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     PASSWORD
+===================================================== -->
+
+<section>
+
+<div class="card">
+
+<h2>🔑 4. What Is a Password?</h2>
+
+<div class="robot">
+
+<p>
+A password is like a secret key.
+</p>
+
+<p>
+You know the secret.
+The computer checks whether what you entered
+matches what it expects.
+</p>
+
+</div>
+
+<div class="password-box">
+
+<p>Example of a weak password:</p>
+
+<div class="password">
+123456
+</div>
+
+<br>
+
+<p>Example of a stronger password pattern:</p>
+
+<div class="password">
+••••••••••••
+</div>
+
+</div>
+
+<div class="danger">
+
+<strong>⚠️ Important:</strong>
+
+<p>
+Do not use examples shown in learning material as your
+real password.
+Never share your real password with anyone.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     PASSWORD COMPARISON
+===================================================== -->
+
+<section>
+
+<div class="card">
+
+<h2>📊 5. Weak Password vs Strong Password</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+<th>Property</th>
+<th>Weak Password</th>
+<th>Stronger Password</th>
+</tr>
+
+<tr>
+<td>Length</td>
+<td>Very short</td>
+<td>Longer</td>
+</tr>
+
+<tr>
+<td>Predictability</td>
+<td>Easy to guess</td>
+<td>Harder to predict</td>
+</tr>
+
+<tr>
+<td>Personal information</td>
+<td>May contain name/birthday</td>
+<td>Avoids obvious personal information</td>
+</tr>
+
+<tr>
+<td>Reuse</td>
+<td>Same password everywhere</td>
+<td>Unique for important accounts</td>
+</tr>
+
+<tr>
+<td>MFA</td>
+<td>Usually absent</td>
+<td>Can be combined with MFA</td>
+</tr>
+
+<tr>
+<td>Security</td>
+<td>Lower</td>
+<td>Higher</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="safe">
+
+💡 <strong>Good habit:</strong>
+
+Use long, unique passwords or passphrases and
+use a reputable password manager when appropriate.
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     PASSWORD ATTACK CONCEPTS
+===================================================== -->
+
+<section>
+
+<div class="card">
+
+<h2>🧠 6. How Can Weak Passwords Become a Problem?</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+<th>Concept</th>
+<th>ELI10 Explanation</th>
+<th>Simple Idea</th>
+</tr>
+
+<tr>
+<td>Guessing</td>
+<td>Trying likely passwords</td>
+<td>"Maybe the password is 123456."</td>
+</tr>
+
+<tr>
+<td>Credential Stuffing</td>
+<td>Trying leaked credentials on other services</td>
+<td>"Maybe they reused the same password."</td>
+</tr>
+
+<tr>
+<td>Password Spraying</td>
+<td>Trying a small number of common passwords across many accounts</td>
+<td>One common key tested against many doors</td>
+</tr>
+
+<tr>
+<td>Phishing</td>
+<td>Tricking a person into giving credentials</td>
+<td>Fake login page</td>
+</tr>
+
+<tr>
+<td>Shoulder Surfing</td>
+<td>Watching someone enter credentials</td>
+<td>Looking over someone's shoulder</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="danger">
+
+⚠️ These concepts should be studied for defensive education.
+Never attempt unauthorized access to another person's account.
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     EXAMPLE 1-5
+===================================================== -->
+
+<section>
+
+<div class="card">
+
+<h2>💡 7. Five Password Security Stories</h2>
+
+<div class="question">
+
+<h3>Example 1 — The Easy Lock</h3>
+
+<p>
+Ravi uses a very simple password that is easy to predict.
+</p>
+
+<div class="answer">
+
+🧠 Lesson:
+Predictable passwords create unnecessary risk.
+
+</div>
+
+</div>
+
+
+<div class="question">
+
+<h3>Example 2 — One Key for Every Door</h3>
+
+<p>
+A student uses the same password for email,
+shopping and social media.
+</p>
+
+<div class="answer">
+
+🧠 Lesson:
+Password reuse can increase the impact if one password
+is compromised.
+
+</div>
+
+</div>
+
+
+<div class="question">
+
+<h3>Example 3 — The Fake Teacher</h3>
+
+<p>
+Someone sends a message pretending to be a teacher
+and asks for the student's password.
+</p>
+
+<div class="answer">
+
+🧠 Lesson:
+This is a social-engineering warning sign.
+
+</div>
+
+</div>
+
+
+<div class="question">
+
+<h3>Example 4 — The Old Key</h3>
+
+<p>
+A person never changes or reviews credentials after
+learning that an account may have been compromised.
+</p>
+
+<div class="answer">
+
+🧠 Lesson:
+Account recovery and credential management matter.
+
+</div>
+
+</div>
+
+
+<div class="question">
+
+<h3>Example 5 — The Extra Lock</h3>
+
+<p>
+A user enables multi-factor authentication.
+</p>
+
+<div class="answer">
+
+🧠 Lesson:
+Even if one factor is compromised, another factor
+can provide an additional security layer.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     AUTHENTICATION FACTORS
+===================================================== -->
+
+<section>
+
+<div class="card">
+
+<h2>🧩 8. The Three Main Authentication Factor Types</h2>
+
+<div class="factor-grid">
+
+<div class="factor">
+
+<div class="factor-icon">🧠</div>
+
+<h3>Something You Know</h3>
+
+<p>
+Password
+</p>
+
+<p>
+PIN
+</p>
+
+<p>
+Secret answer
+</p>
+
+</div>
+
+
+<div class="factor">
+
+<div class="factor-icon">📱</div>
+
+<h3>Something You Have</h3>
+
+<p>
+Phone
+</p>
+
+<p>
+Security key
+</p>
+
+<p>
+Authentication device
+</p>
+
+</div>
+
+
+<div class="factor">
+
+<div class="factor-icon">👆</div>
+
+<h3>Something You Are</h3>
+
+<p>
+Fingerprint
+</p>
+
+<p>
+Face recognition
+</p>
+
+<p>
+Other biometric characteristics
+</p>
+
+</div>
+
+</div>
+
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+<th>Factor</th>
+<th>ELI10 Question</th>
+<th>Examples</th>
+</tr>
+
+<tr>
+<td>Knowledge</td>
+<td>What do you know?</td>
+<td>Password, PIN</td>
+</tr>
+
+<tr>
+<td>Possession</td>
+<td>What do you have?</td>
+<td>Phone, security key</td>
+</tr>
+
+<tr>
+<td>Inherence</td>
+<td>What are you?</td>
+<td>Fingerprint, face</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     MFA
+===================================================== -->
+
+<section>
+
+<div class="card">
+
+<h2>🛡️ 9. What Is Multi-Factor Authentication?</h2>
+
+<div class="robot">
+
+<p>
+Imagine your house has only one lock.
+</p>
+
+<p>
+A thief needs to defeat only one lock.
+</p>
+
+<p>
+Now imagine your house has:
+</p>
+
+<ul>
+<li>🔑 Lock 1 — Key</li>
+<li>🔢 Lock 2 — Secret code</li>
+<li>👆 Lock 3 — Fingerprint</li>
+</ul>
+
+<p>
+Now there are multiple checks.
+</p>
+
+</div>
+
+
+<div class="diagram">
+
+<div class="diagram-box">
+👤<br>
+Username
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🔑<br>
+Password
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+📱<br>
+Second Factor
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🛡️<br>
+Verification
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+✅<br>
+Access
+</div>
+
+</div>
+
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+<th>Method</th>
+<th>Factor 1</th>
+<th>Factor 2</th>
+<th>Security Idea</th>
+</tr>
+
+<tr>
+<td>Password + OTP</td>
+<td>Something you know</td>
+<td>Something you have / temporary code</td>
+<td>Two checks</td>
+</tr>
+
+<tr>
+<td>Password + Security Key</td>
+<td>Something you know</td>
+<td>Something you have</td>
+<td>Two independent factors</td>
+</tr>
+
+<tr>
+<td>Password + Biometric</td>
+<td>Something you know</td>
+<td>Something you are</td>
+<td>Two checks</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     OTP
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>📱 10. What Is an OTP?</h2>
+
+<div class="robot">
+
+<p>
+OTP means:
+</p>
+
+<h2 style="text-align:center">
+One-Time Password
+</h2>
+
+<p>
+Imagine your friend gives you a secret code.
+</p>
+
+<p>
+You can use it only once.
+</p>
+
+<p>
+After it is used, it becomes useless.
+</p>
+
+</div>
+
+<div class="diagram">
+
+<div class="diagram-box">
+📱<br>
+Request Login
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🔢<br>
+Temporary Code
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+⌨️<br>
+Enter Code
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🔍<br>
+Verify
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+✅<br>
+Allow
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     OTP ALGORITHM
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>🔄 11. OTP Verification — Step-by-Step Algorithm</h2>
+
+<p>
+Let's understand the login process like a computer algorithm.
+</p>
+
+<div class="steps">
+
+<div class="step">
+
+<div class="step-number">1</div>
+
+<h3>Start Login</h3>
+
+<p>
+User enters username and password.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">2</div>
+
+<h3>Check Password</h3>
+
+<p>
+System verifies the first authentication factor.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">3</div>
+
+<h3>Generate / Request OTP</h3>
+
+<p>
+A temporary verification code is provided through
+the configured authentication method.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">4</div>
+
+<h3>User Enters OTP</h3>
+
+<p>
+The user submits the temporary code.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">5</div>
+
+<h3>Verify OTP</h3>
+
+<p>
+The system checks whether the code is valid
+and within its validity period.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">6</div>
+
+<h3>Decision</h3>
+
+<p>
+Valid → continue.
+Invalid → reject.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="diagram">
+
+<div class="diagram-box">
+👤<br>
+Login
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🔑<br>
+Password
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+📱<br>
+OTP
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🔍<br>
+Verify
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+❓<br>
+Valid?
+</div>
+
+</div>
+
+<div class="diagram">
+
+<div class="diagram-box">
+❌ INVALID<br>
+🚫 Reject
+</div>
+
+<div class="arrow">OR</div>
+
+<div class="diagram-box">
+✅ VALID<br>
+🚪 Allow
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     HASHING
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>🔐 12. How Should Passwords Be Stored?</h2>
+
+<div class="robot">
+
+<p>
+Imagine a school has 100 students.
+</p>
+
+<p>
+The teacher should not write everyone's secret password
+on a public board.
+</p>
+
+<p>
+Similarly, applications should not simply store users'
+plain-text passwords.
+</p>
+
+<p>
+Instead, password storage should use appropriate
+<strong>password hashing</strong> mechanisms.
+</p>
+
+</div>
+
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+<th>Storage Approach</th>
+<th>ELI10 Meaning</th>
+<th>Security</th>
+</tr>
+
+<tr>
+<td>Plain Text</td>
+<td>Writing the secret directly</td>
+<td>❌ Unsafe</td>
+</tr>
+
+<tr>
+<td>Encrypted Password</td>
+<td>Secret is transformed and can be decrypted with a key</td>
+<td>⚠️ Different purpose from password hashing</td>
+</tr>
+
+<tr>
+<td>Hashed Password</td>
+<td>Store a derived value rather than the original password</td>
+<td>✅ Better approach</td>
+</tr>
+
+<tr>
+<td>Password Hash + Salt</td>
+<td>Use a unique random value with password hashing</td>
+<td>✅ Stronger protection</td>
+</tr>
+
+<tr>
+<td>Modern Password Hashing</td>
+<td>Use a password-specific adaptive hashing scheme</td>
+<td>✅ Recommended design</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     HASHING ALGORITHM DIAGRAM
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>🧪 13. Password Hashing — Step-by-Step</h2>
+
+<div class="highlight">
+
+<strong>Important:</strong>
+
+Password hashing is not the same as encryption.
+A password-hashing system is designed so that the original
+password is not simply recovered from the stored hash.
+
+</div>
+
+<div class="diagram">
+
+<div class="diagram-box">
+👤<br>
+User Password
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🎲<br>
+Unique Salt
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+⚙️<br>
+Password Hashing
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🗄️<br>
+Store Derived Value
+</div>
+
+</div>
+
+
+<h3>When the user logs in:</h3>
+
+<div class="diagram">
+
+<div class="diagram-box">
+👤<br>
+Entered Password
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🎲<br>
+Stored Salt
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+⚙️<br>
+Hash Again
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🔍<br>
+Compare
+</div>
+
+</div>
+
+
+<div class="diagram">
+
+<div class="diagram-box">
+❌<br>
+Different
+<br>
+Reject
+</div>
+
+<div class="arrow">OR</div>
+
+<div class="diagram-box">
+✅<br>
+Match
+<br>
+Continue
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     HASHING VS ENCRYPTION
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>⚔️ 14. Hashing vs Encryption vs Encoding</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+<th>Feature</th>
+<th>Hashing</th>
+<th>Encryption</th>
+<th>Encoding</th>
+</tr>
+
+<tr>
+<td>Main Purpose</td>
+<td>Derive a fixed representation / verify integrity or credentials</td>
+<td>Protect information so it can be recovered with a key</td>
+<td>Represent data in another format</td>
+</tr>
+
+<tr>
+<td>Normally Reversible?</td>
+<td>No</td>
+<td>Yes, with the appropriate key</td>
+<td>Yes</td>
+</tr>
+
+<tr>
+<td>Secret Key Required?</td>
+<td>Password hashing uses salt and algorithm parameters</td>
+<td>Yes, in encryption systems</td>
+<td>No</td>
+</tr>
+
+<tr>
+<td>Example Use</td>
+<td>Password verification</td>
+<td>Confidential data</td>
+<td>Data representation</td>
+</tr>
+
+<tr>
+<td>ELI10</td>
+<td>Make a fingerprint</td>
+<td>Lock something in a box</td>
+<td>Change the format of a message</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="highlight">
+
+🧠 <strong>Easy Memory:</strong>
+
+<br><br>
+
+Hashing → "Fingerprint"
+
+<br>
+
+Encryption → "Locked box"
+
+<br>
+
+Encoding → "Different format"
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     EXAMPLES 6-10
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>💡 15. Five More Authentication Stories</h2>
+
+<div class="question">
+
+<h3>Example 6 — School ID</h3>
+
+<p>
+A student shows a valid school ID before entering
+a restricted laboratory.
+</p>
+
+<div class="answer">
+
+🎯 Authentication concept:
+<strong>Proving identity.</strong>
+
+</div>
+
+</div>
+
+
+<div class="question">
+
+<h3>Example 7 — Laboratory Permission</h3>
+
+<p>
+After identifying the student, the system checks whether
+the student is allowed to enter the laboratory.
+</p>
+
+<div class="answer">
+
+🎯 Authorization concept:
+<strong>Checking permission.</strong>
+
+</div>
+
+</div>
+
+
+<div class="question">
+
+<h3>Example 8 — Phone Verification</h3>
+
+<p>
+A user enters a password and then confirms a login
+using an authentication method on their phone.
+</p>
+
+<div class="answer">
+
+🎯 Multi-factor authentication concept.
+
+</div>
+
+</div>
+
+
+<div class="question">
+
+<h3>Example 9 — Fingerprint</h3>
+
+<p>
+A smartphone verifies the user's fingerprint before
+allowing access to protected information.
+</p>
+
+<div class="answer">
+
+🎯 Biometric authentication:
+<strong>Something you are.</strong>
+
+</div>
+
+</div>
+
+
+<div class="question">
+
+<h3>Example 10 — Password Database</h3>
+
+<p>
+An application stores password-derived values rather than
+keeping users' original passwords in plain text.
+</p>
+
+<div class="answer">
+
+🎯 Password hashing concept.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     AUTHENTICATION PROCESS
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>🚪 16. Complete Login Process</h2>
+
+<p>
+Let's put everything together.
+</p>
+
+<div class="diagram">
+
+<div class="diagram-box">
+👤<br>
+User
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+⌨️<br>
+Credentials
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🔐<br>
+Authentication
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+📱<br>
+MFA
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🛡️<br>
+Authorization
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+💻<br>
+Resource
+</div>
+
+</div>
+
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+<th>Step</th>
+<th>System Question</th>
+<th>Example</th>
+</tr>
+
+<tr>
+<td>1</td>
+<td>Who is requesting access?</td>
+<td>User account</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>Can the identity be verified?</td>
+<td>Password / authenticator</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>Is an additional factor required?</td>
+<td>MFA</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>What is this user allowed to access?</td>
+<td>Authorization rules</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>Should access be granted?</td>
+<td>Allow / deny</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     ACCOUNT SECURITY
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>🛡️ 17. How to Protect an Account</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+<th>Practice</th>
+<th>ELI10 Meaning</th>
+<th>Why It Helps</th>
+</tr>
+
+<tr>
+<td>Use unique passwords</td>
+<td>Don't use the same key everywhere</td>
+<td>Limits password-reuse impact</td>
+</tr>
+
+<tr>
+<td>Use MFA</td>
+<td>Add another lock</td>
+<td>Adds another authentication factor</td>
+</tr>
+
+<tr>
+<td>Use a password manager</td>
+<td>Let a trusted tool help manage many unique passwords</td>
+<td>Reduces password reuse</td>
+</tr>
+
+<tr>
+<td>Don't share passwords</td>
+<td>Don't give your house key to strangers</td>
+<td>Protects account secrets</td>
+</tr>
+
+<tr>
+<td>Watch for phishing</td>
+<td>Don't trust every message</td>
+<td>Reduces social-engineering risk</td>
+</tr>
+
+<tr>
+<td>Review account activity</td>
+<td>Check who entered your house</td>
+<td>Can reveal suspicious activity</td>
+</tr>
+
+<tr>
+<td>Use recovery methods carefully</td>
+<td>Have a safe way back into your account</td>
+<td>Supports account recovery</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     10 EXAMPLES SUMMARY
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>📚 18. All 10 Examples — Quick Revision</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+<th>No.</th>
+<th>Story</th>
+<th>Main Concept</th>
+<th>ELI10 Keyword</th>
+</tr>
+
+<tr>
+<td>1</td>
+<td>Easy password</td>
+<td>Password security</td>
+<td>Weak lock</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>Same password everywhere</td>
+<td>Password reuse</td>
+<td>One key everywhere</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>Fake teacher asking for password</td>
+<td>Social engineering</td>
+<td>Fake person</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>Compromised account</td>
+<td>Credential management</td>
+<td>Change/protect access</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>Extra authentication factor</td>
+<td>MFA</td>
+<td>Extra lock</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>School ID</td>
+<td>Authentication</td>
+<td>WHO?</td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>Lab permission</td>
+<td>Authorization</td>
+<td>WHAT?</td>
+</tr>
+
+<tr>
+<td>8</td>
+<td>Phone verification</td>
+<td>MFA</td>
+<td>Second check</td>
+</tr>
+
+<tr>
+<td>9</td>
+<td>Fingerprint</td>
+<td>Biometric factor</td>
+<td>Something you are</td>
+</tr>
+
+<tr>
+<td>10</td>
+<td>Password-derived storage</td>
+<td>Hashing</td>
+<td>Digital fingerprint</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     COMMON CONFUSIONS
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>🤯 19. Common Student Confusions</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+<th>Students May Think</th>
+<th>Correct Understanding</th>
+</tr>
+
+<tr>
+<td>Password = Authentication</td>
+<td>A password is one possible authentication factor.</td>
+</tr>
+
+<tr>
+<td>Authentication = Authorization</td>
+<td>Authentication asks WHO; authorization asks WHAT they can do.</td>
+</tr>
+
+<tr>
+<td>OTP = Password forever</td>
+<td>An OTP is designed for limited or one-time use.</td>
+</tr>
+
+<tr>
+<td>Hashing = Encryption</td>
+<td>They serve different purposes.</td>
+</tr>
+
+<tr>
+<td>Long password alone solves everything</td>
+<td>Account security also depends on MFA, phishing resistance, recovery and other controls.</td>
+</tr>
+
+<tr>
+<td>If I know the username, I can enter</td>
+<td>Knowing an identity identifier is not proof of identity.</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     MINI CASE STUDY
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>🕵️ 20. Case Study — The Student Portal</h2>
+
+<div class="robot">
+
+<p>
+Imagine your university has a Student Portal.
+</p>
+
+<p>
+A student wants to see their marks.
+</p>
+
+<div class="diagram">
+
+<div class="diagram-box">
+👨‍🎓<br>
+Student
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🔑<br>
+Login
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+📱<br>
+MFA
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🛡️<br>
+Authorization
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+📊<br>
+Marks
+</div>
+
+</div>
+
+</div>
+
+
+<h3>Question:</h3>
+
+<p>
+What happens if the student's identity is verified,
+but the student tries to access another student's marks?
+</p>
+
+<div class="answer">
+
+🎯 Authentication may succeed,
+but authorization should deny access.
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     RESEARCH CONNECTION
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>🔬 21. Cybersecurity Research Connection</h2>
+
+<div class="robot">
+
+<p>
+Now think like a researcher.
+</p>
+
+<p>
+Instead of simply asking:
+</p>
+
+<div class="highlight">
+"What is MFA?"
+</div>
+
+<p>
+Ask a research question:
+</p>
+
+<div class="highlight">
+
+<strong>
+"Can a new authentication approach reduce
+account takeover while maintaining usability?"
+</strong>
+
+</div>
+
+<p>
+Now we have:
+</p>
+
+<div class="diagram">
+
+<div class="diagram-box">
+❓<br>
+Research Question
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+📚<br>
+Literature
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🕳️<br>
+Research Gap
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+💡<br>
+New Idea
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🧪<br>
+Experiment
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     EXERCISES
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>🎯 22. SESSION 3 EXERCISES</h2>
+
+<p>
+Now it is your turn, Cyber Detective! 🕵️
+</p>
+
+
+<div class="exercise">
+
+<h3>🟢 Exercise 1 — Identify the Concept</h3>
+
+<p>
+A student enters a username and password to access
+the university portal.
+</p>
+
+<p>
+<strong>Question:</strong>
+Is this authentication or authorization?
+Explain why.
+</p>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>🟢 Exercise 2 — WHO or WHAT?</h3>
+
+<p>
+Classify the following:
+
+</p>
+
+<table>
+
+<tr>
+<th>Situation</th>
+<th>Your Answer</th>
+</tr>
+
+<tr>
+<td>Checking whether the password is correct</td>
+<td>____________</td>
+</tr>
+
+<tr>
+<td>Checking whether a student can edit marks</td>
+<td>____________</td>
+</tr>
+
+<tr>
+<td>Checking a fingerprint</td>
+<td>____________</td>
+</tr>
+
+<tr>
+<td>Checking whether a user can access an admin page</td>
+<td>____________</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>🟡 Exercise 3 — Password Detective</h3>
+
+<p>
+Consider these fictional passwords:
+
+</p>
+
+<ul>
+<li>123456</li>
+<li>password</li>
+<li>student2026</li>
+<li>A long unique passphrase</li>
+</ul>
+
+<p>
+Rank them from weakest to strongest and explain
+your reasoning.
+</p>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>🟡 Exercise 4 — Find the Attack Concept</h3>
+
+<p>
+A person receives a fake university email asking them
+to log into a page using their credentials.
+</p>
+
+<p>
+<strong>Question:</strong>
+What type of security threat might this represent?
+What warning signs should the student look for?
+</p>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>🟡 Exercise 5 — Draw the Authentication Algorithm</h3>
+
+<p>
+Draw a flowchart for:
+
+</p>
+
+<div class="highlight">
+
+User Login
+→ Enter Password
+→ Verify
+→ Request Second Factor
+→ Verify
+→ Allow / Deny
+
+</div>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>🟠 Exercise 6 — Authentication or Authorization?</h3>
+
+<p>
+A university has these actions:
+
+</p>
+
+<table>
+
+<tr>
+<th>Action</th>
+<th>Authentication / Authorization</th>
+</tr>
+
+<tr>
+<td>Student logs into portal</td>
+<td>____________</td>
+</tr>
+
+<tr>
+<td>Teacher edits attendance</td>
+<td>____________</td>
+</tr>
+
+<tr>
+<td>Administrator creates a new user</td>
+<td>____________</td>
+</tr>
+
+<tr>
+<td>User verifies fingerprint</td>
+<td>____________</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>🟠 Exercise 7 — Design an MFA System</h3>
+
+<p>
+Design an authentication system for a college
+student portal.
+</p>
+
+<p>
+Choose at least two different authentication factors.
+</p>
+
+<p>
+Explain why you selected them.
+</p>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>🔴 Exercise 8 — Password Storage Research</h3>
+
+<p>
+Imagine you are designing a student management system.
+</p>
+
+<p>
+Answer:
+
+</p>
+
+<ol>
+<li>Should passwords be stored in plain text?</li>
+<li>Why is password hashing used?</li>
+<li>What is the purpose of a salt?</li>
+<li>Why is password hashing different from encryption?</li>
+</ol>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>🔴 Exercise 9 — Cybersecurity Research Question</h3>
+
+<p>
+Create one research question related to authentication.
+</p>
+
+<p>
+Example pattern:
+</p>
+
+<div class="highlight">
+
+"Can __________________ improve authentication security
+while reducing __________________?"
+</div>
+
+</div>
+
+
+<div class="exercise">
+
+<h3>🔥 Exercise 10 — FINAL CYBER DETECTIVE CHALLENGE</h3>
+
+<p>
+A university portal has the following design:
+</p>
+
+<ul>
+<li>Users use passwords.</li>
+<li>Many students reuse passwords.</li>
+<li>MFA is not enabled.</li>
+<li>The application stores passwords insecurely.</li>
+<li>Students sometimes click suspicious login links.</li>
+</ul>
+
+<p>
+<strong>Your mission:</strong>
+</p>
+
+<ol>
+<li>Identify at least 5 security problems.</li>
+<li>Classify each problem as a threat, vulnerability or security practice issue.</li>
+<li>Suggest a security improvement for each.</li>
+<li>Design a better authentication flow.</li>
+<li>Create one research question based on the problem.</li>
+</ol>
+
+</div>
+
+
+<div class="danger">
+
+<h3>⚠️ Ethical Rule</h3>
+
+<p>
+Learn cybersecurity to protect systems.
+Only test accounts, applications and systems when you
+have explicit permission.
+</p>
+
+<p>
+<strong>
+Never attempt to access someone else's account.
+</strong>
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     QUICK REVISION
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>🏆 23. One-Minute Revision</h2>
+
+<div class="diagram">
+
+<div class="diagram-box">
+👤<br>
+Authentication
+<br>
+WHO?
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🛡️<br>
+Authorization
+<br>
+WHAT?
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🔑<br>
+Password
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+📱<br>
+MFA
+</div>
+
+<div class="arrow">➡️</div>
+
+<div class="diagram-box">
+🔐<br>
+Secure Storage
+</div>
+
+</div>
+
+<div class="highlight">
+
+<h3 style="text-align:center">
+🧠 REMEMBER
+</h3>
+
+<p style="text-align:center;font-size:22px">
+
+<strong>
+Authentication → WHO are you?
+<br><br>
+Authorization → WHAT can you do?
+<br><br>
+Password → Something you know
+<br><br>
+MFA → More than one authentication factor
+<br><br>
+Hashing → Password-derived representation
+</strong>
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     NEXT SESSION
+========================================================= -->
+
+<section>
+
+<div class="card">
+
+<h2>🚀 NEXT MISSION — SESSION 4</h2>
+
+<div class="robot">
+
+<h2>🔐 Cryptography</h2>
+
+<p>
+Next we enter the world of secret messages!
+</p>
+
+<ul>
+<li>🔐 What is encryption?</li>
+<li>🔓 What is decryption?</li>
+<li>🗝️ What is a key?</li>
+<li>⚔️ Symmetric vs asymmetric encryption</li>
+<li>🔏 Digital signatures</li>
+<li>🧬 Hash functions</li>
+<li>📨 How secure communication works</li>
+<li>🧪 Cryptography examples and exercises</li>
+</ul>
+
+<div class="highlight">
+
+<strong>
+Next Mission:
+"How can Alice send a secret message to Bob?"
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+</div>
+
+
+<!-- =====================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+<p style="font-size:25px">
+
+🔐 <strong>SESSION 3 COMPLETED</strong>
+
+</p>
+
+<p>
+You learned how digital doors identify people.
+</p>
+
+<p>
+👤 WHO? → Authentication
+</p>
+
+<p>
+🛡️ WHAT? → Authorization
+</p>
+
+<p>
+🔑 PASSWORD → Something you know
+</p>
+
+<p>
+📱 MFA → More than one factor
+</p>
+
+<p>
+🔐 HASHING → Safer password storage concept
+</p>
+
+<p style="color:#ff6b57">
+
+🔥 You are one step closer to becoming a Cyber Detective!
+</p>
+
+</footer>
+
+
+</body>
+</html>
