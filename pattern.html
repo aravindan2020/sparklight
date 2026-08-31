@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Java Star Pattern Notes — Blue Ocean</title>
+<style>
+:root{--bg:#021426;--deep:#032b4a;--card:#062b46dd;--cyan:#19dcff;--cyan2:#8af7ff;--white:#edfcff;--muted:#9bbfd0;--line:#1adfff38;--gold:#ffd166;--green:#6ff4b4}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:
+radial-gradient(circle at 12% 5%,#0b7c9b45,transparent 27%),
+radial-gradient(circle at 88% 18%,#006da83d,transparent 30%),
+linear-gradient(135deg,#011020,#063a5b 55%,#011525);
+color:var(--white);font-family:Segoe UI,Arial,sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:linear-gradient(#8af7ff18 1px,transparent 1px),linear-gradient(90deg,#8af7ff18 1px,transparent 1px);background-size:40px 40px}
+.hero{text-align:center;padding:70px 20px 55px;position:relative;overflow:hidden}
+.badge{display:inline-block;border:1px solid var(--line);padding:8px 16px;border-radius:30px;color:var(--cyan2);background:#063653aa;font-weight:700}
+h1{font-size:clamp(42px,7vw,78px);margin:20px 0 10px;background:linear-gradient(90deg,#fff,var(--cyan2),#63aaff,#fff);background-size:250%;-webkit-background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:250%}}
+.hero p{max-width:880px;margin:auto;color:var(--muted);font-size:18px;line-height:1.7}
+.container{width:min(1450px,94%);margin:auto}
+.intro{padding:22px 25px;margin-bottom:20px}
+.intro h2{margin:0 0 8px}.intro p{color:var(--muted);line-height:1.6}
+.rules{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.rule{padding:13px;border:1px solid var(--line);border-radius:13px;background:#001b2daa}
+.rule b{color:var(--cyan2);display:block;margin-bottom:5px}.rule span{font-size:13px;color:#c9e6ef}
+.nav{position:sticky;top:0;z-index:50;display:flex;gap:8px;overflow:auto;padding:12px 2px;background:#021426ed;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+button{background:linear-gradient(135deg,#07597a,#06334f);color:var(--white);border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-weight:700;cursor:pointer;transition:.22s;white-space:nowrap}
+button:hover{transform:translateY(-2px);border-color:var(--cyan);box-shadow:0 7px 20px #19dcff20}
+.nav button.active{background:linear-gradient(135deg,#0ba7ca,#07547c);border-color:var(--cyan2)}
+.pattern-section{margin:35px 0 70px;scroll-margin-top:75px}
+.pattern-header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.pattern-header h2{margin:0;font-size:28px}.pattern-header p{margin:5px 0 0;color:var(--muted)}
+.num-badge{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#0ba8cb,#063d61);border:1px solid var(--cyan);font-weight:900;color:white}
+.three-grid{display:grid;grid-template-columns:.9fr 1.25fr 1.05fr;gap:15px}
+.card{background:linear-gradient(145deg,#073b5bdd,#021f35ee);border:1px solid var(--line);border-radius:20px;box-shadow:0 15px 50px #0007;overflow:hidden}
+.card-title{padding:14px 17px;border-bottom:1px solid var(--line);font-weight:800;color:var(--cyan2);background:#001b2c99}
+.diagram-card{min-height:390px}
+.multi-diagrams{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:12px;background:#011322}
+.mini-diagram{border:1px solid #8af7ff18;border-radius:12px;background:#020f1b;min-height:125px;overflow:hidden;transition:.25s}
+.mini-diagram.selected-view{border-color:var(--cyan);box-shadow:0 0 22px #19dcff25;transform:translateY(-2px)}
+.mini-title{font-size:11px;font-weight:900;color:var(--cyan2);padding:7px 9px;background:#07334b;border-bottom:1px solid #8af7ff18;letter-spacing:.4px}
+.mini-diagram pre{margin:0;padding:12px 8px;text-align:center;white-space:pre;overflow:auto;font:15px/1.28 Consolas,monospace;color:white;text-shadow:0 0 8px #19dcff88;min-height:95pxdisplay:block!important;}
+.diagram{min-height:270px;display:grid;place-items:center;padding:20px;background:radial-gradient(circle,#16dcff13,transparent 65%),#011322}
+.diagram{display:none}.diagram pre{display:none}.diagram pre{font:20px/1.25 Consolas,monospace;color:white;text-shadow:0 0 9px #19dcff99}
+.modebar{display:flex;gap:6px;flex-wrap:wrap;padding:12px;border-top:1px solid var(--line);align-items:center}.modebar span{color:var(--muted);font-size:12px}.active-mode{background:linear-gradient(135deg,#ffd166,#d98b00)!important;color:#061321!important;border-color:#ffe8a3!important;transform:translateY(-2px)}
+.table-card{padding-bottom:12px}.formula{margin:14px;padding:12px 14px;border-left:3px solid var(--cyan);background:#19dcff0b;border-radius:0 10px 10px 0;line-height:1.65;font-size:13px}
+table{width:100%;border-collapse:collapse}th,td{padding:10px 8px;text-align:center;border-bottom:1px solid #8af7ff14;font-size:13px}th{color:var(--cyan2);background:#001a2b}td{color:#d9eff5}td.hl{color:var(--gold);font-weight:900;background:#ffd1660c}
+.derive{margin:14px;color:#b8d7e4;font-size:12px;line-height:1.55}code{color:var(--green)}
+.code-card{padding-bottom:15px}.code{margin:14px;background:#010d18;border:1px solid #0b5974;border-radius:13px;padding:15px;overflow:auto;color:#d0f7ff;font:12px/1.55 Consolas,monospace;min-height:320px}
+.code-note{margin:0 14px;color:var(--muted);font-size:12px;line-height:1.5}
+footer{text-align:center;padding:35px;color:#709bad}
+@media(max-width:1100px){.three-grid{grid-template-columns:1fr 1fr}.code-card{grid-column:1/-1}}
+@media(max-width:700px){.rules,.three-grid{grid-template-columns:1fr}.multi-diagrams{grid-template-columns:1fr}h1{font-size:45px}.diagram{min-height:220px}}
+</style>
+</head>
+<body>
+<noscript>
+<div style="margin:20px;padding:16px;border:1px solid #19dcff;border-radius:12px;color:#fff;background:#061321">
+JavaScript is required for the interactive pattern controls.
+</div>
+</noscript>
+<header class="hero">
+<div class="badge">🌊 JAVA PATTERN LAB</div>
+<h1>Star Pattern Notes</h1>
+<p>Follow the same thinking used in the classroom: <b>Pattern Diagram → n, i, s, j Tabulation → Java Program</b>.
+Every row begins with <b>i = 0</b>. Derive <b>s</b> and <b>j</b> from <b>i</b> and <b>n</b> instead of memorising patterns.</p>
+</header>
+<main class="container">
+<section class="card intro">
+<h2>How to Read the Tabulation</h2>
+<p><b>n</b> = total size   |   <b>i</b> = row number starting at 0   |   <b>s</b> = spaces before the pattern   |   <b>j</b> = number of stars/elements printed.</p>
+<div class="rules">
+<div class="rule"><b>Step 1</b><span>Take n = 5.</span></div>
+<div class="rule"><b>Step 2</b><span>Start i = 0 and increase row by row.</span></div>
+<div class="rule"><b>Step 3</b><span>Derive s from i and n.</span></div>
+<div class="rule"><b>Step 4</b><span>Derive j from i and n.</span></div>
+</div>
+</section>
+<nav class="nav" id="nav"><button type="button" onclick="showPattern(0)">1. Right Half Pyramid</button><button type="button" onclick="showPattern(1)">2. Left Half Pyramid</button><button type="button" onclick="showPattern(2)">3. Full Pyramid</button><button type="button" onclick="showPattern(3)">4. Inverted Right Half Pyramid</button><button type="button" onclick="showPattern(4)">5. Inverted Left Half Pyramid</button><button type="button" onclick="showPattern(5)">6. Inverted Full Pyramid</button><button type="button" onclick="showPattern(6)">7. Rhombus Pyramid</button><button type="button" onclick="showPattern(7)">8. Hollow Square</button><button type="button" onclick="showPattern(8)">9. Hollow Full Pyramid</button><button type="button" onclick="showPattern(9)">10. Hollow Inverted Full Pyramid</button><button type="button" onclick="showPattern(10)">11. Floyd's Triangle</button><button type="button" onclick="showPattern(11)">12. Pascal's Triangle</button></nav>
+<section class="pattern-section" id="p0">
+<div class="pattern-header">
+<span class="num-badge">01</span>
+<div><h2>Right Half Pyramid</h2><p>Pattern Diagram → Tabulation → Java Program</p></div>
+</div>
+<div class="three-grid">
+<div class="card diagram-card">
+<div class="card-title">① Pattern Diagram — Separate Output</div>
+<div class="multi-diagrams">
+<div class="mini-diagram selected-view"><div class="mini-title">★ STAR (*)</div><pre data-view="star"></pre></div>
+<div class="mini-diagram"><div class="mini-title">i PRINTING — ROW VALUE</div><pre data-view="i"></pre></div>
+<div class="mini-diagram"><div class="mini-title">j PRINTING</div><pre data-view="j"></pre></div>
+<div class="mini-diagram"><div class="mini-title">num PRINTING</div><pre data-view="num"></pre></div>
+<div class="mini-diagram"><div class="mini-title">A PRINTING</div><pre data-view="A"></pre></div>
+<div class="mini-diagram"><div class="mini-title">ABC PRINTING</div><pre data-view="ABC"></pre></div>
+</div>
+<div class="modebar">
+<span>Show matching Java program:</span>
+<button type="button" data-mode="star" onclick="changeMode(this,'star')">*</button>
+<button type="button" data-mode="i" onclick="changeMode(this,'i')">i</button>
+<button type="button" data-mode="j" onclick="changeMode(this,'j')">j</button>
+<button type="button" data-mode="num" onclick="changeMode(this,'num')">num</button>
+<button type="button" data-mode="A" onclick="changeMode(this,'A')">A</button>
+<button type="button" data-mode="ABC" onclick="changeMode(this,'ABC')">ABC</button>
+</div>
+</div>
+<div class="card table-card">
+<div class="card-title">② Tabulation</div>
+<div class="formula"><b>s:</b> s = 0<br/><b>j:</b> j = i + 1</div>
+<table>
+<thead><tr><th>n</th><th>i</th><th>s</th><th>j</th></tr></thead>
+<tbody><tr><td>5</td><td class="hl">0</td><td class="hl">0</td><td class="hl">1</td></tr><tr><td>5</td><td class="hl">1</td><td class="hl">0</td><td class="hl">2</td></tr><tr><td>5</td><td class="hl">2</td><td class="hl">0</td><td class="hl">3</td></tr><tr><td>5</td><td class="hl">3</td><td class="hl">0</td><td class="hl">4</td></tr><tr><td>5</td><td class="hl">4</td><td class="hl">0</td><td class="hl">5</td></tr></tbody>
+</table>
+<div class="derive"><b>Derive the row:</b> Substitute the current <code>i</code> and <code>n</code> into the formulas above. <b>j</b> is the number of symbols/elements printed in that row.</div>
+</div>
+<div class="card code-card">
+<div class="card-title">③ Program in Java</div>
+<pre class="code"><code class="java-code">int n = 5;
+int i, s, j;
+
+for (i = 0; i &lt; n; i++) {
+    s = 0;
+    j = i + 1;
+
+    for (int k = 0; k &lt; s; k++)
+        System.out.print(" ");
+
+    for (int k = 0; k &lt; j; k++)
+        System.out.print("* ");
+
+    System.out.println();
+}</code></pre>
+<div class="code-note"><b>Tabulation → Program:</b> The program first derives <code>s</code> and <code>j</code> for the current <code>i</code>, then the loops directly use those values.</div>
+</div>
+</div>
+</section>
+<section class="pattern-section" id="p1">
+<div class="pattern-header">
+<span class="num-badge">02</span>
+<div><h2>Left Half Pyramid</h2><p>Pattern Diagram → Tabulation → Java Program</p></div>
+</div>
+<div class="three-grid">
+<div class="card diagram-card">
+<div class="card-title">① Pattern Diagram — Separate Output</div>
+<div class="multi-diagrams">
+<div class="mini-diagram selected-view"><div class="mini-title">★ STAR (*)</div><pre data-view="star"></pre></div>
+<div class="mini-diagram"><div class="mini-title">i PRINTING — ROW VALUE</div><pre data-view="i"></pre></div>
+<div class="mini-diagram"><div class="mini-title">j PRINTING</div><pre data-view="j"></pre></div>
+<div class="mini-diagram"><div class="mini-title">num PRINTING</div><pre data-view="num"></pre></div>
+<div class="mini-diagram"><div class="mini-title">A PRINTING</div><pre data-view="A"></pre></div>
+<div class="mini-diagram"><div class="mini-title">ABC PRINTING</div><pre data-view="ABC"></pre></div>
+</div>
+<div class="modebar">
+<span>Show matching Java program:</span>
+<button type="button" data-mode="star" onclick="changeMode(this,'star')">*</button>
+<button type="button" data-mode="i" onclick="changeMode(this,'i')">i</button>
+<button type="button" data-mode="j" onclick="changeMode(this,'j')">j</button>
+<button type="button" data-mode="num" onclick="changeMode(this,'num')">num</button>
+<button type="button" data-mode="A" onclick="changeMode(this,'A')">A</button>
+<button type="button" data-mode="ABC" onclick="changeMode(this,'ABC')">ABC</button>
+</div>
+</div>
+<div class="card table-card">
+<div class="card-title">② Tabulation</div>
+<div class="formula"><b>s:</b> s = n - i - 1<br/><b>j:</b> j = i + 1</div>
+<table>
+<thead><tr><th>n</th><th>i</th><th>s</th><th>j</th></tr></thead>
+<tbody><tr><td>5</td><td class="hl">0</td><td class="hl">5-0-1</td><td class="hl">1</td></tr><tr><td>5</td><td class="hl">1</td><td class="hl">5-1-1</td><td class="hl">2</td></tr><tr><td>5</td><td class="hl">2</td><td class="hl">5-2-1</td><td class="hl">3</td></tr><tr><td>5</td><td class="hl">3</td><td class="hl">5-3-1</td><td class="hl">4</td></tr><tr><td>5</td><td class="hl">4</td><td class="hl">5-4-1</td><td class="hl">5</td></tr></tbody>
+</table>
+<div class="derive"><b>Derive the row:</b> Substitute the current <code>i</code> and <code>n</code> into the formulas above. <b>j</b> is the number of symbols/elements printed in that row.</div>
+</div>
+<div class="card code-card">
+<div class="card-title">③ Program in Java</div>
+<pre class="code"><code class="java-code">int n = 5;
+int i, s, j;
+
+for (i = 0; i &lt; n; i++) {
+    s = n - i - 1;
+    j = i + 1;
+
+    for (int k = 0; k &lt; s; k++)
+        System.out.print(" ");
+
+    for (int k = 0; k &lt; j; k++)
+        System.out.print("* ");
+
+    System.out.println();
+}</code></pre>
+<div class="code-note"><b>Tabulation → Program:</b> The program first derives <code>s</code> and <code>j</code> for the current <code>i</code>, then the loops directly use those values.</div>
+</div>
+</div>
+</section>
+<section class="pattern-section" id="p2">
+<div class="pattern-header">
+<span class="num-badge">03</span>
+<div><h2>Full Pyramid</h2><p>Pattern Diagram → Tabulation → Java Program</p></div>
+</div>
+<div class="three-grid">
+<div class="card diagram-card">
+<div class="card-title">① Pattern Diagram — Separate Output</div>
+<div class="multi-diagrams">
+<div class="mini-diagram selected-view"><div class="mini-title">★ STAR (*)</div><pre data-view="star"></pre></div>
+<div class="mini-diagram"><div class="mini-title">i PRINTING — ROW VALUE</div><pre data-view="i"></pre></div>
+<div class="mini-diagram"><div class="mini-title">j PRINTING</div><pre data-view="j"></pre></div>
+<div class="mini-diagram"><div class="mini-title">num PRINTING</div><pre data-view="num"></pre></div>
+<div class="mini-diagram"><div class="mini-title">A PRINTING</div><pre data-view="A"></pre></div>
+<div class="mini-diagram"><div class="mini-title">ABC PRINTING</div><pre data-view="ABC"></pre></div>
+</div>
+<div class="modebar">
+<span>Show matching Java program:</span>
+<button type="button" data-mode="star" onclick="changeMode(this,'star')">*</button>
+<button type="button" data-mode="i" onclick="changeMode(this,'i')">i</button>
+<button type="button" data-mode="j" onclick="changeMode(this,'j')">j</button>
+<button type="button" data-mode="num" onclick="changeMode(this,'num')">num</button>
+<button type="button" data-mode="A" onclick="changeMode(this,'A')">A</button>
+<button type="button" data-mode="ABC" onclick="changeMode(this,'ABC')">ABC</button>
+</div>
+</div>
+<div class="card table-card">
+<div class="card-title">② Tabulation</div>
+<div class="formula"><b>s:</b> s = n - i - 1<br/><b>j:</b> j = 2 * i + 1</div>
+<table>
+<thead><tr><th>n</th><th>i</th><th>s</th><th>j</th></tr></thead>
+<tbody><tr><td>5</td><td class="hl">0</td><td class="hl">5-0-1</td><td class="hl">1</td></tr><tr><td>5</td><td class="hl">1</td><td class="hl">5-1-1</td><td class="hl">3</td></tr><tr><td>5</td><td class="hl">2</td><td class="hl">5-2-1</td><td class="hl">5</td></tr><tr><td>5</td><td class="hl">3</td><td class="hl">5-3-1</td><td class="hl">7</td></tr><tr><td>5</td><td class="hl">4</td><td class="hl">5-4-1</td><td class="hl">9</td></tr></tbody>
+</table>
+<div class="derive"><b>Derive the row:</b> Substitute the current <code>i</code> and <code>n</code> into the formulas above. <b>j</b> is the number of symbols/elements printed in that row.</div>
+</div>
+<div class="card code-card">
+<div class="card-title">③ Program in Java</div>
+<pre class="code"><code class="java-code">int n = 5;
+int i, s, j;
+
+for (i = 0; i &lt; n; i++) {
+    s = n - i - 1;
+    j = 2 * i + 1;
+
+    for (int k = 0; k &lt; s; k++)
+        System.out.print(" ");
+
+    for (int k = 0; k &lt; j; k++)
+        System.out.print("* ");
+
+    System.out.println();
+}</code></pre>
+<div class="code-note"><b>Tabulation → Program:</b> The program first derives <code>s</code> and <code>j</code> for the current <code>i</code>, then the loops directly use those values.</div>
+</div>
+</div>
+</section>
+<section class="pattern-section" id="p3">
+<div class="pattern-header">
+<span class="num-badge">04</span>
+<div><h2>Inverted Right Half Pyramid</h2><p>Pattern Diagram → Tabulation → Java Program</p></div>
+</div>
+<div class="three-grid">
+<div class="card diagram-card">
+<div class="card-title">① Pattern Diagram — Separate Output</div>
+<div class="multi-diagrams">
+<div class="mini-diagram selected-view"><div class="mini-title">★ STAR (*)</div><pre data-view="star"></pre></div>
+<div class="mini-diagram"><div class="mini-title">i PRINTING — ROW VALUE</div><pre data-view="i"></pre></div>
+<div class="mini-diagram"><div class="mini-title">j PRINTING</div><pre data-view="j"></pre></div>
+<div class="mini-diagram"><div class="mini-title">num PRINTING</div><pre data-view="num"></pre></div>
+<div class="mini-diagram"><div class="mini-title">A PRINTING</div><pre data-view="A"></pre></div>
+<div class="mini-diagram"><div class="mini-title">ABC PRINTING</div><pre data-view="ABC"></pre></div>
+</div>
+<div class="modebar">
+<span>Show matching Java program:</span>
+<button type="button" data-mode="star" onclick="changeMode(this,'star')">*</button>
+<button type="button" data-mode="i" onclick="changeMode(this,'i')">i</button>
+<button type="button" data-mode="j" onclick="changeMode(this,'j')">j</button>
+<button type="button" data-mode="num" onclick="changeMode(this,'num')">num</button>
+<button type="button" data-mode="A" onclick="changeMode(this,'A')">A</button>
+<button type="button" data-mode="ABC" onclick="changeMode(this,'ABC')">ABC</button>
+</div>
+</div>
+<div class="card table-card">
+<div class="card-title">② Tabulation</div>
+<div class="formula"><b>s:</b> s = 0<br/><b>j:</b> j = n - i</div>
+<table>
+<thead><tr><th>n</th><th>i</th><th>s</th><th>j</th></tr></thead>
+<tbody><tr><td>5</td><td class="hl">0</td><td class="hl">0</td><td class="hl">5</td></tr><tr><td>5</td><td class="hl">1</td><td class="hl">0</td><td class="hl">4</td></tr><tr><td>5</td><td class="hl">2</td><td class="hl">0</td><td class="hl">3</td></tr><tr><td>5</td><td class="hl">3</td><td class="hl">0</td><td class="hl">2</td></tr><tr><td>5</td><td class="hl">4</td><td class="hl">0</td><td class="hl">1</td></tr></tbody>
+</table>
+<div class="derive"><b>Derive the row:</b> Substitute the current <code>i</code> and <code>n</code> into the formulas above. <b>j</b> is the number of symbols/elements printed in that row.</div>
+</div>
+<div class="card code-card">
+<div class="card-title">③ Program in Java</div>
+<pre class="code"><code class="java-code">int n = 5;
+int i, s, j;
+
+for (i = 0; i &lt; n; i++) {
+    s = 0;
+    j = n - i;
+
+    for (int k = 0; k &lt; s; k++)
+        System.out.print(" ");
+
+    for (int k = 0; k &lt; j; k++)
+        System.out.print("* ");
+
+    System.out.println();
+}</code></pre>
+<div class="code-note"><b>Tabulation → Program:</b> The program first derives <code>s</code> and <code>j</code> for the current <code>i</code>, then the loops directly use those values.</div>
+</div>
+</div>
+</section>
+<section class="pattern-section" id="p4">
+<div class="pattern-header">
+<span class="num-badge">05</span>
+<div><h2>Inverted Left Half Pyramid</h2><p>Pattern Diagram → Tabulation → Java Program</p></div>
+</div>
+<div class="three-grid">
+<div class="card diagram-card">
+<div class="card-title">① Pattern Diagram — Separate Output</div>
+<div class="multi-diagrams">
+<div class="mini-diagram selected-view"><div class="mini-title">★ STAR (*)</div><pre data-view="star"></pre></div>
+<div class="mini-diagram"><div class="mini-title">i PRINTING — ROW VALUE</div><pre data-view="i"></pre></div>
+<div class="mini-diagram"><div class="mini-title">j PRINTING</div><pre data-view="j"></pre></div>
+<div class="mini-diagram"><div class="mini-title">num PRINTING</div><pre data-view="num"></pre></div>
+<div class="mini-diagram"><div class="mini-title">A PRINTING</div><pre data-view="A"></pre></div>
+<div class="mini-diagram"><div class="mini-title">ABC PRINTING</div><pre data-view="ABC"></pre></div>
+</div>
+<div class="modebar">
+<span>Show matching Java program:</span>
+<button type="button" data-mode="star" onclick="changeMode(this,'star')">*</button>
+<button type="button" data-mode="i" onclick="changeMode(this,'i')">i</button>
+<button type="button" data-mode="j" onclick="changeMode(this,'j')">j</button>
+<button type="button" data-mode="num" onclick="changeMode(this,'num')">num</button>
+<button type="button" data-mode="A" onclick="changeMode(this,'A')">A</button>
+<button type="button" data-mode="ABC" onclick="changeMode(this,'ABC')">ABC</button>
+</div>
+</div>
+<div class="card table-card">
+<div class="card-title">② Tabulation</div>
+<div class="formula"><b>s:</b> s = i<br/><b>j:</b> j = n - i</div>
+<table>
+<thead><tr><th>n</th><th>i</th><th>s</th><th>j</th></tr></thead>
+<tbody><tr><td>5</td><td class="hl">0</td><td class="hl">i</td><td class="hl">5</td></tr><tr><td>5</td><td class="hl">1</td><td class="hl">i</td><td class="hl">4</td></tr><tr><td>5</td><td class="hl">2</td><td class="hl">i</td><td class="hl">3</td></tr><tr><td>5</td><td class="hl">3</td><td class="hl">i</td><td class="hl">2</td></tr><tr><td>5</td><td class="hl">4</td><td class="hl">i</td><td class="hl">1</td></tr></tbody>
+</table>
+<div class="derive"><b>Derive the row:</b> Substitute the current <code>i</code> and <code>n</code> into the formulas above. <b>j</b> is the number of symbols/elements printed in that row.</div>
+</div>
+<div class="card code-card">
+<div class="card-title">③ Program in Java</div>
+<pre class="code"><code class="java-code">int n = 5;
+int i, s, j;
+
+for (i = 0; i &lt; n; i++) {
+    s = i;
+    j = n - i;
+
+    for (int k = 0; k &lt; s; k++)
+        System.out.print(" ");
+
+    for (int k = 0; k &lt; j; k++)
+        System.out.print("* ");
+
+    System.out.println();
+}</code></pre>
+<div class="code-note"><b>Tabulation → Program:</b> The program first derives <code>s</code> and <code>j</code> for the current <code>i</code>, then the loops directly use those values.</div>
+</div>
+</div>
+</section>
+<section class="pattern-section" id="p5">
+<div class="pattern-header">
+<span class="num-badge">06</span>
+<div><h2>Inverted Full Pyramid</h2><p>Pattern Diagram → Tabulation → Java Program</p></div>
+</div>
+<div class="three-grid">
+<div class="card diagram-card">
+<div class="card-title">① Pattern Diagram — Separate Output</div>
+<div class="multi-diagrams">
+<div class="mini-diagram selected-view"><div class="mini-title">★ STAR (*)</div><pre data-view="star"></pre></div>
+<div class="mini-diagram"><div class="mini-title">i PRINTING — ROW VALUE</div><pre data-view="i"></pre></div>
+<div class="mini-diagram"><div class="mini-title">j PRINTING</div><pre data-view="j"></pre></div>
+<div class="mini-diagram"><div class="mini-title">num PRINTING</div><pre data-view="num"></pre></div>
+<div class="mini-diagram"><div class="mini-title">A PRINTING</div><pre data-view="A"></pre></div>
+<div class="mini-diagram"><div class="mini-title">ABC PRINTING</div><pre data-view="ABC"></pre></div>
+</div>
+<div class="modebar">
+<span>Show matching Java program:</span>
+<button type="button" data-mode="star" onclick="changeMode(this,'star')">*</button>
+<button type="button" data-mode="i" onclick="changeMode(this,'i')">i</button>
+<button type="button" data-mode="j" onclick="changeMode(this,'j')">j</button>
+<button type="button" data-mode="num" onclick="changeMode(this,'num')">num</button>
+<button type="button" data-mode="A" onclick="changeMode(this,'A')">A</button>
+<button type="button" data-mode="ABC" onclick="changeMode(this,'ABC')">ABC</button>
+</div>
+</div>
+<div class="card table-card">
+<div class="card-title">② Tabulation</div>
+<div class="formula"><b>s:</b> s = i<br/><b>j:</b> j = 2 * (n - i) - 1</div>
+<table>
+<thead><tr><th>n</th><th>i</th><th>s</th><th>j</th></tr></thead>
+<tbody><tr><td>5</td><td class="hl">0</td><td class="hl">i</td><td class="hl">9</td></tr><tr><td>5</td><td class="hl">1</td><td class="hl">i</td><td class="hl">7</td></tr><tr><td>5</td><td class="hl">2</td><td class="hl">i</td><td class="hl">5</td></tr><tr><td>5</td><td class="hl">3</td><td class="hl">i</td><td class="hl">3</td></tr><tr><td>5</td><td class="hl">4</td><td class="hl">i</td><td class="hl">1</td></tr></tbody>
+</table>
+<div class="derive"><b>Derive the row:</b> Substitute the current <code>i</code> and <code>n</code> into the formulas above. <b>j</b> is the number of symbols/elements printed in that row.</div>
+</div>
+<div class="card code-card">
+<div class="card-title">③ Program in Java</div>
+<pre class="code"><code class="java-code">int n = 5;
+int i, s, j;
+
+for (i = 0; i &lt; n; i++) {
+    s = i;
+    j = 2 * (n - i) - 1;
+
+    for (int k = 0; k &lt; s; k++)
+        System.out.print(" ");
+
+    for (int k = 0; k &lt; j; k++)
+        System.out.print("* ");
+
+    System.out.println();
+}</code></pre>
+<div class="code-note"><b>Tabulation → Program:</b> The program first derives <code>s</code> and <code>j</code> for the current <code>i</code>, then the loops directly use those values.</div>
+</div>
+</div>
+</section>
+<section class="pattern-section" id="p6">
+<div class="pattern-header">
+<span class="num-badge">07</span>
+<div><h2>Rhombus Pyramid</h2><p>Pattern Diagram → Tabulation → Java Program</p></div>
+</div>
+<div class="three-grid">
+<div class="card diagram-card">
+<div class="card-title">① Pattern Diagram — Separate Output</div>
+<div class="multi-diagrams">
+<div class="mini-diagram selected-view"><div class="mini-title">★ STAR (*)</div><pre data-view="star"></pre></div>
+<div class="mini-diagram"><div class="mini-title">i PRINTING — ROW VALUE</div><pre data-view="i"></pre></div>
+<div class="mini-diagram"><div class="mini-title">j PRINTING</div><pre data-view="j"></pre></div>
+<div class="mini-diagram"><div class="mini-title">num PRINTING</div><pre data-view="num"></pre></div>
+<div class="mini-diagram"><div class="mini-title">A PRINTING</div><pre data-view="A"></pre></div>
+<div class="mini-diagram"><div class="mini-title">ABC PRINTING</div><pre data-view="ABC"></pre></div>
+</div>
+<div class="modebar">
+<span>Show matching Java program:</span>
+<button type="button" data-mode="star" onclick="changeMode(this,'star')">*</button>
+<button type="button" data-mode="i" onclick="changeMode(this,'i')">i</button>
+<button type="button" data-mode="j" onclick="changeMode(this,'j')">j</button>
+<button type="button" data-mode="num" onclick="changeMode(this,'num')">num</button>
+<button type="button" data-mode="A" onclick="changeMode(this,'A')">A</button>
+<button type="button" data-mode="ABC" onclick="changeMode(this,'ABC')">ABC</button>
+</div>
+</div>
+<div class="card table-card">
+<div class="card-title">② Tabulation</div>
+<div class="formula"><b>s:</b> s = i<br/><b>j:</b> j = n</div>
+<table>
+<thead><tr><th>n</th><th>i</th><th>s</th><th>j</th></tr></thead>
+<tbody><tr><td>5</td><td class="hl">0</td><td class="hl">i</td><td class="hl">5</td></tr><tr><td>5</td><td class="hl">1</td><td class="hl">i</td><td class="hl">5</td></tr><tr><td>5</td><td class="hl">2</td><td class="hl">i</td><td class="hl">5</td></tr><tr><td>5</td><td class="hl">3</td><td class="hl">i</td><td class="hl">5</td></tr><tr><td>5</td><td class="hl">4</td><td class="hl">i</td><td class="hl">5</td></tr></tbody>
+</table>
+<div class="derive"><b>Derive the row:</b> Substitute the current <code>i</code> and <code>n</code> into the formulas above. <b>j</b> is the number of symbols/elements printed in that row.</div>
+</div>
+<div class="card code-card">
+<div class="card-title">③ Program in Java</div>
+<pre class="code"><code class="java-code">int n = 5;
+int i, s, j;
+
+for (i = 0; i &lt; n; i++) {
+    s = i;
+    j = n;
+
+    for (int k = 0; k &lt; s; k++)
+        System.out.print(" ");
+
+    for (int k = 0; k &lt; j; k++)
+        System.out.print("* ");
+
+    System.out.println();
+}</code></pre>
+<div class="code-note"><b>Tabulation → Program:</b> The program first derives <code>s</code> and <code>j</code> for the current <code>i</code>, then the loops directly use those values.</div>
+</div>
+</div>
+</section>
+<section class="pattern-section" id="p7">
+<div class="pattern-header">
+<span class="num-badge">08</span>
+<div><h2>Hollow Square</h2><p>Pattern Diagram → Tabulation → Java Program</p></div>
+</div>
+<div class="three-grid">
+<div class="card diagram-card">
+<div class="card-title">① Pattern Diagram — Separate Output</div>
+<div class="multi-diagrams">
+<div class="mini-diagram selected-view"><div class="mini-title">★ STAR (*)</div><pre data-view="star"></pre></div>
+<div class="mini-diagram"><div class="mini-title">i PRINTING — ROW VALUE</div><pre data-view="i"></pre></div>
+<div class="mini-diagram"><div class="mini-title">j PRINTING</div><pre data-view="j"></pre></div>
+<div class="mini-diagram"><div class="mini-title">num PRINTING</div><pre data-view="num"></pre></div>
+<div class="mini-diagram"><div class="mini-title">A PRINTING</div><pre data-view="A"></pre></div>
+<div class="mini-diagram"><div class="mini-title">ABC PRINTING</div><pre data-view="ABC"></pre></div>
+</div>
+<div class="modebar">
+<span>Show matching Java program:</span>
+<button type="button" data-mode="star" onclick="changeMode(this,'star')">*</button>
+<button type="button" data-mode="i" onclick="changeMode(this,'i')">i</button>
+<button type="button" data-mode="j" onclick="changeMode(this,'j')">j</button>
+<button type="button" data-mode="num" onclick="changeMode(this,'num')">num</button>
+<button type="button" data-mode="A" onclick="changeMode(this,'A')">A</button>
+<button type="button" data-mode="ABC" onclick="changeMode(this,'ABC')">ABC</button>
+</div>
+</div>
+<div class="card table-card">
+<div class="card-title">② Tabulation</div>
+<div class="formula"><b>s:</b> s = 0<br/><b>j:</b> j = n (first/last row), otherwise 2</div>
+<table>
+<thead><tr><th>n</th><th>i</th><th>s</th><th>j</th></tr></thead>
+<tbody><tr><td>5</td><td class="hl">0</td><td class="hl">0</td><td class="hl">2</td></tr><tr><td>5</td><td class="hl">1</td><td class="hl">0</td><td class="hl">2</td></tr><tr><td>5</td><td class="hl">2</td><td class="hl">0</td><td class="hl">2</td></tr><tr><td>5</td><td class="hl">3</td><td class="hl">0</td><td class="hl">2</td></tr><tr><td>5</td><td class="hl">4</td><td class="hl">0</td><td class="hl">1</td></tr></tbody>
+</table>
+<div class="derive"><b>Derive the row:</b> Substitute the current <code>i</code> and <code>n</code> into the formulas above. <b>j</b> is the number of symbols/elements printed in that row.</div>
+</div>
+<div class="card code-card">
+<div class="card-title">③ Program in Java</div>
+<pre class="code"><code class="java-code">int n = 5;
+int i, s, j;
+
+for (i = 0; i &lt; n; i++) {
+    s = 0;
+    j = n;
+
+    for (int k = 0; k &lt; j; k++) {
+        if (i == 0 || i == n - 1 || k == 0 || k == j - 1)
+            System.out.print("* ");
+        else
+            System.out.print("  ");
+    }
+
+    System.out.println();
+}</code></pre>
+<div class="code-note"><b>Tabulation → Program:</b> The program first derives <code>s</code> and <code>j</code> for the current <code>i</code>, then the loops directly use those values.</div>
+</div>
+</div>
+</section>
+<section class="pattern-section" id="p8">
+<div class="pattern-header">
+<span class="num-badge">09</span>
+<div><h2>Hollow Full Pyramid</h2><p>Pattern Diagram → Tabulation → Java Program</p></div>
+</div>
+<div class="three-grid">
+<div class="card diagram-card">
+<div class="card-title">① Pattern Diagram — Separate Output</div>
+<div class="multi-diagrams">
+<div class="mini-diagram selected-view"><div class="mini-title">★ STAR (*)</div><pre data-view="star"></pre></div>
+<div class="mini-diagram"><div class="mini-title">i PRINTING — ROW VALUE</div><pre data-view="i"></pre></div>
+<div class="mini-diagram"><div class="mini-title">j PRINTING</div><pre data-view="j"></pre></div>
+<div class="mini-diagram"><div class="mini-title">num PRINTING</div><pre data-view="num"></pre></div>
+<div class="mini-diagram"><div class="mini-title">A PRINTING</div><pre data-view="A"></pre></div>
+<div class="mini-diagram"><div class="mini-title">ABC PRINTING</div><pre data-view="ABC"></pre></div>
+</div>
+<div class="modebar">
+<span>Show matching Java program:</span>
+<button type="button" data-mode="star" onclick="changeMode(this,'star')">*</button>
+<button type="button" data-mode="i" onclick="changeMode(this,'i')">i</button>
+<button type="button" data-mode="j" onclick="changeMode(this,'j')">j</button>
+<button type="button" data-mode="num" onclick="changeMode(this,'num')">num</button>
+<button type="button" data-mode="A" onclick="changeMode(this,'A')">A</button>
+<button type="button" data-mode="ABC" onclick="changeMode(this,'ABC')">ABC</button>
+</div>
+</div>
+<div class="card table-card">
+<div class="card-title">② Tabulation</div>
+<div class="formula"><b>s:</b> s = n - i - 1<br/><b>j:</b> j = 1 (tip), 2 (middle), 2n-1 (base)</div>
+<table>
+<thead><tr><th>n</th><th>i</th><th>s</th><th>j</th></tr></thead>
+<tbody><tr><td>5</td><td class="hl">0</td><td class="hl">i</td><td class="hl">9</td></tr><tr><td>5</td><td class="hl">1</td><td class="hl">i</td><td class="hl">7</td></tr><tr><td>5</td><td class="hl">2</td><td class="hl">i</td><td class="hl">5</td></tr><tr><td>5</td><td class="hl">3</td><td class="hl">i</td><td class="hl">3</td></tr><tr><td>5</td><td class="hl">4</td><td class="hl">i</td><td class="hl">1</td></tr></tbody>
+</table>
+<div class="derive"><b>Derive the row:</b> Substitute the current <code>i</code> and <code>n</code> into the formulas above. <b>j</b> is the number of symbols/elements printed in that row.</div>
+</div>
+<div class="card code-card">
+<div class="card-title">③ Program in Java</div>
+<pre class="code"><code class="java-code">int n = 5;
+int i, s, j;
+
+for (i = 0; i &lt; n; i++) {
+    s = n - i - 1;
+    j = 2 * i + 1;
+
+    for (int k = 0; k &lt; s; k++)
+        System.out.print(" ");
+
+    for (int k = 0; k &lt; j; k++) {
+        if (i == 0 || i == n - 1 || k == 0 || k == j - 1)
+            System.out.print("* ");
+        else
+            System.out.print("  ");
+    }
+
+    System.out.println();
+}</code></pre>
+<div class="code-note"><b>Tabulation → Program:</b> The program first derives <code>s</code> and <code>j</code> for the current <code>i</code>, then the loops directly use those values.</div>
+</div>
+</div>
+</section>
+<section class="pattern-section" id="p9">
+<div class="pattern-header">
+<span class="num-badge">10</span>
+<div><h2>Hollow Inverted Full Pyramid</h2><p>Pattern Diagram → Tabulation → Java Program</p></div>
+</div>
+<div class="three-grid">
+<div class="card diagram-card">
+<div class="card-title">① Pattern Diagram — Separate Output</div>
+<div class="multi-diagrams">
+<div class="mini-diagram selected-view"><div class="mini-title">★ STAR (*)</div><pre data-view="star"></pre></div>
+<div class="mini-diagram"><div class="mini-title">i PRINTING — ROW VALUE</div><pre data-view="i"></pre></div>
+<div class="mini-diagram"><div class="mini-title">j PRINTING</div><pre data-view="j"></pre></div>
+<div class="mini-diagram"><div class="mini-title">num PRINTING</div><pre data-view="num"></pre></div>
+<div class="mini-diagram"><div class="mini-title">A PRINTING</div><pre data-view="A"></pre></div>
+<div class="mini-diagram"><div class="mini-title">ABC PRINTING</div><pre data-view="ABC"></pre></div>
+</div>
+<div class="modebar">
+<span>Show matching Java program:</span>
+<button type="button" data-mode="star" onclick="changeMode(this,'star')">*</button>
+<button type="button" data-mode="i" onclick="changeMode(this,'i')">i</button>
+<button type="button" data-mode="j" onclick="changeMode(this,'j')">j</button>
+<button type="button" data-mode="num" onclick="changeMode(this,'num')">num</button>
+<button type="button" data-mode="A" onclick="changeMode(this,'A')">A</button>
+<button type="button" data-mode="ABC" onclick="changeMode(this,'ABC')">ABC</button>
+</div>
+</div>
+<div class="card table-card">
+<div class="card-title">② Tabulation</div>
+<div class="formula"><b>s:</b> s = i<br/><b>j:</b> j = 2n-1 (top), 2 (middle), 1 (tip)</div>
+<table>
+<thead><tr><th>n</th><th>i</th><th>s</th><th>j</th></tr></thead>
+<tbody><tr><td>5</td><td class="hl">0</td><td class="hl">i</td><td class="hl">1</td></tr><tr><td>5</td><td class="hl">1</td><td class="hl">i</td><td class="hl">2</td></tr><tr><td>5</td><td class="hl">2</td><td class="hl">i</td><td class="hl">2</td></tr><tr><td>5</td><td class="hl">3</td><td class="hl">i</td><td class="hl">2</td></tr><tr><td>5</td><td class="hl">4</td><td class="hl">i</td><td class="hl">9</td></tr></tbody>
+</table>
+<div class="derive"><b>Derive the row:</b> Substitute the current <code>i</code> and <code>n</code> into the formulas above. <b>j</b> is the number of symbols/elements printed in that row.</div>
+</div>
+<div class="card code-card">
+<div class="card-title">③ Program in Java</div>
+<pre class="code"><code class="java-code">int n = 5;
+int i, s, j;
+
+for (i = 0; i &lt; n; i++) {
+    s = i;
+    j = 2 * (n - i) - 1;
+
+    for (int k = 0; k &lt; s; k++)
+        System.out.print(" ");
+
+    for (int k = 0; k &lt; j; k++) {
+        if (i == 0 || i == n - 1 || k == 0 || k == j - 1)
+            System.out.print("* ");
+        else
+            System.out.print("  ");
+    }
+
+    System.out.println();
+}</code></pre>
+<div class="code-note"><b>Tabulation → Program:</b> The program first derives <code>s</code> and <code>j</code> for the current <code>i</code>, then the loops directly use those values.</div>
+</div>
+</div>
+</section>
+<section class="pattern-section" id="p10">
+<div class="pattern-header">
+<span class="num-badge">11</span>
+<div><h2>Floyd's Triangle</h2><p>Pattern Diagram → Tabulation → Java Program</p></div>
+</div>
+<div class="three-grid">
+<div class="card diagram-card">
+<div class="card-title">① Pattern Diagram — Separate Output</div>
+<div class="multi-diagrams">
+<div class="mini-diagram selected-view"><div class="mini-title">★ STAR (*)</div><pre data-view="star"></pre></div>
+<div class="mini-diagram"><div class="mini-title">i PRINTING — ROW VALUE</div><pre data-view="i"></pre></div>
+<div class="mini-diagram"><div class="mini-title">j PRINTING</div><pre data-view="j"></pre></div>
+<div class="mini-diagram"><div class="mini-title">num PRINTING</div><pre data-view="num"></pre></div>
+<div class="mini-diagram"><div class="mini-title">A PRINTING</div><pre data-view="A"></pre></div>
+<div class="mini-diagram"><div class="mini-title">ABC PRINTING</div><pre data-view="ABC"></pre></div>
+</div>
+<div class="modebar">
+<span>Show matching Java program:</span>
+<button type="button" data-mode="star" onclick="changeMode(this,'star')">*</button>
+<button type="button" data-mode="i" onclick="changeMode(this,'i')">i</button>
+<button type="button" data-mode="j" onclick="changeMode(this,'j')">j</button>
+<button type="button" data-mode="num" onclick="changeMode(this,'num')">num</button>
+<button type="button" data-mode="A" onclick="changeMode(this,'A')">A</button>
+<button type="button" data-mode="ABC" onclick="changeMode(this,'ABC')">ABC</button>
+</div>
+</div>
+<div class="card table-card">
+<div class="card-title">② Tabulation</div>
+<div class="formula"><b>s:</b> s = 0<br/><b>j:</b> j = i + 1</div>
+<table>
+<thead><tr><th>n</th><th>i</th><th>s</th><th>j</th></tr></thead>
+<tbody><tr><td>5</td><td class="hl">0</td><td class="hl">0</td><td class="hl">1</td></tr><tr><td>5</td><td class="hl">1</td><td class="hl">0</td><td class="hl">2</td></tr><tr><td>5</td><td class="hl">2</td><td class="hl">0</td><td class="hl">3</td></tr><tr><td>5</td><td class="hl">3</td><td class="hl">0</td><td class="hl">4</td></tr><tr><td>5</td><td class="hl">4</td><td class="hl">0</td><td class="hl">5</td></tr></tbody>
+</table>
+<div class="derive"><b>Derive the row:</b> Substitute the current <code>i</code> and <code>n</code> into the formulas above. <b>j</b> is the number of symbols/elements printed in that row.</div>
+</div>
+<div class="card code-card">
+<div class="card-title">③ Program in Java</div>
+<pre class="code"><code class="java-code">int n = 5;
+int i, s, j;
+int num = 1;
+
+for (i = 0; i &lt; n; i++) {
+    s = 0;
+    j = i + 1;
+
+    for (int k = 0; k &lt; s; k++)
+        System.out.print(" ");
+
+    for (int k = 0; k &lt; j; k++)
+        System.out.print(num++ + " ");
+
+    System.out.println();
+}</code></pre>
+<div class="code-note"><b>Tabulation → Program:</b> The program first derives <code>s</code> and <code>j</code> for the current <code>i</code>, then the loops directly use those values.</div>
+</div>
+</div>
+</section>
+<section class="pattern-section" id="p11">
+<div class="pattern-header">
+<span class="num-badge">12</span>
+<div><h2>Pascal's Triangle</h2><p>Pattern Diagram → Tabulation → Java Program</p></div>
+</div>
+<div class="three-grid">
+<div class="card diagram-card">
+<div class="card-title">① Pattern Diagram — Separate Output</div>
+<div class="multi-diagrams">
+<div class="mini-diagram selected-view"><div class="mini-title">★ STAR (*)</div><pre data-view="star"></pre></div>
+<div class="mini-diagram"><div class="mini-title">i PRINTING — ROW VALUE</div><pre data-view="i"></pre></div>
+<div class="mini-diagram"><div class="mini-title">j PRINTING</div><pre data-view="j"></pre></div>
+<div class="mini-diagram"><div class="mini-title">num PRINTING</div><pre data-view="num"></pre></div>
+<div class="mini-diagram"><div class="mini-title">A PRINTING</div><pre data-view="A"></pre></div>
+<div class="mini-diagram"><div class="mini-title">ABC PRINTING</div><pre data-view="ABC"></pre></div>
+</div>
+<div class="modebar">
+<span>Show matching Java program:</span>
+<button type="button" data-mode="star" onclick="changeMode(this,'star')">*</button>
+<button type="button" data-mode="i" onclick="changeMode(this,'i')">i</button>
+<button type="button" data-mode="j" onclick="changeMode(this,'j')">j</button>
+<button type="button" data-mode="num" onclick="changeMode(this,'num')">num</button>
+<button type="button" data-mode="A" onclick="changeMode(this,'A')">A</button>
+<button type="button" data-mode="ABC" onclick="changeMode(this,'ABC')">ABC</button>
+</div>
+</div>
+<div class="card table-card">
+<div class="card-title">② Tabulation</div>
+<div class="formula"><b>s:</b> s = n - i - 1<br/><b>j:</b> j = i + 1</div>
+<table>
+<thead><tr><th>n</th><th>i</th><th>s</th><th>j</th></tr></thead>
+<tbody><tr><td>5</td><td class="hl">0</td><td class="hl">5-0-1</td><td class="hl">1</td></tr><tr><td>5</td><td class="hl">1</td><td class="hl">5-1-1</td><td class="hl">2</td></tr><tr><td>5</td><td class="hl">2</td><td class="hl">5-2-1</td><td class="hl">3</td></tr><tr><td>5</td><td class="hl">3</td><td class="hl">5-3-1</td><td class="hl">4</td></tr><tr><td>5</td><td class="hl">4</td><td class="hl">5-4-1</td><td class="hl">5</td></tr></tbody>
+</table>
+<div class="derive"><b>Derive the row:</b> Substitute the current <code>i</code> and <code>n</code> into the formulas above. <b>j</b> is the number of symbols/elements printed in that row.</div>
+</div>
+<div class="card code-card">
+<div class="card-title">③ Program in Java</div>
+<pre class="code"><code class="java-code">int n = 5;
+int i, s, j;
+
+for (i = 0; i &lt; n; i++) {
+    s = n - i - 1;
+    j = i + 1;
+    int value = 1;
+
+    for (int k = 0; k &lt; s; k++)
+        System.out.print(" ");
+
+    for (int k = 0; k &lt; j; k++) {
+        System.out.print(value + " ");
+        value = value * (i - k) / (k + 1);
+    }
+
+    System.out.println();
+}</code></pre>
+<div class="code-note"><b>Tabulation → Program:</b> The program first derives <code>s</code> and <code>j</code> for the current <code>i</code>, then the loops directly use those values.</div>
+</div>
+</div>
+</section>
+</main>
+<footer>Java Pattern Notes • Learn the logic, derive the formula, then write the loop.</footer>
+<script>
+function showPattern(i){
+  document.querySelectorAll('.pattern-section').forEach((x,k)=>x.classList.toggle('selected',k===i));
+  document.getElementById('p'+i).scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.nav button').forEach((b,k)=>b.classList.toggle('active',k===i));
+}
+
+function getPatternGeometry(section){
+  const title=section.querySelector('h2').textContent.trim();
+  const n=5;
+  const rows=[];
+
+  function add(count, spaces=0, hollow=false, shape='normal'){
+    rows.push({count,spaces,hollow,shape});
+  }
+
+  if(title==='Right Half Pyramid'){
+    for(let i=0;i<n;i++) add(i+1,0,false);
+  }else if(title==='Left Half Pyramid'){
+    for(let i=0;i<n;i++) add(i+1,n-i-1,false);
+  }else if(title==='Full Pyramid'){
+    for(let i=0;i<n;i++) add(2*i+1,n-i-1,false);
+  }else if(title==='Inverted Right Half Pyramid'){
+    for(let i=0;i<n;i++) add(n-i,0,false);
+  }else if(title==='Inverted Left Half Pyramid'){
+    for(let i=0;i<n;i++) add(n-i,i,false);
+  }else if(title==='Inverted Full Pyramid'){
+    for(let i=0;i<n;i++) add(2*(n-i)-1,i,false);
+  }else if(title==='Rhombus Pyramid'){
+    for(let i=0;i<n;i++) add(n,i,false);
+  }else if(title==='Hollow Square'){
+    for(let i=0;i<n;i++) add(n,0,true,'square');
+  }else if(title==='Hollow Full Pyramid'){
+    for(let i=0;i<n;i++) add(2*i+1,n-i-1,true,'pyramid');
+  }else if(title==='Hollow Inverted Full Pyramid'){
+    for(let i=0;i<n;i++) add(2*(n-i)-1,i,true,'pyramid');
+  }else if(title==="Floyd's Triangle"){
+    for(let i=0;i<n;i++) add(i+1,0,false);
+  }else if(title==="Pascal's Triangle"){
+    for(let i=0;i<n;i++) add(i+1,n-i-1,false);
+  }
+
+  return rows;
+}
+function renderAllViews(section){
+  const geometry=getPatternGeometry(section);
+  const modes=['star','i','j','num','A','ABC'];
+
+  modes.forEach(mode=>{
+    let num=1;
+
+    const output=geometry.map((row,rowIndex)=>{
+      const cells=[];
+
+      for(let c=0;c<row.count;c++){
+        let printable=true;
+
+        if(row.hollow){
+          if(row.shape==='square'){
+            printable =
+              rowIndex===0 ||
+              rowIndex===geometry.length-1 ||
+              c===0 ||
+              c===row.count-1;
+          }else if(row.shape==='pyramid'){
+            printable =
+              rowIndex===0 ||
+              rowIndex===geometry.length-1 ||
+              c===0 ||
+              c===row.count-1;
+          }
+        }
+
+        if(printable){
+          let value='*';
+
+          if(mode==='star') value='*';
+          else if(mode==='i') value=String(rowIndex);
+          else if(mode==='j') value=String(c+1);
+          else if(mode==='num') value=String(num++);
+          else if(mode==='A') value=String.fromCharCode(65+rowIndex);
+          else if(mode==='ABC') value=String.fromCharCode(65+c);
+
+          cells.push(value);
+        }else{
+          // Preserve the hollow interior.
+          cells.push(' ');
+        }
+      }
+
+      return ' '.repeat(row.spaces) + cells.join(' ');
+    });
+
+    const target=section.querySelector('[data-view="'+mode+'"]');
+    if(target){
+      target.textContent=output.join('\n');
+      target.style.display='block';
+    }
+  });
+}
+function replaceOutput(code, expression){
+  code=code.replace(/System\.out\.print\("\* "\);/g,
+    'System.out.print('+expression+');');
+  code=code.replace(/System\.out\.print\(num\+\+\s*\+\s*" "\);/g,
+    'System.out.print('+expression+');');
+  code=code.replace(/System\.out\.print\(value\s*\+\s*" "\);/g,
+    'System.out.print('+expression+');');
+  return code;
+}
+
+function addNumDeclaration(code){
+  if(!/\bint num\s*=/.test(code)){
+    code=code.replace(/(int n\s*=\s*[^;]+;\s*)/, '$1int num = 1;\n');
+  }
+  return code;
+}
+
+function programForMode(base, mode){
+  let code=base;
+  if(mode==='star') return replaceOutput(code,'"* "');
+  if(mode==='i') return replaceOutput(code,'i + " "');
+  if(mode==='j') return replaceOutput(code,'j + " "');
+  if(mode==='num') return replaceOutput(addNumDeclaration(code),'num++ + " "');
+  if(mode==='A'){
+    return replaceOutput(code, "(char)('A' + i) + \" \"");
+  }
+  if(mode==='ABC'){
+    return replaceOutput(code, "(char)('A' + k) + \" \"");
+  }
+  return code;
+}
+
+function changeMode(btn, mode){
+  const section=btn.closest('.pattern-section');
+  const code=section.querySelector('.java-code');
+  code.textContent=programForMode(section.dataset.baseCode,mode);
+
+  section.querySelectorAll('.mini-diagram').forEach(x=>{
+    x.classList.remove('selected-view');
+  });
+  const selected=section.querySelector(`[data-view="${mode}"]`);
+  if(selected) selected.closest('.mini-diagram').classList.add('selected-view');
+
+  section.querySelectorAll('.modebar button').forEach(b=>{
+    b.classList.toggle('active-mode',b===btn);
+  });
+}
+
+function initializePatternPage(){
+  document.querySelectorAll('.pattern-section').forEach(section=>{
+    const code=section.querySelector('.java-code');
+    section.dataset.baseCode=code ? code.textContent : '';
+    renderAllViews(section);
+  });
+
+  document.querySelectorAll('.pattern-section').forEach(section=>{
+    const b=section.querySelector('[data-mode="star"]');
+    if(b) changeMode(b,'star');
+  });
+
+  if(typeof showPattern === 'function') showPattern(0);
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', initializePatternPage);
+}else{
+  initializePatternPage();
+}
+
+window.addEventListener('scroll',()=>{
+  let best=0,dist=1e9;
+  document.querySelectorAll('.pattern-section').forEach((s,i)=>{
+    const d=Math.abs(s.getBoundingClientRect().top-100);
+    if(d<dist){dist=d;best=i;}
+  });
+  document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',i===best));
+});
+</script>
+</body>
+</html>
