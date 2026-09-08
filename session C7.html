@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang='en'>
+<!DOCTYPE html>
+<html lang='en'>
+<!DOCTYPE html>
+<html lang='en'>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 7 — Malware & Endpoint Security</title>
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:"Trebuchet MS",Arial,sans-serif;
+    line-height:1.7;
+    color:#f5f5f5;
+
+    background:
+        radial-gradient(circle at 10% 10%,rgba(239,68,68,.18),transparent 25%),
+        radial-gradient(circle at 90% 30%,rgba(220,38,38,.15),transparent 25%),
+        linear-gradient(135deg,#020202,#170303,#080808);
+
+    overflow-x:hidden;
+}
+
+/* =========================================================
+   ANIMATED BACKGROUND
+========================================================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-2;
+
+    background:
+        radial-gradient(circle at 30% 80%,rgba(255,30,0,.12),transparent 25%),
+        radial-gradient(circle at 70% 60%,rgba(255,80,0,.08),transparent 25%);
+}
+
+.particle{
+    position:fixed;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#ef4444;
+    box-shadow:
+        0 0 10px #ef4444,
+        0 0 25px #dc2626;
+    bottom:-20px;
+    opacity:.6;
+    animation:rise 10s infinite linear;
+    z-index:-1;
+}
+
+.p1{left:5%;animation-delay:1s;}
+.p2{left:15%;animation-delay:3s;}
+.p3{left:25%;animation-delay:5s;}
+.p4{left:35%;animation-delay:2s;}
+.p5{left:45%;animation-delay:7s;}
+.p6{left:55%;animation-delay:4s;}
+.p7{left:65%;animation-delay:6s;}
+.p8{left:75%;animation-delay:1s;}
+.p9{left:85%;animation-delay:8s;}
+.p10{left:95%;animation-delay:3s;}
+
+@keyframes rise{
+
+    0%{
+        transform:translateY(0) translateX(0);
+        opacity:0;
+    }
+
+    20%{
+        opacity:.8;
+    }
+
+    100%{
+        transform:translateY(-110vh) translateX(40px);
+        opacity:0;
+    }
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    min-height:550px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    position:relative;
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(70,0,0,.95),
+            rgba(20,0,0,.95),
+            rgba(50,5,5,.9)
+        );
+
+    border-bottom:3px solid #ef2b16;
+}
+
+.hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:700px;
+    height:700px;
+
+    border:2px solid rgba(239,68,68,.15);
+
+    border-radius:50%;
+
+    animation:rotate 20s linear infinite;
+}
+
+.hero::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+    height:450px;
+
+    border:2px dashed rgba(248,113,113,.18);
+
+    border-radius:50%;
+
+    animation:rotateReverse 14s linear infinite;
+}
+
+@keyframes rotate{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@keyframes rotateReverse{
+    from{transform:rotate(360deg);}
+    to{transform:rotate(0deg);}
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:1000px;
+    padding:30px;
+}
+
+.badge{
+
+    display:inline-block;
+
+    padding:10px 25px;
+
+    border:2px solid #ef4444;
+
+    border-radius:40px;
+
+    color:#ff9c8f;
+
+    background:rgba(239,68,68,.08);
+
+    box-shadow:0 0 25px rgba(239,68,68,.25);
+
+    letter-spacing:2px;
+
+    animation:glow 2s infinite;
+}
+
+@keyframes glow{
+
+    0%,100%{
+        box-shadow:0 0 10px rgba(239,68,68,.2);
+    }
+
+    50%{
+        box-shadow:0 0 35px rgba(239,68,68,.65);
+    }
+}
+
+.lock{
+
+    font-size:100px;
+
+    margin:20px;
+
+    filter:
+        drop-shadow(0 0 10px #ef4444)
+        drop-shadow(0 0 30px #dc2626);
+
+    animation:lockFloat 3s infinite ease-in-out;
+}
+
+@keyframes lockFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-15px) rotate(-3deg);
+    }
+}
+
+.hero h1{
+
+    font-size:58px;
+
+    margin:10px 0;
+
+    text-transform:uppercase;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #ffb4aa,
+            #ef4444,
+            #fff
+        );
+
+    background-size:300%;
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+    animation:titleMove 5s infinite;
+}
+
+@keyframes titleMove{
+
+    0%{background-position:0%;}
+    50%{background-position:100%;}
+    100%{background-position:0%;}
+
+}
+
+.hero p{
+
+    font-size:21px;
+
+    color:#ffc9c3;
+
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.container{
+
+    width:92%;
+    max-width:1250px;
+    margin:auto;
+
+}
+
+section{
+
+    margin:60px 0;
+
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card{
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30,8,8,.95),
+            rgba(12,12,12,.96)
+        );
+
+    border:1px solid rgba(239,68,68,.18);
+
+    border-radius:25px;
+
+    padding:32px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.5),
+        inset 0 1px rgba(255,255,255,.03);
+
+    transition:.4s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:rgba(239,68,68,.5);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.7),
+        0 0 30px rgba(239,68,68,.08);
+
+}
+
+h2{
+
+    color:#ff6b57;
+
+    font-size:34px;
+
+    text-shadow:
+        0 0 10px rgba(239,68,68,.25);
+
+}
+
+h3{
+
+    color:#ff9d91;
+
+}
+
+/* =========================================================
+   ROBOT / ELI10
+========================================================= */
+
+.robot{
+
+    position:relative;
+
+    padding:28px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(127,29,29,.25),
+            rgba(69,10,10,.2)
+        );
+
+    border-left:7px solid #ef4444;
+
+    font-size:19px;
+
+    overflow:hidden;
+
+}
+
+.robot::after{
+
+    content:"🤖";
+
+    position:absolute;
+
+    right:20px;
+
+    bottom:5px;
+
+    font-size:75px;
+
+    opacity:.10;
+
+    animation:robotMove 3s infinite ease-in-out;
+
+}
+
+@keyframes robotMove{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-12px);
+    }
+
+}
+
+/* =========================================================
+   HIGHLIGHT
+========================================================= */
+
+.highlight{
+
+    padding:20px;
+
+    margin:20px 0;
+
+    border-radius:15px;
+
+    background:rgba(245,158,11,.08);
+
+    border-left:6px solid #f59e0b;
+
+}
+
+/* =========================================================
+   SAFE
+========================================================= */
+
+.safe{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:rgba(34,197,94,.08);
+
+    border-left:6px solid #22c55e;
+
+}
+
+/* =========================================================
+   DANGER
+========================================================= */
+
+.danger{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:rgba(239,68,68,.10);
+
+    border-left:6px solid #ef4444;
+
+}
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+.table-wrapper{
+
+    overflow-x:auto;
+
+    border-radius:16px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:700px;
+
+    margin:20px 0;
+
+}
+
+th{
+
+    padding:16px;
+
+    text-align:left;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #991b1b,
+            #dc2626
+        );
+
+}
+
+td{
+
+    padding:15px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+tr{
+
+    transition:.3s;
+
+}
+
+tr:hover{
+
+    background:rgba(239,68,68,.08);
+
+}
+
+/* =========================================================
+   DIAGRAM
+========================================================= */
+
+.diagram{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin:35px 0;
+
+}
+
+.diagram-box{
+
+    min-width:170px;
+
+    padding:20px;
+
+    text-align:center;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #991b1b,
+            #450a0a
+        );
+
+    border:1px solid #ef4444;
+
+    box-shadow:
+        0 0 15px rgba(239,68,68,.15);
+
+    animation:diagramPulse 2s infinite;
+
+}
+
+.diagram-box:nth-child(1){animation-delay:.1s;}
+.diagram-box:nth-child(3){animation-delay:.4s;}
+.diagram-box:nth-child(5){animation-delay:.7s;}
+.diagram-box:nth-child(7){animation-delay:1s;}
+.diagram-box:nth-child(9){animation-delay:1.3s;}
+
+@keyframes diagramPulse{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.06);
+        box-shadow:0 0 25px rgba(239,68,68,.4);
+    }
+
+}
+
+.arrow{
+
+    font-size:32px;
+
+    color:#ff735f;
+
+    animation:arrowMove 1.5s infinite;
+
+}
+
+@keyframes arrowMove{
+
+    0%,100%{
+        transform:translateX(0);
+    }
+
+    50%{
+        transform:translateX(8px);
+    }
+
+}
+
+/* =========================================================
+   PASSWORD VISUAL
+========================================================= */
+
+.password-box{
+
+    padding:35px;
+
+    text-align:center;
+
+    border-radius:20px;
+
+    background:#050505;
+
+    border:1px solid #4b1111;
+
+}
+
+.password{
+
+    font-size:35px;
+
+    letter-spacing:8px;
+
+    color:#ff6250;
+
+    text-shadow:0 0 20px #ef4444;
+
+    animation:passwordGlow 2s infinite;
+
+}
+
+@keyframes passwordGlow{
+
+    0%,100%{
+        text-shadow:0 0 8px #ef4444;
+    }
+
+    50%{
+        text-shadow:
+            0 0 15px #ef4444,
+            0 0 35px #dc2626;
+    }
+
+}
+
+/* =========================================================
+   AUTHENTICATION FACTORS
+========================================================= */
+
+.factor-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(240px,1fr));
+
+    gap:22px;
+
+}
+
+.factor{
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:#100707;
+
+    border:1px solid #451414;
+
+    text-align:center;
+
+    transition:.4s;
+
+}
+
+.factor:hover{
+
+    transform:
+        translateY(-10px)
+        scale(1.02);
+
+    border-color:#ef4444;
+
+}
+
+.factor-icon{
+
+    font-size:60px;
+
+    animation:factorFloat 3s infinite;
+
+}
+
+@keyframes factorFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+}
+
+/* =========================================================
+   STEP CARDS
+========================================================= */
+
+.steps{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+
+    gap:18px;
+
+}
+
+.step{
+
+    position:relative;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    background:#100707;
+
+    border:1px solid #481313;
+
+    transition:.4s;
+
+}
+
+.step:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#ef4444;
+
+}
+
+.step-number{
+
+    width:45px;
+    height:45px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ef4444,
+            #7f1d1d
+        );
+
+    font-weight:bold;
+
+    margin-bottom:15px;
+
+}
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+.question{
+
+    margin:20px 0;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    background:#0e0808;
+
+    border:1px solid #461515;
+
+}
+
+.answer{
+
+    margin-top:15px;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    background:rgba(34,197,94,.08);
+
+    border-left:5px solid #22c55e;
+
+}
+
+/* =========================================================
+   EXERCISES
+========================================================= */
+
+.exercise{
+
+    padding:25px;
+
+    margin:20px 0;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(127,29,29,.20),
+            rgba(20,5,5,.9)
+        );
+
+    border:1px solid #551515;
+
+    transition:.4s;
+
+}
+
+.exercise:hover{
+
+    transform:translateX(8px);
+
+    border-color:#ef4444;
+
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    margin-top:80px;
+
+    padding:50px;
+
+    text-align:center;
+
+    background:#030303;
+
+    border-top:2px solid #4b1111;
+
+}
+
+footer strong{
+
+    color:#ff5945;
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+    .hero h1{
+        font-size:38px;
+    }
+
+    .lock{
+        font-size:70px;
+    }
+
+    .diagram{
+        flex-direction:column;
+    }
+
+    .arrow{
+        transform:rotate(90deg);
+    }
+
+}
+
+</style>
+<style>
+/* SESSION 4 ADDITIONS */
+.crypto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin:25px 0}
+.crypto-card{padding:25px;border-radius:20px;background:#100707;border:1px solid #451414;transition:.4s;text-align:center}
+.crypto-card:hover{transform:translateY(-10px) scale(1.02);border-color:#ef4444;box-shadow:0 20px 45px rgba(239,68,68,.12)}
+.crypto-icon{font-size:58px;margin-bottom:10px;display:block}
+.cipher-box{background:#050505;border:1px solid #4b1111;border-radius:18px;padding:25px;margin:20px 0}
+.cipher-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin:15px 0}
+.letter{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:#7f1d1d;border:1px solid #ef4444;font-weight:bold;font-size:20px}
+.btn{background:linear-gradient(135deg,#ef4444,#7f1d1d);border:0;color:#fff;padding:12px 20px;border-radius:10px;font-weight:bold;cursor:pointer;margin:6px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(239,68,68,.3)}
+.quiz-option{display:block;margin:10px 0;padding:13px;border:1px solid #461515;border-radius:12px;cursor:pointer;background:#0e0808}
+.quiz-option:hover{border-color:#ef4444;background:#1b0a0a}
+.answer-box{display:none;margin-top:15px;padding:15px;border-radius:12px;background:rgba(34,197,94,.08);border-left:5px solid #22c55e}
+.badge2{display:inline-block;padding:7px 14px;border-radius:30px;background:rgba(239,68,68,.12);border:1px solid #ef4444;color:#ff9d91;margin:4px}
+@media(max-width:700px){.letter{width:36px;height:36px}}
+
+/* =========================================================
+   DEEP TECHNICAL DETAIL
+========================================================= */
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:25px 0}
+.tech-card{padding:24px;border-radius:18px;background:linear-gradient(145deg,#160707,#090909);border:1px solid #5b1717}
+.tech-card h3{margin-top:0;color:#ff9d91}
+.formula{font-family:"Courier New",monospace;background:#030303;border:1px solid #531313;border-radius:14px;padding:18px;color:#a7f3d0;overflow-x:auto}
+.codebox{background:#020202;border:1px solid #3f1111;border-radius:14px;padding:20px;font-family:"Courier New",monospace;color:#d1fae5;overflow-x:auto}
+.term{display:inline-block;padding:4px 9px;border-radius:7px;background:rgba(239,68,68,.12);border:1px solid #6b1b1b;color:#ffb4aa;font-weight:bold}
+.note{background:rgba(59,130,246,.10);border-left:6px solid #60a5fa;padding:18px;border-radius:12px}
+.tech-warning{background:rgba(245,158,11,.10);border-left:6px solid #f59e0b;padding:18px;border-radius:12px}
+.layer{display:grid;grid-template-columns:80px 1fr;gap:15px;align-items:center;margin:12px 0}
+.layer-num{width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#7f1d1d;border:1px solid #ef4444;font-weight:bold}
+.small{font-size:.92em;color:#c4c4c4}
+</style>
+
+</style>
+
+<style>
+.bar{margin:12px 0;padding:10px;border-radius:10px;background:rgba(255,255,255,.06)}
+.barfill{height:10px;border-radius:10px;background:linear-gradient(90deg,#ff3b3b,#ffcc33,#00ff99);margin-top:7px;transition:width .5s}
+.survey button,.quiz button{margin:7px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.2);cursor:pointer;background:#1b1b2b;color:white}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:20px 0}
+.node{padding:15px;border-radius:14px;background:linear-gradient(135deg,#2a0b0b,#421515);border:1px solid #ff5555;box-shadow:0 0 15px rgba(255,70,70,.18)}
+.arrow{font-size:24px;color:#ff7777}
+.highlight{padding:15px;border-left:5px solid #ff4444;background:rgba(255,70,70,.08);border-radius:8px}
+</style>
+
+
+<style id="alignment-fix">
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;padding:0;min-height:100vh;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;line-height:1.7}
+main{width:min(1180px,94%);margin:0 auto;padding:28px 0 50px}
+.hero{width:min(1180px,94%);margin:28px auto 0;padding:38px 42px;border-radius:24px;text-align:center}
+.hero h1{margin:10px 0 8px;line-height:1.15}
+.hero p{max-width:900px;margin:12px auto}
+.card{width:100%;margin:24px 0;padding:28px 32px;border-radius:18px;overflow:hidden}
+.card h2{margin:0 0 18px;line-height:1.25;padding-bottom:10px}
+.card h3{margin:22px 0 10px;line-height:1.3}
+.card p{max-width:1050px;margin:0 auto 18px;text-align:left}
+.color-table{width:100%;border-collapse:separate;border-spacing:0;margin:20px 0;table-layout:fixed;overflow:hidden;border-radius:12px}
+.color-table th,.color-table td{padding:14px 16px;vertical-align:top;text-align:left;word-wrap:break-word;overflow-wrap:anywhere}
+.color-table th{font-weight:700}
+.flow{width:100%;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;padding:18px 8px}
+.node{min-width:135px;max-width:180px;text-align:center;padding:16px 12px;border-radius:14px;line-height:1.35}
+.highlight{width:100%;margin:18px 0;padding:16px 18px;line-height:1.6}
+.survey,.quiz{text-align:center}
+.survey button,.quiz button{display:inline-block;min-height:46px;margin:6px;padding:11px 18px;line-height:1.3}
+#surveyResults{width:100%;max-width:900px;margin:20px auto;text-align:left}
+.bar{width:100%;margin:12px 0;padding:11px 14px;border-radius:10px}
+.barfill{max-width:100%;margin-top:8px}
+.robot{width:100%;max-width:850px;margin:0 auto;padding:24px;text-align:left;border-radius:16px}
+.robot h2{text-align:center}
+.robot li{margin:8px 0}
+footer{width:min(1180px,94%);margin:0 auto;padding:25px 0 40px;text-align:center}
+footer p{margin:6px 0}
+@media (max-width:800px){
+main{width:96%;padding-top:15px}.hero{width:96%;padding:28px 20px;margin-top:15px}.card{padding:22px 18px;margin:18px 0}
+.color-table{font-size:.9rem;display:block;overflow-x:auto}.color-table th,.color-table td{min-width:150px}
+.flow{flex-direction:column}.arrow{transform:rotate(90deg)}.node{max-width:260px;width:80%}
+}
+@media (max-width:520px){
+.hero h1{font-size:1.8rem}.card h2{font-size:1.35rem}.card p{font-size:.96rem}
+.survey button,.quiz button{width:100%;margin:5px 0}
+}
+</style>
+
+
+<style id="session5-hero-image-fix">
+.hero{
+  width:min(1400px,96%) !important;
+  margin:18px auto 0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  overflow:hidden !important;
+}
+.hero .hero-image{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  object-fit:contain;
+  border-radius:24px;
+  margin:0 auto;
+}
+.hero .hero-accessible{
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  padding:0 !important;
+  margin:-1px !important;
+  overflow:hidden !important;
+  clip:rect(0,0,0,0) !important;
+  white-space:nowrap !important;
+  border:0 !important;
+}
+@media(max-width:700px){
+  .hero{width:98% !important}
+  .hero .hero-image{border-radius:14px}
+}
+</style>
+
+
+<style id="session6-layout">
+*{box-sizing:border-box}
+body{margin:0;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;line-height:1.72}
+main{width:min(1180px,94%);margin:0 auto;padding:28px 0 55px}
+.hero6{width:min(1400px,96%);margin:18px auto 8px;padding:46px 5%;min-height:390px;border-radius:24px;position:relative;overflow:hidden;background:radial-gradient(circle at 30% 50%,rgba(255,45,45,.22),transparent 34%),linear-gradient(110deg,#300000,#100000 52%,#220000);border:1px solid #ff3b3b;box-shadow:0 0 35px rgba(255,40,40,.25);display:grid;grid-template-columns:220px 1fr 300px;gap:34px;align-items:center}
+.hero6:before,.hero6:after{content:"";position:absolute;border:1px solid rgba(255,60,60,.28);border-radius:50%;pointer-events:none}
+.hero6:before{width:620px;height:620px;left:240px;top:-120px}
+.hero6:after{width:430px;height:430px;left:335px;top:-25px;border-style:dashed}
+.badge6{border:2px solid #ff3b3b;border-radius:34px;padding:26px 18px;text-align:center;letter-spacing:3px;font-size:18px;line-height:1.8;box-shadow:0 0 20px rgba(255,50,50,.3);position:relative;z-index:2}
+.badge6 strong{font-size:52px;display:block;letter-spacing:0}
+.center6{position:relative;z-index:2;text-align:center}
+.globe6{font-size:72px;line-height:1;margin-bottom:12px}
+.center6 h1{font-size:clamp(42px,5.5vw,78px);line-height:.98;margin:0;font-weight:900;letter-spacing:1px}
+.center6 .line{width:130px;height:4px;margin:20px auto;background:#ff3b3b;border-radius:10px;box-shadow:0 0 16px #ff3b3b}
+.center6 .subtitle{font-size:19px;letter-spacing:5px;text-transform:uppercase}
+.mission6{position:relative;z-index:2;border:2px solid #ff3b3b;border-radius:24px;padding:25px 22px;text-align:center;background:rgba(0,0,0,.28)}
+.mission6 h3{color:#ff5555;margin:0 0 16px;font-size:22px}
+.mission6 p{margin:0;text-align:center}
+.card{width:100%;margin:24px 0;padding:28px 32px;border-radius:18px;overflow:hidden}
+.card h2{margin:0 0 18px;line-height:1.25}
+.card h3{margin:22px 0 10px}
+.card p{max-width:1050px;margin:0 auto 18px;text-align:left}
+.color-table{width:100%;border-collapse:separate;border-spacing:0;margin:20px 0;table-layout:fixed;border-radius:12px;overflow:hidden}
+.color-table th,.color-table td{padding:14px 16px;vertical-align:top;text-align:left;overflow-wrap:anywhere}
+.flow6{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin:20px 0}
+.node6{padding:16px 18px;min-width:150px;text-align:center;border:1px solid #ff5555;border-radius:14px;background:linear-gradient(135deg,#2a0808,#450f0f)}
+.arrow6{font-size:25px;color:#ff6666}
+.activity6{padding:20px;border:1px dashed #ff5555;border-radius:16px;background:rgba(255,50,50,.06)}
+.survey6{text-align:center}
+.survey6 button,.quiz6 button{margin:6px;padding:11px 17px;border-radius:10px;border:1px solid rgba(255,255,255,.25);cursor:pointer;background:#1a1a25;color:#fff}
+.bar6{margin:10px 0;padding:10px;border-radius:10px;background:rgba(255,255,255,.06);text-align:left}
+.fill6{height:10px;margin-top:7px;border-radius:10px;background:linear-gradient(90deg,#ff3b3b,#ffcc33,#00ff99)}
+.highlight{padding:15px 18px;border-left:5px solid #ff4444;background:rgba(255,70,70,.08);border-radius:8px}
+.robot{padding:24px;border-radius:16px}
+footer{width:min(1180px,94%);margin:0 auto;text-align:center;padding:25px 0 40px}
+@media(max-width:900px){
+.hero6{grid-template-columns:1fr;min-height:auto;text-align:center;padding:32px 22px}
+.badge6{max-width:230px;margin:auto}.mission6{max-width:520px;margin:auto}
+.hero6:before{left:50%;transform:translateX(-50%)}.hero6:after{left:50%;transform:translateX(-50%)}
+}
+@media(max-width:600px){
+main{width:96%;padding-top:14px}.card{padding:22px 18px;margin:18px 0}
+.color-table{display:block;overflow-x:auto;font-size:.9rem}.color-table th,.color-table td{min-width:150px}
+.survey6 button,.quiz6 button{width:100%;margin:5px 0}
+.center6 h1{font-size:42px}.subtitle{letter-spacing:2px!important}
+.flow6{flex-direction:column}.arrow6{transform:rotate(90deg)}
+}
+</style>
+
+
+<style id="session7-layout">
+*{box-sizing:border-box}
+body{margin:0;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;line-height:1.72}
+main{width:min(1180px,94%);margin:0 auto;padding:28px 0 55px}
+.hero7{width:min(1400px,96%);margin:18px auto 8px;padding:44px 5%;min-height:390px;border-radius:24px;position:relative;overflow:hidden;background:radial-gradient(circle at 30% 50%,rgba(255,45,45,.22),transparent 34%),linear-gradient(110deg,#300000,#100000 52%,#220000);border:1px solid #ff3b3b;box-shadow:0 0 35px rgba(255,40,40,.25);display:grid;grid-template-columns:220px 1fr 300px;gap:34px;align-items:center}
+.hero7:before,.hero7:after{content:"";position:absolute;border:1px solid rgba(255,60,60,.28);border-radius:50%;pointer-events:none}
+.hero7:before{width:620px;height:620px;left:240px;top:-120px}.hero7:after{width:430px;height:430px;left:335px;top:-25px;border-style:dashed}
+.badge7{border:2px solid #ff3b3b;border-radius:34px;padding:26px 18px;text-align:center;letter-spacing:3px;font-size:18px;line-height:1.8;box-shadow:0 0 20px rgba(255,50,50,.3);position:relative;z-index:2}
+.badge7 strong{font-size:52px;display:block;letter-spacing:0}
+.center7{position:relative;z-index:2;text-align:center}.malware-icon7{font-size:76px;line-height:1;margin-bottom:10px}
+.center7 h1{font-size:clamp(42px,5.5vw,78px);line-height:.98;margin:0;font-weight:900;letter-spacing:1px}
+.center7 .line{width:130px;height:4px;margin:20px auto;background:#ff3b3b;border-radius:10px;box-shadow:0 0 16px #ff3b3b}
+.center7 .subtitle{font-size:19px;letter-spacing:5px;text-transform:uppercase}
+.mission7{position:relative;z-index:2;border:2px solid #ff3b3b;border-radius:24px;padding:25px 22px;text-align:center;background:rgba(0,0,0,.28)}
+.mission7 h3{color:#ff5555;margin:0 0 16px;font-size:22px}.mission7 p{margin:0;text-align:center}
+.card{width:100%;margin:24px 0;padding:28px 32px;border-radius:18px;overflow:hidden}
+.card h2{margin:0 0 18px;line-height:1.25}.card h3{margin:22px 0 10px}.card p{max-width:1050px;margin:0 auto 18px;text-align:left}
+.color-table{width:100%;border-collapse:separate;border-spacing:0;margin:20px 0;table-layout:fixed;border-radius:12px;overflow:hidden}
+.color-table th,.color-table td{padding:14px 16px;vertical-align:top;text-align:left;overflow-wrap:anywhere}
+.flow7{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin:20px 0}
+.node7{padding:16px 18px;min-width:145px;text-align:center;border:1px solid #ff5555;border-radius:14px;background:linear-gradient(135deg,#2a0808,#450f0f)}
+.arrow7{font-size:25px;color:#ff6666}
+.activity7{padding:20px;border:1px dashed #ff5555;border-radius:16px;background:rgba(255,50,50,.06)}
+.survey7{text-align:center}.survey7 button,.quiz7 button{margin:6px;padding:11px 17px;border-radius:10px;border:1px solid rgba(255,255,255,.25);cursor:pointer;background:#1a1a25;color:#fff}
+.bar7{margin:10px 0;padding:10px;border-radius:10px;background:rgba(255,255,255,.06);text-align:left}
+.fill7{height:10px;margin-top:7px;border-radius:10px;background:linear-gradient(90deg,#ff3b3b,#ffcc33,#00ff99)}
+.highlight{padding:15px 18px;border-left:5px solid #ff4444;background:rgba(255,70,70,.08);border-radius:8px}
+.robot{padding:24px;border-radius:16px}
+footer{width:min(1180px,94%);margin:0 auto;text-align:center;padding:25px 0 40px}
+@media(max-width:900px){.hero7{grid-template-columns:1fr;min-height:auto;text-align:center;padding:32px 22px}.badge7{max-width:230px;margin:auto}.mission7{max-width:520px;margin:auto}.hero7:before{left:50%;transform:translateX(-50%)}.hero7:after{left:50%;transform:translateX(-50%)}}
+@media(max-width:600px){main{width:96%;padding-top:14px}.card{padding:22px 18px;margin:18px 0}.color-table{display:block;overflow-x:auto;font-size:.9rem}.color-table th,.color-table td{min-width:150px}.survey7 button,.quiz7 button{width:100%;margin:5px 0}.center7 h1{font-size:42px}.subtitle{letter-spacing:2px!important}.flow7{flex-direction:column}.arrow7{transform:rotate(90deg)}}
+</style>
+
+</head>
+
+
+<body>
+<header class="hero7">
+  <div class="badge7">🛡️<br>CYBER QUEST<br>SESSION<strong>7</strong></div>
+  <div class="center7">
+    <div class="malware-icon7">🦠</div>
+    <h1>MALWARE<br>SECURITY</h1>
+    <div class="line"></div>
+    <div class="subtitle">Protecting the Device From Within</div>
+  </div>
+  <div class="mission7">
+    <h3>MISSION 07</h3>
+    <p>“The network is protected…<br><br><strong>but what if something malicious is already inside the device?</strong>”</p>
+  </div>
+</header>
+
+<main>
+<section class="card">
+<h2>🧭 Mission Connection — From Web Security to Endpoint Security</h2>
+<p>In Session 6, we protected the web application's front door. We learned about authentication, authorization, sessions, injection, XSS, CSRF, HTTPS, and secure development. But imagine a student opens a malicious attachment or installs an unsafe application. The website may be secure, the firewall may be working, and the login system may be strong—yet malicious software can still execute on the endpoint. The security problem has moved from the application boundary to the device itself.</p>
+<p>An endpoint is a device such as a laptop, desktop, mobile device, or server. Endpoints are where users read email, open documents, run applications, store credentials, and access organizational resources. Because endpoints perform useful work, attackers may try to make them run unwanted code. Malware is a broad term for malicious software designed to perform unauthorized, harmful, deceptive, disruptive, or abusive actions.</p>
+<p>Today we will follow a fictional university laptop called “Campus-17.” We will learn the difference between viruses, worms, trojans, ransomware, spyware, keyloggers, and botnet malware. We will study how malware reaches a device, how defenders detect suspicious behavior, why endpoint protection matters, how isolation works, and how incident responders investigate safely. The goal is defensive understanding—not running or creating malware.</p>
+</section>
+
+<section class="card">
+<h2>🎯 Learning Outcomes</h2>
+<table class="color-table">
+<tr><th>Skill</th><th>Students should be able to</th></tr>
+<tr><td>🦠 Explain</td><td>Define malware and distinguish major malware categories.</td></tr>
+<tr><td>🚪 Analyze</td><td>Explain common infection paths such as malicious attachments, downloads, and compromised software.</td></tr>
+<tr><td>🔍 Detect</td><td>Identify conceptual indicators of suspicious endpoint behavior.</td></tr>
+<tr><td>🛡️ Defend</td><td>Explain endpoint protection, application control, least privilege, patching, backups, and isolation.</td></tr>
+<tr><td>🚨 Respond</td><td>Describe a safe high-level malware incident-response workflow.</td></tr>
+<tr><td>🔬 Research</td><td>Design a safe, authorized experiment for endpoint anomaly detection.</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🦠 Topic 1 — What Is Malware?</h2>
+<h3>📖 Story: The Uninvited Guest</h3>
+<p>Imagine your home has a front door, windows, locks, and alarms. One afternoon a person arrives carrying a box and says, “This is a gift for you.” You bring the box inside without checking it. Later you discover that the box contains a device that secretly watches your home and communicates with someone outside. The problem was not that your door failed to exist. The problem was that something untrusted was allowed to operate inside.</p>
+<p>Malware creates a similar problem on a computer. It is software that performs malicious or unauthorized behavior. Malware can steal information, disrupt operations, spy on activity, encrypt files for extortion, recruit the device into a botnet, or provide unauthorized remote control. Some malware is noisy and immediately breaks things; other malware tries to remain hidden for a long time.</p>
+<p>The word malware covers many categories rather than one specific program. A virus, worm, trojan, ransomware sample, spyware component, and botnet agent may behave differently and spread differently. Students should therefore avoid the common mistake of calling every malicious program a “virus.” Virus is one category within the larger malware family.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Malware can be classified by behavior, propagation mechanism, payload, persistence method, or target. A malicious program may create files, modify configuration, establish persistence, communicate with command-and-control infrastructure, access sensitive data, or attempt privilege escalation. Modern threats can combine multiple behaviors, so classification is often approximate.</p>
+<p>Malware can be <strong>file-based</strong>, where executable or script files are involved, or it can use techniques that reduce reliance on conventional files. Some malicious activity abuses legitimate operating-system tools, which makes detection more difficult because the tool itself may be normal. This is why modern endpoint security examines behavior and context rather than only looking for known filenames.</p>
+<p>For defensive work, the important questions are: What process started? Who started it? What did it access? What network destinations did it contact? Did it create persistence? Did it attempt unusual privilege changes? These questions form the beginning of endpoint investigation.</p>
+</section>
+
+<section class="card">
+<h2>🐛 Topic 2 — Virus vs Worm vs Trojan</h2>
+<h3>📖 Story: Three Different Intruders</h3>
+<p>Imagine three intruders entering a university. The first one attaches itself to documents that students already share and travels when those documents are copied. The second one can move from one vulnerable computer to another without needing a student to manually carry it. The third one disguises itself as a useful application and convinces a student to install it. All three are unwanted, but their methods of reaching new victims are different.</p>
+<p>A <strong>virus</strong> traditionally refers to malicious code that attaches to a host file or other object and executes when the host is executed, often relying on some user or system action to spread. A <strong>worm</strong> is designed to propagate between systems, often by exploiting vulnerabilities or network-accessible services. A <strong>trojan</strong> disguises malicious functionality as something legitimate or useful and generally relies on the victim being tricked into executing or installing it.</p>
+<p>These distinctions help defenders reason about prevention. If a threat depends on vulnerable network services, patching and network exposure reduction become important. If it depends on deceptive software installation, application control and user awareness matter. If it hides inside shared files, attachment controls and content scanning become important.</p>
+<h3>📊 Comparison</h3>
+<table class="color-table">
+<tr><th>Type</th><th>ELI10 Story</th><th>Typical Propagation Idea</th><th>Defensive Focus</th></tr>
+<tr><td>🦠 Virus</td><td>Hides inside a shared object</td><td>Host-dependent spread</td><td>File/application controls</td></tr>
+<tr><td>🐛 Worm</td><td>Moves from house to house itself</td><td>Network/system propagation</td><td>Patching, segmentation, monitoring</td></tr>
+<tr><td>🎭 Trojan</td><td>Fake gift or fake application</td><td>User tricked into execution</td><td>Application control, awareness</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🎭 Topic 3 — How Malware Gets Inside</h2>
+<h3>📖 Story: The Five Doors</h3>
+<p>Campus-17 has five doors through which trouble might arrive. A student receives a convincing attachment. Another downloads an unofficial application. A browser visits a compromised site. A vulnerable service is reachable from the network. A user connects an unsafe removable device. Each door represents a different infection path. The defender's job is to reduce unnecessary doors and make the remaining doors harder to abuse.</p>
+<p>Social engineering is especially powerful because humans are part of the system. A message may create urgency, fear, curiosity, or authority pressure. “Your account will be closed today” can make someone click before thinking. Technical controls can reduce the consequences, but security awareness remains valuable because users often interact with files, links, and applications every day.</p>
+<p>Another important lesson is that software supply chains matter. A legitimate-looking application or dependency can become a security risk if its source is compromised or its update process is abused. Endpoint security therefore connects with application security, patch management, software inventory, and organizational governance.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Common infection paths include malicious documents, executable downloads, browser exploitation, vulnerable services, stolen credentials, drive-by downloads, compromised installers, and removable media. Defenders use layered controls: email filtering, sandboxing, application allowlisting, patch management, least privilege, endpoint detection, network monitoring, and backups.</p>
+<p>Attack surface reduction is fundamental. If an unnecessary service is disabled, an attacker loses one potential path. If standard users do not have administrative privileges, some malicious actions become harder. If macros or scripts are restricted where not required, certain attachment-based threats become less effective.</p>
+<p>Security teams should also maintain software and asset inventories. You cannot reliably protect an application or endpoint that the organization does not know exists.</p>
+</section>
+
+<section class="card">
+<h2>🔐 Topic 4 — Ransomware</h2>
+<h3>📖 Story: The Locked Library</h3>
+<p>Imagine a university library where someone secretly locks every important book cabinet and then demands money for the key. Classes cannot continue because students and staff cannot access required material. This is the basic story behind ransomware. Ransomware is malware that commonly aims to make data or systems unavailable, often by encrypting data and demanding payment, although modern campaigns may use additional extortion techniques.</p>
+<p>The frightening part is that ransomware is not only a “computer problem.” If the compromised account has access to shared drives, cloud resources, backups, or administrative systems, the impact can spread. This is why least privilege, segmentation, strong authentication, endpoint protection, and tested backups matter. A single compromised endpoint should not automatically provide access to everything.</p>
+<p>Backups are particularly important, but a backup is useful only if it is protected and can actually be restored. Organizations should test restoration procedures and consider how an attacker might attempt to reach backup systems. Recovery is an engineering capability, not simply a file-copying exercise.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Ransomware defenses include reducing initial access opportunities, limiting privilege, segmenting critical systems, monitoring unusual file activity, protecting administrative accounts, maintaining offline or otherwise appropriately protected backups, and practicing incident response. Security teams may watch for sudden changes in file-access patterns, suspicious process behavior, and unusual authentication activity.</p>
+<p>Organizations should avoid assuming that paying a ransom guarantees recovery. From an engineering perspective, resilience comes from prevention, detection, containment, recovery, and continuity planning. Incident response procedures should be established before an emergency occurs.</p>
+<p>Students can safely study ransomware by modeling file-access patterns with dummy data rather than using real malicious software. This teaches detection concepts without creating a dangerous environment.</p>
+</section>
+
+<section class="card">
+<h2>🕵️ Topic 5 — Spyware and Keyloggers</h2>
+<h3>📖 Story: The Secret Notebook</h3>
+<p>Imagine someone secretly follows a student and writes down every important thing the student types into a notebook. The student may not notice because nothing visibly breaks. The attacker is interested in information rather than destruction. This is the basic idea behind spyware: malicious software that secretly observes or collects information.</p>
+<p>A keylogger is a type of monitoring mechanism that records keystrokes. In a malicious context, it can attempt to capture usernames, passwords, messages, or other sensitive information. Spyware can also target browser information, screenshots, files, or other data depending on its capabilities. The danger is that a device can appear normal while sensitive information is being collected.</p>
+<p>This is why endpoint security must examine behavior, not only whether the computer is visibly damaged. A process that suddenly accesses unusual sensitive locations, records input, communicates with unexpected destinations, or establishes persistence deserves investigation. However, a single unusual event is not automatically proof of malware; context matters.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Defenders may examine process trees, executable locations, file activity, registry or configuration changes, persistence mechanisms, network connections, and endpoint telemetry. Endpoint Detection and Response (EDR) platforms can correlate these events and provide investigation timelines.</p>
+<p>Preventive controls include application control, least privilege, software restriction, patching, secure browser configuration, MFA, and limiting unnecessary administrative access. MFA is particularly valuable because stolen passwords alone may not be sufficient to authenticate.</p>
+<p>Students should understand that malware can target both confidentiality and integrity. Spyware primarily threatens confidentiality, while destructive malware may threaten availability and integrity. One malicious program can threaten several properties at once.</p>
+</section>
+
+<section class="card">
+<h2>🤖 Topic 6 — Botnets and Command-and-Control</h2>
+<h3>📖 Story: The Remote-Controlled Robots</h3>
+<p>Imagine thousands of toy robots secretly connected to a controller. Each robot sits in a different house, but the controller can send instructions to many of them. A compromised computer in a botnet can behave similarly. The device may become one member of a larger collection of compromised systems controlled by an attacker.</p>
+<p>Botnet malware may be used for activities such as distributed denial-of-service attacks, spam, credential theft, or other malicious operations. The important concept for students is command and control: compromised endpoints may communicate with infrastructure controlled by an attacker to receive instructions or send information.</p>
+<p>Defenders can sometimes detect this behavior by looking for unusual periodic network connections, suspicious destinations, unexpected protocols, or communication patterns inconsistent with the device's normal role. Again, detection is about evidence and baselines, not simply declaring that every periodic connection is malicious.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Command-and-control architectures can vary considerably. Some use centralized servers; others may use distributed mechanisms. Attackers may attempt to blend malicious communication into normal web or DNS traffic. Network telemetry and endpoint process information are therefore valuable together.</p>
+<p>A useful investigation question is: <strong>Which process created the network connection?</strong> If a known browser creates a normal HTTPS connection, that is different from an unknown executable making repeated connections to a suspicious destination. Process-to-network correlation can dramatically improve detection quality.</p>
+<p>Containment may involve isolating the endpoint, blocking malicious destinations, disabling compromised credentials, and collecting evidence according to organizational procedures. Isolation should be deliberate because shutting down a device can sometimes destroy volatile evidence.</p>
+</section>
+
+<section class="card">
+<h2>🛡️ Topic 7 — Endpoint Protection</h2>
+<h3>📖 Story: The Security Team Inside the House</h3>
+<p>Imagine every home in a city has its own small security team. The team checks doors, watches unusual activity, blocks suspicious visitors, and reports incidents to the city control room. Endpoint security works in a similar way. Protection happens directly on laptops, desktops, servers, and other devices instead of relying only on network perimeter controls.</p>
+<p>Traditional antivirus systems often relied heavily on known signatures. Modern endpoint security can combine signatures with behavioral analysis, reputation information, process monitoring, exploit protection, application controls, and other telemetry. The exact capabilities vary by product and deployment, but the central idea is that defenders need visibility into what is happening on the endpoint.</p>
+<p>Endpoint protection is not a substitute for secure design. A well-protected endpoint can still be compromised if a critical vulnerability remains unpatched or if a user gives away credentials. Security works best when endpoint controls, identity protection, network security, application security, and organizational processes reinforce each other.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Endpoint Detection and Response (EDR) systems commonly collect telemetry about processes, files, registry/configuration activity, network connections, and other events. Analysts can use this information to reconstruct a timeline. Endpoint prevention controls may block known malicious files or suspicious behavior before execution or during runtime.</p>
+<p>Important baseline controls include timely patching, standard-user privileges, disk encryption where appropriate, secure configuration, application allowlisting or control, endpoint monitoring, device inventory, and tested recovery procedures. Security teams should also define how alerts are triaged and how incidents are escalated.</p>
+<p>One engineering challenge is balancing detection sensitivity and false positives. A system that alerts on everything becomes noisy; a system that alerts on almost nothing misses attacks. This creates opportunities for measurement and research.</p>
+</section>
+
+<section class="card">
+<h2>🚨 Topic 8 — Malware Incident Response</h2>
+<h3>📖 Story: The Campus-17 Emergency</h3>
+<p>One morning, the security dashboard reports that Campus-17 has launched an unknown process and contacted an unusual destination. The student says the laptop became slow after opening an attachment. The response team must not panic. They need to preserve evidence, understand what happened, contain the affected device, remove the threat, recover safely, and learn how to prevent recurrence.</p>
+<p>A simplified incident-response story is: <strong>prepare → identify → contain → eradicate → recover → learn</strong>. Preparation means having tools, contacts, backups, policies, and procedures ready. Identification means determining whether the event is actually malicious. Containment limits further damage. Eradication removes the malicious cause. Recovery returns the system to a trusted state. Lessons learned improve future defenses.</p>
+<p>Students should understand that “delete the suspicious file” is not a complete incident response. Malware may establish persistence, steal credentials, modify settings, or affect other systems. Defenders need to determine scope. They also need to follow organizational evidence-handling procedures rather than experimenting directly on a production system.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>High-level triage questions include: Which endpoint is affected? Which user was logged in? What process appeared? When did it begin? What files or configurations changed? What network destinations were contacted? Are other endpoints showing similar behavior? Were credentials exposed? Is there evidence of lateral movement?</p>
+<p>Containment may include network isolation, account suspension or credential reset, blocking malicious destinations, and restricting affected services. The correct action depends on business impact and incident-response policy. Some environments may prioritize forensic preservation before aggressive shutdown.</p>
+<p>Recovery should restore from a trusted state and validate that the root cause has been addressed. Post-incident analysis should ask why the initial control failed and which additional control could reduce recurrence.</p>
+</section>
+
+<section class="card">
+<h2>🔬 Topic 9 — Safe Malware Analysis Thinking</h2>
+<h3>📖 Story: The Scientist and the Dangerous Box</h3>
+<p>Imagine a scientist receives a mysterious box. The scientist does not open it on the university's main campus and hope for the best. The box is moved into a controlled laboratory with safety barriers. Malware analysis follows the same philosophy. Potentially malicious software should never be casually executed on a normal personal or institutional computer.</p>
+<p>Students can learn malware-analysis concepts without running malware. They can analyze fictional process trees, synthetic logs, hashes, network-flow records, and screenshots. They can compare indicators and build detection logic. If practical malware analysis is ever required in an advanced course, it should use an authorized isolated laboratory designed for that purpose.</p>
+<p>The key lesson is safety. Curiosity is valuable in cybersecurity, but curiosity without containment can create real harm. A good security researcher understands the boundary between a controlled experiment and an unsafe action.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Static analysis can examine artifacts without executing them. Dynamic analysis observes behavior in a controlled environment. Indicators can include file hashes, filenames, process relationships, network destinations, persistence locations, and behavioral patterns. A single indicator can change over time or be shared by legitimate software, so analysts should correlate multiple signals.</p>
+<p>Students should also learn the idea of <strong>Indicators of Compromise (IoCs)</strong> and <strong>Indicators of Attack (IoAs)</strong>. An IoC can be an artifact associated with compromise, while an IoA focuses more on suspicious behavior. Modern detection increasingly values behavior because static indicators can become outdated or be changed by attackers.</p>
+</section>
+
+<section class="card">
+<h2>🎨 Malware Family Comparison</h2>
+<table class="color-table">
+<tr><th>Malware</th><th>Simple Story</th><th>Main Goal/Behavior</th><th>Important Defense</th></tr>
+<tr><td>🦠 Virus</td><td>Hides inside another object</td><td>Host-dependent malicious execution/spread</td><td>Application and file controls</td></tr>
+<tr><td>🐛 Worm</td><td>Travels between houses</td><td>Self-propagation</td><td>Patching, segmentation</td></tr>
+<tr><td>🎭 Trojan</td><td>Fake gift</td><td>Tricks user into execution</td><td>Application control, awareness</td></tr>
+<tr><td>🔒 Ransomware</td><td>Locks the library</td><td>Denies access/extortion</td><td>Backups, segmentation, EDR</td></tr>
+<tr><td>🕵️ Spyware</td><td>Secret observer</td><td>Information collection</td><td>Endpoint monitoring, least privilege</td></tr>
+<tr><td>⌨️ Keylogger</td><td>Secret notebook</td><td>Captures keystrokes</td><td>Endpoint controls, MFA</td></tr>
+<tr><td>🤖 Botnet malware</td><td>Remote-controlled robot</td><td>Remote control/coordination</td><td>Network + endpoint detection</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🧬 Malware Defense Chain</h2>
+<div class="flow7">
+<div class="node7">📧 Prevent Entry</div><div class="arrow7">→</div>
+<div class="node7">🛡️ Endpoint Protection</div><div class="arrow7">→</div>
+<div class="node7">🔍 Detect Behavior</div><div class="arrow7">→</div>
+<div class="node7">🚨 Alert</div><div class="arrow7">→</div>
+<div class="node7">🔒 Isolate</div><div class="arrow7">→</div>
+<div class="node7">🧹 Eradicate</div><div class="arrow7">→</div>
+<div class="node7">♻️ Recover</div>
+</div>
+<p class="highlight"><strong>Security question:</strong> If malware enters despite prevention, how quickly can we detect it, contain it, recover the system, and prevent recurrence?</p>
+</section>
+
+<section class="card">
+<h2>⏱️ REAL-TIME CLASSROOM SURVEY — “Which Defense Comes First?”</h2>
+<p>Ask students to vote before revealing your discussion. The page calculates percentages live. After voting, ask whether the class should prioritize prevention, detection, containment, or recovery.</p>
+<div class="survey7">
+<button onclick="vote7('prevention')">🚪 Prevention</button>
+<button onclick="vote7('detection')">🔍 Detection</button>
+<button onclick="vote7('containment')">🔒 Containment</button>
+<button onclick="vote7('recovery')">♻️ Recovery</button>
+<button onclick="vote7('awareness')">🧠 Awareness</button>
+</div>
+<div id="results7"></div>
+<p id="total7" class="highlight">Live votes: 0</p>
+</section>
+
+<section class="card">
+<h2>📈 REAL-TIME ENDPOINT DETECTIVE</h2>
+<table class="color-table">
+<tr><th>Endpoint Event</th><th>Initial Interpretation</th><th>Next Question</th></tr>
+<tr><td>New unknown process starts after attachment opened</td><td>🟠 Suspicious</td><td>What process launched it?</td></tr>
+<tr><td>Process contacts an unusual external destination</td><td>🟠 Suspicious</td><td>Is the destination expected?</td></tr>
+<tr><td>Thousands of files change quickly</td><td>🔴 High concern</td><td>Is there evidence of mass file modification?</td></tr>
+<tr><td>Scheduled software updater runs</td><td>🟢 Possibly normal</td><td>Is the updater authorized and expected?</td></tr>
+<tr><td>Repeated authentication failures</td><td>🟠 Needs context</td><td>Could credentials be under attack?</td></tr>
+</table>
+<p>The class should practice a crucial SOC skill: <strong>event → hypothesis → evidence → decision</strong>. Do not treat a single event as proof of malware. Investigate context, timeline, user activity, process relationships, and network behavior.</p>
+</section>
+
+<section class="card">
+<h2>🧪 Safe Hands-On Activity — Synthetic Malware Investigation</h2>
+<div class="activity7">
+<p><strong>Dataset:</strong> Use only the fictional events below. Do not execute real malware.</p>
+<p><strong>09:10</strong> — Student opens an unexpected attachment.</p>
+<p><strong>09:11</strong> — A previously unseen process starts from a temporary directory.</p>
+<p><strong>09:12</strong> — The process creates several configuration changes.</p>
+<p><strong>09:13</strong> — The process creates repeated outbound connections.</p>
+<p><strong>09:15</strong> — Endpoint protection generates an alert.</p>
+<p><strong>Student task:</strong> Build a timeline. Identify the strongest three indicators. Decide whether to investigate, isolate, or ignore. Explain what additional evidence you would request before making the final decision.</p>
+</div>
+</section>
+
+<section class="card">
+<h2>🧩 Case Study — Campus-17</h2>
+<p>Campus-17 belongs to a student who reports that the laptop became unusually slow after opening an email attachment. The endpoint dashboard shows an unknown process, several new files, and repeated outbound connections. The firewall records the connections, while the endpoint system reports a suspicious process tree. What should the security team do first?</p>
+<p>Students should not immediately delete everything. First, establish the scope and preserve relevant evidence according to the institution's incident-response procedure. The team should determine whether the attachment is related to the suspicious process, identify the process lineage, examine network destinations, and check whether similar events exist on other endpoints.</p>
+<p>If the evidence indicates compromise, the team can apply an appropriate containment action, such as isolating the endpoint from the network. Then investigators can determine whether credentials may have been exposed, remove the malicious cause, restore the device to a trusted state, and monitor for recurrence. The exact actions depend on organizational policy and the severity of the incident.</p>
+</section>
+
+<section class="card">
+<h2>🔬 Research Connection — Endpoint Security as a Student Research Area</h2>
+<p>Malware and endpoint security provide excellent research opportunities because endpoint events can be converted into measurable features. Students can study process counts, unusual parent-child relationships, outbound connection frequency, file-change rates, authentication failures, or other authorized telemetry. The research question can be framed around detection accuracy, response time, or false-positive reduction.</p>
+<p>A beginner project could compare a simple threshold detector with a basic machine-learning classifier using a synthetic dataset. For example, normal endpoints might have a baseline of application launches and network connections, while synthetic suspicious cases contain unusual combinations. Students can calculate precision, recall, F1-score, and false-positive rate.</p>
+<p>Another project can examine recovery resilience. Students can model how segmentation, backups, and least privilege change the number of systems affected by a fictional ransomware incident. The experiment can remain completely simulated while still teaching variables, hypotheses, metrics, and reproducibility.</p>
+<table class="color-table">
+<tr><th>Research Idea</th><th>Input Feature</th><th>Possible Metric</th></tr>
+<tr><td>Endpoint anomaly detection</td><td>Process/network behavior</td><td>Precision, recall, F1</td></tr>
+<tr><td>Ransomware early warning</td><td>File-change rate</td><td>Detection time</td></tr>
+<tr><td>Botnet detection</td><td>Periodic outbound connections</td><td>False-positive rate</td></tr>
+<tr><td>Incident response</td><td>Containment strategy</td><td>Response time</td></tr>
+<tr><td>Resilience study</td><td>Segmentation + backups</td><td>Systems affected/recovered</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🧠 ELI10 Summary — The Device Castle</h2>
+<p>Think of a computer as a house inside a city. Session 5 protected the roads around the city. Session 6 protected the web application's front door. Session 7 protects the house itself. Malware is an unwanted visitor or program that tries to perform actions the owner did not authorize. Different malware families behave differently, so defenders need to understand both how they arrive and what they do.</p>
+<p>The strongest endpoint defense is layered. Keep software updated. Reduce unnecessary privileges. Control applications. Protect credentials. Monitor behavior. Use endpoint detection. Segment important systems. Maintain protected backups. Train users to recognize suspicious messages. And have an incident-response process ready before an incident occurs.</p>
+<p>Most importantly, cybersecurity is not about creating a perfect computer that can never be attacked. It is about designing systems that make attacks harder, detect abnormal behavior sooner, limit damage, recover reliably, and learn from every incident. That is the mindset of a security engineer.</p>
+</section>
+
+<section class="card">
+<h2>📝 Interactive Quiz</h2>
+<div class="quiz7">
+<p><strong>1.</strong> Which term describes the broad family of malicious software?</p>
+<button onclick="answer7(this,true)">Malware</button>
+<button onclick="answer7(this,false)">Firewall</button>
+
+<p><strong>2.</strong> Which malware category is known for self-propagation between systems?</p>
+<button onclick="answer7(this,true)">Worm</button>
+<button onclick="answer7(this,false)">Trojan</button>
+
+<p><strong>3.</strong> What is a major ransomware concern?</p>
+<button onclick="answer7(this,true)">Loss of access to data/systems and extortion</button>
+<button onclick="answer7(this,false)">Improved network performance</button>
+
+<p><strong>4.</strong> What does EDR primarily provide?</p>
+<button onclick="answer7(this,true)">Endpoint telemetry, detection, investigation and response capabilities</button>
+<button onclick="answer7(this,false)">A replacement for every firewall</button>
+
+<p><strong>5.</strong> What is a sensible response to suspected endpoint compromise?</p>
+<button onclick="answer7(this,true)">Follow incident-response procedures and investigate safely</button>
+<button onclick="answer7(this,false)">Randomly execute more suspicious files</button>
+
+<p id="score7" class="highlight">Score: 0</p>
+</div>
+</section>
+
+<section class="card">
+<h2>🏆 Mission Challenge</h2>
+<p><strong>Scenario:</strong> A student opens a suspicious attachment. Five minutes later, an unknown process appears, creates many files, and begins repeated outbound connections. Endpoint protection raises an alert.</p>
+<p>As a junior security analyst, write your first six investigation questions. Then select one prevention control, one detection control, and one containment control. Finally, explain why backups and least privilege could reduce the impact even if the malware succeeds.</p>
+<p class="highlight"><strong>Mission completed when you can explain: “How did the malware potentially enter? What evidence indicates compromise? How do we contain it safely? How do we recover? What architectural change reduces the chance of the same incident happening again?”</strong></p>
+</section>
+
+<section class="card">
+<h2>🧠 Technical Mastery Checklist</h2>
+<table class="color-table">
+<tr><th>Concept</th><th>Self-check</th></tr>
+<tr><td>Malware definition</td><td>☐</td></tr>
+<tr><td>Virus vs worm vs trojan</td><td>☐</td></tr>
+<tr><td>Malware infection paths</td><td>☐</td></tr>
+<tr><td>Ransomware</td><td>☐</td></tr>
+<tr><td>Spyware and keyloggers</td><td>☐</td></tr>
+<tr><td>Botnets and command-and-control</td><td>☐</td></tr>
+<tr><td>Endpoint protection / EDR</td><td>☐</td></tr>
+<tr><td>Incident response</td><td>☐</td></tr>
+<tr><td>IoCs and behavioral indicators</td><td>☐</td></tr>
+<tr><td>Safe malware-analysis principles</td><td>☐</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🚀 NEXT MISSION — SESSION 8</h2>
+<div class="robot">
+<h2>🎣 Social Engineering & Phishing</h2>
+<p>The malware may have entered through a human decision. Next we investigate the psychology and deception techniques attackers use to make people open the wrong door.</p>
+<ul>
+<li>🎣 What is phishing?</li>
+<li>🧠 Social engineering psychology</li>
+<li>📧 Email and message deception</li>
+<li>🎭 Impersonation and pretexting</li>
+<li>🔗 Malicious links and attachments</li>
+<li>🛡️ Human + technical defenses</li>
+</ul>
+<div class="highlight"><strong>Next Mission:</strong> “Can an attacker hack a human without hacking the computer first?”</div>
+</div>
+</section>
+
+<footer>
+<p>🛡️ CYBER QUEST — SESSION 7</p>
+<p>Malware • Viruses • Worms • Trojans • Ransomware • Spyware • Botnets • Endpoint Security • Incident Response</p>
+</footer>
+
+<script>
+const votes7={prevention:0,detection:0,containment:0,recovery:0,awareness:0};
+let score7=0;
+const labels7={prevention:"🚪 Prevention",detection:"🔍 Detection",containment:"🔒 Containment",recovery:"♻️ Recovery",awareness:"🧠 Awareness"};
+function vote7(k){
+  votes7[k]++;
+  const total=Object.values(votes7).reduce((a,b)=>a+b,0);
+  let html="";
+  for(const k2 in votes7){
+    const pct=total?Math.round(votes7[k2]*100/total):0;
+    html+=`<div class="bar7"><strong>${labels7[k2]}</strong> — ${votes7[k2]} vote(s) — ${pct}%<div class="fill7" style="width:${pct}%"></div></div>`;
+  }
+  document.getElementById("results7").innerHTML=html;
+  document.getElementById("total7").textContent="Live votes: "+total+" • Updated: "+new Date().toLocaleTimeString();
+}
+function answer7(btn,correct){
+  btn.style.outline=correct?"3px solid #00ff99":"3px solid #ff4444";
+  if(correct && !btn.dataset.done){score7++;btn.dataset.done="1";}
+  document.getElementById("score7").textContent="Score: "+score7;
+}
+</script>
+</main>
+</body>
+
+</html>

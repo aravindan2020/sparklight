@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang='en'>
+<!DOCTYPE html>
+<html lang='en'>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 6 — Web Security</title>
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:"Trebuchet MS",Arial,sans-serif;
+    line-height:1.7;
+    color:#f5f5f5;
+
+    background:
+        radial-gradient(circle at 10% 10%,rgba(239,68,68,.18),transparent 25%),
+        radial-gradient(circle at 90% 30%,rgba(220,38,38,.15),transparent 25%),
+        linear-gradient(135deg,#020202,#170303,#080808);
+
+    overflow-x:hidden;
+}
+
+/* =========================================================
+   ANIMATED BACKGROUND
+========================================================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-2;
+
+    background:
+        radial-gradient(circle at 30% 80%,rgba(255,30,0,.12),transparent 25%),
+        radial-gradient(circle at 70% 60%,rgba(255,80,0,.08),transparent 25%);
+}
+
+.particle{
+    position:fixed;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#ef4444;
+    box-shadow:
+        0 0 10px #ef4444,
+        0 0 25px #dc2626;
+    bottom:-20px;
+    opacity:.6;
+    animation:rise 10s infinite linear;
+    z-index:-1;
+}
+
+.p1{left:5%;animation-delay:1s;}
+.p2{left:15%;animation-delay:3s;}
+.p3{left:25%;animation-delay:5s;}
+.p4{left:35%;animation-delay:2s;}
+.p5{left:45%;animation-delay:7s;}
+.p6{left:55%;animation-delay:4s;}
+.p7{left:65%;animation-delay:6s;}
+.p8{left:75%;animation-delay:1s;}
+.p9{left:85%;animation-delay:8s;}
+.p10{left:95%;animation-delay:3s;}
+
+@keyframes rise{
+
+    0%{
+        transform:translateY(0) translateX(0);
+        opacity:0;
+    }
+
+    20%{
+        opacity:.8;
+    }
+
+    100%{
+        transform:translateY(-110vh) translateX(40px);
+        opacity:0;
+    }
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    min-height:550px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    position:relative;
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(70,0,0,.95),
+            rgba(20,0,0,.95),
+            rgba(50,5,5,.9)
+        );
+
+    border-bottom:3px solid #ef2b16;
+}
+
+.hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:700px;
+    height:700px;
+
+    border:2px solid rgba(239,68,68,.15);
+
+    border-radius:50%;
+
+    animation:rotate 20s linear infinite;
+}
+
+.hero::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+    height:450px;
+
+    border:2px dashed rgba(248,113,113,.18);
+
+    border-radius:50%;
+
+    animation:rotateReverse 14s linear infinite;
+}
+
+@keyframes rotate{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@keyframes rotateReverse{
+    from{transform:rotate(360deg);}
+    to{transform:rotate(0deg);}
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:1000px;
+    padding:30px;
+}
+
+.badge{
+
+    display:inline-block;
+
+    padding:10px 25px;
+
+    border:2px solid #ef4444;
+
+    border-radius:40px;
+
+    color:#ff9c8f;
+
+    background:rgba(239,68,68,.08);
+
+    box-shadow:0 0 25px rgba(239,68,68,.25);
+
+    letter-spacing:2px;
+
+    animation:glow 2s infinite;
+}
+
+@keyframes glow{
+
+    0%,100%{
+        box-shadow:0 0 10px rgba(239,68,68,.2);
+    }
+
+    50%{
+        box-shadow:0 0 35px rgba(239,68,68,.65);
+    }
+}
+
+.lock{
+
+    font-size:100px;
+
+    margin:20px;
+
+    filter:
+        drop-shadow(0 0 10px #ef4444)
+        drop-shadow(0 0 30px #dc2626);
+
+    animation:lockFloat 3s infinite ease-in-out;
+}
+
+@keyframes lockFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-15px) rotate(-3deg);
+    }
+}
+
+.hero h1{
+
+    font-size:58px;
+
+    margin:10px 0;
+
+    text-transform:uppercase;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #ffb4aa,
+            #ef4444,
+            #fff
+        );
+
+    background-size:300%;
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+    animation:titleMove 5s infinite;
+}
+
+@keyframes titleMove{
+
+    0%{background-position:0%;}
+    50%{background-position:100%;}
+    100%{background-position:0%;}
+
+}
+
+.hero p{
+
+    font-size:21px;
+
+    color:#ffc9c3;
+
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.container{
+
+    width:92%;
+    max-width:1250px;
+    margin:auto;
+
+}
+
+section{
+
+    margin:60px 0;
+
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card{
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30,8,8,.95),
+            rgba(12,12,12,.96)
+        );
+
+    border:1px solid rgba(239,68,68,.18);
+
+    border-radius:25px;
+
+    padding:32px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.5),
+        inset 0 1px rgba(255,255,255,.03);
+
+    transition:.4s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:rgba(239,68,68,.5);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.7),
+        0 0 30px rgba(239,68,68,.08);
+
+}
+
+h2{
+
+    color:#ff6b57;
+
+    font-size:34px;
+
+    text-shadow:
+        0 0 10px rgba(239,68,68,.25);
+
+}
+
+h3{
+
+    color:#ff9d91;
+
+}
+
+/* =========================================================
+   ROBOT / ELI10
+========================================================= */
+
+.robot{
+
+    position:relative;
+
+    padding:28px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(127,29,29,.25),
+            rgba(69,10,10,.2)
+        );
+
+    border-left:7px solid #ef4444;
+
+    font-size:19px;
+
+    overflow:hidden;
+
+}
+
+.robot::after{
+
+    content:"🤖";
+
+    position:absolute;
+
+    right:20px;
+
+    bottom:5px;
+
+    font-size:75px;
+
+    opacity:.10;
+
+    animation:robotMove 3s infinite ease-in-out;
+
+}
+
+@keyframes robotMove{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-12px);
+    }
+
+}
+
+/* =========================================================
+   HIGHLIGHT
+========================================================= */
+
+.highlight{
+
+    padding:20px;
+
+    margin:20px 0;
+
+    border-radius:15px;
+
+    background:rgba(245,158,11,.08);
+
+    border-left:6px solid #f59e0b;
+
+}
+
+/* =========================================================
+   SAFE
+========================================================= */
+
+.safe{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:rgba(34,197,94,.08);
+
+    border-left:6px solid #22c55e;
+
+}
+
+/* =========================================================
+   DANGER
+========================================================= */
+
+.danger{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:rgba(239,68,68,.10);
+
+    border-left:6px solid #ef4444;
+
+}
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+.table-wrapper{
+
+    overflow-x:auto;
+
+    border-radius:16px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:700px;
+
+    margin:20px 0;
+
+}
+
+th{
+
+    padding:16px;
+
+    text-align:left;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #991b1b,
+            #dc2626
+        );
+
+}
+
+td{
+
+    padding:15px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+tr{
+
+    transition:.3s;
+
+}
+
+tr:hover{
+
+    background:rgba(239,68,68,.08);
+
+}
+
+/* =========================================================
+   DIAGRAM
+========================================================= */
+
+.diagram{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin:35px 0;
+
+}
+
+.diagram-box{
+
+    min-width:170px;
+
+    padding:20px;
+
+    text-align:center;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #991b1b,
+            #450a0a
+        );
+
+    border:1px solid #ef4444;
+
+    box-shadow:
+        0 0 15px rgba(239,68,68,.15);
+
+    animation:diagramPulse 2s infinite;
+
+}
+
+.diagram-box:nth-child(1){animation-delay:.1s;}
+.diagram-box:nth-child(3){animation-delay:.4s;}
+.diagram-box:nth-child(5){animation-delay:.7s;}
+.diagram-box:nth-child(7){animation-delay:1s;}
+.diagram-box:nth-child(9){animation-delay:1.3s;}
+
+@keyframes diagramPulse{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.06);
+        box-shadow:0 0 25px rgba(239,68,68,.4);
+    }
+
+}
+
+.arrow{
+
+    font-size:32px;
+
+    color:#ff735f;
+
+    animation:arrowMove 1.5s infinite;
+
+}
+
+@keyframes arrowMove{
+
+    0%,100%{
+        transform:translateX(0);
+    }
+
+    50%{
+        transform:translateX(8px);
+    }
+
+}
+
+/* =========================================================
+   PASSWORD VISUAL
+========================================================= */
+
+.password-box{
+
+    padding:35px;
+
+    text-align:center;
+
+    border-radius:20px;
+
+    background:#050505;
+
+    border:1px solid #4b1111;
+
+}
+
+.password{
+
+    font-size:35px;
+
+    letter-spacing:8px;
+
+    color:#ff6250;
+
+    text-shadow:0 0 20px #ef4444;
+
+    animation:passwordGlow 2s infinite;
+
+}
+
+@keyframes passwordGlow{
+
+    0%,100%{
+        text-shadow:0 0 8px #ef4444;
+    }
+
+    50%{
+        text-shadow:
+            0 0 15px #ef4444,
+            0 0 35px #dc2626;
+    }
+
+}
+
+/* =========================================================
+   AUTHENTICATION FACTORS
+========================================================= */
+
+.factor-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(240px,1fr));
+
+    gap:22px;
+
+}
+
+.factor{
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:#100707;
+
+    border:1px solid #451414;
+
+    text-align:center;
+
+    transition:.4s;
+
+}
+
+.factor:hover{
+
+    transform:
+        translateY(-10px)
+        scale(1.02);
+
+    border-color:#ef4444;
+
+}
+
+.factor-icon{
+
+    font-size:60px;
+
+    animation:factorFloat 3s infinite;
+
+}
+
+@keyframes factorFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+}
+
+/* =========================================================
+   STEP CARDS
+========================================================= */
+
+.steps{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+
+    gap:18px;
+
+}
+
+.step{
+
+    position:relative;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    background:#100707;
+
+    border:1px solid #481313;
+
+    transition:.4s;
+
+}
+
+.step:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#ef4444;
+
+}
+
+.step-number{
+
+    width:45px;
+    height:45px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ef4444,
+            #7f1d1d
+        );
+
+    font-weight:bold;
+
+    margin-bottom:15px;
+
+}
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+.question{
+
+    margin:20px 0;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    background:#0e0808;
+
+    border:1px solid #461515;
+
+}
+
+.answer{
+
+    margin-top:15px;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    background:rgba(34,197,94,.08);
+
+    border-left:5px solid #22c55e;
+
+}
+
+/* =========================================================
+   EXERCISES
+========================================================= */
+
+.exercise{
+
+    padding:25px;
+
+    margin:20px 0;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(127,29,29,.20),
+            rgba(20,5,5,.9)
+        );
+
+    border:1px solid #551515;
+
+    transition:.4s;
+
+}
+
+.exercise:hover{
+
+    transform:translateX(8px);
+
+    border-color:#ef4444;
+
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    margin-top:80px;
+
+    padding:50px;
+
+    text-align:center;
+
+    background:#030303;
+
+    border-top:2px solid #4b1111;
+
+}
+
+footer strong{
+
+    color:#ff5945;
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+    .hero h1{
+        font-size:38px;
+    }
+
+    .lock{
+        font-size:70px;
+    }
+
+    .diagram{
+        flex-direction:column;
+    }
+
+    .arrow{
+        transform:rotate(90deg);
+    }
+
+}
+
+</style>
+<style>
+/* SESSION 4 ADDITIONS */
+.crypto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin:25px 0}
+.crypto-card{padding:25px;border-radius:20px;background:#100707;border:1px solid #451414;transition:.4s;text-align:center}
+.crypto-card:hover{transform:translateY(-10px) scale(1.02);border-color:#ef4444;box-shadow:0 20px 45px rgba(239,68,68,.12)}
+.crypto-icon{font-size:58px;margin-bottom:10px;display:block}
+.cipher-box{background:#050505;border:1px solid #4b1111;border-radius:18px;padding:25px;margin:20px 0}
+.cipher-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin:15px 0}
+.letter{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:#7f1d1d;border:1px solid #ef4444;font-weight:bold;font-size:20px}
+.btn{background:linear-gradient(135deg,#ef4444,#7f1d1d);border:0;color:#fff;padding:12px 20px;border-radius:10px;font-weight:bold;cursor:pointer;margin:6px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(239,68,68,.3)}
+.quiz-option{display:block;margin:10px 0;padding:13px;border:1px solid #461515;border-radius:12px;cursor:pointer;background:#0e0808}
+.quiz-option:hover{border-color:#ef4444;background:#1b0a0a}
+.answer-box{display:none;margin-top:15px;padding:15px;border-radius:12px;background:rgba(34,197,94,.08);border-left:5px solid #22c55e}
+.badge2{display:inline-block;padding:7px 14px;border-radius:30px;background:rgba(239,68,68,.12);border:1px solid #ef4444;color:#ff9d91;margin:4px}
+@media(max-width:700px){.letter{width:36px;height:36px}}
+
+/* =========================================================
+   DEEP TECHNICAL DETAIL
+========================================================= */
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:25px 0}
+.tech-card{padding:24px;border-radius:18px;background:linear-gradient(145deg,#160707,#090909);border:1px solid #5b1717}
+.tech-card h3{margin-top:0;color:#ff9d91}
+.formula{font-family:"Courier New",monospace;background:#030303;border:1px solid #531313;border-radius:14px;padding:18px;color:#a7f3d0;overflow-x:auto}
+.codebox{background:#020202;border:1px solid #3f1111;border-radius:14px;padding:20px;font-family:"Courier New",monospace;color:#d1fae5;overflow-x:auto}
+.term{display:inline-block;padding:4px 9px;border-radius:7px;background:rgba(239,68,68,.12);border:1px solid #6b1b1b;color:#ffb4aa;font-weight:bold}
+.note{background:rgba(59,130,246,.10);border-left:6px solid #60a5fa;padding:18px;border-radius:12px}
+.tech-warning{background:rgba(245,158,11,.10);border-left:6px solid #f59e0b;padding:18px;border-radius:12px}
+.layer{display:grid;grid-template-columns:80px 1fr;gap:15px;align-items:center;margin:12px 0}
+.layer-num{width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#7f1d1d;border:1px solid #ef4444;font-weight:bold}
+.small{font-size:.92em;color:#c4c4c4}
+</style>
+
+</style>
+
+<style>
+.bar{margin:12px 0;padding:10px;border-radius:10px;background:rgba(255,255,255,.06)}
+.barfill{height:10px;border-radius:10px;background:linear-gradient(90deg,#ff3b3b,#ffcc33,#00ff99);margin-top:7px;transition:width .5s}
+.survey button,.quiz button{margin:7px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.2);cursor:pointer;background:#1b1b2b;color:white}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:20px 0}
+.node{padding:15px;border-radius:14px;background:linear-gradient(135deg,#2a0b0b,#421515);border:1px solid #ff5555;box-shadow:0 0 15px rgba(255,70,70,.18)}
+.arrow{font-size:24px;color:#ff7777}
+.highlight{padding:15px;border-left:5px solid #ff4444;background:rgba(255,70,70,.08);border-radius:8px}
+</style>
+
+
+<style id="alignment-fix">
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;padding:0;min-height:100vh;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;line-height:1.7}
+main{width:min(1180px,94%);margin:0 auto;padding:28px 0 50px}
+.hero{width:min(1180px,94%);margin:28px auto 0;padding:38px 42px;border-radius:24px;text-align:center}
+.hero h1{margin:10px 0 8px;line-height:1.15}
+.hero p{max-width:900px;margin:12px auto}
+.card{width:100%;margin:24px 0;padding:28px 32px;border-radius:18px;overflow:hidden}
+.card h2{margin:0 0 18px;line-height:1.25;padding-bottom:10px}
+.card h3{margin:22px 0 10px;line-height:1.3}
+.card p{max-width:1050px;margin:0 auto 18px;text-align:left}
+.color-table{width:100%;border-collapse:separate;border-spacing:0;margin:20px 0;table-layout:fixed;overflow:hidden;border-radius:12px}
+.color-table th,.color-table td{padding:14px 16px;vertical-align:top;text-align:left;word-wrap:break-word;overflow-wrap:anywhere}
+.color-table th{font-weight:700}
+.flow{width:100%;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;padding:18px 8px}
+.node{min-width:135px;max-width:180px;text-align:center;padding:16px 12px;border-radius:14px;line-height:1.35}
+.highlight{width:100%;margin:18px 0;padding:16px 18px;line-height:1.6}
+.survey,.quiz{text-align:center}
+.survey button,.quiz button{display:inline-block;min-height:46px;margin:6px;padding:11px 18px;line-height:1.3}
+#surveyResults{width:100%;max-width:900px;margin:20px auto;text-align:left}
+.bar{width:100%;margin:12px 0;padding:11px 14px;border-radius:10px}
+.barfill{max-width:100%;margin-top:8px}
+.robot{width:100%;max-width:850px;margin:0 auto;padding:24px;text-align:left;border-radius:16px}
+.robot h2{text-align:center}
+.robot li{margin:8px 0}
+footer{width:min(1180px,94%);margin:0 auto;padding:25px 0 40px;text-align:center}
+footer p{margin:6px 0}
+@media (max-width:800px){
+main{width:96%;padding-top:15px}.hero{width:96%;padding:28px 20px;margin-top:15px}.card{padding:22px 18px;margin:18px 0}
+.color-table{font-size:.9rem;display:block;overflow-x:auto}.color-table th,.color-table td{min-width:150px}
+.flow{flex-direction:column}.arrow{transform:rotate(90deg)}.node{max-width:260px;width:80%}
+}
+@media (max-width:520px){
+.hero h1{font-size:1.8rem}.card h2{font-size:1.35rem}.card p{font-size:.96rem}
+.survey button,.quiz button{width:100%;margin:5px 0}
+}
+</style>
+
+
+<style id="session5-hero-image-fix">
+.hero{
+  width:min(1400px,96%) !important;
+  margin:18px auto 0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  overflow:hidden !important;
+}
+.hero .hero-image{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  object-fit:contain;
+  border-radius:24px;
+  margin:0 auto;
+}
+.hero .hero-accessible{
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  padding:0 !important;
+  margin:-1px !important;
+  overflow:hidden !important;
+  clip:rect(0,0,0,0) !important;
+  white-space:nowrap !important;
+  border:0 !important;
+}
+@media(max-width:700px){
+  .hero{width:98% !important}
+  .hero .hero-image{border-radius:14px}
+}
+</style>
+
+
+<style id="session6-layout">
+*{box-sizing:border-box}
+body{margin:0;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;line-height:1.72}
+main{width:min(1180px,94%);margin:0 auto;padding:28px 0 55px}
+.hero6{width:min(1400px,96%);margin:18px auto 8px;padding:46px 5%;min-height:390px;border-radius:24px;position:relative;overflow:hidden;background:radial-gradient(circle at 30% 50%,rgba(255,45,45,.22),transparent 34%),linear-gradient(110deg,#300000,#100000 52%,#220000);border:1px solid #ff3b3b;box-shadow:0 0 35px rgba(255,40,40,.25);display:grid;grid-template-columns:220px 1fr 300px;gap:34px;align-items:center}
+.hero6:before,.hero6:after{content:"";position:absolute;border:1px solid rgba(255,60,60,.28);border-radius:50%;pointer-events:none}
+.hero6:before{width:620px;height:620px;left:240px;top:-120px}
+.hero6:after{width:430px;height:430px;left:335px;top:-25px;border-style:dashed}
+.badge6{border:2px solid #ff3b3b;border-radius:34px;padding:26px 18px;text-align:center;letter-spacing:3px;font-size:18px;line-height:1.8;box-shadow:0 0 20px rgba(255,50,50,.3);position:relative;z-index:2}
+.badge6 strong{font-size:52px;display:block;letter-spacing:0}
+.center6{position:relative;z-index:2;text-align:center}
+.globe6{font-size:72px;line-height:1;margin-bottom:12px}
+.center6 h1{font-size:clamp(42px,5.5vw,78px);line-height:.98;margin:0;font-weight:900;letter-spacing:1px}
+.center6 .line{width:130px;height:4px;margin:20px auto;background:#ff3b3b;border-radius:10px;box-shadow:0 0 16px #ff3b3b}
+.center6 .subtitle{font-size:19px;letter-spacing:5px;text-transform:uppercase}
+.mission6{position:relative;z-index:2;border:2px solid #ff3b3b;border-radius:24px;padding:25px 22px;text-align:center;background:rgba(0,0,0,.28)}
+.mission6 h3{color:#ff5555;margin:0 0 16px;font-size:22px}
+.mission6 p{margin:0;text-align:center}
+.card{width:100%;margin:24px 0;padding:28px 32px;border-radius:18px;overflow:hidden}
+.card h2{margin:0 0 18px;line-height:1.25}
+.card h3{margin:22px 0 10px}
+.card p{max-width:1050px;margin:0 auto 18px;text-align:left}
+.color-table{width:100%;border-collapse:separate;border-spacing:0;margin:20px 0;table-layout:fixed;border-radius:12px;overflow:hidden}
+.color-table th,.color-table td{padding:14px 16px;vertical-align:top;text-align:left;overflow-wrap:anywhere}
+.flow6{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin:20px 0}
+.node6{padding:16px 18px;min-width:150px;text-align:center;border:1px solid #ff5555;border-radius:14px;background:linear-gradient(135deg,#2a0808,#450f0f)}
+.arrow6{font-size:25px;color:#ff6666}
+.activity6{padding:20px;border:1px dashed #ff5555;border-radius:16px;background:rgba(255,50,50,.06)}
+.survey6{text-align:center}
+.survey6 button,.quiz6 button{margin:6px;padding:11px 17px;border-radius:10px;border:1px solid rgba(255,255,255,.25);cursor:pointer;background:#1a1a25;color:#fff}
+.bar6{margin:10px 0;padding:10px;border-radius:10px;background:rgba(255,255,255,.06);text-align:left}
+.fill6{height:10px;margin-top:7px;border-radius:10px;background:linear-gradient(90deg,#ff3b3b,#ffcc33,#00ff99)}
+.highlight{padding:15px 18px;border-left:5px solid #ff4444;background:rgba(255,70,70,.08);border-radius:8px}
+.robot{padding:24px;border-radius:16px}
+footer{width:min(1180px,94%);margin:0 auto;text-align:center;padding:25px 0 40px}
+@media(max-width:900px){
+.hero6{grid-template-columns:1fr;min-height:auto;text-align:center;padding:32px 22px}
+.badge6{max-width:230px;margin:auto}.mission6{max-width:520px;margin:auto}
+.hero6:before{left:50%;transform:translateX(-50%)}.hero6:after{left:50%;transform:translateX(-50%)}
+}
+@media(max-width:600px){
+main{width:96%;padding-top:14px}.card{padding:22px 18px;margin:18px 0}
+.color-table{display:block;overflow-x:auto;font-size:.9rem}.color-table th,.color-table td{min-width:150px}
+.survey6 button,.quiz6 button{width:100%;margin:5px 0}
+.center6 h1{font-size:42px}.subtitle{letter-spacing:2px!important}
+.flow6{flex-direction:column}.arrow6{transform:rotate(90deg)}
+}
+</style>
+
+</head>
+
+<body>
+<header class="hero6">
+  <div class="badge6">🛡️<br>CYBER QUEST<br>SESSION<strong>6</strong></div>
+  <div class="center6">
+    <div class="globe6">🌐</div>
+    <h1>WEB<br>SECURITY</h1>
+    <div class="line"></div>
+    <div class="subtitle">Protecting the Digital Front Door</div>
+  </div>
+  <div class="mission6">
+    <h3>MISSION 06</h3>
+    <p>“The network road is protected…<br><br><strong>but what if the website itself has a weak door?</strong>”</p>
+  </div>
+</header>
+
+<main>
+<section class="card">
+<h2>🧭 Mission Connection — From Network Security to the Web</h2>
+<p>In Session 5, we followed information across a network. We learned that firewalls act like gatekeepers, IDS and IPS watch for suspicious behavior, and segmentation limits how far an attacker can move. Now imagine that the network is well protected, but a public website contains a programming mistake. A visitor can reach the website through the allowed front door, because the website is supposed to be available. The problem is that the application behind that door may trust user input too much.</p>
+<p>This is where web security begins. A web application is a conversation between a browser, a web server, application code, databases, APIs, identity systems, and often third-party services. Every part of that conversation creates assumptions. Web security asks whether those assumptions are safe. Does the application properly authenticate users? Does it authorize every sensitive action? Does it validate input? Does it protect sessions? Does it keep secrets out of source code? Does it prevent untrusted data from becoming executable code?</p>
+<p>Today we will learn web security through a story about a university portal. We will meet the ideas behind authentication and authorization, sessions and cookies, input validation, injection, cross-site scripting, CSRF, secure password handling, HTTPS, security headers, access control, API security, logging, and secure development. The objective is not to teach students how to attack real websites. It is to teach them how developers and defenders recognize weaknesses, design safer systems, and investigate authorized security findings.</p>
+</section>
+
+<section class="card">
+<h2>🎯 Learning Outcomes</h2>
+<table class="color-table">
+<tr><th>Skill</th><th>Students should be able to</th></tr>
+<tr><td>🌐 Understand</td><td>Explain how a browser, web server, application, database, and API interact.</td></tr>
+<tr><td>🔐 Authenticate</td><td>Distinguish authentication from authorization and explain session management.</td></tr>
+<tr><td>🧹 Validate</td><td>Explain why untrusted input must be validated and safely handled.</td></tr>
+<tr><td>⚠️ Recognize</td><td>Describe injection, XSS, CSRF, broken access control, and insecure configuration at a conceptual level.</td></tr>
+<tr><td>🛡️ Defend</td><td>Identify secure coding and deployment controls.</td></tr>
+<tr><td>🔬 Research</td><td>Turn a web-security observation into a measurable research question.</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🏫 Topic 1 — How a Web Application Works</h2>
+<h3>📖 Story: The University Help Desk</h3>
+<p>Imagine a student named Arun visiting a university portal to download his attendance report. He opens a browser and types the portal address. The browser is like a student standing at the reception desk. The web server is like the receptionist who receives the request. The application is like the staff member who understands what Arun wants, and the database is like the records room containing attendance information. Arun does not walk directly into the records room; his request travels through controlled layers.</p>
+<p>Suppose Arun clicks “My Attendance.” The browser sends an HTTP request to the server. The application receives the request, identifies Arun's session, checks whether he is allowed to view attendance, retrieves the required data, and sends a response back to the browser. A modern application may also call APIs, authentication services, caches, and cloud components. Security must therefore protect the complete chain rather than one screen.</p>
+<p>The most important beginner lesson is that the browser is not a trusted employee. A browser is controlled by the user, and a malicious user can modify requests before sending them. Therefore, security decisions must be enforced on the server side. Hiding a button in the browser is not authorization. The server must independently verify whether the user has permission to perform an action.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>A simplified web request contains a method such as GET or POST, a URL, headers, and possibly a body. The server returns a status code, headers, and a response body. HTTPS adds TLS protection to the HTTP communication. Application security sits above this transport layer and deals with identity, input, business rules, session state, data access, and output handling.</p>
+<p>A common architecture is <strong>browser → web server/reverse proxy → application → database</strong>. Security controls can exist at each layer. A reverse proxy may enforce TLS and rate limits. The application performs authentication and authorization. The database enforces appropriate permissions and safely handles queries. Logs from all layers can be correlated during investigation.</p>
+<p>Web security therefore follows a layered approach similar to network defense in Session 5. A firewall may control reachability, but application code must still enforce business authorization. TLS can protect traffic in transit, but it cannot fix a server-side authorization bug. Security controls must address the threat at the correct layer.</p>
+</section>
+
+<section class="card">
+<h2>🔑 Topic 2 — Authentication vs Authorization</h2>
+<h3>📖 Story: The College Library</h3>
+<p>Imagine a library with two questions. First, the librarian asks, “Who are you?” You show your identity card. That is authentication. Then the librarian asks, “Which books are you allowed to access?” That is authorization. These questions are related, but they are not the same. A student can successfully prove their identity and still not have permission to access an administrator's records.</p>
+<p>Consider a university portal. A student logs in using an ID and password. The application verifies the credentials and creates an authenticated session. Later, the student requests a faculty-only report. If the server merely checks that the student is logged in and forgets to check the required role, the application has an authorization weakness.</p>
+<p>This distinction is one of the most important ideas in web security. Authentication answers <strong>“Who are you?”</strong> Authorization answers <strong>“What are you allowed to do?”</strong> Secure applications perform authorization checks for sensitive operations on the server, not merely during the login screen.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Authentication can use passwords, MFA, certificates, passkeys, or external identity providers. After successful authentication, a session mechanism usually associates future requests with the authenticated identity. Authorization may be role-based, attribute-based, resource-based, or policy-based.</p>
+<p>A secure authorization decision should consider the requested resource and action. For example: “Can user U perform action A on object O?” This object-level check matters because two students may have the same role but should only access their own records. This is why access-control testing should include horizontal access scenarios, not only “student versus administrator.”</p>
+<p>The safest mental model is <strong>never trust the client to decide authorization</strong>. The browser can display menus, but the server must enforce the final rule. Every sensitive endpoint should have a deliberate authorization policy.</p>
+</section>
+
+<section class="card">
+<h2>🍪 Topic 3 — Sessions, Cookies and Tokens</h2>
+<h3>📖 Story: The Temporary Visitor Pass</h3>
+<p>Imagine a campus visitor receives a temporary pass after checking in. The visitor does not have to show their identity card at every classroom door, because the pass tells security that the visitor has already completed the check-in process. A web session works in a similar way. After login, the server needs a mechanism to recognize subsequent requests as belonging to the authenticated user.</p>
+<p>Browsers commonly store cookies that are automatically sent with requests to matching websites. A session cookie can act like a reference to server-side session state. If an attacker obtains a valid session identifier, the attacker may be able to impersonate the user for as long as that session remains valid. This is why session protection is a major part of web security.</p>
+<p>Developers should treat session identifiers as sensitive. They should use secure transmission, appropriate cookie attributes, expiration, session rotation when appropriate, and logout/invalidation controls. The browser is a powerful client, but the server must control the authoritative security state.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Important cookie attributes include <strong>Secure</strong>, which helps ensure transmission over HTTPS, and <strong>HttpOnly</strong>, which prevents ordinary client-side scripts from reading the cookie. <strong>SameSite</strong> controls when cookies are sent in cross-site contexts and can reduce certain cross-site request risks. Exact behavior depends on browser and application design.</p>
+<p>Session fixation is a conceptual risk in which an attacker attempts to cause a victim to use a session identifier known to the attacker. Regenerating the session identifier after authentication is one important defense. Session expiration and server-side invalidation reduce the useful lifetime of compromised credentials.</p>
+<p>Token-based architectures can use formats such as JSON Web Tokens, but “using tokens” does not automatically make an application secure. Token storage, lifetime, audience, issuer validation, signing-key management, revocation strategy, and authorization logic still matter.</p>
+</section>
+
+<section class="card">
+<h2>🧹 Topic 4 — Input Validation and Injection</h2>
+<h3>📖 Story: The Restaurant Order Slip</h3>
+<p>Imagine a restaurant where customers write orders on paper. The kitchen expects a normal list such as “two dosas and one juice.” Now imagine someone writes instructions intended for the kitchen staff rather than food items. If the restaurant blindly treats every sentence as a trusted command, the process becomes dangerous. Software faces a similar problem when it takes untrusted input and mixes it directly into commands or queries.</p>
+<p>Web applications accept input from usernames, search boxes, URLs, forms, API requests, uploaded files, and many other sources. Input is not automatically safe because it came from a browser. A malicious user can construct a request that the normal interface would never generate. Secure development therefore validates input according to the expected type and uses safe APIs that separate data from commands.</p>
+<p>Injection is a broad class of vulnerabilities in which untrusted data changes the meaning of an interpreter's command. SQL injection is one famous example, but the concept extends to command interpreters, template engines, LDAP queries, and other technologies. The defensive lesson is to avoid constructing commands by string concatenation when a parameterized or structured interface exists.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>For database access, <strong>parameterized queries/prepared statements</strong> allow the database driver to treat supplied values as data rather than executable query structure. This is stronger than attempting to remove a few “bad characters.” Validation remains useful, but it should complement—not replace—safe query construction.</p>
+<p>Input validation can use allowlists where practical. If a field is supposed to be a positive integer, parse it as an integer and reject invalid representations. If a field is supposed to be one of five known categories, accept only those categories. Validation should be based on the application's business requirements rather than a fragile blacklist.</p>
+<p>Output encoding is also important because the correct defense depends on the context where data will appear. Data inserted into HTML, JavaScript, URLs, or other interpreters may require different handling. Security is therefore about maintaining the boundary between <strong>data</strong> and <strong>code</strong>.</p>
+</section>
+
+<section class="card">
+<h2>🧪 Topic 5 — Cross-Site Scripting (XSS)</h2>
+<h3>📖 Story: The Notice Board</h3>
+<p>Imagine a campus notice board where students can post messages. The board is designed to display ordinary text. One day, someone posts a message that contains instructions intended to be executed by the board's display system rather than read as text. If the system fails to distinguish content from executable instructions, every visitor who views the message may be affected.</p>
+<p>Cross-site scripting, commonly called XSS, occurs when an application causes untrusted data to be interpreted as executable script in a user's browser. The browser is doing what browsers are designed to do: execute scripts delivered by a page. The security failure is that attacker-controlled data crossed a boundary and became executable content in the wrong context.</p>
+<p>XSS can appear in comments, search results, profile fields, error messages, or other places where user-controlled data is rendered. The impact depends on the application's architecture and browser protections, but it can include unauthorized actions performed through a victim's browser, manipulation of page content, or access to data available to client-side code.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Common categories include <strong>stored XSS</strong>, where malicious content is persisted and later displayed; <strong>reflected XSS</strong>, where input is immediately reflected into a response; and <strong>DOM-based XSS</strong>, where client-side JavaScript creates the unsafe interpretation in the browser.</p>
+<p>Defenses include context-appropriate output encoding, safe DOM APIs, careful handling of HTML, Content Security Policy where appropriate, and avoiding unsafe string-to-code mechanisms. Developers should not assume that sanitizing a string once makes it safe for every output context.</p>
+<p>The beginner rule is simple: <strong>untrusted data should remain data.</strong> If an application intentionally supports rich HTML, it needs a carefully designed sanitizer and a clear security model rather than blindly accepting markup.</p>
+</section>
+
+<section class="card">
+<h2>🔄 Topic 6 — CSRF</h2>
+<h3>📖 Story: The Forged Request Form</h3>
+<p>Imagine a student has already signed into a university office. Their identity is established. A stranger then hands them a form that secretly asks the office to change an important account setting. If the office accepts the request merely because the student has an active session, the stranger has found a weakness in the process.</p>
+<p>Cross-Site Request Forgery, or CSRF, is a class of attack where a victim's browser is induced to send an unwanted request to a site where the victim is already authenticated. The browser may automatically include relevant credentials such as cookies. The application therefore needs a way to distinguish a legitimate action initiated by its own interface from an unexpected cross-site request.</p>
+<p>CSRF is mainly about the trust relationship between a browser and a server. It is not the same as XSS. XSS executes attacker-controlled script in the trusted origin; CSRF abuses the browser's ability to send authenticated requests. Modern browser cookie controls can reduce risk, but applications should still use appropriate defenses for state-changing operations.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>A common defense is an unpredictable anti-CSRF token associated with the user's session and included in state-changing requests. The server verifies the token before accepting the operation. SameSite cookie settings can provide additional protection, but application design should not depend on one control in every environment.</p>
+<p>State-changing actions should generally use appropriate HTTP methods and should not be implemented as simple cross-site-friendly GET links. Sensitive actions may require re-authentication or step-up authentication. The precise defense should match the application's threat model.</p>
+<p>The important engineering principle is to protect the <strong>intent</strong> behind sensitive actions, not merely the user's login state.</p>
+</section>
+
+<section class="card">
+<h2>🔐 Topic 7 — Secure Password Handling</h2>
+<h3>📖 Story: The Locker Room</h3>
+<p>Imagine a college keeps student locker combinations in a notebook. If the notebook contains every combination in plain text and someone steals it, every locker is immediately exposed. A safer design avoids storing the original secret in a directly reusable form. Web applications follow a similar principle for passwords: passwords should not be stored as plain text.</p>
+<p>When a user creates a password, the application should use a password-specific hashing/key-derivation function with a unique salt. During login, the supplied password is processed again and compared with the stored password verifier. The application does not need to recover the original password. This design reduces the damage caused by a database leak, although weak passwords can still be guessed offline.</p>
+<p>Password security is therefore connected to Session 4's cryptography lesson. A general-purpose fast hash is not a good password-storage mechanism by itself. Password storage should use an intentionally expensive password KDF such as Argon2id, scrypt, bcrypt, or PBKDF2 according to current organizational guidance and platform support.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>A password verifier can be conceptualized as <strong>V = KDF(password, salt, cost parameters)</strong>. The salt makes identical passwords produce different stored values and prevents attackers from efficiently reusing precomputed tables across accounts. Cost parameters make large-scale guessing more expensive.</p>
+<p>Applications should also implement secure account-recovery processes, rate limiting, MFA where appropriate, and monitoring for suspicious authentication patterns. Password rules alone are not enough. A very complicated password can still be phished, reused elsewhere, or exposed through malware.</p>
+<p>Students should remember: <strong>password storage is a specialized security problem.</strong> Encryption and password hashing solve different problems. A system should not need to decrypt a stored password because the original password should never have been stored in reversible form.</p>
+</section>
+
+<section class="card">
+<h2>🌐 Topic 8 — HTTPS and TLS</h2>
+<h3>📖 Story: The Sealed Courier Van</h3>
+<p>Imagine a courier carrying a confidential university document. You want to know three things: nobody nearby can read it, nobody secretly changes it, and you are communicating with the intended organization. HTTPS uses TLS to provide cryptographic protection for web communication and helps establish the server's identity through certificates.</p>
+<p>When a browser connects to an HTTPS site, the TLS protocol negotiates cryptographic parameters and establishes protected communication. The server presents a certificate containing identity information and a public key. The browser validates the certificate chain according to its trust rules. Modern TLS then establishes keys used to protect the session.</p>
+<p>The important connection to Session 4 is that asymmetric cryptography and certificates help establish trust and perform key establishment, while efficient symmetric cryptography protects the actual session data. This combination gives web communication both strong security properties and practical performance.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>TLS provides confidentiality and integrity for data in transit when correctly configured. Certificate validation helps prevent an attacker from simply presenting an arbitrary certificate while impersonating the intended server. Trust anchors, certificate authorities, hostname validation, expiration, and key usage are part of the broader PKI model.</p>
+<p>HTTPS does not make an application automatically secure. A website can use HTTPS and still contain broken access control, injection vulnerabilities, insecure session management, or flawed business logic. TLS protects the communication channel; application security protects the behavior of the application.</p>
+<p>This distinction is essential for engineers: <strong>secure transport ≠ secure application.</strong></p>
+</section>
+
+<section class="card">
+<h2>🚪 Topic 9 — Broken Access Control</h2>
+<h3>📖 Story: The Exam Office</h3>
+<p>Imagine an examination office where each student receives a file containing their own marks. Student A should not be able to open Student B's file simply by changing a number on a file request. If the office checks only that the visitor is logged in but never verifies which record belongs to them, the door is technically locked but the room's filing system is unsafe.</p>
+<p>Broken access control occurs when an application fails to correctly enforce who can perform an action or access a resource. It can appear in ordinary web pages, APIs, downloadable files, administrative functions, or object identifiers. The vulnerability is particularly important because the application may appear to work correctly for normal users while failing under deliberate authorization testing.</p>
+<p>The safe design is to treat every sensitive operation as an authorization decision. The server should identify the authenticated principal, identify the requested resource and action, evaluate the relevant policy, and only then perform the operation. Security should not depend on users guessing URLs or hiding interface elements.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Two useful test dimensions are <strong>vertical authorization</strong> and <strong>horizontal authorization</strong>. Vertical testing asks whether a lower-privileged user can perform a higher-privileged action. Horizontal testing asks whether one legitimate user can access another user's resources.</p>
+<p>Object-level authorization is especially important in APIs. If an API receives an object identifier, the server must check that the current user has permission for that specific object. Merely validating the identifier format is not authorization.</p>
+<p>Centralized authorization policies, consistent middleware, deny-by-default behavior, and automated tests can reduce errors. Security reviews should include negative tests: what should happen when the user attempts something they are not permitted to do?</p>
+</section>
+
+<section class="card">
+<h2>🧰 Topic 10 — Secure Web Development</h2>
+<h3>📖 Story: Building a Safe House</h3>
+<p>Imagine an engineer building a house. Security is not something added with a lock after the house is complete. The architect decides where doors go, the electrician designs safe wiring, the builder chooses strong materials, and inspectors check the work. Software security works similarly. Developers should consider threats during requirements, design, coding, testing, deployment, and maintenance.</p>
+<p>A secure development lifecycle encourages teams to identify threats early, use secure coding patterns, review dependencies, test authorization, protect secrets, scan for vulnerabilities, and monitor production behavior. Fixing a security defect early is often easier than discovering it after deployment. Security should therefore become part of normal engineering rather than a final inspection.</p>
+<p>Students should also learn that libraries and frameworks are valuable but not magical. A framework may provide secure defaults, but application developers can still misuse it. Developers remain responsible for configuration, authorization, data handling, secrets, and business logic.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Important practices include threat modeling, dependency management, secret management, code review, static analysis, dynamic testing, security-focused unit/integration tests, secure configuration, logging, and vulnerability remediation. Production systems should also have a process for responding to newly discovered vulnerabilities in dependencies.</p>
+<p>Secrets such as API keys, database passwords, and signing keys should not be committed into source repositories. Applications should use appropriate secret-management mechanisms and rotate exposed credentials. Error messages should provide useful diagnostic information without unnecessarily revealing internal details to attackers.</p>
+<p>Security testing should include both positive and negative cases. Developers should ask not only “Does the authorized user succeed?” but also “Does the unauthorized user fail safely?”</p>
+</section>
+
+<section class="card">
+<h2>🎨 Web Security Control Comparison</h2>
+<table class="color-table">
+<tr><th>Concept</th><th>Simple Story</th><th>Main Security Question</th><th>Key Defense</th></tr>
+<tr><td>🔑 Authentication</td><td>Who are you?</td><td>Is this identity genuine?</td><td>MFA, strong authentication</td></tr>
+<tr><td>🛂 Authorization</td><td>Which rooms may you enter?</td><td>Is this action permitted?</td><td>Server-side access checks</td></tr>
+<tr><td>🍪 Session Security</td><td>Temporary visitor pass</td><td>Can this session be trusted?</td><td>Secure cookies, expiration, rotation</td></tr>
+<tr><td>🧹 Input Validation</td><td>Check the order slip</td><td>Is this input expected?</td><td>Allowlist validation, safe APIs</td></tr>
+<tr><td>💉 Injection Defense</td><td>Keep data separate from commands</td><td>Can input change program meaning?</td><td>Parameterized queries</td></tr>
+<tr><td>🧪 XSS Defense</td><td>Notice board cannot execute posts</td><td>Can data become script?</td><td>Contextual output encoding, CSP</td></tr>
+<tr><td>🔄 CSRF Defense</td><td>Verify the requester's intent</td><td>Was this action genuinely requested?</td><td>CSRF tokens, SameSite</td></tr>
+<tr><td>🌐 HTTPS</td><td>Sealed courier van</td><td>Is data protected in transit?</td><td>TLS</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🗺️ Web Request Security Map</h2>
+<div class="flow6">
+<div class="node6">💻 Browser</div><div class="arrow6">→</div>
+<div class="node6">🔐 HTTPS/TLS</div><div class="arrow6">→</div>
+<div class="node6">🧱 Web Server</div><div class="arrow6">→</div>
+<div class="node6">🛂 Auth + Access Control</div><div class="arrow6">→</div>
+<div class="node6">🧹 Input Handling</div><div class="arrow6">→</div>
+<div class="node6">🗄️ Database</div>
+</div>
+<p class="highlight">At every boundary ask: <strong>Can the input be trusted? Who is the user? What are they allowed to do? Can data be interpreted as code? What should be logged?</strong></p>
+</section>
+
+<section class="card">
+<h2>⏱️ REAL-TIME CLASSROOM SURVEY — “Which Web Weakness Is Most Dangerous?”</h2>
+<p>Ask students to vote before teaching the answer. The page calculates the live percentage automatically. Discuss why different students selected different risks.</p>
+<div class="survey6">
+<button onclick="vote6('password')">🔑 Weak Password</button>
+<button onclick="vote6('xss')">🧪 XSS</button>
+<button onclick="vote6('sql')">💉 Injection</button>
+<button onclick="vote6('access')">🛂 Broken Access</button>
+<button onclick="vote6('session')">🍪 Session Theft</button>
+</div>
+<div id="results6"></div>
+<p id="total6" class="highlight">Live votes: 0</p>
+</section>
+
+<section class="card">
+<h2>🔎 REAL-TIME WEB SECURITY DETECTIVE</h2>
+<table class="color-table">
+<tr><th>Observation</th><th>First Question</th><th>Likely Security Area</th></tr>
+<tr><td>A student can view another student's record</td><td>Is object-level authorization enforced?</td><td>🛂 Access control</td></tr>
+<tr><td>User comment appears as executable content</td><td>Is untrusted output safely encoded?</td><td>🧪 XSS</td></tr>
+<tr><td>Database query changes unexpectedly after input</td><td>Are parameters separated from query structure?</td><td>💉 Injection</td></tr>
+<tr><td>Sensitive action succeeds from an unexpected page</td><td>Is request intent protected?</td><td>🔄 CSRF</td></tr>
+<tr><td>Login cookie travels without secure transport</td><td>Is HTTPS enforced?</td><td>🌐 TLS/session security</td></tr>
+</table>
+<p>Students should practice separating <strong>observation</strong> from <strong>conclusion</strong>. A suspicious symptom suggests a hypothesis; it does not prove a vulnerability. Security testing should be performed only on systems where the tester has explicit authorization.</p>
+</section>
+
+<section class="card">
+<h2>🧪 Safe Hands-On Activity — Build a Secure Student Portal</h2>
+<div class="activity6">
+<p><strong>Step 1:</strong> Draw a login page, student dashboard, attendance API, and database.</p>
+<p><strong>Step 2:</strong> Define two roles: STUDENT and FACULTY.</p>
+<p><strong>Step 3:</strong> Write three authorization rules. Example: a student can view their own attendance; faculty can view assigned-class attendance; nobody can change another user's role.</p>
+<p><strong>Step 4:</strong> Identify three untrusted inputs and specify how each should be validated or safely handled.</p>
+<p><strong>Step 5:</strong> Add session protection, HTTPS, logging, and a recovery process.</p>
+<p><strong>Step 6:</strong> Perform only paper-based negative tests: “What if Student A requests Student B's record?” “What if the role is changed in the request?” “What if the search field contains unexpected syntax?”</p>
+</div>
+</section>
+
+<section class="card">
+<h2>🧩 Case Study — The Marks Portal</h2>
+<p>A university publishes a marks portal. Students log in successfully and see their marks. A security review discovers that the URL contains a record identifier. The application checks that the user is logged in but does not verify that the requested record belongs to that user. The reviewer reports that changing the identifier can expose another student's information.</p>
+<p>Ask students: Is this authentication or authorization? The answer is authorization. The user has successfully authenticated, but the server has failed to enforce object-level access control. This is a powerful example because nothing is wrong with the login screen. The weakness exists in the business rule controlling which resource the authenticated user may access.</p>
+<p>Now ask how to fix it. The server should retrieve the authenticated user's identity from trusted session state, check whether that user is authorized to access the requested record, and deny the operation otherwise. The application should also log meaningful access-control failures and add automated tests for both allowed and denied cases.</p>
+</section>
+
+<section class="card">
+<h2>🔬 Research Connection — Turn Web Security Into Research</h2>
+<p>Web security offers many research opportunities for first-year students. A student can compare different approaches to detecting anomalous login behavior, study the effect of rate limiting on brute-force resistance, evaluate false positives in web anomaly detection, or measure how secure coding patterns reduce common vulnerability classes in a controlled educational application.</p>
+<p>A simple research project could create a safe local web application with intentionally different defensive configurations. One version could use basic input handling, while another uses parameterized queries and validation. Students can measure the number of unsafe test cases detected or prevented. The goal is not to attack public websites; the goal is to construct an authorized experimental environment and collect measurable evidence.</p>
+<p>Another project could examine access-control testing. Students can define users, roles, and resources, generate authorized and unauthorized requests in a local application, and measure whether the policy consistently blocks invalid combinations. This introduces students to reproducible experiments, datasets, metrics, hypotheses, and evidence-based conclusions.</p>
+<table class="color-table">
+<tr><th>Research Idea</th><th>Independent Variable</th><th>Possible Metric</th></tr>
+<tr><td>Login anomaly detection</td><td>Detection method</td><td>Precision, recall, F1</td></tr>
+<tr><td>Rate limiting study</td><td>Request threshold</td><td>Blocked attempts / response time</td></tr>
+<tr><td>Access-control testing</td><td>Policy design</td><td>Unauthorized cases blocked</td></tr>
+<tr><td>Secure coding comparison</td><td>Validation/query method</td><td>Unsafe test cases prevented</td></tr>
+<tr><td>Security logging</td><td>Log fields and correlation</td><td>Investigation time</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🧠 ELI10 Summary — The Web Security Castle</h2>
+<p>Think of a web application as a castle. HTTPS protects the road to the castle. Authentication checks who has arrived. Authorization decides which rooms they may enter. Session management controls the visitor pass. Input validation checks what visitors bring inside. Injection defenses prevent visitors from turning ordinary objects into commands. XSS defenses stop untrusted content from becoming scripts. CSRF defenses confirm that important actions are intentional.</p>
+<p>But the castle still needs good architecture. Sensitive rooms should be separated. The database should not be directly exposed. Administrative functions need stronger controls. Logs should record meaningful events. Dependencies should be updated. Secrets should be protected. Backups and incident response should exist before a crisis happens.</p>
+<p>The biggest lesson is that web security is not one feature. It is a collection of engineering decisions made across the entire application lifecycle. A secure application assumes users can manipulate the client, treats external input as untrusted, checks authorization on the server, protects sessions, separates data from code, and continuously monitors for unexpected behavior.</p>
+</section>
+
+<section class="card">
+<h2>📝 Interactive Quiz</h2>
+<div class="quiz6">
+<p><strong>1.</strong> Authentication answers which question?</p>
+<button onclick="answer6(this,true)">Who are you?</button>
+<button onclick="answer6(this,false)">Which records may you access?</button>
+
+<p><strong>2.</strong> Which control is especially important for SQL injection defense?</p>
+<button onclick="answer6(this,false)">Hiding the login button</button>
+<button onclick="answer6(this,true)">Parameterized queries</button>
+
+<p><strong>3.</strong> What does HttpOnly help with?</p>
+<button onclick="answer6(this,true)">It prevents ordinary client-side scripts from reading the cookie</button>
+<button onclick="answer6(this,false)">It encrypts the database</button>
+
+<p><strong>4.</strong> HTTPS mainly protects what?</p>
+<button onclick="answer6(this,true)">Communication in transit</button>
+<button onclick="answer6(this,false)">All application authorization decisions</button>
+
+<p><strong>5.</strong> A logged-in student accesses another student's record. What should you investigate first?</p>
+<button onclick="answer6(this,true)">Object-level authorization</button>
+<button onclick="answer6(this,false)">Screen color</button>
+
+<p id="score6" class="highlight">Score: 0</p>
+</div>
+</section>
+
+<section class="card">
+<h2>🏆 Mission Challenge</h2>
+<p><strong>Scenario:</strong> You are the security architect for a new university learning portal. Students need to log in, view their own marks, submit assignments, and use an API. Faculty need additional access to class records.</p>
+<p>Your team must design five protections: one authentication control, one authorization rule, one session-control rule, one input-handling rule, and one monitoring rule. Then explain what could happen if each control were missing.</p>
+<p class="highlight"><strong>Mission completed when you can explain: “Who is the user? What may they do? How does the server know? How is the session protected? How is untrusted data handled? What evidence will we collect if something goes wrong?”</strong></p>
+</section>
+
+<section class="card">
+<h2>🧠 Technical Mastery Checklist</h2>
+<table class="color-table">
+<tr><th>Concept</th><th>Self-check</th></tr>
+<tr><td>Web request/response</td><td>☐</td></tr>
+<tr><td>Authentication vs authorization</td><td>☐</td></tr>
+<tr><td>Sessions and cookies</td><td>☐</td></tr>
+<tr><td>Input validation</td><td>☐</td></tr>
+<tr><td>SQL injection concept</td><td>☐</td></tr>
+<tr><td>XSS</td><td>☐</td></tr>
+<tr><td>CSRF</td><td>☐</td></tr>
+<tr><td>Password hashing and salts</td><td>☐</td></tr>
+<tr><td>HTTPS/TLS</td><td>☐</td></tr>
+<tr><td>Broken access control</td><td>☐</td></tr>
+<tr><td>Secure development lifecycle</td><td>☐</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🚀 NEXT MISSION — SESSION 7</h2>
+<div class="robot">
+<h2>🦠 Malware & Endpoint Security</h2>
+<p>The network is protected. The web application is protected. But what happens if malicious software reaches the device itself?</p>
+<ul>
+<li>🦠 What is malware?</li>
+<li>🐛 Virus vs worm vs trojan</li>
+<li>🔒 Ransomware</li>
+<li>🕵️ Spyware and keyloggers</li>
+<li>🛡️ Endpoint protection</li>
+<li>🔬 Safe malware-analysis thinking</li>
+</ul>
+<div class="highlight"><strong>Next Mission:</strong> “What happens when the attacker gets inside the device?”</div>
+</div>
+</section>
+
+<footer>
+<p>🛡️ CYBER QUEST — SESSION 6</p>
+<p>Web Security • Authentication • Authorization • Sessions • Injection • XSS • CSRF • HTTPS • Secure Development</p>
+</footer>
+
+<script>
+const votes6={password:0,xss:0,sql:0,access:0,session:0};
+let score6=0;
+const labels6={password:"🔑 Weak Password",xss:"🧪 XSS",sql:"💉 Injection",access:"🛂 Broken Access",session:"🍪 Session Theft"};
+
+function vote6(k){
+  votes6[k]++;
+  const total=Object.values(votes6).reduce((a,b)=>a+b,0);
+  let html="";
+  for(const k2 in votes6){
+    const pct=total?Math.round(votes6[k2]*100/total):0;
+    html+=`<div class="bar6"><strong>${labels6[k2]}</strong> — ${votes6[k2]} vote(s) — ${pct}%<div class="fill6" style="width:${pct}%"></div></div>`;
+  }
+  document.getElementById("results6").innerHTML=html;
+  document.getElementById("total6").textContent="Live votes: "+total+" • Updated: "+new Date().toLocaleTimeString();
+}
+function answer6(btn,correct){
+  btn.style.outline=correct?"3px solid #00ff99":"3px solid #ff4444";
+  if(correct && !btn.dataset.done){score6++;btn.dataset.done="1";}
+  document.getElementById("score6").textContent="Score: "+score6;
+}
+</script>
+</main>
+</body>
+
+</html>

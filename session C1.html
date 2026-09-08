@@ -1,0 +1,1088 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cybersecurity Research - ELI10</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+        background: linear-gradient(135deg, #eef7ff, #f8f0ff);
+        color: #202124;
+        line-height: 1.6;
+    }
+
+    header {
+        background: linear-gradient(135deg, #172554, #2563eb, #7c3aed);
+        color: white;
+        padding: 45px 20px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+        font-size: 42px;
+        margin: 0;
+    }
+
+    header p {
+        font-size: 20px;
+        margin-top: 10px;
+    }
+
+    .container {
+        width: 92%;
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    section {
+        margin: 30px 0;
+    }
+
+    .card {
+        background: white;
+        border-radius: 18px;
+        padding: 25px;
+        margin: 20px 0;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.14);
+    }
+
+    h2 {
+        color: #1d4ed8;
+        font-size: 30px;
+    }
+
+    h3 {
+        color: #7c3aed;
+    }
+
+    .robot {
+        background: linear-gradient(135deg, #dbeafe, #ede9fe);
+        border-left: 8px solid #2563eb;
+        padding: 25px;
+        border-radius: 15px;
+        font-size: 18px;
+    }
+
+    .highlight {
+        background: #fff7cc;
+        padding: 15px;
+        border-radius: 12px;
+        border-left: 6px solid #f59e0b;
+        margin: 15px 0;
+    }
+
+    .danger {
+        background: #fee2e2;
+        border-left: 6px solid #dc2626;
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .safe {
+        background: #dcfce7;
+        border-left: 6px solid #16a34a;
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .example {
+        background: #f5f3ff;
+        border-left: 6px solid #8b5cf6;
+        padding: 18px;
+        border-radius: 12px;
+        margin: 15px 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    th {
+        background: #2563eb;
+        color: white;
+        padding: 14px;
+        text-align: left;
+    }
+
+    td {
+        padding: 13px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    tr:hover {
+        background: #eff6ff;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 18px;
+    }
+
+    .topic {
+        padding: 22px;
+        border-radius: 16px;
+        color: white;
+        min-height: 180px;
+        transition: transform 0.3s;
+    }
+
+    .topic:hover {
+        transform: scale(1.04);
+    }
+
+    .blue { background: linear-gradient(135deg, #2563eb, #1e40af); }
+    .purple { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
+    .green { background: linear-gradient(135deg, #16a34a, #166534); }
+    .orange { background: linear-gradient(135deg, #f97316, #c2410c); }
+    .red { background: linear-gradient(135deg, #dc2626, #991b1b); }
+    .teal { background: linear-gradient(135deg, #0d9488, #115e59); }
+
+    .flow {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 25px 0;
+    }
+
+    .flow-box {
+        background: #1d4ed8;
+        color: white;
+        padding: 18px;
+        border-radius: 12px;
+        font-weight: bold;
+        min-width: 150px;
+        text-align: center;
+    }
+
+    .arrow {
+        font-size: 28px;
+        color: #7c3aed;
+    }
+
+    .question {
+        background: #ecfeff;
+        border: 2px solid #06b6d4;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 15px 0;
+    }
+
+    code {
+        background: #111827;
+        color: #a7f3d0;
+        padding: 3px 7px;
+        border-radius: 5px;
+    }
+
+    footer {
+        background: #172554;
+        color: white;
+        text-align: center;
+        padding: 30px;
+        margin-top: 50px;
+    }
+
+    .big {
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    @media(max-width: 600px) {
+        header h1 {
+            font-size: 30px;
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        .arrow {
+            transform: rotate(90deg);
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🛡️ Cybersecurity Research</h1>
+    <p>ELI10 Guide for Beginner Students</p>
+    <p>🔍 Don't just use security tools — learn how to discover new security knowledge!</p>
+</header>
+
+<div class="container">
+
+<!-- INTRODUCTION -->
+
+<section>
+<div class="card">
+
+<h2>🤔 1. What is Cybersecurity?</h2>
+
+<div class="robot">
+    <strong>🤖 Imagine this:</strong><br><br>
+
+    You have a house. Your house contains your books, money, laptop and
+    important documents.
+
+    <br><br>
+
+    You use:
+    <ul>
+        <li>🔑 Lock → Password</li>
+        <li>🚪 Door → Firewall</li>
+        <li>📹 CCTV → Monitoring</li>
+        <li>🚨 Alarm → Intrusion Detection</li>
+        <li>🛡️ Security Guard → Security System</li>
+    </ul>
+
+    <strong>Cybersecurity does the same thing for computers and networks.</strong>
+</div>
+
+</div>
+</section>
+
+<!-- RESEARCH -->
+
+<section>
+<div class="card">
+
+<h2>🔬 2. What is Cybersecurity Research?</h2>
+
+<div class="highlight">
+    <span class="big">Research = Asking a good question + investigating it + finding evidence + proposing an improvement.</span>
+</div>
+
+<p>
+Cybersecurity research is NOT simply learning how to use Kali Linux,
+Nmap or Wireshark.
+</p>
+
+<p>
+Research means asking:
+</p>
+
+<div class="question">
+    ❓ "Can I find a better way to detect an attack?"
+</div>
+
+<div class="question">
+    ❓ "Can I reduce false alarms in an Intrusion Detection System?"
+</div>
+
+<div class="question">
+    ❓ "Can Machine Learning identify vulnerable source code?"
+</div>
+
+<div class="question">
+    ❓ "Can blockchain improve trust between IoT devices?"
+</div>
+
+</div>
+</section>
+
+<!-- DIFFERENCE -->
+
+<section>
+<div class="card">
+
+<h2>⚔️ 3. Cybersecurity Practice vs Research</h2>
+
+<table>
+<tr>
+    <th>Cybersecurity Practice</th>
+    <th>Cybersecurity Research</th>
+</tr>
+
+<tr>
+    <td>Use Nmap to scan a network</td>
+    <td>Develop a better method to identify suspicious network behaviour</td>
+</tr>
+
+<tr>
+    <td>Use Wireshark to capture packets</td>
+    <td>Study traffic patterns to detect attacks automatically</td>
+</tr>
+
+<tr>
+    <td>Run vulnerability scanners</td>
+    <td>Develop a technique to detect previously unknown weaknesses</td>
+</tr>
+
+<tr>
+    <td>Configure a firewall</td>
+    <td>Compare different firewall strategies</td>
+</tr>
+
+<tr>
+    <td>Use an IDS</td>
+    <td>Improve IDS detection accuracy</td>
+</tr>
+</table>
+
+<div class="safe">
+    💡 <strong>Remember:</strong>
+    Using a tool is not automatically research.
+    Studying a problem and producing new evidence or improvement is research.
+</div>
+
+</div>
+</section>
+
+<!-- RESEARCH STORY -->
+
+<section>
+<div class="card">
+
+<h2>🕵️ 4. Think Like a Cybersecurity Detective</h2>
+
+<div class="robot">
+
+Imagine you are Detective Cyber.
+
+<br><br>
+
+🕵️ <strong>Problem:</strong>
+Many students receive phishing emails.
+
+<br><br>
+
+🔍 <strong>Observation:</strong>
+Some emails contain suspicious links.
+
+<br><br>
+
+❓ <strong>Research Question:</strong>
+Can machine learning identify phishing emails?
+
+<br><br>
+
+🧪 <strong>Experiment:</strong>
+Give an ML model many phishing and legitimate emails.
+
+<br><br>
+
+📊 <strong>Measure:</strong>
+Accuracy, precision, recall and false positives.
+
+<br><br>
+
+💡 <strong>Conclusion:</strong>
+Find out whether the proposed method works better.
+
+</div>
+
+</div>
+</section>
+
+<!-- RESEARCH PROCESS -->
+
+<section>
+<div class="card">
+
+<h2>🚀 5. Cybersecurity Research Roadmap</h2>
+
+<div class="flow">
+
+<div class="flow-box">1️⃣ Find Problem</div>
+<div class="arrow">➡️</div>
+
+<div class="flow-box">2️⃣ Read Papers</div>
+<div class="arrow">➡️</div>
+
+<div class="flow-box">3️⃣ Find Research Gap</div>
+<div class="arrow">➡️</div>
+
+<div class="flow-box">4️⃣ Propose Idea</div>
+<div class="arrow">➡️</div>
+
+<div class="flow-box">5️⃣ Implement</div>
+<div class="arrow">➡️</div>
+
+<div class="flow-box">6️⃣ Test</div>
+<div class="arrow">➡️</div>
+
+<div class="flow-box">7️⃣ Analyze</div>
+
+</div>
+
+<table>
+<tr>
+    <th>Step</th>
+    <th>ELI10 Meaning</th>
+    <th>Student Activity</th>
+</tr>
+
+<tr>
+    <td>1. Problem</td>
+    <td>What is going wrong?</td>
+    <td>Find a real cybersecurity problem</td>
+</tr>
+
+<tr>
+    <td>2. Literature Review</td>
+    <td>What have others already done?</td>
+    <td>Read research papers</td>
+</tr>
+
+<tr>
+    <td>3. Research Gap</td>
+    <td>What is still missing?</td>
+    <td>Compare existing methods</td>
+</tr>
+
+<tr>
+    <td>4. Proposed Idea</td>
+    <td>What new thing can we try?</td>
+    <td>Design a new method</td>
+</tr>
+
+<tr>
+    <td>5. Implementation</td>
+    <td>Build it</td>
+    <td>Write code / create model</td>
+</tr>
+
+<tr>
+    <td>6. Experiment</td>
+    <td>Does it actually work?</td>
+    <td>Run experiments</td>
+</tr>
+
+<tr>
+    <td>7. Analysis</td>
+    <td>What did we learn?</td>
+    <td>Compare results</td>
+</tr>
+
+</table>
+
+</div>
+</section>
+
+<!-- RESEARCH AREAS -->
+
+<section>
+<div class="card">
+
+<h2>🌐 6. Major Cybersecurity Research Areas</h2>
+
+<div class="grid">
+
+<div class="topic blue">
+<h3>🔐 Cryptography</h3>
+<p>How can we protect secret information?</p>
+<p>Example: Encryption algorithms.</p>
+</div>
+
+<div class="topic purple">
+<h3>🤖 AI & ML Security</h3>
+<p>Can AI detect attacks?</p>
+<p>Example: ML-based intrusion detection.</p>
+</div>
+
+<div class="topic green">
+<h3>🌐 Network Security</h3>
+<p>How can we protect networks?</p>
+<p>Example: Attack detection.</p>
+</div>
+
+<div class="topic orange">
+<h3>📱 IoT Security</h3>
+<p>How can smart devices be protected?</p>
+<p>Example: Smart home security.</p>
+</div>
+
+<div class="topic red">
+<h3>🧑‍💻 Application Security</h3>
+<p>How can websites and applications be protected?</p>
+<p>Example: Vulnerability detection.</p>
+</div>
+
+<div class="topic teal">
+<h3>☁️ Cloud Security</h3>
+<p>How can cloud data and services be protected?</p>
+<p>Example: Access control.</p>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<!-- EXAMPLES -->
+
+<section>
+<div class="card">
+
+<h2>💡 7. Beginner Research Ideas</h2>
+
+<table>
+<tr>
+    <th>No.</th>
+    <th>Research Area</th>
+    <th>Simple Research Problem</th>
+    <th>Possible Idea</th>
+</tr>
+
+<tr>
+    <td>1</td>
+    <td>Phishing</td>
+    <td>Users click fake links.</td>
+    <td>ML-based phishing detection</td>
+</tr>
+
+<tr>
+    <td>2</td>
+    <td>Password Security</td>
+    <td>Weak passwords are easy to guess.</td>
+    <td>Password strength prediction</td>
+</tr>
+
+<tr>
+    <td>3</td>
+    <td>Network Security</td>
+    <td>Attack traffic looks different.</td>
+    <td>ML-based traffic classification</td>
+</tr>
+
+<tr>
+    <td>4</td>
+    <td>IoT Security</td>
+    <td>IoT devices have limited security.</td>
+    <td>Lightweight authentication</td>
+</tr>
+
+<tr>
+    <td>5</td>
+    <td>Web Security</td>
+    <td>Applications may contain vulnerabilities.</td>
+    <td>Automated vulnerability detection</td>
+</tr>
+
+<tr>
+    <td>6</td>
+    <td>Malware</td>
+    <td>Malware changes its behaviour.</td>
+    <td>Behaviour-based detection</td>
+</tr>
+
+<tr>
+    <td>7</td>
+    <td>Cloud Security</td>
+    <td>Unauthorized users may access resources.</td>
+    <td>Improved access-control model</td>
+</tr>
+
+<tr>
+    <td>8</td>
+    <td>Blockchain</td>
+    <td>IoT devices need trusted communication.</td>
+    <td>Blockchain-based trust mechanism</td>
+</tr>
+
+</table>
+
+</div>
+</section>
+
+<!-- EXAMPLE 1 -->
+
+<section>
+<div class="card">
+
+<h2>🧪 8. Example Research Problem</h2>
+
+<h3>Problem: Phishing Email Detection</h3>
+
+<div class="example">
+
+<strong>Step 1 — Problem</strong><br>
+People receive fake emails.
+
+<br><br>
+
+<strong>Step 2 — Question</strong><br>
+Can machine learning identify fake emails?
+
+<br><br>
+
+<strong>Step 3 — Data</strong><br>
+Collect legitimate and phishing email datasets.
+
+<br><br>
+
+<strong>Step 4 — Features</strong><br>
+Study URL length, suspicious words, sender information, etc.
+
+<br><br>
+
+<strong>Step 5 — Model</strong><br>
+Train a machine-learning classifier.
+
+<br><br>
+
+<strong>Step 6 — Evaluation</strong><br>
+Measure accuracy, precision, recall and F1-score.
+
+</div>
+
+</div>
+</section>
+
+<!-- EXAMPLE 2 -->
+
+<section>
+<div class="card">
+
+<h2>🌐 9. Example: Network Attack Detection</h2>
+
+<table>
+<tr>
+    <th>Normal Traffic</th>
+    <th>Suspicious Traffic</th>
+</tr>
+
+<tr>
+    <td>Normal number of requests</td>
+    <td>Huge number of requests</td>
+</tr>
+
+<tr>
+    <td>Expected communication</td>
+    <td>Unexpected communication</td>
+</tr>
+
+<tr>
+    <td>Known devices</td>
+    <td>Unknown device</td>
+</tr>
+
+<tr>
+    <td>Normal packet behaviour</td>
+    <td>Unusual packet behaviour</td>
+</tr>
+</table>
+
+<div class="highlight">
+    🔍 Research Question:
+    <strong>Can we automatically identify abnormal network traffic?</strong>
+</div>
+
+</div>
+</section>
+
+<!-- RESEARCH GAP -->
+
+<section>
+<div class="card">
+
+<h2>🕳️ 10. What is a Research Gap?</h2>
+
+<div class="robot">
+
+Imagine 10 students build bridges.
+
+<br><br>
+
+🏗️ Researchers already built bridges that are:
+
+<ul>
+<li>Strong</li>
+<li>Cheap</li>
+<li>Fast</li>
+</ul>
+
+But nobody studied:
+
+<div class="highlight">
+<strong>"Can we build a bridge that is both cheap AND extremely fast?"</strong>
+</div>
+
+That missing part is similar to a <strong>research gap</strong>.
+
+</div>
+
+<table>
+<tr>
+    <th>Existing Research</th>
+    <th>What is Missing?</th>
+    <th>Your Opportunity</th>
+</tr>
+
+<tr>
+    <td>Method A has high accuracy</td>
+    <td>Uses high computation</td>
+    <td>Develop lightweight method</td>
+</tr>
+
+<tr>
+    <td>Method B is fast</td>
+    <td>Low detection accuracy</td>
+    <td>Improve accuracy</td>
+</tr>
+
+<tr>
+    <td>Method C detects attacks</td>
+    <td>Many false alarms</td>
+    <td>Reduce false positives</td>
+</tr>
+
+</table>
+
+</div>
+</section>
+
+<!-- TOOLS -->
+
+<section>
+<div class="card">
+
+<h2>🧰 11. Tools Students May Explore</h2>
+
+<table>
+<tr>
+    <th>Tool</th>
+    <th>Purpose</th>
+    <th>Beginner Question</th>
+</tr>
+
+<tr>
+    <td>Nmap</td>
+    <td>Network discovery and security auditing</td>
+    <td>How can suspicious hosts be identified?</td>
+</tr>
+
+<tr>
+    <td>Wireshark</td>
+    <td>Network packet analysis</td>
+    <td>What does normal traffic look like?</td>
+</tr>
+
+<tr>
+    <td>Burp Suite</td>
+    <td>Web application security testing</td>
+    <td>How can web requests be analyzed?</td>
+</tr>
+
+<tr>
+    <td>Python</td>
+    <td>Programming and data analysis</td>
+    <td>Can Python automate security analysis?</td>
+</tr>
+
+<tr>
+    <td>Machine Learning</td>
+    <td>Pattern detection</td>
+    <td>Can attacks be classified automatically?</td>
+</tr>
+
+<tr>
+    <td>Linux</td>
+    <td>Security experimentation environment</td>
+    <td>How can security tools be automated?</td>
+</tr>
+
+</table>
+
+<div class="danger">
+⚠️ <strong>Important:</strong>
+Only test security tools on systems, applications and networks
+where you have explicit permission.
+Never scan or attack somebody else's system without authorization.
+</div>
+
+</div>
+</section>
+
+<!-- METRICS -->
+
+<section>
+<div class="card">
+
+<h2>📊 12. How Do Researchers Know If Their Idea Works?</h2>
+
+<table>
+<tr>
+    <th>Metric</th>
+    <th>ELI10 Meaning</th>
+    <th>Example</th>
+</tr>
+
+<tr>
+    <td>Accuracy</td>
+    <td>How many predictions were correct?</td>
+    <td>95 correct out of 100</td>
+</tr>
+
+<tr>
+    <td>Precision</td>
+    <td>When we say "attack", how often are we correct?</td>
+    <td>90% of detected attacks are real</td>
+</tr>
+
+<tr>
+    <td>Recall</td>
+    <td>How many real attacks did we find?</td>
+    <td>92 out of 100 attacks detected</td>
+</tr>
+
+<tr>
+    <td>F1-Score</td>
+    <td>Balance between precision and recall</td>
+    <td>Useful for imbalanced datasets</td>
+</tr>
+
+<tr>
+    <td>Execution Time</td>
+    <td>How fast is the method?</td>
+    <td>2 seconds</td>
+</tr>
+
+<tr>
+    <td>False Positive</td>
+    <td>Alarm says attack, but it isn't</td>
+    <td>Normal user marked as attacker</td>
+</tr>
+
+</table>
+
+</div>
+</section>
+
+<!-- AI -->
+
+<section>
+<div class="card">
+
+<h2>🤖 13. How Can Students Use AI in Research?</h2>
+
+<div class="safe">
+
+AI can be your <strong>research assistant</strong>, not your research replacement.
+</div>
+
+<table>
+<tr>
+    <th>Good Use</th>
+    <th>Bad Use</th>
+</tr>
+
+<tr>
+    <td>Ask AI to explain a paper</td>
+    <td>Copy an entire paper</td>
+</tr>
+
+<tr>
+    <td>Ask for research questions</td>
+    <td>Accept every idea without checking</td>
+</tr>
+
+<tr>
+    <td>Ask AI to explain code</td>
+    <td>Submit AI code without understanding it</td>
+</tr>
+
+<tr>
+    <td>Ask AI to find bugs</td>
+    <td>Assume AI is always correct</td>
+</tr>
+
+<tr>
+    <td>Ask AI to compare algorithms</td>
+    <td>Invent experimental results</td>
+</tr>
+
+</table>
+
+<div class="highlight">
+🎯 <strong>Golden Rule:</strong>
+Ask AI → Understand → Verify → Modify → Experiment → Defend
+</div>
+
+</div>
+</section>
+
+<!-- STUDENT ACTIVITY -->
+
+<section>
+<div class="card">
+
+<h2>🎯 14. Classroom Activity</h2>
+
+<h3>Become a Cybersecurity Researcher!</h3>
+
+<p>Divide students into small groups.</p>
+
+<table>
+<tr>
+    <th>Activity</th>
+    <th>Student Task</th>
+</tr>
+
+<tr>
+    <td>🔎 Problem Hunt</td>
+    <td>Find 3 cybersecurity problems around you.</td>
+</tr>
+
+<tr>
+    <td>📚 Paper Hunt</td>
+    <td>Find 3 papers related to one problem.</td>
+</tr>
+
+<tr>
+    <td>🕳️ Gap Hunt</td>
+    <td>Identify something existing methods do not solve well.</td>
+</tr>
+
+<tr>
+    <td>💡 Idea Hunt</td>
+    <td>Suggest one improvement.</td>
+</tr>
+
+<tr>
+    <td>🧪 Experiment</td>
+    <td>Explain how you would test the idea.</td>
+</tr>
+
+</table>
+
+</div>
+</section>
+
+<!-- QUESTIONS -->
+
+<section>
+<div class="card">
+
+<h2>🧠 15. Questions Every Student Should Ask</h2>
+
+<div class="question">
+❓ What is the cybersecurity problem?
+</div>
+
+<div class="question">
+❓ Why is this problem important?
+</div>
+
+<div class="question">
+❓ What have other researchers already done?
+</div>
+
+<div class="question">
+❓ What is missing in existing research?
+</div>
+
+<div class="question">
+❓ What is my new idea?
+</div>
+
+<div class="question">
+❓ How will I implement it?
+</div>
+
+<div class="question">
+❓ How will I measure success?
+</div>
+
+<div class="question">
+❓ Can another researcher reproduce my experiment?
+</div>
+
+</div>
+</section>
+
+<!-- FINAL -->
+
+<section>
+<div class="card">
+
+<h2>🏆 16. Remember This Simple Formula</h2>
+
+<div class="flow">
+
+<div class="flow-box">Problem</div>
+<div class="arrow">➡️</div>
+
+<div class="flow-box">Question</div>
+<div class="arrow">➡️</div>
+
+<div class="flow-box">Literature</div>
+<div class="arrow">➡️</div>
+
+<div class="flow-box">Gap</div>
+<div class="arrow">➡️</div>
+
+<div class="flow-box">Idea</div>
+<div class="arrow">➡️</div>
+
+<div class="flow-box">Experiment</div>
+<div class="arrow">➡️</div>
+
+<div class="flow-box">Evidence</div>
+<div class="arrow">➡️</div>
+
+<div class="flow-box">Conclusion</div>
+
+</div>
+
+<div class="highlight">
+<p class="big">
+🔬 Researcher = Curious Detective
+</p>
+
+<p>
+A good cybersecurity researcher does not simply ask:
+</p>
+
+<p class="big">
+"What tool can I use?"
+</p>
+
+<p>
+Instead, ask:
+</p>
+
+<p class="big">
+"What problem can I solve better?"
+</p>
+
+</div>
+
+</div>
+</section>
+
+</div>
+
+<footer>
+    🛡️ Cybersecurity Research for Beginners |
+    Learn • Question • Experiment • Verify • Discover
+</footer>
+
+</body>
+</html>
+```
