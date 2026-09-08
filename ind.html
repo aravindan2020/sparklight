@@ -1,1558 +1,306 @@
 <!DOCTYPE html>
-<html lang='en'>
-<!DOCTYPE html>
-<html lang='en'>
-<!DOCTYPE html>
-<html lang='en'>
-<!DOCTYPE html>
-<html lang='en'>
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Session 8 — Social Engineering & Phishing</title>
+<title>Cybersecurity Mission Center — 15 Session Roadmap</title>
 <style>
-
-/* =========================================================
-   GLOBAL
-========================================================= */
-
-*{
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    margin:0;
-    font-family:"Trebuchet MS",Arial,sans-serif;
-    line-height:1.7;
-    color:#f5f5f5;
-
-    background:
-        radial-gradient(circle at 10% 10%,rgba(239,68,68,.18),transparent 25%),
-        radial-gradient(circle at 90% 30%,rgba(220,38,38,.15),transparent 25%),
-        linear-gradient(135deg,#020202,#170303,#080808);
-
-    overflow-x:hidden;
-}
-
-/* =========================================================
-   ANIMATED BACKGROUND
-========================================================= */
-
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:-2;
-
-    background:
-        radial-gradient(circle at 30% 80%,rgba(255,30,0,.12),transparent 25%),
-        radial-gradient(circle at 70% 60%,rgba(255,80,0,.08),transparent 25%);
-}
-
-.particle{
-    position:fixed;
-    width:6px;
-    height:6px;
-    border-radius:50%;
-    background:#ef4444;
-    box-shadow:
-        0 0 10px #ef4444,
-        0 0 25px #dc2626;
-    bottom:-20px;
-    opacity:.6;
-    animation:rise 10s infinite linear;
-    z-index:-1;
-}
-
-.p1{left:5%;animation-delay:1s;}
-.p2{left:15%;animation-delay:3s;}
-.p3{left:25%;animation-delay:5s;}
-.p4{left:35%;animation-delay:2s;}
-.p5{left:45%;animation-delay:7s;}
-.p6{left:55%;animation-delay:4s;}
-.p7{left:65%;animation-delay:6s;}
-.p8{left:75%;animation-delay:1s;}
-.p9{left:85%;animation-delay:8s;}
-.p10{left:95%;animation-delay:3s;}
-
-@keyframes rise{
-
-    0%{
-        transform:translateY(0) translateX(0);
-        opacity:0;
-    }
-
-    20%{
-        opacity:.8;
-    }
-
-    100%{
-        transform:translateY(-110vh) translateX(40px);
-        opacity:0;
-    }
-}
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero{
-    min-height:550px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-
-    position:relative;
-    overflow:hidden;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(70,0,0,.95),
-            rgba(20,0,0,.95),
-            rgba(50,5,5,.9)
-        );
-
-    border-bottom:3px solid #ef2b16;
-}
-
-.hero::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:700px;
-    height:700px;
-
-    border:2px solid rgba(239,68,68,.15);
-
-    border-radius:50%;
-
-    animation:rotate 20s linear infinite;
-}
-
-.hero::after{
-
-    content:"";
-
-    position:absolute;
-
-    width:450px;
-    height:450px;
-
-    border:2px dashed rgba(248,113,113,.18);
-
-    border-radius:50%;
-
-    animation:rotateReverse 14s linear infinite;
-}
-
-@keyframes rotate{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
-}
-
-@keyframes rotateReverse{
-    from{transform:rotate(360deg);}
-    to{transform:rotate(0deg);}
-}
-
-.hero-content{
-    position:relative;
-    z-index:2;
-    max-width:1000px;
-    padding:30px;
-}
-
-.badge{
-
-    display:inline-block;
-
-    padding:10px 25px;
-
-    border:2px solid #ef4444;
-
-    border-radius:40px;
-
-    color:#ff9c8f;
-
-    background:rgba(239,68,68,.08);
-
-    box-shadow:0 0 25px rgba(239,68,68,.25);
-
-    letter-spacing:2px;
-
-    animation:glow 2s infinite;
-}
-
-@keyframes glow{
-
-    0%,100%{
-        box-shadow:0 0 10px rgba(239,68,68,.2);
-    }
-
-    50%{
-        box-shadow:0 0 35px rgba(239,68,68,.65);
-    }
-}
-
-.lock{
-
-    font-size:100px;
-
-    margin:20px;
-
-    filter:
-        drop-shadow(0 0 10px #ef4444)
-        drop-shadow(0 0 30px #dc2626);
-
-    animation:lockFloat 3s infinite ease-in-out;
-}
-
-@keyframes lockFloat{
-
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-15px) rotate(-3deg);
-    }
-}
-
-.hero h1{
-
-    font-size:58px;
-
-    margin:10px 0;
-
-    text-transform:uppercase;
-
-    background:
-        linear-gradient(
-            90deg,
-            #fff,
-            #ffb4aa,
-            #ef4444,
-            #fff
-        );
-
-    background-size:300%;
-
-    -webkit-background-clip:text;
-
-    color:transparent;
-
-    animation:titleMove 5s infinite;
-}
-
-@keyframes titleMove{
-
-    0%{background-position:0%;}
-    50%{background-position:100%;}
-    100%{background-position:0%;}
-
-}
-
-.hero p{
-
-    font-size:21px;
-
-    color:#ffc9c3;
-
-}
-
-/* =========================================================
-   CONTAINER
-========================================================= */
-
-.container{
-
-    width:92%;
-    max-width:1250px;
-    margin:auto;
-
-}
-
-section{
-
-    margin:60px 0;
-
-}
-
-/* =========================================================
-   CARD
-========================================================= */
-
-.card{
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(30,8,8,.95),
-            rgba(12,12,12,.96)
-        );
-
-    border:1px solid rgba(239,68,68,.18);
-
-    border-radius:25px;
-
-    padding:32px;
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.5),
-        inset 0 1px rgba(255,255,255,.03);
-
-    transition:.4s;
-
-}
-
-.card:hover{
-
-    transform:translateY(-5px);
-
-    border-color:rgba(239,68,68,.5);
-
-    box-shadow:
-        0 25px 70px rgba(0,0,0,.7),
-        0 0 30px rgba(239,68,68,.08);
-
-}
-
-h2{
-
-    color:#ff6b57;
-
-    font-size:34px;
-
-    text-shadow:
-        0 0 10px rgba(239,68,68,.25);
-
-}
-
-h3{
-
-    color:#ff9d91;
-
-}
-
-/* =========================================================
-   ROBOT / ELI10
-========================================================= */
-
-.robot{
-
-    position:relative;
-
-    padding:28px;
-
-    border-radius:20px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(127,29,29,.25),
-            rgba(69,10,10,.2)
-        );
-
-    border-left:7px solid #ef4444;
-
-    font-size:19px;
-
-    overflow:hidden;
-
-}
-
-.robot::after{
-
-    content:"🤖";
-
-    position:absolute;
-
-    right:20px;
-
-    bottom:5px;
-
-    font-size:75px;
-
-    opacity:.10;
-
-    animation:robotMove 3s infinite ease-in-out;
-
-}
-
-@keyframes robotMove{
-
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-12px);
-    }
-
-}
-
-/* =========================================================
-   HIGHLIGHT
-========================================================= */
-
-.highlight{
-
-    padding:20px;
-
-    margin:20px 0;
-
-    border-radius:15px;
-
-    background:rgba(245,158,11,.08);
-
-    border-left:6px solid #f59e0b;
-
-}
-
-/* =========================================================
-   SAFE
-========================================================= */
-
-.safe{
-
-    padding:20px;
-
-    border-radius:15px;
-
-    background:rgba(34,197,94,.08);
-
-    border-left:6px solid #22c55e;
-
-}
-
-/* =========================================================
-   DANGER
-========================================================= */
-
-.danger{
-
-    padding:20px;
-
-    border-radius:15px;
-
-    background:rgba(239,68,68,.10);
-
-    border-left:6px solid #ef4444;
-
-}
-
-/* =========================================================
-   TABLES
-========================================================= */
-
-.table-wrapper{
-
-    overflow-x:auto;
-
-    border-radius:16px;
-
-}
-
-table{
-
-    width:100%;
-
-    border-collapse:collapse;
-
-    min-width:700px;
-
-    margin:20px 0;
-
-}
-
-th{
-
-    padding:16px;
-
-    text-align:left;
-
-    color:white;
-
-    background:
-        linear-gradient(
-            135deg,
-            #991b1b,
-            #dc2626
-        );
-
-}
-
-td{
-
-    padding:15px;
-
-    border-bottom:1px solid rgba(255,255,255,.08);
-
-}
-
-tr{
-
-    transition:.3s;
-
-}
-
-tr:hover{
-
-    background:rgba(239,68,68,.08);
-
-}
-
-/* =========================================================
-   DIAGRAM
-========================================================= */
-
-.diagram{
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    flex-wrap:wrap;
-
-    gap:15px;
-
-    margin:35px 0;
-
-}
-
-.diagram-box{
-
-    min-width:170px;
-
-    padding:20px;
-
-    text-align:center;
-
-    border-radius:18px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #991b1b,
-            #450a0a
-        );
-
-    border:1px solid #ef4444;
-
-    box-shadow:
-        0 0 15px rgba(239,68,68,.15);
-
-    animation:diagramPulse 2s infinite;
-
-}
-
-.diagram-box:nth-child(1){animation-delay:.1s;}
-.diagram-box:nth-child(3){animation-delay:.4s;}
-.diagram-box:nth-child(5){animation-delay:.7s;}
-.diagram-box:nth-child(7){animation-delay:1s;}
-.diagram-box:nth-child(9){animation-delay:1.3s;}
-
-@keyframes diagramPulse{
-
-    0%,100%{
-        transform:scale(1);
-    }
-
-    50%{
-        transform:scale(1.06);
-        box-shadow:0 0 25px rgba(239,68,68,.4);
-    }
-
-}
-
-.arrow{
-
-    font-size:32px;
-
-    color:#ff735f;
-
-    animation:arrowMove 1.5s infinite;
-
-}
-
-@keyframes arrowMove{
-
-    0%,100%{
-        transform:translateX(0);
-    }
-
-    50%{
-        transform:translateX(8px);
-    }
-
-}
-
-/* =========================================================
-   PASSWORD VISUAL
-========================================================= */
-
-.password-box{
-
-    padding:35px;
-
-    text-align:center;
-
-    border-radius:20px;
-
-    background:#050505;
-
-    border:1px solid #4b1111;
-
-}
-
-.password{
-
-    font-size:35px;
-
-    letter-spacing:8px;
-
-    color:#ff6250;
-
-    text-shadow:0 0 20px #ef4444;
-
-    animation:passwordGlow 2s infinite;
-
-}
-
-@keyframes passwordGlow{
-
-    0%,100%{
-        text-shadow:0 0 8px #ef4444;
-    }
-
-    50%{
-        text-shadow:
-            0 0 15px #ef4444,
-            0 0 35px #dc2626;
-    }
-
-}
-
-/* =========================================================
-   AUTHENTICATION FACTORS
-========================================================= */
-
-.factor-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(auto-fit,minmax(240px,1fr));
-
-    gap:22px;
-
-}
-
-.factor{
-
-    padding:25px;
-
-    border-radius:20px;
-
-    background:#100707;
-
-    border:1px solid #451414;
-
-    text-align:center;
-
-    transition:.4s;
-
-}
-
-.factor:hover{
-
-    transform:
-        translateY(-10px)
-        scale(1.02);
-
-    border-color:#ef4444;
-
-}
-
-.factor-icon{
-
-    font-size:60px;
-
-    animation:factorFloat 3s infinite;
-
-}
-
-@keyframes factorFloat{
-
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-8px);
-    }
-
-}
-
-/* =========================================================
-   STEP CARDS
-========================================================= */
-
-.steps{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(auto-fit,minmax(220px,1fr));
-
-    gap:18px;
-
-}
-
-.step{
-
-    position:relative;
-
-    padding:25px;
-
-    border-radius:18px;
-
-    background:#100707;
-
-    border:1px solid #481313;
-
-    transition:.4s;
-
-}
-
-.step:hover{
-
-    transform:translateY(-8px);
-
-    border-color:#ef4444;
-
-}
-
-.step-number{
-
-    width:45px;
-    height:45px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    border-radius:50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ef4444,
-            #7f1d1d
-        );
-
-    font-weight:bold;
-
-    margin-bottom:15px;
-
-}
-
-/* =========================================================
-   QUIZ
-========================================================= */
-
-.question{
-
-    margin:20px 0;
-
-    padding:25px;
-
-    border-radius:18px;
-
-    background:#0e0808;
-
-    border:1px solid #461515;
-
-}
-
-.answer{
-
-    margin-top:15px;
-
-    padding:15px;
-
-    border-radius:12px;
-
-    background:rgba(34,197,94,.08);
-
-    border-left:5px solid #22c55e;
-
-}
-
-/* =========================================================
-   EXERCISES
-========================================================= */
-
-.exercise{
-
-    padding:25px;
-
-    margin:20px 0;
-
-    border-radius:20px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(127,29,29,.20),
-            rgba(20,5,5,.9)
-        );
-
-    border:1px solid #551515;
-
-    transition:.4s;
-
-}
-
-.exercise:hover{
-
-    transform:translateX(8px);
-
-    border-color:#ef4444;
-
-}
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer{
-
-    margin-top:80px;
-
-    padding:50px;
-
-    text-align:center;
-
-    background:#030303;
-
-    border-top:2px solid #4b1111;
-
-}
-
-footer strong{
-
-    color:#ff5945;
-
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:700px){
-
-    .hero h1{
-        font-size:38px;
-    }
-
-    .lock{
-        font-size:70px;
-    }
-
-    .diagram{
-        flex-direction:column;
-    }
-
-    .arrow{
-        transform:rotate(90deg);
-    }
-
-}
-
-</style>
-<style>
-/* SESSION 4 ADDITIONS */
-.crypto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin:25px 0}
-.crypto-card{padding:25px;border-radius:20px;background:#100707;border:1px solid #451414;transition:.4s;text-align:center}
-.crypto-card:hover{transform:translateY(-10px) scale(1.02);border-color:#ef4444;box-shadow:0 20px 45px rgba(239,68,68,.12)}
-.crypto-icon{font-size:58px;margin-bottom:10px;display:block}
-.cipher-box{background:#050505;border:1px solid #4b1111;border-radius:18px;padding:25px;margin:20px 0}
-.cipher-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin:15px 0}
-.letter{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:#7f1d1d;border:1px solid #ef4444;font-weight:bold;font-size:20px}
-.btn{background:linear-gradient(135deg,#ef4444,#7f1d1d);border:0;color:#fff;padding:12px 20px;border-radius:10px;font-weight:bold;cursor:pointer;margin:6px}
-.btn:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(239,68,68,.3)}
-.quiz-option{display:block;margin:10px 0;padding:13px;border:1px solid #461515;border-radius:12px;cursor:pointer;background:#0e0808}
-.quiz-option:hover{border-color:#ef4444;background:#1b0a0a}
-.answer-box{display:none;margin-top:15px;padding:15px;border-radius:12px;background:rgba(34,197,94,.08);border-left:5px solid #22c55e}
-.badge2{display:inline-block;padding:7px 14px;border-radius:30px;background:rgba(239,68,68,.12);border:1px solid #ef4444;color:#ff9d91;margin:4px}
-@media(max-width:700px){.letter{width:36px;height:36px}}
-
-/* =========================================================
-   DEEP TECHNICAL DETAIL
-========================================================= */
-.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:25px 0}
-.tech-card{padding:24px;border-radius:18px;background:linear-gradient(145deg,#160707,#090909);border:1px solid #5b1717}
-.tech-card h3{margin-top:0;color:#ff9d91}
-.formula{font-family:"Courier New",monospace;background:#030303;border:1px solid #531313;border-radius:14px;padding:18px;color:#a7f3d0;overflow-x:auto}
-.codebox{background:#020202;border:1px solid #3f1111;border-radius:14px;padding:20px;font-family:"Courier New",monospace;color:#d1fae5;overflow-x:auto}
-.term{display:inline-block;padding:4px 9px;border-radius:7px;background:rgba(239,68,68,.12);border:1px solid #6b1b1b;color:#ffb4aa;font-weight:bold}
-.note{background:rgba(59,130,246,.10);border-left:6px solid #60a5fa;padding:18px;border-radius:12px}
-.tech-warning{background:rgba(245,158,11,.10);border-left:6px solid #f59e0b;padding:18px;border-radius:12px}
-.layer{display:grid;grid-template-columns:80px 1fr;gap:15px;align-items:center;margin:12px 0}
-.layer-num{width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#7f1d1d;border:1px solid #ef4444;font-weight:bold}
-.small{font-size:.92em;color:#c4c4c4}
-</style>
-
-</style>
-
-<style>
-.bar{margin:12px 0;padding:10px;border-radius:10px;background:rgba(255,255,255,.06)}
-.barfill{height:10px;border-radius:10px;background:linear-gradient(90deg,#ff3b3b,#ffcc33,#00ff99);margin-top:7px;transition:width .5s}
-.survey button,.quiz button{margin:7px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.2);cursor:pointer;background:#1b1b2b;color:white}
-.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:20px 0}
-.node{padding:15px;border-radius:14px;background:linear-gradient(135deg,#2a0b0b,#421515);border:1px solid #ff5555;box-shadow:0 0 15px rgba(255,70,70,.18)}
-.arrow{font-size:24px;color:#ff7777}
-.highlight{padding:15px;border-left:5px solid #ff4444;background:rgba(255,70,70,.08);border-radius:8px}
-</style>
-
-
-<style id="alignment-fix">
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;padding:0;min-height:100vh;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;line-height:1.7}
-main{width:min(1180px,94%);margin:0 auto;padding:28px 0 50px}
-.hero{width:min(1180px,94%);margin:28px auto 0;padding:38px 42px;border-radius:24px;text-align:center}
-.hero h1{margin:10px 0 8px;line-height:1.15}
-.hero p{max-width:900px;margin:12px auto}
-.card{width:100%;margin:24px 0;padding:28px 32px;border-radius:18px;overflow:hidden}
-.card h2{margin:0 0 18px;line-height:1.25;padding-bottom:10px}
-.card h3{margin:22px 0 10px;line-height:1.3}
-.card p{max-width:1050px;margin:0 auto 18px;text-align:left}
-.color-table{width:100%;border-collapse:separate;border-spacing:0;margin:20px 0;table-layout:fixed;overflow:hidden;border-radius:12px}
-.color-table th,.color-table td{padding:14px 16px;vertical-align:top;text-align:left;word-wrap:break-word;overflow-wrap:anywhere}
-.color-table th{font-weight:700}
-.flow{width:100%;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;padding:18px 8px}
-.node{min-width:135px;max-width:180px;text-align:center;padding:16px 12px;border-radius:14px;line-height:1.35}
-.highlight{width:100%;margin:18px 0;padding:16px 18px;line-height:1.6}
-.survey,.quiz{text-align:center}
-.survey button,.quiz button{display:inline-block;min-height:46px;margin:6px;padding:11px 18px;line-height:1.3}
-#surveyResults{width:100%;max-width:900px;margin:20px auto;text-align:left}
-.bar{width:100%;margin:12px 0;padding:11px 14px;border-radius:10px}
-.barfill{max-width:100%;margin-top:8px}
-.robot{width:100%;max-width:850px;margin:0 auto;padding:24px;text-align:left;border-radius:16px}
-.robot h2{text-align:center}
-.robot li{margin:8px 0}
-footer{width:min(1180px,94%);margin:0 auto;padding:25px 0 40px;text-align:center}
-footer p{margin:6px 0}
-@media (max-width:800px){
-main{width:96%;padding-top:15px}.hero{width:96%;padding:28px 20px;margin-top:15px}.card{padding:22px 18px;margin:18px 0}
-.color-table{font-size:.9rem;display:block;overflow-x:auto}.color-table th,.color-table td{min-width:150px}
-.flow{flex-direction:column}.arrow{transform:rotate(90deg)}.node{max-width:260px;width:80%}
-}
-@media (max-width:520px){
-.hero h1{font-size:1.8rem}.card h2{font-size:1.35rem}.card p{font-size:.96rem}
-.survey button,.quiz button{width:100%;margin:5px 0}
-}
+body{margin:0;font-family:"Trebuchet MS",Arial,sans-serif;color:#f8fafc;background:radial-gradient(circle at 10% 10%,rgba(239,68,68,.18),transparent 25%),radial-gradient(circle at 90% 25%,rgba(168,85,247,.14),transparent 25%),linear-gradient(135deg,#020202,#100204 48%,#030303);line-height:1.65;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;background-image:linear-gradient(rgba(239,68,68,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(239,68,68,.035) 1px,transparent 1px);background-size:45px 45px}
+.background{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(3px);opacity:.16;animation:float 14s ease-in-out infinite}
+.o1{width:330px;height:330px;background:#ef4444;left:-110px;top:15%}
+.o2{width:270px;height:270px;background:#7c3aed;right:-80px;top:48%;animation-delay:3s}
+.o3{width:190px;height:190px;background:#dc2626;left:38%;bottom:-60px;animation-delay:6s}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(45px,-35px) scale(1.08)}}
+.hero{min-height:620px;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;border-bottom:2px solid #ef4444;background:linear-gradient(135deg,rgba(55,0,0,.94),rgba(10,5,8,.92),rgba(35,0,25,.9))}
+.ring{position:absolute;border:2px solid rgba(239,68,68,.15);border-radius:50%;animation:spin 22s linear infinite}
+.r1{width:760px;height:760px}.r2{width:510px;height:510px;border-style:dashed;animation:spinReverse 16s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes spinReverse{from{transform:rotate(360deg)}to{transform:rotate(0deg)}}
+.hero-content{position:relative;z-index:2;max-width:1050px;padding:30px}
+.badge{display:inline-block;padding:9px 22px;border:1px solid #ef4444;border-radius:50px;color:#fecaca;background:rgba(239,68,68,.1);letter-spacing:2px;box-shadow:0 0 25px rgba(239,68,68,.25)}
+.shield{font-size:92px;margin:18px 0 4px;filter:drop-shadow(0 0 25px #ef4444);animation:pulse 2.4s infinite}
+@keyframes pulse{50%{transform:scale(1.07);filter:drop-shadow(0 0 45px #ef4444)}}
+h1{font-size:clamp(42px,6vw,72px);line-height:1.05;margin:10px 0 18px;background:linear-gradient(90deg,#fff,#ffb4aa,#ef4444,#fff);background-size:300%;-webkit-background-clip:text;color:transparent;animation:gradient 5s infinite}
+@keyframes gradient{0%,100%{background-position:0%}50%{background-position:100%}}
+.hero p{font-size:clamp(18px,2.2vw,23px);color:#fecaca;margin:8px auto;max-width:850px}
+.hero-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-block;text-decoration:none;color:white;padding:13px 24px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);transition:.3s;font-weight:bold}
+.btn.primary{background:linear-gradient(135deg,#dc2626,#991b1b);border-color:#ef4444}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(239,68,68,.25)}
+.container{width:92%;max-width:1280px;margin:auto}
+.section{margin:55px 0}
+.section-title{text-align:center;margin-bottom:28px}
+.section-title h2{font-size:36px;color:#fca5a5;margin:0 0 8px}
+.section-title p{color:#cbd5e1;margin:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:-45px;position:relative;z-index:4}
+.stat{background:rgba(15,23,42,.88);border:1px solid rgba(239,68,68,.25);border-radius:18px;padding:22px;text-align:center;backdrop-filter:blur(12px);box-shadow:0 16px 40px rgba(0,0,0,.3)}
+.stat strong{display:block;font-size:34px;color:#f87171}.stat span{color:#cbd5e1;font-size:14px}
+.progress-wrap{background:rgba(15,23,42,.8);border:1px solid rgba(239,68,68,.2);padding:22px;border-radius:18px}
+.progress-label{display:flex;justify-content:space-between;margin-bottom:10px;color:#e2e8f0}
+.progress{height:14px;background:#1e293b;border-radius:50px;overflow:hidden}
+.progress-bar{height:100%;width:53.33%;background:linear-gradient(90deg,#dc2626,#f97316,#ef4444);box-shadow:0 0 18px rgba(239,68,68,.55)}
+.session-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.session-card{position:relative;min-height:360px;padding:25px;border-radius:22px;overflow:hidden;background:linear-gradient(145deg,rgba(24,7,10,.96),rgba(8,8,10,.96));border:1px solid rgba(239,68,68,.2);box-shadow:0 18px 50px rgba(0,0,0,.32);display:flex;flex-direction:column;transition:.35s}
+.session-card:hover{transform:translateY(-8px);border-color:rgba(248,113,113,.65);box-shadow:0 25px 65px rgba(239,68,68,.12)}
+.session-card.future{opacity:.72;border-style:dashed}
+.session-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.session-number{font-size:13px;letter-spacing:1.5px;color:#fca5a5;font-weight:bold}
+.status{font-size:11px;padding:5px 9px;border-radius:20px;font-weight:bold}.live{background:#14532d;color:#bbf7d0;border:1px solid #22c55e}.upcoming{background:#3f1d0b;color:#fed7aa;border:1px solid #f97316}
+.icon{font-size:54px;margin:18px 0 8px;filter:drop-shadow(0 0 12px rgba(239,68,68,.3))}
+.session-card h3{font-size:24px;line-height:1.2;margin:4px 0 12px;color:#fff}.session-card p{color:#cbd5e1;margin:0 0 14px}
+.mini-topic{font-size:13px;color:#fda4af;background:rgba(239,68,68,.07);border-left:3px solid #ef4444;padding:8px 10px;border-radius:7px;margin-top:auto}
+.launch{margin-top:15px;text-align:center;text-decoration:none;color:white;background:linear-gradient(135deg,#dc2626,#991b1b);border:1px solid #ef4444;border-radius:11px;padding:11px 14px;font-weight:bold;transition:.3s}
+.launch:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(239,68,68,.25)}
+.launch.disabled{cursor:not-allowed;opacity:.55;font:inherit;width:100%}
+.roadmap{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:22px}
+.roadmap div{text-align:center;padding:14px 8px;border-radius:12px;background:#111827;border:1px solid #334155;color:#cbd5e1;font-size:13px}
+.roadmap .done{border-color:#ef4444;color:#fecaca;background:rgba(127,29,29,.25)}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.info{background:rgba(15,23,42,.78);border:1px solid rgba(148,163,184,.15);border-radius:18px;padding:24px}.info h3{color:#fca5a5;margin-top:0}.info p{color:#cbd5e1}
+table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:16px;background:rgba(15,23,42,.8)}
+th{background:#991b1b;color:#fff;padding:14px;text-align:left}td{padding:13px;border-bottom:1px solid rgba(148,163,184,.15);color:#dbeafe}tr:hover td{background:rgba(239,68,68,.06)}
+footer{margin-top:70px;padding:38px 20px;text-align:center;background:#050505;border-top:1px solid #3f1d1d;color:#94a3b8}footer strong{color:#fca5a5}
+#toast{position:fixed;left:50%;bottom:25px;transform:translate(-50%,20px);opacity:0;background:#111827;border:1px solid #ef4444;color:white;padding:13px 20px;border-radius:12px;box-shadow:0 15px 40px rgba(0,0,0,.4);transition:.3s;z-index:20}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:950px){.session-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,1fr)}.info-grid{grid-template-columns:1fr}}
+@media(max-width:620px){.hero{min-height:560px}.session-grid,.stats{grid-template-columns:1fr}.roadmap{grid-template-columns:1fr 1fr}.r1{width:480px;height:480px}.r2{width:330px;height:330px}.shield{font-size:72px}}
 </style>
-
-
-<style id="session5-hero-image-fix">
-.hero{
-  width:min(1400px,96%) !important;
-  margin:18px auto 0 !important;
-  padding:0 !important;
-  background:transparent !important;
-  border:0 !important;
-  box-shadow:none !important;
-  overflow:hidden !important;
-}
-.hero .hero-image{
-  display:block;
-  width:100%;
-  height:auto;
-  max-height:none;
-  object-fit:contain;
-  border-radius:24px;
-  margin:0 auto;
-}
-.hero .hero-accessible{
-  position:absolute !important;
-  width:1px !important;
-  height:1px !important;
-  padding:0 !important;
-  margin:-1px !important;
-  overflow:hidden !important;
-  clip:rect(0,0,0,0) !important;
-  white-space:nowrap !important;
-  border:0 !important;
-}
-@media(max-width:700px){
-  .hero{width:98% !important}
-  .hero .hero-image{border-radius:14px}
-}
-</style>
-
-
-<style id="session6-layout">
-*{box-sizing:border-box}
-body{margin:0;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;line-height:1.72}
-main{width:min(1180px,94%);margin:0 auto;padding:28px 0 55px}
-.hero6{width:min(1400px,96%);margin:18px auto 8px;padding:46px 5%;min-height:390px;border-radius:24px;position:relative;overflow:hidden;background:radial-gradient(circle at 30% 50%,rgba(255,45,45,.22),transparent 34%),linear-gradient(110deg,#300000,#100000 52%,#220000);border:1px solid #ff3b3b;box-shadow:0 0 35px rgba(255,40,40,.25);display:grid;grid-template-columns:220px 1fr 300px;gap:34px;align-items:center}
-.hero6:before,.hero6:after{content:"";position:absolute;border:1px solid rgba(255,60,60,.28);border-radius:50%;pointer-events:none}
-.hero6:before{width:620px;height:620px;left:240px;top:-120px}
-.hero6:after{width:430px;height:430px;left:335px;top:-25px;border-style:dashed}
-.badge6{border:2px solid #ff3b3b;border-radius:34px;padding:26px 18px;text-align:center;letter-spacing:3px;font-size:18px;line-height:1.8;box-shadow:0 0 20px rgba(255,50,50,.3);position:relative;z-index:2}
-.badge6 strong{font-size:52px;display:block;letter-spacing:0}
-.center6{position:relative;z-index:2;text-align:center}
-.globe6{font-size:72px;line-height:1;margin-bottom:12px}
-.center6 h1{font-size:clamp(42px,5.5vw,78px);line-height:.98;margin:0;font-weight:900;letter-spacing:1px}
-.center6 .line{width:130px;height:4px;margin:20px auto;background:#ff3b3b;border-radius:10px;box-shadow:0 0 16px #ff3b3b}
-.center6 .subtitle{font-size:19px;letter-spacing:5px;text-transform:uppercase}
-.mission6{position:relative;z-index:2;border:2px solid #ff3b3b;border-radius:24px;padding:25px 22px;text-align:center;background:rgba(0,0,0,.28)}
-.mission6 h3{color:#ff5555;margin:0 0 16px;font-size:22px}
-.mission6 p{margin:0;text-align:center}
-.card{width:100%;margin:24px 0;padding:28px 32px;border-radius:18px;overflow:hidden}
-.card h2{margin:0 0 18px;line-height:1.25}
-.card h3{margin:22px 0 10px}
-.card p{max-width:1050px;margin:0 auto 18px;text-align:left}
-.color-table{width:100%;border-collapse:separate;border-spacing:0;margin:20px 0;table-layout:fixed;border-radius:12px;overflow:hidden}
-.color-table th,.color-table td{padding:14px 16px;vertical-align:top;text-align:left;overflow-wrap:anywhere}
-.flow6{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin:20px 0}
-.node6{padding:16px 18px;min-width:150px;text-align:center;border:1px solid #ff5555;border-radius:14px;background:linear-gradient(135deg,#2a0808,#450f0f)}
-.arrow6{font-size:25px;color:#ff6666}
-.activity6{padding:20px;border:1px dashed #ff5555;border-radius:16px;background:rgba(255,50,50,.06)}
-.survey6{text-align:center}
-.survey6 button,.quiz6 button{margin:6px;padding:11px 17px;border-radius:10px;border:1px solid rgba(255,255,255,.25);cursor:pointer;background:#1a1a25;color:#fff}
-.bar6{margin:10px 0;padding:10px;border-radius:10px;background:rgba(255,255,255,.06);text-align:left}
-.fill6{height:10px;margin-top:7px;border-radius:10px;background:linear-gradient(90deg,#ff3b3b,#ffcc33,#00ff99)}
-.highlight{padding:15px 18px;border-left:5px solid #ff4444;background:rgba(255,70,70,.08);border-radius:8px}
-.robot{padding:24px;border-radius:16px}
-footer{width:min(1180px,94%);margin:0 auto;text-align:center;padding:25px 0 40px}
-@media(max-width:900px){
-.hero6{grid-template-columns:1fr;min-height:auto;text-align:center;padding:32px 22px}
-.badge6{max-width:230px;margin:auto}.mission6{max-width:520px;margin:auto}
-.hero6:before{left:50%;transform:translateX(-50%)}.hero6:after{left:50%;transform:translateX(-50%)}
-}
-@media(max-width:600px){
-main{width:96%;padding-top:14px}.card{padding:22px 18px;margin:18px 0}
-.color-table{display:block;overflow-x:auto;font-size:.9rem}.color-table th,.color-table td{min-width:150px}
-.survey6 button,.quiz6 button{width:100%;margin:5px 0}
-.center6 h1{font-size:42px}.subtitle{letter-spacing:2px!important}
-.flow6{flex-direction:column}.arrow6{transform:rotate(90deg)}
-}
-</style>
-
-
-<style id="session7-layout">
-*{box-sizing:border-box}
-body{margin:0;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;line-height:1.72}
-main{width:min(1180px,94%);margin:0 auto;padding:28px 0 55px}
-.hero7{width:min(1400px,96%);margin:18px auto 8px;padding:44px 5%;min-height:390px;border-radius:24px;position:relative;overflow:hidden;background:radial-gradient(circle at 30% 50%,rgba(255,45,45,.22),transparent 34%),linear-gradient(110deg,#300000,#100000 52%,#220000);border:1px solid #ff3b3b;box-shadow:0 0 35px rgba(255,40,40,.25);display:grid;grid-template-columns:220px 1fr 300px;gap:34px;align-items:center}
-.hero7:before,.hero7:after{content:"";position:absolute;border:1px solid rgba(255,60,60,.28);border-radius:50%;pointer-events:none}
-.hero7:before{width:620px;height:620px;left:240px;top:-120px}.hero7:after{width:430px;height:430px;left:335px;top:-25px;border-style:dashed}
-.badge7{border:2px solid #ff3b3b;border-radius:34px;padding:26px 18px;text-align:center;letter-spacing:3px;font-size:18px;line-height:1.8;box-shadow:0 0 20px rgba(255,50,50,.3);position:relative;z-index:2}
-.badge7 strong{font-size:52px;display:block;letter-spacing:0}
-.center7{position:relative;z-index:2;text-align:center}.malware-icon7{font-size:76px;line-height:1;margin-bottom:10px}
-.center7 h1{font-size:clamp(42px,5.5vw,78px);line-height:.98;margin:0;font-weight:900;letter-spacing:1px}
-.center7 .line{width:130px;height:4px;margin:20px auto;background:#ff3b3b;border-radius:10px;box-shadow:0 0 16px #ff3b3b}
-.center7 .subtitle{font-size:19px;letter-spacing:5px;text-transform:uppercase}
-.mission7{position:relative;z-index:2;border:2px solid #ff3b3b;border-radius:24px;padding:25px 22px;text-align:center;background:rgba(0,0,0,.28)}
-.mission7 h3{color:#ff5555;margin:0 0 16px;font-size:22px}.mission7 p{margin:0;text-align:center}
-.card{width:100%;margin:24px 0;padding:28px 32px;border-radius:18px;overflow:hidden}
-.card h2{margin:0 0 18px;line-height:1.25}.card h3{margin:22px 0 10px}.card p{max-width:1050px;margin:0 auto 18px;text-align:left}
-.color-table{width:100%;border-collapse:separate;border-spacing:0;margin:20px 0;table-layout:fixed;border-radius:12px;overflow:hidden}
-.color-table th,.color-table td{padding:14px 16px;vertical-align:top;text-align:left;overflow-wrap:anywhere}
-.flow7{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin:20px 0}
-.node7{padding:16px 18px;min-width:145px;text-align:center;border:1px solid #ff5555;border-radius:14px;background:linear-gradient(135deg,#2a0808,#450f0f)}
-.arrow7{font-size:25px;color:#ff6666}
-.activity7{padding:20px;border:1px dashed #ff5555;border-radius:16px;background:rgba(255,50,50,.06)}
-.survey7{text-align:center}.survey7 button,.quiz7 button{margin:6px;padding:11px 17px;border-radius:10px;border:1px solid rgba(255,255,255,.25);cursor:pointer;background:#1a1a25;color:#fff}
-.bar7{margin:10px 0;padding:10px;border-radius:10px;background:rgba(255,255,255,.06);text-align:left}
-.fill7{height:10px;margin-top:7px;border-radius:10px;background:linear-gradient(90deg,#ff3b3b,#ffcc33,#00ff99)}
-.highlight{padding:15px 18px;border-left:5px solid #ff4444;background:rgba(255,70,70,.08);border-radius:8px}
-.robot{padding:24px;border-radius:16px}
-footer{width:min(1180px,94%);margin:0 auto;text-align:center;padding:25px 0 40px}
-@media(max-width:900px){.hero7{grid-template-columns:1fr;min-height:auto;text-align:center;padding:32px 22px}.badge7{max-width:230px;margin:auto}.mission7{max-width:520px;margin:auto}.hero7:before{left:50%;transform:translateX(-50%)}.hero7:after{left:50%;transform:translateX(-50%)}}
-@media(max-width:600px){main{width:96%;padding-top:14px}.card{padding:22px 18px;margin:18px 0}.color-table{display:block;overflow-x:auto;font-size:.9rem}.color-table th,.color-table td{min-width:150px}.survey7 button,.quiz7 button{width:100%;margin:5px 0}.center7 h1{font-size:42px}.subtitle{letter-spacing:2px!important}.flow7{flex-direction:column}.arrow7{transform:rotate(90deg)}}
-</style>
-
-
-<style id="session8-layout">
-*{box-sizing:border-box}
-body{margin:0;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;line-height:1.72}
-main{width:min(1180px,94%);margin:0 auto;padding:28px 0 55px}
-.hero8{width:min(1400px,96%);margin:18px auto 8px;padding:44px 5%;min-height:390px;border-radius:24px;position:relative;overflow:hidden;background:radial-gradient(circle at 30% 50%,rgba(255,45,45,.22),transparent 34%),linear-gradient(110deg,#300000,#100000 52%,#220000);border:1px solid #ff3b3b;box-shadow:0 0 35px rgba(255,40,40,.25);display:grid;grid-template-columns:220px 1fr 300px;gap:34px;align-items:center}
-.hero8:before,.hero8:after{content:"";position:absolute;border:1px solid rgba(255,60,60,.28);border-radius:50%;pointer-events:none}
-.hero8:before{width:620px;height:620px;left:240px;top:-120px}.hero8:after{width:430px;height:430px;left:335px;top:-25px;border-style:dashed}
-.badge8{border:2px solid #ff3b3b;border-radius:34px;padding:26px 18px;text-align:center;letter-spacing:3px;font-size:18px;line-height:1.8;box-shadow:0 0 20px rgba(255,50,50,.3);position:relative;z-index:2}
-.badge8 strong{font-size:52px;display:block;letter-spacing:0}
-.center8{position:relative;z-index:2;text-align:center}.phish8{font-size:76px;line-height:1;margin-bottom:10px}
-.center8 h1{font-size:clamp(42px,5.5vw,78px);line-height:.98;margin:0;font-weight:900;letter-spacing:1px}
-.center8 .line{width:130px;height:4px;margin:20px auto;background:#ff3b3b;border-radius:10px;box-shadow:0 0 16px #ff3b3b}
-.center8 .subtitle{font-size:19px;letter-spacing:5px;text-transform:uppercase}
-.mission8{position:relative;z-index:2;border:2px solid #ff3b3b;border-radius:24px;padding:25px 22px;text-align:center;background:rgba(0,0,0,.28)}
-.mission8 h3{color:#ff5555;margin:0 0 16px;font-size:22px}.mission8 p{margin:0;text-align:center}
-.card{width:100%;margin:24px 0;padding:28px 32px;border-radius:18px;overflow:hidden}
-.card h2{margin:0 0 18px;line-height:1.25}.card h3{margin:22px 0 10px}.card p{max-width:1050px;margin:0 auto 18px;text-align:left}
-.color-table{width:100%;border-collapse:separate;border-spacing:0;margin:20px 0;table-layout:fixed;border-radius:12px;overflow:hidden}
-.color-table th,.color-table td{padding:14px 16px;vertical-align:top;text-align:left;overflow-wrap:anywhere}
-.flow8{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin:20px 0}
-.node8{padding:16px 18px;min-width:145px;text-align:center;border:1px solid #ff5555;border-radius:14px;background:linear-gradient(135deg,#2a0808,#450f0f)}
-.arrow8{font-size:25px;color:#ff6666}
-.activity8{padding:20px;border:1px dashed #ff5555;border-radius:16px;background:rgba(255,50,50,.06)}
-.survey8{text-align:center}.survey8 button,.quiz8 button{margin:6px;padding:11px 17px;border-radius:10px;border:1px solid rgba(255,255,255,.25);cursor:pointer;background:#1a1a25;color:#fff}
-.bar8{margin:10px 0;padding:10px;border-radius:10px;background:rgba(255,255,255,.06);text-align:left}
-.fill8{height:10px;margin-top:7px;border-radius:10px;background:linear-gradient(90deg,#ff3b3b,#ffcc33,#00ff99)}
-.highlight{padding:15px 18px;border-left:5px solid #ff4444;background:rgba(255,70,70,.08);border-radius:8px}
-.robot{padding:24px;border-radius:16px}
-footer{width:min(1180px,94%);margin:0 auto;text-align:center;padding:25px 0 40px}
-@media(max-width:900px){.hero8{grid-template-columns:1fr;min-height:auto;text-align:center;padding:32px 22px}.badge8{max-width:230px;margin:auto}.mission8{max-width:520px;margin:auto}.hero8:before{left:50%;transform:translateX(-50%)}.hero8:after{left:50%;transform:translateX(-50%)}}
-@media(max-width:600px){main{width:96%;padding-top:14px}.card{padding:22px 18px;margin:18px 0}.color-table{display:block;overflow-x:auto;font-size:.9rem}.color-table th,.color-table td{min-width:150px}.survey8 button,.quiz8 button{width:100%;margin:5px 0}.center8 h1{font-size:42px}.subtitle{letter-spacing:2px!important}.flow8{flex-direction:column}.arrow8{transform:rotate(90deg)}}
-</style>
-
-
-<style id="session-navigation-css">
-.session-nav{
-    width:92%;
-    max-width:1250px;
-    margin:22px auto 0;
-    padding:16px;
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:10px;
-    position:relative;
-    z-index:20;
-    background:rgba(20,0,0,.94);
-    border:1px solid rgba(239,68,68,.35);
-    border-radius:18px;
-    box-shadow:0 12px 35px rgba(0,0,0,.45);
-}
-.session-nav-title{
-    width:100%;
-    text-align:center;
-    color:#ffb4aa;
-    font-size:14px;
-    font-weight:800;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    margin-bottom:3px;
-}
-.session-nav a{
-    min-width:125px;
-    padding:11px 16px;
-    text-align:center;
-    text-decoration:none;
-    color:#fff;
-    background:linear-gradient(135deg,#260606,#4d1010);
-    border:1px solid #7d2820;
-    border-radius:12px;
-    font-weight:700;
-    transition:.25s ease;
-}
-.session-nav a:hover{
-    transform:translateY(-3px);
-    border-color:#ff4444;
-    box-shadow:0 0 18px rgba(255,60,60,.35);
-}
-.session-nav a.active{
-    background:linear-gradient(135deg,#8b1111,#ef4444);
-    border-color:#ff9a90;
-    box-shadow:0 0 20px rgba(239,68,68,.4);
-}
-@media(max-width:600px){
-    .session-nav{width:96%;padding:12px}
-    .session-nav a{min-width:calc(50% - 6px);padding:10px 8px;font-size:14px}
-}
-</style>
-
 </head>
-
-
-
 <body>
+<div class="background"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
 
-<nav class="session-nav" aria-label="Cybersecurity session navigation">
-    <div class="session-nav-title">🛡️ Cybersecurity Mission Center • Sessions 4–8</div>
-    <a href="session 4.html">🔐 Session 4<br>Cryptography</a>
-    <a href="session 5.html">🌐 Session 5<br>Network Security</a>
-    <a href="session 6.html">💻 Session 6<br>Web Security</a>
-    <a href="session 7.html">🦠 Session 7<br>Malware</a>
-    <a href="session 8.html" class="active">🎣 Session 8<br>Phishing</a>
-</nav>
-
-<header class="hero8">
-  <div class="badge8">🛡️<br>CYBER QUEST<br>SESSION<strong>8</strong></div>
-  <div class="center8">
-    <div class="phish8">🎣</div>
-    <h1>SOCIAL<br>ENGINEERING</h1>
-    <div class="line"></div>
-    <div class="subtitle">When the Attacker Hacks the Human</div>
-  </div>
-  <div class="mission8">
-    <h3>MISSION 08</h3>
-    <p>“The computer may be secure…<br><br><strong>but can a clever message convince the user to open the door?</strong>”</p>
+<header class="hero">
+  <div class="ring r1"></div><div class="ring r2"></div>
+  <div class="hero-content">
+    <div class="badge">FIRST-YEAR ENGINEERING • ELI10 • 15 SESSION MISSION</div>
+    <div class="shield">🛡️</div>
+    <h1>CYBERSECURITY<br>MISSION CENTER</h1>
+    <p>One learning journey. Fifteen missions. From “What is cybersecurity?” to a student-led cybersecurity research mission.</p>
+    <p><strong>Learn → Investigate → Practice → Research → Defend</strong></p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#sessions">🚀 Explore All 15 Sessions</a>
+      <a class="btn" href="#roadmap">🗺️ View Roadmap</a>
+    </div>
   </div>
 </header>
 
-<main>
-<section class="card">
-<h2>🧭 Mission Connection — From Endpoint Security to Human Security</h2>
-<p>In Session 7, we followed malware into the endpoint. We learned how malicious software can steal information, encrypt files, establish persistence, communicate with command-and-control systems, and disrupt operations. We also learned that malware often needs an entry path. Sometimes that path is a technical vulnerability. Sometimes it begins with a human decision: opening an attachment, clicking a link, installing an application, or revealing a password.</p>
-<p>This brings us to social engineering. Social engineering is the use of deception, influence, manipulation, or impersonation to persuade people to perform an action or reveal information. It is not simply “tricking stupid people.” Even experienced professionals can be influenced when an attacker creates urgency, authority, fear, curiosity, familiarity, or financial pressure. Security therefore needs both technical controls and human-centered design.</p>
-<p>Today we enter the world of phishing, spear phishing, whaling, smishing, vishing, pretexting, baiting, impersonation, business email compromise, malicious links, and attachment deception. We will learn how to inspect suspicious messages, verify requests using trusted channels, slow down emotional decisions, and design organizational defenses. All examples in this lesson are fictional and intended for defensive education.</p>
-</section>
+<main class="container">
+  <section class="stats">
+    <div class="stat"><strong>15</strong><span>Total Learning Missions</span></div>
+    <div class="stat"><strong>8</strong><span>Sessions Currently Linked</span></div>
+    <div class="stat"><strong>53%</strong><span>Mission Progress</span></div>
+    <div class="stat"><strong>∞</strong><span>Opportunities to Investigate</span></div>
+  </section>
 
-<section class="card">
-<h2>🎯 Learning Outcomes</h2>
-<table class="color-table">
-<tr><th>Skill</th><th>Students should be able to</th></tr>
-<tr><td>🧠 Explain</td><td>Define social engineering and describe why human behavior is part of cybersecurity.</td></tr>
-<tr><td>🎣 Identify</td><td>Recognize common characteristics of phishing and impersonation attempts.</td></tr>
-<tr><td>🔍 Verify</td><td>Apply a safe verification process before clicking, replying, paying, or sharing information.</td></tr>
-<tr><td>📱 Distinguish</td><td>Differentiate phishing, spear phishing, whaling, smishing, and vishing.</td></tr>
-<tr><td>🛡️ Defend</td><td>Explain technical, organizational, and human controls that reduce social-engineering risk.</td></tr>
-<tr><td>🔬 Research</td><td>Design an ethical awareness or detection study using simulated messages and measurable outcomes.</td></tr>
-</table>
-</section>
+  <section class="section" id="roadmap">
+    <div class="section-title"><h2>🔥 Your Cybersecurity Journey</h2><p>The attached Session C1–C8 pages are directly connected below. Sessions 9–15 are reserved in the roadmap.</p></div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Mission Progress</span><strong>8 / 15 Sessions</strong></div>
+      <div class="progress"><div class="progress-bar"></div></div>
+      <div class="roadmap">
+        <div class="done">01<br>Foundation</div><div class="done">02<br>Threats</div><div class="done">03<br>Authentication</div><div class="done">04<br>Cryptography</div><div class="done">05<br>Network</div>
+        <div class="done">06<br>Web</div><div class="done">07<br>Malware</div><div class="done">08<br>Phishing</div><div>09<br>Cloud</div><div>10<br>Mobile / IoT</div>
+        <div>11<br>Forensics</div><div>12<br>SOC</div><div>13<br>Ethical Hacking</div><div>14<br>AI Security</div><div>15<br>Capstone</div>
+      </div>
+    </div>
+  </section>
 
-<section class="card">
-<h2>🧠 Topic 1 — What Is Social Engineering?</h2>
-<h3>📖 Story: The Fake Principal</h3>
-<p>Imagine a college receptionist receives a phone call. The caller says, “I am the principal. I am in an emergency meeting and need the examination-office password immediately.” The receptionist recognizes the principal's name and feels pressure because the caller sounds confident. The request appears urgent. If the receptionist gives the password without verification, the attacker has not broken the password algorithm. The attacker has manipulated the person who protects it.</p>
-<p>This is the heart of social engineering. The attacker attempts to influence human decision-making instead of depending entirely on a technical exploit. The attacker may pretend to be a manager, bank employee, teacher, delivery person, technician, friend, or government official. The story changes, but the psychological objective is often similar: create a situation where the victim acts before carefully verifying.</p>
-<p>Social engineering works because humans use shortcuts. We trust familiar names, respond to urgency, respect authority, fear losing access, and want to help others. These are normal human behaviors. Security awareness should therefore not blame victims. A strong security culture makes safe verification easy and makes it acceptable for employees and students to pause when a request feels unusual.</p>
-<h3>🔧 Technical and Psychological Deep Dive</h3>
-<p>Common influence principles include authority, urgency, scarcity, reciprocity, familiarity, fear, curiosity, and social proof. Attackers may combine several principles in one message. A phishing email might claim that an account will be suspended in ten minutes and provide a link to “verify” the account. The emotional pressure reduces the time available for rational inspection.</p>
-<p>Defenders can design processes around this weakness. High-risk actions should require independent verification, especially when they involve money, credentials, sensitive data, or changes to security controls. For example, a payment instruction received by email can require confirmation through a previously known phone number or an approved financial workflow.</p>
-<p>Security awareness should focus on behaviors rather than memorizing lists of suspicious words. Students should learn to ask: <strong>Who is requesting this? Why now? What exactly are they asking me to do? Can I verify it using a trusted channel?</strong></p>
-</section>
+  <section class="section" id="sessions">
+    <div class="section-title"><h2>🎯 Mission Library</h2><p>Click an available mission to open the complete session page.</p></div>
+    <div class="session-grid">
 
-<section class="card">
-<h2>🎣 Topic 2 — Phishing</h2>
-<h3>📖 Story: The Fake Fishing Hook</h3>
-<p>Imagine a fisherman throws a hook into a lake with attractive bait. The fisherman does not know exactly which fish will bite. Phishing works with a similar idea: an attacker sends deceptive messages designed to make recipients click, reply, sign in, open an attachment, transfer money, or reveal information. The message is the bait, and the victim's action is the desired catch.</p>
-<p>A phishing message may imitate a bank, university, cloud service, courier, employer, or social-media platform. The visible appearance can be convincing. A logo can be copied. The sender name can look familiar. The message can contain professional language. Therefore, visual appearance alone is not enough to establish trust.</p>
-<p>The safest habit is to separate the message from the action. Instead of clicking a login link in an unexpected message, open the service using a known bookmark or manually navigate to the official service. Instead of replying to a payment-change request, verify it through a trusted channel already known to the organization.</p>
-<h3>🔧 Technical Deep Dive</h3>
-<p>Phishing can use deceptive domains, look-alike addresses, compromised accounts, shortened links, malicious attachments, fake login pages, and other techniques. Email authentication technologies such as SPF, DKIM, and DMARC can help organizations reduce certain forms of email spoofing, but they do not make every phishing message disappear.</p>
-<p>Modern phishing can also use legitimate infrastructure or compromised accounts, which means “the sender domain looks correct” is not always sufficient. Defenders combine email security controls with identity protection, endpoint security, browser protections, MFA, user reporting, and investigation workflows.</p>
-<p>Students should understand that phishing is an attack technique, not a single technical vulnerability. It often crosses multiple security layers: identity, email, web applications, endpoints, and human behavior.</p>
-</section>
+    <article class="session-card available">
+      <div class="session-top"><span class="session-number">SESSION 01</span><span class="status live">AVAILABLE</span></div>
+      <div class="icon">🧭</div>
+      <h3>Research - ELI10</h3>
+      <p>Build the cybersecurity mindset and understand why security matters.</p>
+      <div class="mini-topic">Attached session • ELI10 learning</div>
+      <a class="launch" href="session C1.html">ENTER SESSION <span>→</span></a>
+    </article>
 
-<section class="card">
-<h2>🎯 Topic 3 — Spear Phishing and Whaling</h2>
-<h3>📖 Story: The Personalized Letter</h3>
-<p>Suppose an attacker sends one thousand generic letters saying, “Dear customer, click here.” Another attacker researches one university department and sends a carefully written message to a finance employee, mentioning the employee's department, a real project name, and an expected payment. The second message is more targeted. This is the idea behind spear phishing: phishing customized for a particular person or organization.</p>
-<p>When senior executives or high-value decision-makers are specifically targeted, the term <strong>whaling</strong> is commonly used. The attacker may imitate an executive or create a message that appears to come from an important business partner. The goal can include financial fraud, credential theft, access to sensitive documents, or further compromise.</p>
-<p>Targeted attacks demonstrate why awareness training based only on obvious spelling mistakes is insufficient. A professionally written message can still be malicious. The more important question is whether the request is expected and independently verified.</p>
-<h3>🔧 Technical Deep Dive</h3>
-<p>Targeted social engineering can use publicly available information to construct believable context. Defenders should reduce unnecessary exposure of sensitive organizational information and establish verification procedures for high-impact actions. Domain protection, MFA, email security, identity monitoring, and payment controls can reduce consequences.</p>
-<p>For financial requests, organizations can use dual approval, transaction limits, known contact verification, and separation of duties. For credential-related requests, administrators can require users to navigate independently to official services rather than following unexpected links.</p>
-<p>The security principle is simple: <strong>the more damaging the action, the stronger the verification should be.</strong></p>
-</section>
+    <article class="session-card available">
+      <div class="session-top"><span class="session-number">SESSION 02</span><span class="status live">AVAILABLE</span></div>
+      <div class="icon">☠️</div>
+      <h3>Session 2 - Threats &amp; Attackers</h3>
+      <p>Meet the threat landscape: attackers, threats, vulnerabilities and attack thinking.</p>
+      <div class="mini-topic">Attached session • ELI10 learning</div>
+      <a class="launch" href="session C2.html">ENTER SESSION <span>→</span></a>
+    </article>
 
-<section class="card">
-<h2>📱 Topic 4 — Smishing and Vishing</h2>
-<h3>📖 Story: The Delivery Message</h3>
-<p>A student receives a text message: “Your parcel cannot be delivered. Pay a small fee now.” The amount is tiny, the message is urgent, and a link is provided. The student may click without thinking. This is an example of the type of scenario associated with <strong>smishing</strong>, phishing delivered through SMS or messaging channels.</p>
-<p>Now imagine receiving a phone call from someone claiming to be from technical support. They say your account has been compromised and ask you to read a verification code aloud. The caller sounds professional and creates fear. This is the kind of scenario associated with <strong>vishing</strong>, or voice-based phishing.</p>
-<p>Different communication channels create different trust assumptions. People may be more suspicious of an email but automatically trust a phone call or text message. Security awareness must therefore cover email, SMS, messaging applications, voice calls, social media, and face-to-face impersonation.</p>
-<h3>🔧 Technical Deep Dive</h3>
-<p>Attackers can exploit caller-ID limitations, message spoofing, look-alike websites, and social context. MFA codes should never be shared with an unsolicited caller. Organizations should provide official support channels and teach users how to initiate contact independently.</p>
-<p>For SMS links, users can avoid clicking unexpected links and instead open the relevant service through an official app or known website. For voice requests, independent verification is powerful: hang up and call the organization using a trusted number rather than the number provided by the caller.</p>
-<p>The technical control and human behavior reinforce each other. MFA can reduce the impact of stolen passwords, while verification habits reduce the chance that users voluntarily give attackers the information needed to bypass security.</p>
-</section>
+    <article class="session-card available">
+      <div class="session-top"><span class="session-number">SESSION 03</span><span class="status live">AVAILABLE</span></div>
+      <div class="icon">🔐</div>
+      <h3>Session 3 - Password &amp; Authentication</h3>
+      <p>Learn how passwords, authentication and account protection keep identities safe.</p>
+      <div class="mini-topic">Attached session • ELI10 learning</div>
+      <a class="launch" href="session C3.html">ENTER SESSION <span>→</span></a>
+    </article>
 
-<section class="card">
-<h2>🎭 Topic 5 — Pretexting and Impersonation</h2>
-<h3>📖 Story: The Fake Technician</h3>
-<p>Imagine a person arrives at a laboratory wearing a shirt that says “IT Support.” They say that the network is being upgraded and ask an employee to connect an unknown device. The uniform creates an appearance of authority. If the employee accepts the story without checking the visitor's identity and authorization, the attacker has created a pretext—a believable scenario designed to obtain cooperation.</p>
-<p>Pretexting is powerful because the attacker builds a story before making the request. The story can involve an emergency, an audit, a delivery, a password reset, a job interview, a technical problem, or a management request. The victim may feel that refusing would be unhelpful or disrespectful.</p>
-<p>Organizations should make verification normal. A good employee should be able to say, “I need to verify that request,” without being criticized for slowing down work. Security is strengthened when procedures support safe refusal and independent confirmation.</p>
-<h3>🔧 Technical Deep Dive</h3>
-<p>Identity verification should use trusted records and approved workflows rather than information supplied only by the requester. Physical access systems, visitor badges, help-desk ticketing, device-management platforms, and role-based permissions can provide supporting evidence.</p>
-<p>High-risk technical actions should require authorization. A person claiming to be support should not automatically receive administrative access. The principle of least privilege applies to people and processes: grant only the access needed for the task and for the required duration.</p>
-<p>Security culture matters here because attackers often target exceptions. If an organization routinely bypasses its own verification process whenever someone claims urgency, the process becomes easy to manipulate.</p>
-</section>
+    <article class="session-card available">
+      <div class="session-top"><span class="session-number">SESSION 04</span><span class="status live">AVAILABLE</span></div>
+      <div class="icon">🔑</div>
+      <h3>Session 4 - Cryptography</h3>
+      <p>Discover how cryptography protects information using encryption, hashing and keys.</p>
+      <div class="mini-topic">Attached session • ELI10 learning</div>
+      <a class="launch" href="session C4.html">ENTER SESSION <span>→</span></a>
+    </article>
 
-<section class="card">
-<h2>💰 Topic 6 — Business Email Compromise and Payment Fraud</h2>
-<h3>📖 Story: The Changed Bank Account</h3>
-<p>A university regularly pays a supplier. One day, the finance department receives an email saying, “We have changed our bank account. Please use the new details for today's payment.” The email looks professional. The supplier name is correct. The request sounds ordinary. But if the bank details were changed by an attacker, a legitimate payment process could send money to the wrong destination.</p>
-<p>This type of fraud demonstrates why social engineering is not only about passwords. Attackers can target business processes. They may impersonate executives, suppliers, recruiters, or partners and ask for payments, confidential files, or account changes. The message may contain no malware at all; the attack succeeds because the victim performs a legitimate action for the wrong recipient.</p>
-<p>The strongest defense is process-based verification. A payment or account-change request should not be trusted solely because it arrives by email. Organizations can require independent confirmation, dual approval, known contact details, transaction controls, and separation of duties.</p>
-<h3>🔧 Technical Deep Dive</h3>
-<p>Identity systems and email security can reduce some risks, but business-process controls are equally important. SPF, DKIM, and DMARC help organizations manage aspects of email authenticity and domain protection. They do not prove that every request from a legitimate mailbox is trustworthy because legitimate accounts can themselves be compromised.</p>
-<p>Organizations should monitor unusual payment patterns, new beneficiaries, unexpected account changes, and anomalous login activity. Financial workflows can incorporate cooling-off periods or secondary verification for high-value changes.</p>
-<p>The engineering lesson is that security must protect <strong>business logic</strong>, not just network packets and passwords.</p>
-</section>
+    <article class="session-card available">
+      <div class="session-top"><span class="session-number">SESSION 05</span><span class="status live">AVAILABLE</span></div>
+      <div class="icon">🌐</div>
+      <h3>Session 5 — Network Security</h3>
+      <p>Understand how networks are defended using firewalls, monitoring and intrusion detection.</p>
+      <div class="mini-topic">Attached session • ELI10 learning</div>
+      <a class="launch" href="session C5.html">ENTER SESSION <span>→</span></a>
+    </article>
 
-<section class="card">
-<h2>🔗 Topic 7 — Malicious Links and Attachments</h2>
-<h3>📖 Story: The Shortcut</h3>
-<p>Imagine a sign at a railway station saying “Express Platform — This Way.” A traveler follows the sign because it looks official. But the sign has been placed by someone else and points to the wrong location. A phishing link works similarly. The text may say “University Portal,” while the actual destination is different. The safe habit is to verify the destination and context before interacting.</p>
-<p>Attachments create another challenge. A document may appear to be an invoice, result sheet, resume, or timetable. The file name alone does not prove that it is safe. The content may attempt to persuade the user to enable functionality, execute content, or provide credentials.</p>
-<p>Students should therefore learn a pause-and-check process. Was the file expected? Is the sender genuinely known? Was an attachment promised? Can the document be obtained through an official portal instead? Is the request urgent in an unusual way? If uncertainty remains, verify through another channel or report the message.</p>
-<h3>🔧 Technical Deep Dive</h3>
-<p>Organizations can use attachment scanning, sandboxing, link protection, browser isolation, application controls, and endpoint detection. These controls should be combined with user reporting. A suspicious message that is reported early can help security teams protect other users.</p>
-<p>Security teams can also analyze URLs and email metadata. Important clues may include domain age or reputation, mismatched domains, unusual redirects, authentication results, and suspicious sending infrastructure. None of these indicators should be treated as an absolute decision by itself.</p>
-<p>Users should not attempt to “test” suspicious files on production devices. Security research involving malicious artifacts belongs in controlled environments with appropriate authorization and isolation.</p>
-</section>
+    <article class="session-card available">
+      <div class="session-top"><span class="session-number">SESSION 06</span><span class="status live">AVAILABLE</span></div>
+      <div class="icon">🕸️</div>
+      <h3>Session 6 — Web Security</h3>
+      <p>Explore web applications, sessions, input validation and common web security risks.</p>
+      <div class="mini-topic">Attached session • ELI10 learning</div>
+      <a class="launch" href="session C6.html">ENTER SESSION <span>→</span></a>
+    </article>
 
-<section class="card">
-<h2>🧠 Topic 8 — The Psychology of Urgency</h2>
-<h3>📖 Story: “You Have Five Minutes!”</h3>
-<p>A message appears: “Your university account will be permanently deleted in five minutes. Click now to save it.” The student knows the account is important. The countdown creates stress. Under pressure, the student may skip normal verification. The attacker has changed the decision environment rather than the technical system.</p>
-<p>Urgency is one of the most common social-engineering signals. Other pressure signals include fear of punishment, promises of rewards, authority claims, secrecy, curiosity, and unexpected emergencies. None of these signals proves that a message is malicious. The key is that strong emotional pressure is a reason to slow down rather than a reason to act faster.</p>
-<p>A useful classroom rule is the <strong>STOP method</strong>: Stop, Think, Observe, Proceed carefully. Students should pause before clicking or sharing. They should identify what the message is asking them to do and verify whether the request is legitimate.</p>
-<h3>🔧 Technical Deep Dive</h3>
-<p>Security UX can be designed to reduce risky decisions. Systems can display clear warnings, require confirmation for sensitive actions, provide easy reporting buttons, and use phishing-resistant authentication methods where appropriate. Organizations can also train employees using ethical simulations that measure behavior rather than embarrass individuals.</p>
-<p>Security awareness should avoid fear-only messaging. If users believe every unexpected message is dangerous but do not know how to verify safely, they may become either overconfident or overwhelmed. Training should provide concrete actions and escalation paths.</p>
-<p>The goal is not to make humans perfect. The goal is to design systems in which one mistaken click does not automatically become a catastrophic compromise.</p>
-</section>
+    <article class="session-card available">
+      <div class="session-top"><span class="session-number">SESSION 07</span><span class="status live">AVAILABLE</span></div>
+      <div class="icon">🦠</div>
+      <h3>Session 7 — Malware &amp; Endpoint Security</h3>
+      <p>Understand malware, ransomware, endpoint protection and incident response.</p>
+      <div class="mini-topic">Attached session • ELI10 learning</div>
+      <a class="launch" href="session C7.html">ENTER SESSION <span>→</span></a>
+    </article>
 
-<section class="card">
-<h2>🛡️ Topic 9 — Human + Technical Defense</h2>
-<h3>📖 Story: The Castle With Two Guards</h3>
-<p>Imagine a castle with two guards. The first guard is a human who checks visitors. The second is an automatic gate that requires a valid access token. If the human makes a mistake, the automatic gate may still stop the attacker. If the automatic gate fails, the human may notice something unusual. Strong cybersecurity combines layers instead of expecting one control to be perfect.</p>
-<p>For social engineering, technical defenses include MFA, phishing-resistant authentication, email security, endpoint protection, web filtering, domain protection, application controls, and monitoring. Human defenses include verification habits, security awareness, reporting, and a culture where employees can question unusual requests.</p>
-<p>The strongest defense is usually a combination. If a user accidentally reveals a password, MFA may reduce the attacker's ability to sign in. If a malicious link is clicked, browser and endpoint controls may block it. If an attacker succeeds, monitoring can detect unusual behavior. If a payment request is fraudulent, independent approval can stop the transaction.</p>
-<h3>🔧 Technical Deep Dive</h3>
-<p>Defense-in-depth means multiple independent or complementary controls reduce the probability and impact of compromise. Zero Trust principles also emphasize continuous verification and least privilege rather than assuming that a user or device is trustworthy simply because it is inside a network.</p>
-<p>Phishing-resistant authentication methods can reduce credential-phishing risk because they are designed to bind authentication to the legitimate origin or device context. MFA is valuable, but not all MFA methods provide the same resistance to phishing.</p>
-<p>Security monitoring should connect identity, endpoint, email, and network events. For example, a suspicious login followed by mailbox-rule changes and unusual file access may be more meaningful than any one event alone.</p>
-</section>
+    <article class="session-card available">
+      <div class="session-top"><span class="session-number">SESSION 08</span><span class="status live">AVAILABLE</span></div>
+      <div class="icon">🎣</div>
+      <h3>Session 8 — Social Engineering &amp; Phishing</h3>
+      <p>Learn how attackers manipulate people through phishing and social engineering.</p>
+      <div class="mini-topic">Attached session • ELI10 learning</div>
+      <a class="launch" href="session C8.html">ENTER SESSION <span>→</span></a>
+    </article>
 
-<section class="card">
-<h2>🎨 Social Engineering Comparison</h2>
-<table class="color-table">
-<tr><th>Technique</th><th>ELI10 Story</th><th>Channel</th><th>Defensive Habit</th></tr>
-<tr><td>🎣 Phishing</td><td>Fishing with bait</td><td>Email/web</td><td>Verify sender and destination</td></tr>
-<tr><td>🎯 Spear phishing</td><td>Personalized bait</td><td>Email/web</td><td>Independent verification</td></tr>
-<tr><td>🐋 Whaling</td><td>Targeting the big decision-maker</td><td>Email/business</td><td>Strong approval workflow</td></tr>
-<tr><td>📱 Smishing</td><td>Phishing by text</td><td>SMS/messaging</td><td>Don't trust unexpected links</td></tr>
-<tr><td>📞 Vishing</td><td>Fake caller</td><td>Voice</td><td>Call back through trusted number</td></tr>
-<tr><td>🎭 Pretexting</td><td>Invented story</td><td>Any channel</td><td>Verify identity and authorization</td></tr>
-<tr><td>💰 BEC</td><td>Fake business request</td><td>Email/business</td><td>Independent payment verification</td></tr>
-<tr><td>🎁 Baiting</td><td>Fake attractive gift</td><td>Physical/digital</td><td>Don't use unknown media/software</td></tr>
-</table>
-</section>
+    <article class="session-card future">
+      <div class="session-top"><span class="session-number">SESSION 09</span><span class="status upcoming">COMING SOON</span></div>
+      <div class="icon">☁️</div>
+      <h3>Cloud Security</h3>
+      <p>Protect cloud accounts, services, data and workloads.</p>
+      <div class="mini-topic">15-session curriculum roadmap</div>
+      <button class="launch disabled" onclick="showComingSoon(event)">COMING SOON <span>🔒</span></button>
+    </article>
 
-<section class="card">
-<h2>🔄 The Social Engineering Attack Chain</h2>
-<div class="flow8">
-<div class="node8">🔎 Research</div><div class="arrow8">→</div>
-<div class="node8">🎭 Build Trust</div><div class="arrow8">→</div>
-<div class="node8">⏰ Create Pressure</div><div class="arrow8">→</div>
-<div class="node8">🎣 Deliver Request</div><div class="arrow8">→</div>
-<div class="node8">👆 Victim Action</div><div class="arrow8">→</div>
-<div class="node8">🔓 Access/Impact</div>
-</div>
-<p class="highlight"><strong>Defense points:</strong> interrupt the chain at any stage—reduce exposed information, verify identity, slow urgent requests, filter messages, require MFA, restrict privileges, monitor behavior, and make reporting easy.</p>
-</section>
+    <article class="session-card future">
+      <div class="session-top"><span class="session-number">SESSION 10</span><span class="status upcoming">COMING SOON</span></div>
+      <div class="icon">📱</div>
+      <h3>Mobile & IoT Security</h3>
+      <p>Secure smartphones, connected devices and IoT environments.</p>
+      <div class="mini-topic">15-session curriculum roadmap</div>
+      <button class="launch disabled" onclick="showComingSoon(event)">COMING SOON <span>🔒</span></button>
+    </article>
 
-<section class="card">
-<h2>⏱️ REAL-TIME CLASSROOM SURVEY — “What Would Make You Click?”</h2>
-<p>Use this as a live discussion, not a test of individual students. Ask which psychological trigger would be most difficult to resist. Then discuss why awareness training should focus on verification rather than blaming people.</p>
-<div class="survey8">
-<button onclick="vote8('urgency')">⏰ Urgency</button>
-<button onclick="vote8('authority')">👔 Authority</button>
-<button onclick="vote8('fear')">😨 Fear</button>
-<button onclick="vote8('reward')">🎁 Reward</button>
-<button onclick="vote8('curiosity')">🔎 Curiosity</button>
-</div>
-<div id="results8"></div>
-<p id="total8" class="highlight">Live votes: 0</p>
-</section>
+    <article class="session-card future">
+      <div class="session-top"><span class="session-number">SESSION 11</span><span class="status upcoming">COMING SOON</span></div>
+      <div class="icon">🔎</div>
+      <h3>Digital Forensics & Incident Response</h3>
+      <p>Learn how investigators preserve evidence and reconstruct incidents.</p>
+      <div class="mini-topic">15-session curriculum roadmap</div>
+      <button class="launch disabled" onclick="showComingSoon(event)">COMING SOON <span>🔒</span></button>
+    </article>
 
-<section class="card">
-<h2>🔎 REAL-TIME PHISHING DETECTIVE</h2>
-<table class="color-table">
-<tr><th>Message Clue</th><th>Risk Signal</th><th>Safe Response</th></tr>
-<tr><td>“Your account will close in 10 minutes!”</td><td>⏰ Urgency</td><td>Stop and verify independently</td></tr>
-<tr><td>Unexpected password-reset link</td><td>🔗 Unsolicited action</td><td>Open the service through a known route</td></tr>
-<tr><td>“Send the OTP to me now.”</td><td>🔐 Credential request</td><td>Never share the code; contact official support</td></tr>
-<tr><td>Supplier changes bank details by email</td><td>💰 High-impact request</td><td>Verify through a trusted channel</td></tr>
-<tr><td>Manager asks for confidential file unexpectedly</td><td>👔 Impersonation possibility</td><td>Confirm identity and authorization</td></tr>
-</table>
-<p>Important: a clue is not proof. Students should gather context and verify. The best response to uncertainty is not panic—it is controlled verification.</p>
-</section>
+    <article class="session-card future">
+      <div class="session-top"><span class="session-number">SESSION 12</span><span class="status upcoming">COMING SOON</span></div>
+      <div class="icon">🛰️</div>
+      <h3>Security Operations & Threat Intelligence</h3>
+      <p>Explore SOC workflows, monitoring, alerts and threat intelligence.</p>
+      <div class="mini-topic">15-session curriculum roadmap</div>
+      <button class="launch disabled" onclick="showComingSoon(event)">COMING SOON <span>🔒</span></button>
+    </article>
 
-<section class="card">
-<h2>🧪 Safe Hands-On Activity — Phishing or Legitimate?</h2>
-<div class="activity8">
-<p><strong>Message A:</strong> “Your account is expiring in 5 minutes. Click this unexpected link and enter your password.”</p>
-<p><strong>Message B:</strong> “The finance team changed the supplier's bank account. Please transfer the payment immediately. Do not call anyone because the request is confidential.”</p>
-<p><strong>Message C:</strong> “The university portal is available. To access it, open your usual bookmarked portal address.”</p>
-<p><strong>Student task:</strong> For each message, identify urgency, authority, unusual request, secrecy, link behavior, and impact. Then classify the message as <strong>likely suspicious</strong>, <strong>needs verification</strong>, or <strong>low concern</strong>. Explain what evidence you would collect before taking action.</p>
-<p><strong>Safety rule:</strong> Use only instructor-created fictional messages. Do not send simulated phishing to real people without explicit institutional authorization and an approved ethical process.</p>
-</div>
-</section>
+    <article class="session-card future">
+      <div class="session-top"><span class="session-number">SESSION 13</span><span class="status upcoming">COMING SOON</span></div>
+      <div class="icon">🧪</div>
+      <h3>Ethical Hacking & Vulnerability Assessment</h3>
+      <p>Understand ethical security testing, vulnerabilities and responsible practice.</p>
+      <div class="mini-topic">15-session curriculum roadmap</div>
+      <button class="launch disabled" onclick="showComingSoon(event)">COMING SOON <span>🔒</span></button>
+    </article>
 
-<section class="card">
-<h2>🧩 Case Study — The Dean's Request</h2>
-<p>A faculty member receives a message apparently from a senior administrator: “I am in a meeting. Please purchase three gift cards immediately and send me the codes. Keep this confidential.” The display name is familiar. The request is urgent and unusual. The faculty member feels pressure because the sender appears to be a senior person.</p>
-<p>Students should identify several warning signals: unusual financial action, urgency, secrecy, and a request that bypasses normal procurement procedures. The safest response is not to argue with the sender. Instead, the faculty member should independently verify the request using a trusted contact method and follow the organization's approved payment process.</p>
-<p>This case demonstrates why identity alone is not enough. Even if the sender account were genuine, a high-impact request should still follow organizational controls. Security is stronger when sensitive actions require process verification rather than personal trust.</p>
-</section>
+    <article class="session-card future">
+      <div class="session-top"><span class="session-number">SESSION 14</span><span class="status upcoming">COMING SOON</span></div>
+      <div class="icon">🤖</div>
+      <h3>AI & Cybersecurity</h3>
+      <p>Explore how AI helps defenders detect, analyze and respond to threats.</p>
+      <div class="mini-topic">15-session curriculum roadmap</div>
+      <button class="launch disabled" onclick="showComingSoon(event)">COMING SOON <span>🔒</span></button>
+    </article>
 
-<section class="card">
-<h2>🔬 Research Connection — Human-Centered Cybersecurity</h2>
-<p>Social engineering provides a strong research area for first-year students because it can be studied ethically using fictional scenarios. Students can create several simulated messages that vary one factor, such as urgency or authority, and measure how participants classify them. No real credentials should be collected, and participation should follow institutional ethics requirements.</p>
-<p>A simple experiment could compare two awareness-training approaches. Group A receives a list of phishing warning signs. Group B learns a verification workflow such as STOP: Stop, Think, Observe, Proceed. Students can measure the change in correct classification before and after training. The research question could ask which training approach improves safe decision-making.</p>
-<p>Another project can build a rule-based phishing detector using synthetic message features such as urgency words, suspicious link patterns, sender-domain mismatch, attachment presence, and unusual requests. Students can calculate precision, recall, F1-score, and false-positive rate. The focus remains on authorized synthetic data rather than real victim information.</p>
-<table class="color-table">
-<tr><th>Research Idea</th><th>Independent Variable</th><th>Possible Metric</th></tr>
-<tr><td>Awareness training</td><td>Training method</td><td>Pre/post accuracy</td></tr>
-<tr><td>Phishing classification</td><td>Detection rules</td><td>Precision, recall, F1</td></tr>
-<tr><td>Urgency experiment</td><td>Message pressure level</td><td>Decision time/accuracy</td></tr>
-<tr><td>Verification workflow</td><td>Control design</td><td>Unsafe actions prevented</td></tr>
-<tr><td>Reporting behavior</td><td>Reporting interface</td><td>Report rate/time</td></tr>
-</table>
-</section>
+    <article class="session-card future">
+      <div class="session-top"><span class="session-number">SESSION 15</span><span class="status upcoming">COMING SOON</span></div>
+      <div class="icon">🏆</div>
+      <h3>Cybersecurity Research & Capstone Mission</h3>
+      <p>Connect all 15 sessions into a student-led cybersecurity research mission.</p>
+      <div class="mini-topic">15-session curriculum roadmap</div>
+      <button class="launch disabled" onclick="showComingSoon(event)">COMING SOON <span>🔒</span></button>
+    </article>
 
-<section class="card">
-<h2>🛡️ The STOP Method</h2>
-<div class="flow8">
-<div class="node8">🛑 <strong>STOP</strong><br>Don't act immediately</div>
-<div class="arrow8">→</div>
-<div class="node8">🧠 <strong>THINK</strong><br>What is being requested?</div>
-<div class="arrow8">→</div>
-<div class="node8">🔍 <strong>OBSERVE</strong><br>Sender, link, context</div>
-<div class="arrow8">→</div>
-<div class="node8">✅ <strong>PROCEED</strong><br>Only after verification</div>
-</div>
-<p class="highlight"><strong>Remember:</strong> Urgency is not authentication. A familiar name is not authorization. A professional-looking message is not proof of legitimacy.</p>
-</section>
+    </div>
+  </section>
 
-<section class="card">
-<h2>🧠 ELI10 Summary — The Human Firewall</h2>
-<p>Imagine a school where every door has a strong lock, but a stranger can walk in simply by saying, “The principal told me to come inside.” The locks are technically good, but the decision process is weak. Social engineering attacks this decision process. The attacker tries to make a person trust the wrong request.</p>
-<p>The human firewall is not about blaming people. It is about giving people the knowledge, tools, time, and authority to make safe decisions. Students and employees should be able to pause, verify, report suspicious messages, and refuse unusual requests without fear of punishment for being careful.</p>
-<p>Technical controls provide another safety net. MFA, phishing-resistant authentication, email security, endpoint protection, least privilege, transaction controls, and monitoring can reduce the damage when deception succeeds. The strongest cybersecurity system assumes that people can make mistakes and is designed to contain those mistakes.</p>
-</section>
+  <section class="section">
+    <div class="section-title"><h2>🧠 How Students Learn</h2><p>The landing page is the front door to the session-by-session learning journey.</p></div>
+    <div class="info-grid">
+      <div class="info"><h3>🤖 ELI10 Learning</h3><p>Begin with familiar stories and simple mental models, then move toward technical cybersecurity concepts.</p></div>
+      <div class="info"><h3>🔍 Detective Thinking</h3><p>Observe, question, classify, compare, verify and defend reasoning instead of simply memorizing definitions.</p></div>
+      <div class="info"><h3>📊 Real-Time Learning</h3><p>Interactive activities, classroom decisions, quizzes and evidence-based observations can be incorporated into each mission.</p></div>
+    </div>
+  </section>
 
-<section class="card">
-<h2>📝 Interactive Quiz</h2>
-<div class="quiz8">
-<p><strong>1.</strong> What is social engineering primarily trying to influence?</p>
-<button onclick="answer8(this,true)">Human decisions and behavior</button>
-<button onclick="answer8(this,false)">Only network cables</button>
-
-<p><strong>2.</strong> What is spear phishing?</p>
-<button onclick="answer8(this,true)">Targeted phishing customized for a person or organization</button>
-<button onclick="answer8(this,false)">A type of firewall</button>
-
-<p><strong>3.</strong> What should you do with an unexpected password-reset link?</p>
-<button onclick="answer8(this,true)">Use a known official route and verify independently</button>
-<button onclick="answer8(this,false)">Click immediately because it looks official</button>
-
-<p><strong>4.</strong> A caller asks for your MFA code. What is safest?</p>
-<button onclick="answer8(this,true)">Do not share it and contact the organization through a trusted channel</button>
-<button onclick="answer8(this,false)">Read it aloud to prove your identity</button>
-
-<p><strong>5.</strong> A supplier requests a bank-account change by email. What is a strong control?</p>
-<button onclick="answer8(this,true)">Independent verification and approved payment workflow</button>
-<button onclick="answer8(this,false)">Process it immediately because the sender is familiar</button>
-
-<p id="score8" class="highlight">Score: 0</p>
-</div>
-</section>
-
-<section class="card">
-<h2>🏆 Mission Challenge</h2>
-<p><strong>Scenario:</strong> Your university is receiving a wave of messages pretending to be administrators. Some request passwords, some request urgent payments, and some contain links to fake login pages.</p>
-<p>As a junior security architect, design a five-layer defense. Include one user behavior, one identity control, one email/web control, one business-process control, and one monitoring/reporting control. Then explain how your design limits the damage if one layer fails.</p>
-<p class="highlight"><strong>Mission completed when you can explain: “How can I recognize manipulation? How do I independently verify a request? Which technical control reduces the impact? Which organizational process stops high-risk actions? How will the security team know an attack is happening?”</strong></p>
-</section>
-
-<section class="card">
-<h2>🧠 Technical Mastery Checklist</h2>
-<table class="color-table">
-<tr><th>Concept</th><th>Self-check</th></tr>
-<tr><td>Social engineering</td><td>☐</td></tr>
-<tr><td>Phishing</td><td>☐</td></tr>
-<tr><td>Spear phishing</td><td>☐</td></tr>
-<tr><td>Whaling</td><td>☐</td></tr>
-<tr><td>Smishing and vishing</td><td>☐</td></tr>
-<tr><td>Pretexting and impersonation</td><td>☐</td></tr>
-<tr><td>Business email compromise</td><td>☐</td></tr>
-<tr><td>Urgency and psychological triggers</td><td>☐</td></tr>
-<tr><td>Human + technical defense</td><td>☐</td></tr>
-<tr><td>STOP verification method</td><td>☐</td></tr>
-</table>
-</section>
-
-<section class="card">
-<h2>🚀 NEXT MISSION — SESSION 9</h2>
-<div class="robot">
-<h2>☁️ Cloud Security</h2>
-<p>The attacker can target people, endpoints, networks, and applications. Next we move to the cloud, where data and services may be distributed across shared infrastructure.</p>
-<ul>
-<li>☁️ What is cloud computing?</li>
-<li>🔐 Shared responsibility model</li>
-<li>👤 Cloud identity and access management</li>
-<li>🗄️ Storage security</li>
-<li>🌐 Cloud network security</li>
-<li>📊 Logging, monitoring and misconfiguration</li>
-</ul>
-<div class="highlight"><strong>Next Mission:</strong> “If your data lives in the cloud, who is responsible for protecting it?”</div>
-</div>
-</section>
-
-<footer>
-<p>🛡️ CYBER QUEST — SESSION 8</p>
-<p>Social Engineering • Phishing • Spear Phishing • Smishing • Vishing • BEC • Human-Centered Security</p>
-</footer>
-
-<script>
-const votes8={urgency:0,authority:0,fear:0,reward:0,curiosity:0};
-let score8=0;
-const labels8={urgency:"⏰ Urgency",authority:"👔 Authority",fear:"😨 Fear",reward:"🎁 Reward",curiosity:"🔎 Curiosity"};
-function vote8(k){
-  votes8[k]++;
-  const total=Object.values(votes8).reduce((a,b)=>a+b,0);
-  let html="";
-  for(const k2 in votes8){
-    const pct=total?Math.round(votes8[k2]*100/total):0;
-    html+=`<div class="bar8"><strong>${labels8[k2]}</strong> — ${votes8[k2]} vote(s) — ${pct}%<div class="fill8" style="width:${pct}%"></div></div>`;
-  }
-  document.getElementById("results8").innerHTML=html;
-  document.getElementById("total8").textContent="Live votes: "+total+" • Updated: "+new Date().toLocaleTimeString();
-}
-function answer8(btn,correct){
-  btn.style.outline=correct?"3px solid #00ff99":"3px solid #ff4444";
-  if(correct && !btn.dataset.done){score8++;btn.dataset.done="1";}
-  document.getElementById("score8").textContent="Score: "+score8;
-}
-</script>
+  <section class="section">
+    <div class="section-title"><h2>🗺️ 15-Session Curriculum at a Glance</h2></div>
+    <table>
+      <thead><tr><th>Session</th><th>Mission</th><th>Learning Direction</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>01</td><td>Cybersecurity Foundation</td><td>Security mindset and research orientation</td><td>✅ Linked</td></tr>
+        <tr><td>02</td><td>Threats & Attackers</td><td>Threat landscape and attacker thinking</td><td>✅ Linked</td></tr>
+        <tr><td>03</td><td>Password & Authentication</td><td>Identity and account security</td><td>✅ Linked</td></tr>
+        <tr><td>04</td><td>Cryptography</td><td>Encryption, hashing, keys and trust</td><td>✅ Linked</td></tr>
+        <tr><td>05</td><td>Network Security</td><td>Traffic, firewalls and intrusion defense</td><td>✅ Linked</td></tr>
+        <tr><td>06</td><td>Web Security</td><td>Secure web application thinking</td><td>✅ Linked</td></tr>
+        <tr><td>07</td><td>Malware & Endpoint Security</td><td>Malware behavior and endpoint defense</td><td>✅ Linked</td></tr>
+        <tr><td>08</td><td>Social Engineering & Phishing</td><td>Human-centered security</td><td>✅ Linked</td></tr>
+        <tr><td>09</td><td>Cloud Security</td><td>Cloud identity, data and workload protection</td><td>🔒 Planned</td></tr>
+        <tr><td>10</td><td>Mobile & IoT Security</td><td>Connected-device security</td><td>🔒 Planned</td></tr>
+        <tr><td>11</td><td>Digital Forensics & Incident Response</td><td>Evidence and incident investigation</td><td>🔒 Planned</td></tr>
+        <tr><td>12</td><td>Security Operations & Threat Intelligence</td><td>SOC and defensive monitoring</td><td>🔒 Planned</td></tr>
+        <tr><td>13</td><td>Ethical Hacking & Vulnerability Assessment</td><td>Responsible security testing</td><td>🔒 Planned</td></tr>
+        <tr><td>14</td><td>AI & Cybersecurity</td><td>AI-assisted defense and analysis</td><td>🔒 Planned</td></tr>
+        <tr><td>15</td><td>Cybersecurity Research & Capstone</td><td>Student research mission</td><td>🔒 Planned</td></tr>
+      </tbody>
+    </table>
+  </section>
 </main>
 
-<div class="session-nav" style="margin-bottom:35px;">
-    <div class="session-nav-title">🚀 Continue Your Cyber Quest</div>
-    <a href="session 4.html">← Session 4</a>
-    <a href="session 5.html">Session 5</a>
-    <a href="session 6.html">Session 6</a>
-    <a href="session 7.html">Session 7</a>
-    <a href="session 8.html" class="active">Session 8</a>
-</div>
+<footer>
+  <p><strong>🛡️ Cybersecurity Mission Center</strong></p>
+  <p>Learn security like a detective. Use AI like a tutor. Think like a researcher. Defend like an engineer.</p>
+  <p>Currently linked: Session C1 → Session C8 • Roadmap ready for Session C9 → C15</p>
+</footer>
 
+<div id="toast"></div>
+<script>
+function showComingSoon(e){
+  e.preventDefault();
+  const toast=document.getElementById("toast");
+  toast.textContent="🔒 This mission is reserved for the next stage of the 15-session roadmap.";
+  toast.classList.add("show");
+  clearTimeout(window.toastTimer);
+  window.toastTimer=setTimeout(()=>toast.classList.remove("show"),2600);
+}
+</script>
 </body>
-
 </html>
