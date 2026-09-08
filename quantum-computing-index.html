@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum Computing | 15-Session Learning Journey</title>
+  <style>
+    :root{
+      --bg1:#07111f;
+      --bg2:#0d1f39;
+      --card:#102746;
+      --text:#eef7ff;
+      --muted:#b8c9dc;
+      --cyan:#34d8ff;
+      --purple:#a879ff;
+      --pink:#ff72b6;
+      --green:#56e39f;
+      --yellow:#ffd166;
+      --orange:#ff9f43;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 20% 15%, rgba(52,216,255,.16), transparent 30%),
+        radial-gradient(circle at 80% 10%, rgba(168,121,255,.16), transparent 30%),
+        linear-gradient(145deg,var(--bg1),var(--bg2));
+      min-height:100vh;
+    }
+
+    header{
+      padding:56px 20px 40px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .atom{
+      width:92px;height:92px;
+      margin:0 auto 20px;
+      border:2px solid var(--cyan);
+      border-radius:50%;
+      display:grid;place-items:center;
+      font-size:42px;
+      box-shadow:0 0 35px rgba(52,216,255,.25);
+      animation:float 3s ease-in-out infinite;
+    }
+
+    @keyframes float{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-8px)}
+    }
+
+    h1{
+      font-size:clamp(2rem,5vw,4rem);
+      line-height:1.05;
+      margin-bottom:14px;
+      background:linear-gradient(90deg,var(--cyan),#fff,var(--purple));
+      -webkit-background-clip:text;
+      color:transparent;
+    }
+
+    .subtitle{
+      max-width:860px;
+      margin:auto;
+      color:var(--muted);
+      font-size:1.08rem;
+      line-height:1.7;
+    }
+
+    .chips{
+      margin:24px auto 0;
+      display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+      max-width:900px;
+    }
+    .chip{
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:999px;
+      padding:8px 13px;
+      font-size:.85rem;
+      background:rgba(255,255,255,.06);
+    }
+
+    .roadmap{
+      max-width:1180px;
+      margin:auto;
+      padding:18px 20px 70px;
+    }
+
+    .section-title{
+      text-align:center;
+      margin:16px 0 30px;
+    }
+    .section-title h2{font-size:2rem;margin-bottom:8px}
+    .section-title p{color:var(--muted)}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:20px;
+    }
+
+    .card{
+      --accent:var(--cyan);
+      min-height:285px;
+      background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.035));
+      border:1px solid rgba(255,255,255,.13);
+      border-top:4px solid var(--accent);
+      border-radius:20px;
+      padding:22px;
+      position:relative;
+      overflow:hidden;
+      transition:.28s ease;
+      box-shadow:0 16px 35px rgba(0,0,0,.18);
+    }
+    .card:hover{
+      transform:translateY(-7px);
+      box-shadow:0 22px 45px rgba(0,0,0,.28);
+      border-color:color-mix(in srgb,var(--accent) 65%, white);
+    }
+
+    .card:nth-child(6n+1){--accent:var(--cyan)}
+    .card:nth-child(6n+2){--accent:var(--purple)}
+    .card:nth-child(6n+3){--accent:var(--green)}
+    .card:nth-child(6n+4){--accent:var(--yellow)}
+    .card:nth-child(6n+5){--accent:var(--pink)}
+    .card:nth-child(6n+6){--accent:var(--orange)}
+
+    .num{
+      display:inline-grid;place-items:center;
+      width:46px;height:46px;
+      border-radius:14px;
+      font-weight:800;
+      background:var(--accent);
+      color:#07111f;
+      margin-bottom:14px;
+    }
+    .card h3{font-size:1.18rem;margin-bottom:9px}
+    .story{
+      color:var(--muted);
+      line-height:1.55;
+      min-height:72px;
+      font-size:.94rem;
+    }
+
+    .tags{
+      margin:14px 0 18px;
+      display:flex;flex-wrap:wrap;gap:7px;
+    }
+    .tag{
+      font-size:.72rem;
+      padding:5px 8px;
+      border-radius:999px;
+      background:rgba(255,255,255,.075);
+      border:1px solid rgba(255,255,255,.09);
+    }
+
+    .open{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      text-decoration:none;
+      color:#07111f;
+      background:var(--accent);
+      font-weight:800;
+      border-radius:11px;
+      padding:10px 14px;
+    }
+
+    .learning-model{
+      max-width:1100px;
+      margin:0 auto 70px;
+      padding:0 20px;
+    }
+    .model-box{
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.13);
+      border-radius:22px;
+      padding:26px;
+    }
+
+    .flow{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns:repeat(6,1fr);
+      gap:10px;
+      align-items:center;
+      text-align:center;
+    }
+    .flow div{
+      padding:15px 8px;
+      border-radius:14px;
+      background:rgba(255,255,255,.07);
+      min-height:74px;
+      display:grid;place-items:center;
+      font-size:.87rem;
+    }
+
+    footer{
+      border-top:1px solid rgba(255,255,255,.12);
+      text-align:center;
+      padding:25px 15px 35px;
+      color:var(--muted);
+    }
+
+    @media(max-width:800px){
+      .flow{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="atom">⚛️</div>
+  <h1>Quantum Computing<br>Learning Journey</h1>
+  <p class="subtitle">
+    A 15-session ELI10 pathway for first-year engineering students.
+    Learn through stories, diagrams, colorful comparisons, mini simulations,
+    classroom interaction and real-time surveys.
+  </p>
+
+  <div class="chips">
+    <span class="chip">🧒 ELI10 Explanations</span>
+    <span class="chip">📖 Story Based</span>
+    <span class="chip">🧩 Diagrammatic</span>
+    <span class="chip">📊 Comparison Tables</span>
+    <span class="chip">🗳️ Live Survey</span>
+    <span class="chip">🎮 Activity Based</span>
+  </div>
+</header>
+
+<main class="roadmap">
+  <div class="section-title">
+    <h2>15-Session Course Index</h2>
+    <p>Click any session to open the corresponding lesson webpage.</p>
+  </div>
+
+  <section class="grid">
+
+    <article class="card">
+      <div class="num">01</div>
+      <h3>The Strange Quantum World</h3>
+      <p class="story">Story: You enter a tiny universe where normal everyday rules stop working. Why do we need quantum computing?</p>
+      <div class="tags"><span class="tag">Classical vs Quantum</span><span class="tag">Survey</span><span class="tag">Big Picture</span></div>
+      <a class="open" href="session1.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">02</div>
+      <h3>Bits vs Qubits</h3>
+      <p class="story">Story: A normal coin must show heads or tails. Imagine a magical quantum coin that can behave differently.</p>
+      <div class="tags"><span class="tag">Bit</span><span class="tag">Qubit</span><span class="tag">Visual Analogy</span></div>
+      <a class="open" href="session2.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">03</div>
+      <h3>Superposition</h3>
+      <p class="story">Story: A student seems to be in many possible answer states until the teacher checks the answer.</p>
+      <div class="tags"><span class="tag">Superposition</span><span class="tag">Coin Analogy</span><span class="tag">Activity</span></div>
+      <a class="open" href="session3.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">04</div>
+      <h3>Measurement & Probability</h3>
+      <p class="story">Story: Opening a mystery box changes what we can know. Explore why quantum results are probabilistic.</p>
+      <div class="tags"><span class="tag">Measurement</span><span class="tag">Probability</span><span class="tag">Live Poll</span></div>
+      <a class="open" href="session4.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">05</div>
+      <h3>Quantum Entanglement</h3>
+      <p class="story">Story: Meet two mysterious twins whose measurement outcomes are strongly correlated, even when separated.</p>
+      <div class="tags"><span class="tag">Entanglement</span><span class="tag">Pair Activity</span><span class="tag">Diagram</span></div>
+      <a class="open" href="session5.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">06</div>
+      <h3>Quantum Gates</h3>
+      <p class="story">Story: Quantum gates are control switches that transform qubits, just as instructions transform data.</p>
+      <div class="tags"><span class="tag">X</span><span class="tag">H</span><span class="tag">CNOT</span></div>
+      <a class="open" href="session6.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">07</div>
+      <h3>Building a Quantum Circuit</h3>
+      <p class="story">Story: Build a tiny quantum machine by connecting qubits, gates and measurements like a puzzle.</p>
+      <div class="tags"><span class="tag">Circuit</span><span class="tag">Workflow</span><span class="tag">Hands-on</span></div>
+      <a class="open" href="session7.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">08</div>
+      <h3>Quantum Interference</h3>
+      <p class="story">Story: Like waves joining or cancelling each other, quantum possibilities can strengthen good answers and weaken others.</p>
+      <div class="tags"><span class="tag">Interference</span><span class="tag">Wave Story</span><span class="tag">Diagram</span></div>
+      <a class="open" href="session8.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">09</div>
+      <h3>How Quantum Computers Work</h3>
+      <p class="story">Story: Take a guided tour inside a quantum computer—from qubit hardware to extreme cooling and control systems.</p>
+      <div class="tags"><span class="tag">Hardware</span><span class="tag">Dilution Refrigerator</span><span class="tag">Architecture</span></div>
+      <a class="open" href="session9.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">10</div>
+      <h3>Classical vs Quantum Computing</h3>
+      <p class="story">Story: Two teams solve the same challenge using two very different toolboxes. Which computer should we use?</p>
+      <div class="tags"><span class="tag">Color Table</span><span class="tag">Strengths</span><span class="tag">Limitations</span></div>
+      <a class="open" href="session10.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">11</div>
+      <h3>Quantum Algorithms</h3>
+      <p class="story">Story: Meet the special recipes that make quantum computers interesting—Deutsch-Jozsa, Grover and Shor.</p>
+      <div class="tags"><span class="tag">Algorithms</span><span class="tag">Grover</span><span class="tag">Shor</span></div>
+      <a class="open" href="session11.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">12</div>
+      <h3>Grover's Search — ELI10</h3>
+      <p class="story">Story: Find the marked card in a huge shuffled collection and compare classical search thinking with Grover's idea.</p>
+      <div class="tags"><span class="tag">Search</span><span class="tag">Story Game</span><span class="tag">Complexity</span></div>
+      <a class="open" href="session12.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">13</div>
+      <h3>Real-World Quantum Applications</h3>
+      <p class="story">Story: Become a technology consultant and match quantum approaches with chemistry, optimization, finance and materials research.</p>
+      <div class="tags"><span class="tag">Applications</span><span class="tag">Case Study</span><span class="tag">Survey</span></div>
+      <a class="open" href="session13.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">14</div>
+      <h3>Challenges, Noise & Error Correction</h3>
+      <p class="story">Story: Quantum information is fragile. Discover noise, decoherence and why error correction is essential.</p>
+      <div class="tags"><span class="tag">Noise</span><span class="tag">Decoherence</span><span class="tag">Error Correction</span></div>
+      <a class="open" href="session14.html">Open Session →</a>
+    </article>
+
+    <article class="card">
+      <div class="num">15</div>
+      <h3>Quantum Future + Mini Project</h3>
+      <p class="story">Story: You are part of a 2035 engineering team. Decide where quantum computing could help and present your idea.</p>
+      <div class="tags"><span class="tag">Future</span><span class="tag">Mini Project</span><span class="tag">Exit Survey</span></div>
+      <a class="open" href="session15.html">Open Session →</a>
+    </article>
+
+  </section>
+</main>
+
+<section class="learning-model">
+  <div class="model-box">
+    <div class="section-title">
+      <h2>Common Pattern for Every Session</h2>
+      <p>A consistent first-year-friendly learning flow.</p>
+    </div>
+    <div class="flow">
+      <div>🎬<br><b>Story Hook</b></div>
+      <div>🧒<br><b>ELI10 Idea</b></div>
+      <div>🧩<br><b>Diagram</b></div>
+      <div>📊<br><b>Comparison</b></div>
+      <div>🎮<br><b>Activity</b></div>
+      <div>🗳️<br><b>Live Survey</b></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Quantum Computing for First-Year Engineering Students • 15-Session Interactive Course
+</footer>
+
+</body>
+</html>

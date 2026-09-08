@@ -1,1088 +1,203 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cybersecurity Research - ELI10</title>
-
+<title>Session 1 | The Strange Quantum World</title>
 <style>
-    * {
-        box-sizing: border-box;
-    }
-
-    body {
-        margin: 0;
-        font-family: "Trebuchet MS", Arial, sans-serif;
-        background: linear-gradient(135deg, #eef7ff, #f8f0ff);
-        color: #202124;
-        line-height: 1.6;
-    }
-
-    header {
-        background: linear-gradient(135deg, #172554, #2563eb, #7c3aed);
-        color: white;
-        padding: 45px 20px;
-        text-align: center;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    }
-
-    header h1 {
-        font-size: 42px;
-        margin: 0;
-    }
-
-    header p {
-        font-size: 20px;
-        margin-top: 10px;
-    }
-
-    .container {
-        width: 92%;
-        max-width: 1200px;
-        margin: auto;
-    }
-
-    section {
-        margin: 30px 0;
-    }
-
-    .card {
-        background: white;
-        border-radius: 18px;
-        padding: 25px;
-        margin: 20px 0;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.14);
-    }
-
-    h2 {
-        color: #1d4ed8;
-        font-size: 30px;
-    }
-
-    h3 {
-        color: #7c3aed;
-    }
-
-    .robot {
-        background: linear-gradient(135deg, #dbeafe, #ede9fe);
-        border-left: 8px solid #2563eb;
-        padding: 25px;
-        border-radius: 15px;
-        font-size: 18px;
-    }
-
-    .highlight {
-        background: #fff7cc;
-        padding: 15px;
-        border-radius: 12px;
-        border-left: 6px solid #f59e0b;
-        margin: 15px 0;
-    }
-
-    .danger {
-        background: #fee2e2;
-        border-left: 6px solid #dc2626;
-        padding: 15px;
-        border-radius: 12px;
-    }
-
-    .safe {
-        background: #dcfce7;
-        border-left: 6px solid #16a34a;
-        padding: 15px;
-        border-radius: 12px;
-    }
-
-    .example {
-        background: #f5f3ff;
-        border-left: 6px solid #8b5cf6;
-        padding: 18px;
-        border-radius: 12px;
-        margin: 15px 0;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px;
-        background: white;
-        border-radius: 12px;
-        overflow: hidden;
-    }
-
-    th {
-        background: #2563eb;
-        color: white;
-        padding: 14px;
-        text-align: left;
-    }
-
-    td {
-        padding: 13px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    tr:hover {
-        background: #eff6ff;
-    }
-
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-        gap: 18px;
-    }
-
-    .topic {
-        padding: 22px;
-        border-radius: 16px;
-        color: white;
-        min-height: 180px;
-        transition: transform 0.3s;
-    }
-
-    .topic:hover {
-        transform: scale(1.04);
-    }
-
-    .blue { background: linear-gradient(135deg, #2563eb, #1e40af); }
-    .purple { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
-    .green { background: linear-gradient(135deg, #16a34a, #166534); }
-    .orange { background: linear-gradient(135deg, #f97316, #c2410c); }
-    .red { background: linear-gradient(135deg, #dc2626, #991b1b); }
-    .teal { background: linear-gradient(135deg, #0d9488, #115e59); }
-
-    .flow {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin: 25px 0;
-    }
-
-    .flow-box {
-        background: #1d4ed8;
-        color: white;
-        padding: 18px;
-        border-radius: 12px;
-        font-weight: bold;
-        min-width: 150px;
-        text-align: center;
-    }
-
-    .arrow {
-        font-size: 28px;
-        color: #7c3aed;
-    }
-
-    .question {
-        background: #ecfeff;
-        border: 2px solid #06b6d4;
-        border-radius: 15px;
-        padding: 20px;
-        margin: 15px 0;
-    }
-
-    code {
-        background: #111827;
-        color: #a7f3d0;
-        padding: 3px 7px;
-        border-radius: 5px;
-    }
-
-    footer {
-        background: #172554;
-        color: white;
-        text-align: center;
-        padding: 30px;
-        margin-top: 50px;
-    }
-
-    .big {
-        font-size: 22px;
-        font-weight: bold;
-    }
-
-    @media(max-width: 600px) {
-        header h1 {
-            font-size: 30px;
-        }
-
-        h2 {
-            font-size: 24px;
-        }
-
-        .arrow {
-            transform: rotate(90deg);
-        }
-    }
+:root{
+  --bg:#07111f;--panel:#102746;--panel2:#0b1d34;--text:#eef7ff;
+  --muted:#b9c9db;--cyan:#35d9ff;--purple:#a87cff;--green:#58e3a0;
+  --yellow:#ffd166;--pink:#ff79b8;--orange:#ff9f43;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Segoe UI,Arial,sans-serif;color:var(--text);
+ background:radial-gradient(circle at 10% 10%,#12335a,transparent 32%),
+            radial-gradient(circle at 90% 20%,#2a1649,transparent 30%),
+            linear-gradient(145deg,var(--bg),#0b1c33);
+ line-height:1.55;
+}
+.container{max-width:1150px;margin:auto;padding:24px}
+.hero{text-align:center;padding:38px 20px 30px}
+.badge{display:inline-block;padding:8px 14px;border:1px solid #ffffff22;border-radius:99px;background:#ffffff0d;color:var(--cyan);font-weight:700}
+h1{font-size:clamp(2.2rem,5vw,4rem);line-height:1.05;margin:18px 0 12px;
+background:linear-gradient(90deg,var(--cyan),white,var(--purple));-webkit-background-clip:text;color:transparent}
+.hero p{max-width:850px;margin:auto;color:var(--muted);font-size:1.08rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin:25px 0}
+.card{background:#ffffff09;border:1px solid #ffffff17;border-radius:20px;padding:22px;box-shadow:0 15px 35px #0004}
+.card h2{margin-top:0;font-size:1.25rem}.icon{font-size:30px}
+.goal{border-left:5px solid var(--cyan)}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.step{padding:18px;border-radius:16px;background:var(--panel);border-top:4px solid var(--cyan)}
+.step:nth-child(2){border-color:var(--purple)}.step:nth-child(3){border-color:var(--green)}.step:nth-child(4){border-color:var(--yellow)}
+.step b{display:block;margin-bottom:5px}
+.story{background:linear-gradient(135deg,#172f50,#211a43);border:1px solid #ffffff19}
+.quote{font-size:1.35rem;color:white;font-weight:700}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:20px 0}
+.node{padding:15px 18px;border-radius:14px;background:var(--panel);border:2px solid var(--cyan);min-width:135px;text-align:center}
+.arrow{font-size:25px;color:var(--yellow)}
+table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:15px}
+th,td{padding:13px;border:1px solid #ffffff18;text-align:left}
+th{background:#ffffff12;color:var(--cyan)}td{background:#ffffff07}
+.survey{border:1px solid #58e3a044;background:#58e3a00b}
+.option{display:block;padding:11px;margin:8px 0;border-radius:12px;background:#ffffff0b;cursor:pointer}
+.option:hover{background:#ffffff16}
+button,.back{display:inline-block;border:0;border-radius:12px;padding:12px 18px;font-weight:800;text-decoration:none;cursor:pointer;background:var(--cyan);color:#07111f}
+button{margin-top:10px}
+.result{margin-top:12px;font-weight:700;color:var(--green)}
+.reflect{background:#ffd1660b;border-color:#ffd16655}
+footer{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:750px){.timeline{grid-template-columns:1fr 1fr}.flow{flex-direction:column}.arrow{transform:rotate(90deg)}}
 </style>
 </head>
-
 <body>
 
-<header>
-    <h1>🛡️ Cybersecurity Research</h1>
-    <p>ELI10 Guide for Beginner Students</p>
-    <p>🔍 Don't just use security tools — learn how to discover new security knowledge!</p>
+<header class="hero">
+  <span class="badge">QUANTUM COMPUTING • SESSION 01</span>
+  <h1>The Strange Quantum World</h1>
+  <p>
+    Before learning qubits and quantum gates, students first discover the big idea:
+    <b>Why did engineers need a completely different kind of computer?</b>
+  </p>
 </header>
 
-<div class="container">
+<main class="container">
 
-<!-- INTRODUCTION -->
-
-<section>
-<div class="card">
-
-<h2>🤔 1. What is Cybersecurity?</h2>
-
-<div class="robot">
-    <strong>🤖 Imagine this:</strong><br><br>
-
-    You have a house. Your house contains your books, money, laptop and
-    important documents.
-
-    <br><br>
-
-    You use:
-    <ul>
-        <li>🔑 Lock → Password</li>
-        <li>🚪 Door → Firewall</li>
-        <li>📹 CCTV → Monitoring</li>
-        <li>🚨 Alarm → Intrusion Detection</li>
-        <li>🛡️ Security Guard → Security System</li>
-    </ul>
-
-    <strong>Cybersecurity does the same thing for computers and networks.</strong>
-</div>
-
-</div>
+<section class="grid">
+  <div class="card goal">
+    <div class="icon">🎯</div>
+    <h2>Session Aim</h2>
+    <p>Build curiosity about quantum computing and help students distinguish the basic idea of classical computing from the quantum world.</p>
+  </div>
+  <div class="card">
+    <div class="icon">🧠</div>
+    <h2>Learning Outcomes</h2>
+    <p>By the end, students can explain quantum computing in simple words, identify why quantum physics matters, and describe one possible application.</p>
+  </div>
+  <div class="card">
+    <div class="icon">⏱️</div>
+    <h2>Duration</h2>
+    <p><b>50 minutes</b><br>Suitable for first-year engineering students with no prior quantum-computing knowledge.</p>
+  </div>
 </section>
 
-<!-- RESEARCH -->
-
-<section>
-<div class="card">
-
-<h2>🔬 2. What is Cybersecurity Research?</h2>
-
-<div class="highlight">
-    <span class="big">Research = Asking a good question + investigating it + finding evidence + proposing an improvement.</span>
-</div>
-
-<p>
-Cybersecurity research is NOT simply learning how to use Kali Linux,
-Nmap or Wireshark.
-</p>
-
-<p>
-Research means asking:
-</p>
-
-<div class="question">
-    ❓ "Can I find a better way to detect an attack?"
-</div>
-
-<div class="question">
-    ❓ "Can I reduce false alarms in an Intrusion Detection System?"
-</div>
-
-<div class="question">
-    ❓ "Can Machine Learning identify vulnerable source code?"
-</div>
-
-<div class="question">
-    ❓ "Can blockchain improve trust between IoT devices?"
-</div>
-
-</div>
+<section class="card story">
+  <h2>📖 Story Hook — “The Computer That Meets a Wall”</h2>
+  <p class="quote">“Imagine you ask a normal computer to solve a very difficult puzzle. What happens when the puzzle becomes unimaginably large?”</p>
+  <p>
+    Tell students about a future engineer trying to model a new medicine molecule, optimize thousands of delivery routes,
+    or understand complex materials. Classical computers are extremely powerful, but some problems grow so rapidly that
+    simply adding more ordinary bits is not always the best approach.
+  </p>
+  <p><b>Teacher question:</b> “If the problem belongs to the tiny world of atoms and particles, could a computer inspired by that world help us?”</p>
 </section>
 
-<!-- DIFFERENCE -->
-
-<section>
-<div class="card">
-
-<h2>⚔️ 3. Cybersecurity Practice vs Research</h2>
-
-<table>
-<tr>
-    <th>Cybersecurity Practice</th>
-    <th>Cybersecurity Research</th>
-</tr>
-
-<tr>
-    <td>Use Nmap to scan a network</td>
-    <td>Develop a better method to identify suspicious network behaviour</td>
-</tr>
-
-<tr>
-    <td>Use Wireshark to capture packets</td>
-    <td>Study traffic patterns to detect attacks automatically</td>
-</tr>
-
-<tr>
-    <td>Run vulnerability scanners</td>
-    <td>Develop a technique to detect previously unknown weaknesses</td>
-</tr>
-
-<tr>
-    <td>Configure a firewall</td>
-    <td>Compare different firewall strategies</td>
-</tr>
-
-<tr>
-    <td>Use an IDS</td>
-    <td>Improve IDS detection accuracy</td>
-</tr>
-</table>
-
-<div class="safe">
-    💡 <strong>Remember:</strong>
-    Using a tool is not automatically research.
-    Studying a problem and producing new evidence or improvement is research.
-</div>
-
-</div>
+<section class="card">
+  <h2>🧒 ELI10 Explanation</h2>
+  <p>
+    A classical computer is like a huge collection of tiny switches. Each switch can be <b>OFF (0)</b> or <b>ON (1)</b>.
+  </p>
+  <p>
+    A quantum computer uses <b>quantum objects</b> to represent and manipulate information.
+    Its basic unit is called a <b>qubit</b>. Qubits follow the strange rules of quantum physics, such as
+    superposition and entanglement.
+  </p>
+  <p><b>Simple idea:</b> Quantum computing is not “just a faster computer.” It is a different way of processing information that can provide advantages for certain problems.</p>
 </section>
 
-<!-- RESEARCH STORY -->
-
-<section>
-<div class="card">
-
-<h2>🕵️ 4. Think Like a Cybersecurity Detective</h2>
-
-<div class="robot">
-
-Imagine you are Detective Cyber.
-
-<br><br>
-
-🕵️ <strong>Problem:</strong>
-Many students receive phishing emails.
-
-<br><br>
-
-🔍 <strong>Observation:</strong>
-Some emails contain suspicious links.
-
-<br><br>
-
-❓ <strong>Research Question:</strong>
-Can machine learning identify phishing emails?
-
-<br><br>
-
-🧪 <strong>Experiment:</strong>
-Give an ML model many phishing and legitimate emails.
-
-<br><br>
-
-📊 <strong>Measure:</strong>
-Accuracy, precision, recall and false positives.
-
-<br><br>
-
-💡 <strong>Conclusion:</strong>
-Find out whether the proposed method works better.
-
-</div>
-
-</div>
+<section class="card">
+  <h2>🧩 Big-Picture Diagram</h2>
+  <div class="flow">
+    <div class="node">🌍 Real-world<br>Problem</div>
+    <div class="arrow">→</div>
+    <div class="node">💻 Classical<br>Computer</div>
+    <div class="arrow">→</div>
+    <div class="node">⚛️ Quantum<br>Physics</div>
+    <div class="arrow">→</div>
+    <div class="node">🔬 Qubit</div>
+    <div class="arrow">→</div>
+    <div class="node">🧮 Quantum<br>Algorithm</div>
+  </div>
+  <p style="text-align:center;color:var(--muted)">The course will gradually move from the familiar computer to the quantum computing model.</p>
 </section>
 
-<!-- RESEARCH PROCESS -->
-
-<section>
-<div class="card">
-
-<h2>🚀 5. Cybersecurity Research Roadmap</h2>
-
-<div class="flow">
-
-<div class="flow-box">1️⃣ Find Problem</div>
-<div class="arrow">➡️</div>
-
-<div class="flow-box">2️⃣ Read Papers</div>
-<div class="arrow">➡️</div>
-
-<div class="flow-box">3️⃣ Find Research Gap</div>
-<div class="arrow">➡️</div>
-
-<div class="flow-box">4️⃣ Propose Idea</div>
-<div class="arrow">➡️</div>
-
-<div class="flow-box">5️⃣ Implement</div>
-<div class="arrow">➡️</div>
-
-<div class="flow-box">6️⃣ Test</div>
-<div class="arrow">➡️</div>
-
-<div class="flow-box">7️⃣ Analyze</div>
-
-</div>
-
-<table>
-<tr>
-    <th>Step</th>
-    <th>ELI10 Meaning</th>
-    <th>Student Activity</th>
-</tr>
-
-<tr>
-    <td>1. Problem</td>
-    <td>What is going wrong?</td>
-    <td>Find a real cybersecurity problem</td>
-</tr>
-
-<tr>
-    <td>2. Literature Review</td>
-    <td>What have others already done?</td>
-    <td>Read research papers</td>
-</tr>
-
-<tr>
-    <td>3. Research Gap</td>
-    <td>What is still missing?</td>
-    <td>Compare existing methods</td>
-</tr>
-
-<tr>
-    <td>4. Proposed Idea</td>
-    <td>What new thing can we try?</td>
-    <td>Design a new method</td>
-</tr>
-
-<tr>
-    <td>5. Implementation</td>
-    <td>Build it</td>
-    <td>Write code / create model</td>
-</tr>
-
-<tr>
-    <td>6. Experiment</td>
-    <td>Does it actually work?</td>
-    <td>Run experiments</td>
-</tr>
-
-<tr>
-    <td>7. Analysis</td>
-    <td>What did we learn?</td>
-    <td>Compare results</td>
-</tr>
-
-</table>
-
-</div>
+<section class="card">
+  <h2>📊 Classical Computing vs Quantum Computing</h2>
+  <table>
+    <tr><th>Feature</th><th>Classical Computing</th><th>Quantum Computing</th></tr>
+    <tr><td>Basic information unit</td><td>Bit</td><td>Qubit</td></tr>
+    <tr><td>Basic states</td><td>0 or 1</td><td>Quantum state involving 0 and 1 amplitudes</td></tr>
+    <tr><td>Physics used</td><td>Classical electronics</td><td>Quantum mechanics</td></tr>
+    <tr><td>Logic operations</td><td>Classical logic gates</td><td>Quantum gates</td></tr>
+    <tr><td>Best use</td><td>General-purpose computing</td><td>Potential advantage for selected problems</td></tr>
+    <tr><td>Current maturity</td><td>Highly mature</td><td>Developing technology</td></tr>
+  </table>
+  <p style="margin-top:12px;color:var(--muted)"><b>Important:</b> Quantum computers are not expected to replace classical computers for every task.</p>
 </section>
 
-<!-- RESEARCH AREAS -->
-
-<section>
-<div class="card">
-
-<h2>🌐 6. Major Cybersecurity Research Areas</h2>
-
-<div class="grid">
-
-<div class="topic blue">
-<h3>🔐 Cryptography</h3>
-<p>How can we protect secret information?</p>
-<p>Example: Encryption algorithms.</p>
-</div>
-
-<div class="topic purple">
-<h3>🤖 AI & ML Security</h3>
-<p>Can AI detect attacks?</p>
-<p>Example: ML-based intrusion detection.</p>
-</div>
-
-<div class="topic green">
-<h3>🌐 Network Security</h3>
-<p>How can we protect networks?</p>
-<p>Example: Attack detection.</p>
-</div>
-
-<div class="topic orange">
-<h3>📱 IoT Security</h3>
-<p>How can smart devices be protected?</p>
-<p>Example: Smart home security.</p>
-</div>
-
-<div class="topic red">
-<h3>🧑‍💻 Application Security</h3>
-<p>How can websites and applications be protected?</p>
-<p>Example: Vulnerability detection.</p>
-</div>
-
-<div class="topic teal">
-<h3>☁️ Cloud Security</h3>
-<p>How can cloud data and services be protected?</p>
-<p>Example: Access control.</p>
-</div>
-
-</div>
-
-</div>
+<section class="card">
+  <h2>🔬 5-Minute Classroom Demonstration</h2>
+  <p><b>Activity: “Human Bits”</b></p>
+  <ol>
+    <li>Ask students to stand if their answer is “1” and sit if their answer is “0”.</li>
+    <li>Give simple yes/no questions and create a human binary message.</li>
+    <li>Then ask: “Can one physical system behave according to quantum rules instead of behaving like an ordinary ON/OFF switch?”</li>
+    <li>Use this as the bridge to the next session: <b>Bits → Qubits.</b></li>
+  </ol>
 </section>
 
-<!-- EXAMPLES -->
-
-<section>
-<div class="card">
-
-<h2>💡 7. Beginner Research Ideas</h2>
-
-<table>
-<tr>
-    <th>No.</th>
-    <th>Research Area</th>
-    <th>Simple Research Problem</th>
-    <th>Possible Idea</th>
-</tr>
-
-<tr>
-    <td>1</td>
-    <td>Phishing</td>
-    <td>Users click fake links.</td>
-    <td>ML-based phishing detection</td>
-</tr>
-
-<tr>
-    <td>2</td>
-    <td>Password Security</td>
-    <td>Weak passwords are easy to guess.</td>
-    <td>Password strength prediction</td>
-</tr>
-
-<tr>
-    <td>3</td>
-    <td>Network Security</td>
-    <td>Attack traffic looks different.</td>
-    <td>ML-based traffic classification</td>
-</tr>
-
-<tr>
-    <td>4</td>
-    <td>IoT Security</td>
-    <td>IoT devices have limited security.</td>
-    <td>Lightweight authentication</td>
-</tr>
-
-<tr>
-    <td>5</td>
-    <td>Web Security</td>
-    <td>Applications may contain vulnerabilities.</td>
-    <td>Automated vulnerability detection</td>
-</tr>
-
-<tr>
-    <td>6</td>
-    <td>Malware</td>
-    <td>Malware changes its behaviour.</td>
-    <td>Behaviour-based detection</td>
-</tr>
-
-<tr>
-    <td>7</td>
-    <td>Cloud Security</td>
-    <td>Unauthorized users may access resources.</td>
-    <td>Improved access-control model</td>
-</tr>
-
-<tr>
-    <td>8</td>
-    <td>Blockchain</td>
-    <td>IoT devices need trusted communication.</td>
-    <td>Blockchain-based trust mechanism</td>
-</tr>
-
-</table>
-
-</div>
+<section class="card survey">
+  <h2>🗳️ Real-Time Survey</h2>
+  <p><b>Question:</b> Before this session, what did you think a quantum computer was?</p>
+  <form id="survey">
+    <label class="option"><input type="radio" name="q" value="1"> A faster version of a normal computer</label>
+    <label class="option"><input type="radio" name="q" value="2"> A computer based on quantum physics</label>
+    <label class="option"><input type="radio" name="q" value="3"> A computer that can solve every problem instantly</label>
+    <label class="option"><input type="radio" name="q" value="4"> I had no idea</label>
+    <button type="button" onclick="vote()">Submit My Response</button>
+    <div id="result" class="result"></div>
+  </form>
+  <p style="color:var(--muted);font-size:.9rem;margin-top:12px">
+    For a real classroom deployment, replace this local poll with a Google Form/Google Sheet so all student responses can be collected live.
+  </p>
 </section>
 
-<!-- EXAMPLE 1 -->
-
-<section>
-<div class="card">
-
-<h2>🧪 8. Example Research Problem</h2>
-
-<h3>Problem: Phishing Email Detection</h3>
-
-<div class="example">
-
-<strong>Step 1 — Problem</strong><br>
-People receive fake emails.
-
-<br><br>
-
-<strong>Step 2 — Question</strong><br>
-Can machine learning identify fake emails?
-
-<br><br>
-
-<strong>Step 3 — Data</strong><br>
-Collect legitimate and phishing email datasets.
-
-<br><br>
-
-<strong>Step 4 — Features</strong><br>
-Study URL length, suspicious words, sender information, etc.
-
-<br><br>
-
-<strong>Step 5 — Model</strong><br>
-Train a machine-learning classifier.
-
-<br><br>
-
-<strong>Step 6 — Evaluation</strong><br>
-Measure accuracy, precision, recall and F1-score.
-
-</div>
-
-</div>
+<section class="timeline">
+  <div class="step"><b>0–5 min</b>Curiosity question + story hook</div>
+  <div class="step"><b>5–15 min</b>ELI10 explanation + classical computing recap</div>
+  <div class="step"><b>15–35 min</b>Diagram + colorful comparison + human-bits activity</div>
+  <div class="step"><b>35–50 min</b>Real-time survey + discussion + exit question</div>
 </section>
 
-<!-- EXAMPLE 2 -->
-
-<section>
-<div class="card">
-
-<h2>🌐 9. Example: Network Attack Detection</h2>
-
-<table>
-<tr>
-    <th>Normal Traffic</th>
-    <th>Suspicious Traffic</th>
-</tr>
-
-<tr>
-    <td>Normal number of requests</td>
-    <td>Huge number of requests</td>
-</tr>
-
-<tr>
-    <td>Expected communication</td>
-    <td>Unexpected communication</td>
-</tr>
-
-<tr>
-    <td>Known devices</td>
-    <td>Unknown device</td>
-</tr>
-
-<tr>
-    <td>Normal packet behaviour</td>
-    <td>Unusual packet behaviour</td>
-</tr>
-</table>
-
-<div class="highlight">
-    🔍 Research Question:
-    <strong>Can we automatically identify abnormal network traffic?</strong>
-</div>
-
-</div>
+<section class="card reflect" style="margin-top:22px">
+  <h2>🚪 Exit Question</h2>
+  <p><b>“If quantum computers are not simply faster classical computers, what makes them different?”</b></p>
+  <p style="color:var(--muted)">Expected direction: They use quantum states and quantum operations to process information in a fundamentally different way.</p>
 </section>
 
-<!-- RESEARCH GAP -->
-
-<section>
-<div class="card">
-
-<h2>🕳️ 10. What is a Research Gap?</h2>
-
-<div class="robot">
-
-Imagine 10 students build bridges.
-
-<br><br>
-
-🏗️ Researchers already built bridges that are:
-
-<ul>
-<li>Strong</li>
-<li>Cheap</li>
-<li>Fast</li>
-</ul>
-
-But nobody studied:
-
-<div class="highlight">
-<strong>"Can we build a bridge that is both cheap AND extremely fast?"</strong>
-</div>
-
-That missing part is similar to a <strong>research gap</strong>.
-
-</div>
-
-<table>
-<tr>
-    <th>Existing Research</th>
-    <th>What is Missing?</th>
-    <th>Your Opportunity</th>
-</tr>
-
-<tr>
-    <td>Method A has high accuracy</td>
-    <td>Uses high computation</td>
-    <td>Develop lightweight method</td>
-</tr>
-
-<tr>
-    <td>Method B is fast</td>
-    <td>Low detection accuracy</td>
-    <td>Improve accuracy</td>
-</tr>
-
-<tr>
-    <td>Method C detects attacks</td>
-    <td>Many false alarms</td>
-    <td>Reduce false positives</td>
-</tr>
-
-</table>
-
-</div>
+<section class="card" style="margin-top:22px">
+  <h2>🔗 Bridge to Session 2</h2>
+  <p>
+    Next: <b>Bits vs Qubits</b> — students will explore the most important new object in the course:
+    the <b>qubit</b>.
+  </p>
+  <a class="back" href="quantum-computing-index.html">← Back to 15-Session Index</a>
 </section>
 
-<!-- TOOLS -->
-
-<section>
-<div class="card">
-
-<h2>🧰 11. Tools Students May Explore</h2>
-
-<table>
-<tr>
-    <th>Tool</th>
-    <th>Purpose</th>
-    <th>Beginner Question</th>
-</tr>
-
-<tr>
-    <td>Nmap</td>
-    <td>Network discovery and security auditing</td>
-    <td>How can suspicious hosts be identified?</td>
-</tr>
-
-<tr>
-    <td>Wireshark</td>
-    <td>Network packet analysis</td>
-    <td>What does normal traffic look like?</td>
-</tr>
-
-<tr>
-    <td>Burp Suite</td>
-    <td>Web application security testing</td>
-    <td>How can web requests be analyzed?</td>
-</tr>
-
-<tr>
-    <td>Python</td>
-    <td>Programming and data analysis</td>
-    <td>Can Python automate security analysis?</td>
-</tr>
-
-<tr>
-    <td>Machine Learning</td>
-    <td>Pattern detection</td>
-    <td>Can attacks be classified automatically?</td>
-</tr>
-
-<tr>
-    <td>Linux</td>
-    <td>Security experimentation environment</td>
-    <td>How can security tools be automated?</td>
-</tr>
-
-</table>
-
-<div class="danger">
-⚠️ <strong>Important:</strong>
-Only test security tools on systems, applications and networks
-where you have explicit permission.
-Never scan or attack somebody else's system without authorization.
-</div>
-
-</div>
-</section>
-
-<!-- METRICS -->
-
-<section>
-<div class="card">
-
-<h2>📊 12. How Do Researchers Know If Their Idea Works?</h2>
-
-<table>
-<tr>
-    <th>Metric</th>
-    <th>ELI10 Meaning</th>
-    <th>Example</th>
-</tr>
-
-<tr>
-    <td>Accuracy</td>
-    <td>How many predictions were correct?</td>
-    <td>95 correct out of 100</td>
-</tr>
-
-<tr>
-    <td>Precision</td>
-    <td>When we say "attack", how often are we correct?</td>
-    <td>90% of detected attacks are real</td>
-</tr>
-
-<tr>
-    <td>Recall</td>
-    <td>How many real attacks did we find?</td>
-    <td>92 out of 100 attacks detected</td>
-</tr>
-
-<tr>
-    <td>F1-Score</td>
-    <td>Balance between precision and recall</td>
-    <td>Useful for imbalanced datasets</td>
-</tr>
-
-<tr>
-    <td>Execution Time</td>
-    <td>How fast is the method?</td>
-    <td>2 seconds</td>
-</tr>
-
-<tr>
-    <td>False Positive</td>
-    <td>Alarm says attack, but it isn't</td>
-    <td>Normal user marked as attacker</td>
-</tr>
-
-</table>
-
-</div>
-</section>
-
-<!-- AI -->
-
-<section>
-<div class="card">
-
-<h2>🤖 13. How Can Students Use AI in Research?</h2>
-
-<div class="safe">
-
-AI can be your <strong>research assistant</strong>, not your research replacement.
-</div>
-
-<table>
-<tr>
-    <th>Good Use</th>
-    <th>Bad Use</th>
-</tr>
-
-<tr>
-    <td>Ask AI to explain a paper</td>
-    <td>Copy an entire paper</td>
-</tr>
-
-<tr>
-    <td>Ask for research questions</td>
-    <td>Accept every idea without checking</td>
-</tr>
-
-<tr>
-    <td>Ask AI to explain code</td>
-    <td>Submit AI code without understanding it</td>
-</tr>
-
-<tr>
-    <td>Ask AI to find bugs</td>
-    <td>Assume AI is always correct</td>
-</tr>
-
-<tr>
-    <td>Ask AI to compare algorithms</td>
-    <td>Invent experimental results</td>
-</tr>
-
-</table>
-
-<div class="highlight">
-🎯 <strong>Golden Rule:</strong>
-Ask AI → Understand → Verify → Modify → Experiment → Defend
-</div>
-
-</div>
-</section>
-
-<!-- STUDENT ACTIVITY -->
-
-<section>
-<div class="card">
-
-<h2>🎯 14. Classroom Activity</h2>
-
-<h3>Become a Cybersecurity Researcher!</h3>
-
-<p>Divide students into small groups.</p>
-
-<table>
-<tr>
-    <th>Activity</th>
-    <th>Student Task</th>
-</tr>
-
-<tr>
-    <td>🔎 Problem Hunt</td>
-    <td>Find 3 cybersecurity problems around you.</td>
-</tr>
-
-<tr>
-    <td>📚 Paper Hunt</td>
-    <td>Find 3 papers related to one problem.</td>
-</tr>
-
-<tr>
-    <td>🕳️ Gap Hunt</td>
-    <td>Identify something existing methods do not solve well.</td>
-</tr>
-
-<tr>
-    <td>💡 Idea Hunt</td>
-    <td>Suggest one improvement.</td>
-</tr>
-
-<tr>
-    <td>🧪 Experiment</td>
-    <td>Explain how you would test the idea.</td>
-</tr>
-
-</table>
-
-</div>
-</section>
-
-<!-- QUESTIONS -->
-
-<section>
-<div class="card">
-
-<h2>🧠 15. Questions Every Student Should Ask</h2>
-
-<div class="question">
-❓ What is the cybersecurity problem?
-</div>
-
-<div class="question">
-❓ Why is this problem important?
-</div>
-
-<div class="question">
-❓ What have other researchers already done?
-</div>
-
-<div class="question">
-❓ What is missing in existing research?
-</div>
-
-<div class="question">
-❓ What is my new idea?
-</div>
-
-<div class="question">
-❓ How will I implement it?
-</div>
-
-<div class="question">
-❓ How will I measure success?
-</div>
-
-<div class="question">
-❓ Can another researcher reproduce my experiment?
-</div>
-
-</div>
-</section>
-
-<!-- FINAL -->
-
-<section>
-<div class="card">
-
-<h2>🏆 16. Remember This Simple Formula</h2>
-
-<div class="flow">
-
-<div class="flow-box">Problem</div>
-<div class="arrow">➡️</div>
-
-<div class="flow-box">Question</div>
-<div class="arrow">➡️</div>
-
-<div class="flow-box">Literature</div>
-<div class="arrow">➡️</div>
-
-<div class="flow-box">Gap</div>
-<div class="arrow">➡️</div>
-
-<div class="flow-box">Idea</div>
-<div class="arrow">➡️</div>
-
-<div class="flow-box">Experiment</div>
-<div class="arrow">➡️</div>
-
-<div class="flow-box">Evidence</div>
-<div class="arrow">➡️</div>
-
-<div class="flow-box">Conclusion</div>
-
-</div>
-
-<div class="highlight">
-<p class="big">
-🔬 Researcher = Curious Detective
-</p>
-
-<p>
-A good cybersecurity researcher does not simply ask:
-</p>
-
-<p class="big">
-"What tool can I use?"
-</p>
-
-<p>
-Instead, ask:
-</p>
-
-<p class="big">
-"What problem can I solve better?"
-</p>
-
-</div>
-
-</div>
-</section>
-
-</div>
+</main>
 
 <footer>
-    🛡️ Cybersecurity Research for Beginners |
-    Learn • Question • Experiment • Verify • Discover
+  Quantum Computing for First-Year Engineering Students • Session 01
 </footer>
 
+<script>
+function vote(){
+  const selected=document.querySelector('input[name="q"]:checked');
+  const result=document.getElementById('result');
+  if(!selected){result.textContent="Please select one answer.";return;}
+  result.textContent="Response recorded for this browser. For a classroom-wide live survey, connect this activity to Google Forms/Sheets.";
+}
+</script>
 </body>
 </html>
-```

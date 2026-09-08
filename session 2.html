@@ -3,2422 +3,366 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Cybersecurity Session 2 - Threats & Attackers</title>
-
+<title>Session 2 | Bits vs Qubits</title>
 <style>
-
-/* =========================================================
-   GLOBAL
-========================================================= */
-
-*{
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    margin:0;
-    font-family:"Trebuchet MS",Arial,sans-serif;
-    background:
-        radial-gradient(circle at 10% 20%,rgba(59,130,246,.15),transparent 25%),
-        radial-gradient(circle at 90% 30%,rgba(168,85,247,.15),transparent 25%),
-        linear-gradient(135deg,#020617,#0f172a 50%,#111827);
-    color:#e5e7eb;
-    line-height:1.7;
-    overflow-x:hidden;
-}
-
-/* =========================================================
-   ANIMATED BACKGROUND
-========================================================= */
-
-.background{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:-1;
-    overflow:hidden;
-}
-
-.circle{
-    position:absolute;
-    border-radius:50%;
-    filter:blur(2px);
-    opacity:.18;
-    animation:float 12s infinite ease-in-out;
-}
-
-.c1{
-    width:300px;
-    height:300px;
-    background:#2563eb;
-    top:10%;
-    left:-100px;
-}
-
-.c2{
-    width:250px;
-    height:250px;
-    background:#9333ea;
-    top:50%;
-    right:-80px;
-    animation-delay:2s;
-}
-
-.c3{
-    width:180px;
-    height:180px;
-    background:#06b6d4;
-    bottom:5%;
-    left:30%;
-    animation-delay:4s;
-}
-
-@keyframes float{
-    0%,100%{
-        transform:translate(0,0) scale(1);
-    }
-    50%{
-        transform:translate(50px,-40px) scale(1.15);
-    }
-}
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-header{
-    min-height:520px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    position:relative;
-    overflow:hidden;
-    background:
-        linear-gradient(135deg,
-        rgba(15,23,42,.9),
-        rgba(30,64,175,.75),
-        rgba(88,28,135,.8));
-    border-bottom:2px solid #3b82f6;
-}
-
-header::before{
-    content:"";
-    position:absolute;
-    width:700px;
-    height:700px;
-    border:2px solid rgba(96,165,250,.15);
-    border-radius:50%;
-    animation:spin 25s linear infinite;
-}
-
-header::after{
-    content:"";
-    position:absolute;
-    width:500px;
-    height:500px;
-    border:2px dashed rgba(192,132,252,.18);
-    border-radius:50%;
-    animation:spinReverse 18s linear infinite;
-}
-
-@keyframes spin{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
-}
-
-@keyframes spinReverse{
-    from{transform:rotate(360deg);}
-    to{transform:rotate(0deg);}
-}
-
-.header-content{
-    position:relative;
-    z-index:2;
-    max-width:1000px;
-    padding:30px;
-}
-
-.shield{
-    font-size:90px;
-    display:inline-block;
-    animation:
-        shieldPulse 2s infinite,
-        shieldFloat 4s ease-in-out infinite;
-}
-
-@keyframes shieldPulse{
-    0%,100%{
-        filter:drop-shadow(0 0 10px #60a5fa);
-    }
-    50%{
-        filter:drop-shadow(0 0 35px #60a5fa);
-    }
-}
-
-@keyframes shieldFloat{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-15px);}
-}
-
-header h1{
-    font-size:54px;
-    margin:10px 0;
-    background:linear-gradient(90deg,#fff,#93c5fd,#d8b4fe,#fff);
-    background-size:300%;
-    -webkit-background-clip:text;
-    color:transparent;
-    animation:gradientMove 5s infinite;
-}
-
-@keyframes gradientMove{
-    0%{background-position:0%;}
-    50%{background-position:100%;}
-    100%{background-position:0%;}
-}
-
-header p{
-    font-size:21px;
-    color:#dbeafe;
-}
-
-.session-badge{
-    display:inline-block;
-    padding:10px 22px;
-    border-radius:50px;
-    background:rgba(255,255,255,.12);
-    border:1px solid rgba(255,255,255,.25);
-    backdrop-filter:blur(10px);
-    animation:badgeGlow 3s infinite;
-}
-
-@keyframes badgeGlow{
-    0%,100%{box-shadow:0 0 5px rgba(96,165,250,.2);}
-    50%{box-shadow:0 0 25px rgba(96,165,250,.6);}
-}
-
-/* =========================================================
-   CONTAINER
-========================================================= */
-
-.container{
-    width:92%;
-    max-width:1250px;
-    margin:auto;
-}
-
-section{
-    margin:60px 0;
-}
-
-/* =========================================================
-   GLASS CARDS
-========================================================= */
-
-.card{
-    background:rgba(15,23,42,.78);
-    border:1px solid rgba(148,163,184,.18);
-    border-radius:24px;
-    padding:32px;
-    margin:30px 0;
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.25),
-        inset 0 1px rgba(255,255,255,.05);
-    backdrop-filter:blur(15px);
-    transform:translateY(30px);
-    opacity:0;
-    animation:cardReveal 1s forwards;
-}
-
-.card:hover{
-    transform:translateY(-8px);
-    border-color:rgba(96,165,250,.5);
-    box-shadow:
-        0 30px 80px rgba(37,99,235,.15),
-        inset 0 1px rgba(255,255,255,.08);
-    transition:.5s;
-}
-
-@keyframes cardReveal{
-    to{
-        transform:translateY(0);
-        opacity:1;
-    }
-}
-
-h2{
-    color:#93c5fd;
-    font-size:34px;
-}
-
-h3{
-    color:#c4b5fd;
-}
-
-/* =========================================================
-   ELI10 ROBOT
-========================================================= */
-
-.robot{
-    background:
-        linear-gradient(135deg,
-        rgba(30,64,175,.35),
-        rgba(126,34,206,.25));
-    border-left:7px solid #60a5fa;
-    padding:28px;
-    border-radius:18px;
-    font-size:19px;
-    position:relative;
-    overflow:hidden;
-}
-
-.robot::after{
-    content:"🤖";
-    position:absolute;
-    right:25px;
-    bottom:10px;
-    font-size:70px;
-    opacity:.15;
-    animation:robotFloat 3s infinite ease-in-out;
-}
-
-@keyframes robotFloat{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-12px);}
-}
-
-/* =========================================================
-   HIGHLIGHT
-========================================================= */
-
-.highlight{
-    background:rgba(250,204,21,.08);
-    border-left:6px solid #facc15;
-    padding:20px;
-    border-radius:15px;
-    margin:20px 0;
-    animation:highlightPulse 3s infinite;
-}
-
-@keyframes highlightPulse{
-    0%,100%{
-        box-shadow:0 0 0 rgba(250,204,21,0);
-    }
-    50%{
-        box-shadow:0 0 25px rgba(250,204,21,.12);
-    }
-}
-
-/* =========================================================
-   DANGER
-========================================================= */
-
-.danger{
-    background:rgba(220,38,38,.12);
-    border-left:6px solid #ef4444;
-    padding:20px;
-    border-radius:15px;
-}
-
-.safe{
-    background:rgba(34,197,94,.10);
-    border-left:6px solid #22c55e;
-    padding:20px;
-    border-radius:15px;
-}
-
-/* =========================================================
-   TABLE
-========================================================= */
-
-.table-wrapper{
-    overflow-x:auto;
-    border-radius:16px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin:20px 0;
-    min-width:700px;
-}
-
-th{
-    background:linear-gradient(135deg,#1d4ed8,#6d28d9);
-    color:white;
-    padding:16px;
-    text-align:left;
-}
-
-td{
-    padding:15px;
-    border-bottom:1px solid rgba(148,163,184,.15);
-}
-
-tr{
-    transition:.3s;
-}
-
-tr:hover{
-    background:rgba(59,130,246,.10);
-    transform:scale(1.01);
-}
-
-/* =========================================================
-   THREAT CARDS
-========================================================= */
-
-.threat-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-    gap:22px;
-}
-
-.threat-card{
-    position:relative;
-    min-height:230px;
-    padding:25px;
-    border-radius:22px;
-    background:linear-gradient(145deg,#111827,#1e293b);
-    border:1px solid rgba(255,255,255,.1);
-    overflow:hidden;
-    transition:.5s;
-}
-
-.threat-card::before{
-    content:"";
-    position:absolute;
-    width:120px;
-    height:120px;
-    border-radius:50%;
-    background:#ef4444;
-    filter:blur(50px);
-    opacity:.12;
-    right:-30px;
-    top:-30px;
-}
-
-.threat-card:hover{
-    transform:
-        perspective(700px)
-        rotateX(5deg)
-        rotateY(-5deg)
-        translateY(-12px);
-    box-shadow:0 25px 50px rgba(0,0,0,.4);
-}
-
-.threat-icon{
-    font-size:55px;
-    animation:iconBounce 3s infinite;
-}
-
-@keyframes iconBounce{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-8px);}
-}
-
-/* =========================================================
-   ATTACK FLOW
-========================================================= */
-
-.attack-flow{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:15px;
-    margin:35px 0;
-}
-
-.flow-box{
-    padding:20px;
-    min-width:160px;
-    text-align:center;
-    border-radius:18px;
-    background:linear-gradient(135deg,#1d4ed8,#7c3aed);
-    font-weight:bold;
-    box-shadow:0 10px 25px rgba(37,99,235,.2);
-    animation:flowPulse 2s infinite;
-}
-
-.flow-box:nth-child(1){animation-delay:0s;}
-.flow-box:nth-child(3){animation-delay:.4s;}
-.flow-box:nth-child(5){animation-delay:.8s;}
-.flow-box:nth-child(7){animation-delay:1.2s;}
-
-.arrow{
-    font-size:32px;
-    color:#60a5fa;
-    animation:arrowMove 1.5s infinite;
-}
-
-@keyframes arrowMove{
-    0%,100%{transform:translateX(0);}
-    50%{transform:translateX(10px);}
-}
-
-@keyframes flowPulse{
-    0%,100%{
-        box-shadow:0 0 0 rgba(96,165,250,0);
-    }
-    50%{
-        box-shadow:0 0 30px rgba(96,165,250,.4);
-    }
-}
-
-/* =========================================================
-   ATTACKER AVATAR
-========================================================= */
-
-.attacker-stage{
-    position:relative;
-    height:300px;
-    overflow:hidden;
-    border-radius:20px;
-    background:
-        linear-gradient(90deg,#020617,#0f172a,#020617);
-    border:1px solid #334155;
-}
-
-.attacker{
-    position:absolute;
-    left:5%;
-    top:100px;
-    font-size:70px;
-    animation:hackerMove 7s infinite linear;
-}
-
-.target{
-    position:absolute;
-    right:8%;
-    top:90px;
-    font-size:90px;
-    animation:targetGlow 2s infinite;
-}
-
-.packet{
-    position:absolute;
-    left:15%;
-    top:130px;
-    font-size:30px;
-    opacity:0;
-    animation:packetMove 7s infinite linear;
-}
-
-@keyframes hackerMove{
-    0%{left:3%;}
-    40%{left:35%;}
-    70%{left:55%;}
-    100%{left:3%;}
-}
-
-@keyframes packetMove{
-    0%{
-        left:15%;
-        opacity:0;
-    }
-    20%{
-        opacity:1;
-    }
-    75%{
-        left:80%;
-        opacity:1;
-    }
-    80%,100%{
-        opacity:0;
-    }
-}
-
-@keyframes targetGlow{
-    0%,100%{
-        filter:drop-shadow(0 0 5px #22c55e);
-    }
-    50%{
-        filter:drop-shadow(0 0 35px #22c55e);
-    }
-}
-
-/* =========================================================
-   COMPARISON BOX
-========================================================= */
-
-.compare-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:25px;
-}
-
-.compare{
-    padding:25px;
-    border-radius:20px;
-    background:#111827;
-    border:1px solid #334155;
-}
-
-.compare.good{
-    border-top:5px solid #22c55e;
-}
-
-.compare.bad{
-    border-top:5px solid #ef4444;
-}
-
-/* =========================================================
-   QUIZ
-========================================================= */
-
-.question{
-    background:rgba(14,116,144,.12);
-    border:2px solid rgba(34,211,238,.4);
-    padding:25px;
-    border-radius:20px;
-    margin:20px 0;
-    transition:.3s;
-}
-
-.question:hover{
-    transform:scale(1.02);
-    box-shadow:0 10px 30px rgba(34,211,238,.08);
-}
-
-.answer{
-    margin-top:15px;
-    padding:15px;
-    background:rgba(34,197,94,.08);
-    border-radius:12px;
-}
-
-/* =========================================================
-   NUMBER BADGE
-========================================================= */
-
-.number{
-    display:inline-flex;
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,#2563eb,#9333ea);
-    font-weight:bold;
-    margin-right:10px;
-}
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer{
-    margin-top:80px;
-    padding:45px;
-    text-align:center;
-    background:#020617;
-    border-top:1px solid #334155;
-}
-
-footer .big{
-    font-size:24px;
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:700px){
-
-    header h1{
-        font-size:35px;
-    }
-
-    .shield{
-        font-size:65px;
-    }
-
-    h2{
-        font-size:27px;
-    }
-
-    .compare-grid{
-        grid-template-columns:1fr;
-    }
-
-    .attack-flow{
-        flex-direction:column;
-    }
-
-    .arrow{
-        transform:rotate(90deg);
-    }
-
-}
-
+:root{
+ --bg:#07111f;--panel:#102746;--text:#eef7ff;--muted:#b9c9db;
+ --cyan:#35d9ff;--purple:#a87cff;--green:#58e3a0;--yellow:#ffd166;--pink:#ff79b8;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;color:var(--text);line-height:1.6;
+background:radial-gradient(circle at 10% 10%,#12335a,transparent 32%),
+radial-gradient(circle at 90% 20%,#2a1649,transparent 30%),linear-gradient(145deg,var(--bg),#0b1c33)}
+.container{max-width:1150px;margin:auto;padding:24px}
+.hero{text-align:center;padding:42px 20px 30px}
+.badge{display:inline-block;padding:8px 14px;border:1px solid #ffffff22;border-radius:99px;background:#ffffff0d;color:var(--cyan);font-weight:800}
+h1{font-size:clamp(2.3rem,5vw,4rem);line-height:1.05;margin:18px 0 12px;background:linear-gradient(90deg,var(--cyan),white,var(--purple));-webkit-background-clip:text;color:transparent}
+.hero p{max-width:850px;margin:auto;color:var(--muted);font-size:1.08rem}
+.card{background:#ffffff09;border:1px solid #ffffff17;border-radius:20px;padding:24px;margin:20px 0;box-shadow:0 15px 35px #0004}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.grid .card{margin:0}
+h2{margin-top:0;font-size:1.3rem}
+.icon{font-size:30px}
+.story{background:linear-gradient(135deg,#172f50,#211a43)}
+.quote{font-size:1.35rem;font-weight:800}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:22px 0}
+.node{padding:17px 20px;border-radius:15px;background:var(--panel);border:2px solid var(--cyan);min-width:125px;text-align:center}
+.node.q{border-color:var(--purple)}.arrow{font-size:26px;color:var(--yellow)}
+table{width:100%;border-collapse:collapse;border-radius:15px;overflow:hidden}
+th,td{padding:14px;border:1px solid #ffffff18;text-align:left}
+th{background:#ffffff12;color:var(--cyan)}td{background:#ffffff07}
+.classical{border-top:4px solid var(--cyan)}.quantum{border-top:4px solid var(--purple)}
+.data{border-top:4px solid var(--green)}
+.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+.stat{background:#ffffff0b;border:1px solid #ffffff12;border-radius:16px;padding:18px;text-align:center}
+.stat b{font-size:1.7rem;color:var(--green);display:block}
+.note{color:var(--muted);font-size:.92rem}
+.misconception{background:#ff79660b;border-left:5px solid var(--pink)}
+.activity{background:#35d9ff0a;border-left:5px solid var(--cyan)}
+.quiz label{display:block;padding:13px;margin:8px 0;background:#ffffff0a;border-radius:12px;cursor:pointer}
+button,.back{display:inline-block;border:0;border-radius:12px;padding:12px 18px;font-weight:800;text-decoration:none;cursor:pointer;background:var(--cyan);color:#07111f}
+.result{margin-top:14px;color:var(--green);font-weight:800}
+.source{font-size:.86rem;color:var(--muted)}
+footer{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:700px){.statgrid{grid-template-columns:1fr}.flow{flex-direction:column}.arrow{transform:rotate(90deg)}}
 </style>
 </head>
-
 <body>
 
-<div class="background">
-    <div class="circle c1"></div>
-    <div class="circle c2"></div>
-    <div class="circle c3"></div>
-</div>
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
-<header>
-
-<div class="header-content">
-
-<div class="shield">🛡️</div>
-
-<div class="session-badge">
-    CYBERSECURITY LEARNING — SESSION 2
-</div>
-
-<h1>Cyber Threats & Attackers</h1>
-
-<p>
-    🕵️ Who is trying to break our digital house?
-</p>
-
-<p>
-    <strong>ELI10:</strong>
-    Learn cybersecurity by thinking like a detective!
-</p>
-
-</div>
-
+<header class="hero">
+<span class="badge">QUANTUM COMPUTING • SESSION 02</span>
+<h1>Bits vs Qubits</h1>
+<p>From the familiar <b>0/1 bit</b> to the quantum <b>qubit</b> — the first major conceptual jump in quantum computing.</p>
 </header>
 
+<main class="container">
 
-<div class="container">
+<section class="grid">
+<div class="card classical">
+<div class="icon">💻</div>
+<h2>Classical Starting Point</h2>
+<p>A <b>bit</b> is the basic unit of classical digital information. In a computational state, it is represented as <b>0 or 1</b>.</p>
+</div>
 
-
-<!-- =====================================================
-     LEARNING OBJECTIVES
-===================================================== -->
-
-<section>
+<div class="card quantum">
+<div class="icon">⚛️</div>
+<h2>Quantum Starting Point</h2>
+<p>A <b>qubit</b> is a quantum information unit. Its state is described using quantum amplitudes for the basis states <b>|0⟩</b> and <b>|1⟩</b>.</p>
+</div>
 
 <div class="card">
+<div class="icon">🎯</div>
+<h2>Session Goal</h2>
+<p>Students should leave knowing that a qubit is <b>not simply a faster bit</b> and that quantum information follows different rules.</p>
+</div>
+</section>
 
-<h2>🎯 What Will You Learn Today?</h2>
+<section class="card story">
+<h2>📖 Story — The Two-State Switch vs the Quantum System</h2>
+<p class="quote">“Your laptop has billions of tiny switches. Every switch has a job: represent information using 0 or 1. What happens if we build information processing from the rules of the quantum world?”</p>
+<p>
+Ask students to imagine an ordinary light switch. At the classical level, we use the simple analogy:
+<b>OFF → 0</b> and <b>ON → 1</b>.
+Now introduce a quantum system. It is not correctly described as an ordinary switch that is merely “half ON.” 
+A qubit is a quantum state that can be expressed as a combination of the basis states |0⟩ and |1⟩.
+</p>
+</section>
 
-<div class="table-wrapper">
+<section class="card">
+<h2>🧒 ELI10 — What is a Qubit?</h2>
+<p>
+Think of a bit as a card with one of two labels:
+</p>
+<div class="flow">
+<div class="node">BIT<br><b>0</b></div>
+<div class="node">OR</div>
+<div class="node">BIT<br><b>1</b></div>
+</div>
+<p>
+A qubit is different. Its state can be represented as
+<b>|ψ⟩ = α|0⟩ + β|1⟩</b>,
+where α and β are complex probability amplitudes satisfying
+<b>|α|² + |β|² = 1</b>.
+You do <b>not</b> need the mathematics yet. The important first-year idea is:
+</p>
+<p style="font-size:1.2rem;text-align:center"><b>“A qubit is a quantum state, not just a classical 0/1 switch.”</b></p>
+</section>
 
+<section class="card">
+<h2>🧩 Diagram — Bit → Qubit</h2>
+<div class="flow">
+<div class="node">Classical<br>Information</div>
+<div class="arrow">→</div>
+<div class="node">BIT<br>0 / 1</div>
+<div class="arrow">→</div>
+<div class="node q">Quantum<br>Information</div>
+<div class="arrow">→</div>
+<div class="node q">QUBIT<br>|ψ⟩ = α|0⟩ + β|1⟩</div>
+</div>
+<p class="note" style="text-align:center">Session 3 will unpack the meaning of this quantum combination through superposition.</p>
+</section>
+
+<section class="card">
+<h2>📊 Colorful Difference Table</h2>
 <table>
-
-<tr>
-<th>No.</th>
-<th>Topic</th>
-<th>ELI10 Meaning</th>
-<th>Goal</th>
-</tr>
-
-<tr>
-<td>1</td>
-<td>Cyber Threat</td>
-<td>Something that may cause trouble</td>
-<td>Identify threats</td>
-</tr>
-
-<tr>
-<td>2</td>
-<td>Cyber Attack</td>
-<td>Someone actually trying to cause trouble</td>
-<td>Understand attacks</td>
-</tr>
-
-<tr>
-<td>3</td>
-<td>Vulnerability</td>
-<td>A weak point</td>
-<td>Find weaknesses</td>
-</tr>
-
-<tr>
-<td>4</td>
-<td>Threat Actor</td>
-<td>The person or group behind an attack</td>
-<td>Understand attackers</td>
-</tr>
-
-<tr>
-<td>5</td>
-<td>Risk</td>
-<td>Chance that something bad may happen</td>
-<td>Think about danger</td>
-</tr>
-
+<tr><th>Feature</th><th>💻 Bit</th><th>⚛️ Qubit</th></tr>
+<tr><td>Information unit</td><td>Bit</td><td>Qubit</td></tr>
+<tr><td>Basis states</td><td>0 or 1</td><td>|0⟩ or |1⟩ as basis states</td></tr>
+<tr><td>General state</td><td>One classical value</td><td>α|0⟩ + β|1⟩</td></tr>
+<tr><td>Underlying model</td><td>Classical digital logic</td><td>Quantum mechanics</td></tr>
+<tr><td>Operations</td><td>Classical logic gates</td><td>Quantum gates</td></tr>
+<tr><td>Measurement</td><td>Reads a classical state</td><td>Produces an outcome according to quantum probabilities</td></tr>
+<tr><td>Key learning idea</td><td>0 or 1</td><td>Quantum state with amplitudes</td></tr>
 </table>
+</section>
 
+<section class="card data">
+<h2>🌎 Real Research Data — What Do Students Find Difficult?</h2>
+<p>
+Instead of inventing classroom percentages, this session uses published quantum-education research as the evidence layer.
+The <b>Quantum Computing Conceptual Survey (QCCS)</b> was developed as a research-based assessment of student conceptual understanding
+in introductory quantum computing. Its 2026 validation study reports pilot data from <b>more than 50 courses and 700 students</b>.
+</p>
+
+<div class="statgrid">
+<div class="stat"><b>700+</b>students in pilot data</div>
+<div class="stat"><b>50+</b>courses</div>
+<div class="stat"><b>QCCS</b>research-based assessment</div>
 </div>
 
-</div>
-
+<p>
+The survey is designed to examine conceptual understanding rather than merely whether students can remember terminology.
+This makes it useful for discussing why <b>“qubit = a bit that is 0 and 1 at the same time”</b> is an incomplete explanation.
+</p>
+<p class="source">
+Source: Meyer, Griston, Passante, Pollock & Wilcox, “Measuring student understanding in quantum computing:
+Development and validation of the Quantum Computing Conceptual Survey,” 2026.
+</p>
+<p class="source">
+The study reports evidence supporting use of the QCCS for introductory QIS courses. citeturn0academia17
+</p>
 </section>
 
 
-<!-- =====================================================
-     ELI10 STORY
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🏠 1. Imagine Your Computer Is a House</h2>
-
-<div class="robot">
-
-<strong>🤖 ELI10 STORY</strong>
-
+<section class="card">
+<h2>🧮 Algorithm Thinking — From Problem to Answer</h2>
 <p>
-Imagine you have a beautiful house.
-Inside your house you have:
+Before learning quantum algorithms, understand what an <b>algorithm</b> means.
+An algorithm is a step-by-step recipe for solving a problem.
 </p>
 
-<ul>
-<li>💰 Money</li>
-<li>📚 Books</li>
-<li>📱 Phone</li>
-<li>💻 Laptop</li>
-<li>📸 Family photos</li>
-</ul>
-
-<p>
-You lock the doors because you don't want strangers
-to enter.
-</p>
-
-<p>
-Now imagine your computer is the same house.
-</p>
-
-<p>
-The computer contains your:
-<strong>photos, passwords, documents, applications and data.</strong>
-</p>
-
-<p>
-Cybersecurity protects this digital house.
-</p>
-
+<div class="flow">
+<div class="node">🎯 Problem</div>
+<div class="arrow">→</div>
+<div class="node">📝 Algorithm</div>
+<div class="arrow">→</div>
+<div class="node">⚙️ Operations</div>
+<div class="arrow">→</div>
+<div class="node">✅ Answer</div>
 </div>
 
-<div class="highlight">
-
-<strong>🧠 Simple Rule:</strong>
-
+<p><b>ELI10 example — Finding a Student</b></p>
 <p>
-Cybersecurity = Protecting digital things from digital danger.
+Suppose there are 8 student names and we need to find <b>Arun</b>.
+A simple classical method is to check names one by one until the required name is found.
+The important point is that the computer follows a defined sequence of operations.
 </p>
 
+<div class="flow">
+<div class="node">Student 1</div>
+<div class="arrow">→</div>
+<div class="node">Student 2</div>
+<div class="arrow">→</div>
+<div class="node">Student 3</div>
+<div class="arrow">→</div>
+<div class="node">🎯 Arun?</div>
 </div>
-
-</div>
-
 </section>
 
-
-<!-- =====================================================
-     THREAT VS ATTACK
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>⚔️ 2. Threat vs Attack vs Vulnerability vs Risk</h2>
-
+<section class="card quantum">
+<h2>⚛️ What Makes a Quantum Algorithm Different?</h2>
 <p>
-Students often confuse these four words.
-Let's make them super simple.
+A <b>quantum algorithm</b> is an algorithm designed to run using quantum information and quantum operations.
+It does not mean that every step is magically performed faster.
+The algorithm must exploit useful quantum effects to obtain an advantage for a particular problem.
 </p>
 
-<div class="table-wrapper">
+<div class="flow">
+<div class="node q">🎯 Problem</div>
+<div class="arrow">→</div>
+<div class="node q">⚛️ Prepare Qubits</div>
+<div class="arrow">→</div>
+<div class="node q">🔀 Quantum Gates</div>
+<div class="arrow">→</div>
+<div class="node q">🌊 Interference</div>
+<div class="arrow">→</div>
+<div class="node q">📏 Measure</div>
+</div>
 
+<p>
+Students will learn these individual building blocks in later sessions. For now, remember:
+<b>qubits provide the information representation; quantum gates manipulate that information; algorithms organize those operations to solve a problem.</b>
+</p>
+</section>
+
+<section class="card">
+<h2>📊 Classical Algorithm vs Quantum Algorithm</h2>
 <table>
-
-<tr>
-<th>Word</th>
-<th>ELI10 Meaning</th>
-<th>House Example</th>
-<th>Computer Example</th>
-</tr>
-
-<tr>
-<td><strong>Threat</strong></td>
-<td>Something that could cause harm</td>
-<td>Thief outside</td>
-<td>Malware</td>
-</tr>
-
-<tr>
-<td><strong>Vulnerability</strong></td>
-<td>A weakness</td>
-<td>Broken window</td>
-<td>Unpatched software</td>
-</tr>
-
-<tr>
-<td><strong>Attack</strong></td>
-<td>The actual harmful action</td>
-<td>Thief entering</td>
-<td>Exploiting a weakness</td>
-</tr>
-
-<tr>
-<td><strong>Risk</strong></td>
-<td>Chance of something bad happening</td>
-<td>Chance thief enters</td>
-<td>Chance vulnerability is exploited</td>
-</tr>
-
-<tr>
-<td><strong>Threat Actor</strong></td>
-<td>Who causes the trouble</td>
-<td>Thief</td>
-<td>Cyber attacker</td>
-</tr>
-
+<tr><th>Feature</th><th>💻 Classical Algorithm</th><th>⚛️ Quantum Algorithm</th></tr>
+<tr><td>Information unit</td><td>Bits</td><td>Qubits</td></tr>
+<tr><td>Operations</td><td>Classical operations / logic gates</td><td>Quantum gates</td></tr>
+<tr><td>Important principles</td><td>Logic, arithmetic, data structures</td><td>Superposition, interference, entanglement where useful</td></tr>
+<tr><td>Output</td><td>Classical computational result</td><td>Measurement produces classical outcomes</td></tr>
+<tr><td>Example</td><td>Binary search</td><td>Grover's search</td></tr>
+<tr><td>Best lesson</td><td>Algorithm depends on the problem</td><td>Quantum advantage also depends on the problem and algorithm</td></tr>
 </table>
-
-</div>
-
-<div class="highlight">
-
-<h3>🧠 Remember with ONE sentence:</h3>
-
-<p>
-<strong>
-Threat = danger,
-Vulnerability = weakness,
-Attack = harmful action,
-Risk = chance of harm,
-Threat Actor = person/group behind it.
-</strong>
-</p>
-
-</div>
-
-</div>
-
 </section>
 
-
-<!-- =====================================================
-     ATTACK FLOW
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🔄 3. How Does a Cyber Attack Happen?</h2>
-
-<div class="attack-flow">
-
-<div class="flow-box">
-🔍<br>
-Find Target
-</div>
-
-<div class="arrow">➡️</div>
-
-<div class="flow-box">
-🕳️<br>
-Find Weakness
-</div>
-
-<div class="arrow">➡️</div>
-
-<div class="flow-box">
-⚔️<br>
-Attempt Attack
-</div>
-
-<div class="arrow">➡️</div>
-
-<div class="flow-box">
-💻<br>
-Impact
-</div>
-
-</div>
-
-<div class="robot">
-
-<strong>ELI10:</strong>
-
+<section class="card story">
+<h2>🔎 Story — Searching for a Lost Student ID</h2>
+<p class="quote">“Your teacher has 1,000 student IDs. One ID is marked. How would you find it?”</p>
 <p>
-A burglar doesn't usually randomly choose a house.
-They may look for:
+Ask students to first design a classical strategy. Then introduce the idea that quantum computing has specialized algorithms
+for certain search problems. <b>Grover's algorithm</b> is a famous example: for an unstructured search space of size N,
+it can find a marked item using roughly O(√N) oracle queries, compared with O(N) in the straightforward classical approach.
 </p>
-
-<ul>
-<li>Which house has a weak door?</li>
-<li>Which window is open?</li>
-<li>When is nobody home?</li>
-</ul>
-
-<p>
-Cyber attackers similarly look for weaknesses in
-digital systems.
+<p class="note">
+This is not a claim that a quantum computer simply searches every item simultaneously and instantly.
+The advantage comes from how the quantum algorithm uses amplitudes and interference to increase the probability of the desired result.
 </p>
-
-</div>
-
-</div>
-
 </section>
 
-
-<!-- =====================================================
-     ANIMATED ATTACK
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🎬 4. Animated Cyber Attack Story</h2>
-
-<div class="attacker-stage">
-
-<div class="attacker">🕵️‍♂️</div>
-
-<div class="packet">📦</div>
-
-<div class="target">🏢</div>
-
-</div>
-
-<p style="text-align:center">
-
-🕵️ Attacker → 📦 Suspicious Activity → 🏢 Target
-
-</p>
-
-<div class="highlight">
-
-<strong>Important:</strong>
-
-<p>
-This animation is only a concept demonstration.
-Real security testing must only be performed on systems
-where you have explicit permission.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     10+ THREAT EXAMPLES
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>👾 5. Ten Common Cyber Threat Examples</h2>
-
-<div class="threat-grid">
-
-<div class="threat-card">
-<div class="threat-icon">🎣</div>
-<h3>1. Phishing</h3>
-<p>
-Fake messages try to trick people into revealing
-information or clicking unsafe links.
-</p>
-</div>
-
-<div class="threat-card">
-<div class="threat-icon">🦠</div>
-<h3>2. Malware</h3>
-<p>
-Malicious software designed to perform harmful actions.
-</p>
-</div>
-
-<div class="threat-card">
-<div class="threat-icon">🔒</div>
-<h3>3. Ransomware</h3>
-<p>
-Malicious software that can make data unavailable
-and demand payment.
-</p>
-</div>
-
-<div class="threat-card">
-<div class="threat-icon">🌊</div>
-<h3>4. DDoS</h3>
-<p>
-A service is overwhelmed with huge amounts of traffic.
-</p>
-</div>
-
-<div class="threat-card">
-<div class="threat-icon">👂</div>
-<h3>5. Sniffing</h3>
-<p>
-Network traffic may be observed to understand
-communication.
-</p>
-</div>
-
-<div class="threat-card">
-<div class="threat-icon">🎭</div>
-<h3>6. Spoofing</h3>
-<p>
-Someone or something pretends to be another trusted source.
-</p>
-</div>
-
-<div class="threat-card">
-<div class="threat-icon">🔑</div>
-<h3>7. Credential Theft</h3>
-<p>
-Attackers attempt to obtain usernames, passwords or tokens.
-</p>
-</div>
-
-<div class="threat-card">
-<div class="threat-icon">🕳️</div>
-<h3>8. Vulnerability Exploitation</h3>
-<p>
-An attacker attempts to take advantage of a software weakness.
-</p>
-</div>
-
-<div class="threat-card">
-<div class="threat-icon">🧑‍💻</div>
-<h3>9. Insider Threat</h3>
-<p>
-A person with legitimate access misuses that access.
-</p>
-</div>
-
-<div class="threat-card">
-<div class="threat-icon">🤖</div>
-<h3>10. Automated Attack</h3>
-<p>
-Software can automatically perform large numbers of
-security-related actions.
-</p>
-</div>
-
-<div class="threat-card">
-<div class="threat-icon">📱</div>
-<h3>11. Mobile Threat</h3>
-<p>
-Phones and mobile applications can also contain
-security weaknesses.
-</p>
-</div>
-
-<div class="threat-card">
-<div class="threat-icon">☁️</div>
-<h3>12. Cloud Threat</h3>
-<p>
-Poor configuration or stolen credentials may expose
-cloud resources.
-</p>
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     EXAMPLES
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🧩 6. 12 ELI10 Cybersecurity Examples</h2>
-
-<div class="table-wrapper">
-
+<section class="card">
+<h2>🧠 Algorithm Vocabulary for First-Year Students</h2>
 <table>
-
-<tr>
-<th>No.</th>
-<th>Situation</th>
-<th>What is happening?</th>
-<th>Cybersecurity Concept</th>
-</tr>
-
-<tr>
-<td>1</td>
-<td>Fake bank email</td>
-<td>User receives a fake message asking for credentials.</td>
-<td>Phishing</td>
-</tr>
-
-<tr>
-<td>2</td>
-<td>Unknown software</td>
-<td>A user installs software from an untrusted source.</td>
-<td>Malware risk</td>
-</tr>
-
-<tr>
-<td>3</td>
-<td>Weak password</td>
-<td>A simple password is easier to guess.</td>
-<td>Password vulnerability</td>
-</tr>
-
-<tr>
-<td>4</td>
-<td>Old software</td>
-<td>Security updates have not been installed.</td>
-<td>Vulnerability</td>
-</tr>
-
-<tr>
-<td>5</td>
-<td>Fake website</td>
-<td>A website imitates a legitimate website.</td>
-<td>Spoofing / phishing</td>
-</tr>
-
-<tr>
-<td>6</td>
-<td>Too many requests</td>
-<td>A service receives an unusually large amount of traffic.</td>
-<td>DoS/DDoS concept</td>
-</tr>
-
-<tr>
-<td>7</td>
-<td>Unknown login</td>
-<td>An unusual login occurs from an unexpected location.</td>
-<td>Security monitoring</td>
-</tr>
-
-<tr>
-<td>8</td>
-<td>Stolen password</td>
-<td>An attacker obtains a user's credentials.</td>
-<td>Credential compromise</td>
-</tr>
-
-<tr>
-<td>9</td>
-<td>Open cloud storage</td>
-<td>Data is accidentally exposed due to poor configuration.</td>
-<td>Cloud security</td>
-</tr>
-
-<tr>
-<td>10</td>
-<td>Suspicious USB</td>
-<td>An unknown USB device may contain malicious software.</td>
-<td>Malware risk</td>
-</tr>
-
-<tr>
-<td>11</td>
-<td>Fake support call</td>
-<td>Someone pretends to be technical support.</td>
-<td>Social engineering</td>
-</tr>
-
-<tr>
-<td>12</td>
-<td>Employee misuses access</td>
-<td>A legitimate account is used improperly.</td>
-<td>Insider threat</td>
-</tr>
-
+<tr><th>Term</th><th>Simple Meaning</th></tr>
+<tr><td>Algorithm</td><td>A step-by-step method for solving a problem.</td></tr>
+<tr><td>Qubit</td><td>The basic unit used to represent quantum information.</td></tr>
+<tr><td>Quantum gate</td><td>An operation that changes a quantum state.</td></tr>
+<tr><td>Quantum circuit</td><td>A sequence of quantum gates applied to qubits.</td></tr>
+<tr><td>Amplitude</td><td>A mathematical quantity used to describe a quantum state's probabilities.</td></tr>
+<tr><td>Measurement</td><td>The process that produces a classical outcome from a quantum state.</td></tr>
+<tr><td>Quantum algorithm</td><td>A problem-solving procedure designed around quantum computation.</td></tr>
 </table>
-
-</div>
-
-</div>
-
 </section>
 
-
-<!-- =====================================================
-     ATTACKER TYPES
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🕵️ 7. Who Are the Attackers?</h2>
-
-<div class="table-wrapper">
-
-<table>
-
-<tr>
-<th>Attacker Type</th>
-<th>ELI10 Meaning</th>
-<th>Possible Motivation</th>
-<th>Simple Example</th>
-</tr>
-
-<tr>
-<td>🟢 Ethical Hacker</td>
-<td>Authorized security tester</td>
-<td>Find and fix weaknesses</td>
-<td>Tests a company's system with permission</td>
-</tr>
-
-<tr>
-<td>🔴 Black Hat</td>
-<td>Unauthorized malicious attacker</td>
-<td>Money, disruption, theft</td>
-<td>Attempts unauthorized access</td>
-</tr>
-
-<tr>
-<td>🟡 Script Kiddie</td>
-<td>Beginner using existing tools</td>
-<td>Curiosity, fun, attention</td>
-<td>Runs tools without understanding deeply</td>
-</tr>
-
-<tr>
-<td>🕵️ Insider</td>
-<td>Person who already has access</td>
-<td>Misuse, revenge, theft</td>
-<td>Misuses company information</td>
-</tr>
-
-<tr>
-<td>💰 Cybercriminal</td>
-<td>Attacker focused on illegal profit</td>
-<td>Money</td>
-<td>Credential or financial fraud</td>
-</tr>
-
-<tr>
-<td>🏛️ State-Sponsored Actor</td>
-<td>Attacker associated with a government</td>
-<td>Intelligence or strategic goals</td>
-<td>Long-term targeted campaigns</td>
-</tr>
-
-<tr>
-<td>🎭 Hacktivist</td>
-<td>Attacker motivated by an ideology or cause</td>
-<td>Political/social message</td>
-<td>Attempts to disrupt an organization</td>
-</tr>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     ETHICAL HACKER VS ATTACKER
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>⚖️ 8. Ethical Hacker vs Malicious Hacker</h2>
-
-<div class="compare-grid">
-
-<div class="compare good">
-
-<h3>🟢 Ethical Hacker</h3>
-
-<ul>
-<li>Has permission</li>
-<li>Defines the testing scope</li>
-<li>Documents findings</li>
-<li>Reports vulnerabilities</li>
-<li>Helps improve security</li>
-</ul>
-
-</div>
-
-<div class="compare bad">
-
-<h3>🔴 Malicious Attacker</h3>
-
-<ul>
-<li>Does not have permission</li>
-<li>Attempts unauthorized access</li>
-<li>May steal information</li>
-<li>May damage systems</li>
-<li>May hide activity</li>
-</ul>
-
-</div>
-
-</div>
-
-<div class="highlight">
-
-<strong>🧠 ELI10:</strong>
-
-<p>
-Imagine two children testing a school door.
-</p>
-
-<p>
-👦 Child A has permission from the teacher to check
-whether the door lock works.
-</p>
-
-<p>
-👤 Child B secretly breaks the lock and enters.
-</p>
-
-<p>
-Both interact with the door, but their
-<strong>permission and purpose</strong> are completely different.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     THREAT COMPARISON
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>📊 9. Threat Comparison Table</h2>
-
-<div class="table-wrapper">
-
-<table>
-
-<tr>
-<th>Threat</th>
-<th>Main Target</th>
-<th>Simple Goal</th>
-<th>Possible Defence</th>
-</tr>
-
-<tr>
-<td>Phishing</td>
-<td>People</td>
-<td>Trick users</td>
-<td>User awareness + filtering</td>
-</tr>
-
-<tr>
-<td>Malware</td>
-<td>Devices</td>
-<td>Perform malicious actions</td>
-<td>Security software + updates</td>
-</tr>
-
-<tr>
-<td>Ransomware</td>
-<td>Data / systems</td>
-<td>Make data unavailable</td>
-<td>Backups + protection</td>
-</tr>
-
-<tr>
-<td>DDoS</td>
-<td>Services</td>
-<td>Disrupt availability</td>
-<td>Traffic filtering + protection</td>
-</tr>
-
-<tr>
-<td>Credential Theft</td>
-<td>Accounts</td>
-<td>Obtain access</td>
-<td>MFA + strong credentials</td>
-</tr>
-
-<tr>
-<td>Insider Threat</td>
-<td>Organizations</td>
-<td>Misuse legitimate access</td>
-<td>Access control + monitoring</td>
-</tr>
-
-<tr>
-<td>Cloud Misconfiguration</td>
-<td>Cloud data</td>
-<td>Expose resources</td>
-<td>Configuration review</td>
-</tr>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     VULNERABILITY
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🕳️ 10. What Is a Vulnerability?</h2>
-
-<div class="robot">
-
-<h3>🏠 House Example</h3>
-
-<p>
-Imagine your house has a window.
-The window does not close properly.
-</p>
-
-<p>
-That window is a <strong>weakness</strong>.
-</p>
-
-<p>
-A thief might notice it.
-</p>
-
-<p>
-In cybersecurity, a software weakness is called a
-<strong>vulnerability</strong>.
-</p>
-
-</div>
-
-<div class="table-wrapper">
-
-<table>
-
-<tr>
-<th>Real World</th>
-<th>Cyber World</th>
-</tr>
-
-<tr>
-<td>Broken door</td>
-<td>Software vulnerability</td>
-</tr>
-
-<tr>
-<td>Open window</td>
-<td>Incorrect configuration</td>
-</tr>
-
-<tr>
-<td>Lost key</td>
-<td>Stolen password</td>
-</tr>
-
-<tr>
-<td>No security guard</td>
-<td>No monitoring</td>
-</tr>
-
-<tr>
-<td>Old lock</td>
-<td>Outdated software</td>
-</tr>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     RISK
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🎲 11. What Is Cybersecurity Risk?</h2>
-
-<div class="robot">
-
-<strong>ELI10:</strong>
-
-<p>
-You have a house with an open window.
-</p>
-
-<p>
-Is the house definitely going to be robbed?
-</p>
-
-<p>
-<strong>No.</strong>
-</p>
-
-<p>
-But there is a possibility.
-That possibility is part of the <strong>risk</strong>.
-</p>
-
-</div>
-
-<div class="table-wrapper">
-
-<table>
-
-<tr>
-<th>Situation</th>
-<th>Weakness?</th>
-<th>Threat?</th>
-<th>Risk?</th>
-</tr>
-
-<tr>
-<td>Old software installed</td>
-<td>Yes</td>
-<td>Possible attacker</td>
-<td>Possible security problem</td>
-</tr>
-
-<tr>
-<td>Strong updated software</td>
-<td>Lower</td>
-<td>Threats still exist</td>
-<td>Usually lower</td>
-</tr>
-
-<tr>
-<td>Weak password</td>
-<td>Yes</td>
-<td>Password attacker</td>
-<td>Higher</td>
-</tr>
-
-<tr>
-<td>MFA enabled</td>
-<td>Lower account exposure</td>
-<td>Threat still exists</td>
-<td>Generally reduced</td>
-</tr>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     SOCIAL ENGINEERING
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🎭 12. Social Engineering — Hacking the Human</h2>
-
-<div class="robot">
-
-<p>
-Sometimes attackers do not attack the computer first.
-</p>
-
-<p>
-They attack the <strong>person's trust</strong>.
-</p>
-
-<p>
-Imagine someone says:
-</p>
-
-<div class="highlight">
-
-"Hi! I am from your school IT department.
-Please tell me your password so I can fix your account."
-
-</div>
-
-<p>
-The computer may be perfectly secure.
-But if the person gives away the password,
-the attacker may gain access.
-</p>
-
-</div>
-
-<div class="table-wrapper">
-
-<table>
-
-<tr>
-<th>Technique</th>
-<th>ELI10 Explanation</th>
-<th>Warning Sign</th>
-</tr>
-
-<tr>
-<td>Phishing</td>
-<td>Fake digital message</td>
-<td>Suspicious link</td>
-</tr>
-
-<tr>
-<td>Pretexting</td>
-<td>Fake story to gain trust</td>
-<td>Unusual request</td>
-</tr>
-
-<tr>
-<td>Impersonation</td>
-<td>Pretending to be someone trusted</td>
-<td>Unexpected identity claim</td>
-</tr>
-
-<tr>
-<td>Urgency Trick</td>
-<td>Trying to make you panic</td>
-<td>"Do it immediately!"</td>
-</tr>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     DETECTIVE EXAMPLES
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🕵️ 13. Become a Cyber Detective</h2>
-
-<p>
-Look at each situation and identify the likely security problem.
-</p>
-
-<div class="question">
-
-<strong>🔎 Example 1</strong>
-
-<p>
-You receive an email saying:
-"Your account will be deleted in 10 minutes!"
-It contains a strange link.
-</p>
-
-<p>
-<strong>What should you suspect?</strong>
-</p>
-
-<div class="answer">
-🎯 Possible phishing attempt.
-</div>
-
-</div>
-
-
-<div class="question">
-
-<strong>🔎 Example 2</strong>
-
-<p>
-A student uses the password:
-<code>123456</code>
-</p>
-
-<div class="answer">
-🎯 Weak password / authentication risk.
-</div>
-
-</div>
-
-
-<div class="question">
-
-<strong>🔎 Example 3</strong>
-
-<p>
-A computer has not received security updates for a very long time.
-</p>
-
-<div class="answer">
-🎯 Possible vulnerability due to outdated software.
-</div>
-
-</div>
-
-
-<div class="question">
-
-<strong>🔎 Example 4</strong>
-
-<p>
-An employee receives a phone call from someone pretending
-to be technical support and asking for credentials.
-</p>
-
-<div class="answer">
-🎯 Social engineering / impersonation.
-</div>
-
-</div>
-
-
-<div class="question">
-
-<strong>🔎 Example 5</strong>
-
-<p>
-A website suddenly receives a massive amount of traffic
-and becomes unavailable.
-</p>
-
-<div class="answer">
-🎯 Possible denial-of-service activity.
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     MORE EXAMPLES
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>💡 14. Five More Cybersecurity Detective Examples</h2>
-
-<div class="table-wrapper">
-
-<table>
-
-<tr>
-<th>Example</th>
-<th>Scenario</th>
-<th>What Should You Think?</th>
-</tr>
-
-<tr>
-<td>6</td>
-<td>A cloud folder containing confidential information is accidentally public.</td>
-<td>Cloud misconfiguration</td>
-</tr>
-
-<tr>
-<td>7</td>
-<td>An employee accesses files unrelated to their job.</td>
-<td>Access-control / insider risk</td>
-</tr>
-
-<tr>
-<td>8</td>
-<td>A phone suddenly displays strange pop-ups after installing an unknown application.</td>
-<td>Possible malicious application</td>
-</tr>
-
-<tr>
-<td>9</td>
-<td>A login happens from an unexpected location and time.</td>
-<td>Suspicious authentication activity</td>
-</tr>
-
-<tr>
-<td>10</td>
-<td>A user receives a message asking them to send a one-time authentication code.</td>
-<td>Possible credential/social-engineering attack</td>
-</tr>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     THREAT VS VULNERABILITY
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>⚔️ 15. Threat vs Vulnerability — Don't Confuse Them!</h2>
-
-<div class="compare-grid">
-
-<div class="compare bad">
-
-<h3>👾 THREAT</h3>
-
-<p>
-<strong>"Something that could hurt me."</strong>
-</p>
-
-<ul>
-<li>Attacker</li>
-<li>Malware</li>
-<li>Phishing</li>
-<li>Natural disaster</li>
-<li>Insider misuse</li>
-</ul>
-
-</div>
-
-<div class="compare good">
-
-<h3>🕳️ VULNERABILITY</h3>
-
-<p>
-<strong>"A weakness that could be used."</strong>
-</p>
-
-<ul>
-<li>Weak password</li>
-<li>Old software</li>
-<li>Bad configuration</li>
-<li>Missing security control</li>
-<li>Programming weakness</li>
-</ul>
-
-</div>
-
-</div>
-
-<div class="highlight">
-
-<h3>🧠 Easy Memory Trick</h3>
-
-<p>
-
-👾 <strong>Threat = Bad guy / danger</strong>
-
-<br>
-
-🕳️ <strong>Vulnerability = Weak door</strong>
-
-<br>
-
-⚔️ <strong>Attack = Breaking through the door</strong>
-
-<br>
-
-🎲 <strong>Risk = Chance of trouble</strong>
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     SECURITY CONTROLS
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🛡️ 16. How Can We Reduce Threats?</h2>
-
-<div class="table-wrapper">
-
-<table>
-
-<tr>
-<th>Problem</th>
-<th>Possible Protection</th>
-<th>ELI10 Explanation</th>
-</tr>
-
-<tr>
-<td>Weak password</td>
-<td>Strong password + MFA</td>
-<td>Use a stronger lock and an extra verification step.</td>
-</tr>
-
-<tr>
-<td>Phishing</td>
-<td>Awareness + filtering</td>
-<td>Learn to identify fake messages.</td>
-</tr>
-
-<tr>
-<td>Old software</td>
-<td>Security updates</td>
-<td>Repair known weaknesses.</td>
-</tr>
-
-<tr>
-<td>Malware</td>
-<td>Security controls</td>
-<td>Detect and block suspicious software.</td>
-</tr>
-
-<tr>
-<td>Unauthorized access</td>
-<td>Access control</td>
-<td>Only approved people get access.</td>
-</tr>
-
-<tr>
-<td>Suspicious activity</td>
-<td>Monitoring</td>
-<td>Watch for unusual behaviour.</td>
-</tr>
-
-<tr>
-<td>Data loss</td>
-<td>Backups</td>
-<td>Keep another safe copy.</td>
-</tr>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     CLASS ACTIVITY
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🎯 17. Classroom Activity — Cyber Threat Detective</h2>
-
-<div class="robot">
-
-<h3>👨‍👩‍👧‍👦 Group Challenge</h3>
-
-<p>
-Divide students into small teams.
-Give every team 5 scenarios.
-</p>
-
-<p>
-For every scenario students must identify:
-</p>
-
+<section class="card activity">
+<h2>🎮 Mini Activity — Design an Algorithm</h2>
+<p><b>Challenge:</b> Your team must find one particular name from a list of 16 names.</p>
 <ol>
-<li>What is the asset?</li>
-<li>What is the threat?</li>
-<li>What is the vulnerability?</li>
-<li>What could be the attack?</li>
-<li>What protection could reduce the risk?</li>
+<li>Design a classical strategy.</li>
+<li>Draw the steps as a flowchart.</li>
+<li>Identify what information the computer needs.</li>
+<li>Now ask: “If our information unit becomes a qubit, what new possibilities become available?”</li>
+<li>Do not try to solve the quantum problem yet — write down your questions.</li>
 </ol>
-
-</div>
-
-<div class="table-wrapper">
-
-<table>
-
-<tr>
-<th>Question</th>
-<th>Student Answer</th>
-</tr>
-
-<tr>
-<td>🏠 What are we protecting?</td>
-<td>Asset</td>
-</tr>
-
-<tr>
-<td>👾 What could cause harm?</td>
-<td>Threat</td>
-</tr>
-
-<tr>
-<td>🕳️ What is weak?</td>
-<td>Vulnerability</td>
-</tr>
-
-<tr>
-<td>⚔️ What harmful action could happen?</td>
-<td>Attack</td>
-</tr>
-
-<tr>
-<td>🛡️ How can we reduce danger?</td>
-<td>Security Control</td>
-</tr>
-
-</table>
-
-</div>
-
-</div>
-
+<p><b>Expected transition:</b> Students should become curious about how superposition, gates and interference can be combined into algorithms.</p>
 </section>
 
-
-<!-- =====================================================
-     QUICK QUIZ
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🧠 18. Quick Quiz</h2>
-
-<div class="question">
-
-<strong>Q1.</strong>
-A broken window in a house is most similar to what?
-
-<div class="answer">
-A. Threat<br>
-B. Vulnerability<br>
-C. Attack<br>
-D. Risk
-
-<br><br>
-
-✅ <strong>Answer: B — Vulnerability</strong>
+<section class="card">
+<h2>🗺️ Where Algorithms Fit in Our 15 Sessions</h2>
+<div class="flow">
+<div class="node">01<br>Quantum World</div><div class="arrow">→</div>
+<div class="node q">02<br>Bits & Qubits</div><div class="arrow">→</div>
+<div class="node q">03<br>Superposition</div><div class="arrow">→</div>
+<div class="node q">06<br>Gates</div><div class="arrow">→</div>
+<div class="node q">07<br>Circuits</div><div class="arrow">→</div>
+<div class="node q">11<br>Algorithms</div>
 </div>
-
-</div>
-
-
-<div class="question">
-
-<strong>Q2.</strong>
-A person trying to enter a computer system without permission is an example of what?
-
-<div class="answer">
-✅ <strong>Threat Actor</strong>
-</div>
-
-</div>
-
-
-<div class="question">
-
-<strong>Q3.</strong>
-A fake email asking you to click a suspicious link is commonly associated with what?
-
-<div class="answer">
-✅ <strong>Phishing</strong>
-</div>
-
-</div>
-
-
-<div class="question">
-
-<strong>Q4.</strong>
-Which is generally safer?
-
-<div class="answer">
-A. Password: 123456<br>
-B. Password: password<br>
-C. Strong unique password + MFA<br>
-D. Same password everywhere
-
-<br><br>
-
-✅ <strong>Answer: C</strong>
-</div>
-
-</div>
-
-
-<div class="question">
-
-<strong>Q5.</strong>
-What is the easiest way to remember vulnerability?
-
-<div class="answer">
-🕳️ <strong>Vulnerability = Weakness</strong>
-</div>
-
-</div>
-
-</div>
-
 </section>
 
-
-<!-- =====================================================
-     RESEARCH CONNECTION
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🔬 19. How Does This Connect to Cybersecurity Research?</h2>
-
-<div class="robot">
-
+<section class="card misconception">
+<h2>⚠️ Stop the Misconception</h2>
+<p><b>Common statement:</b> “A qubit is just a bit that is both 0 and 1.”</p>
 <p>
-Remember your previous session:
+For first-year students, this is a useful starting analogy but should not become the final definition.
+A qubit is a quantum state described by amplitudes. When measured in the computational basis,
+the outcome is 0 or 1 with probabilities determined by those amplitudes.
 </p>
-
-<div class="attack-flow">
-
-<div class="flow-box">
-Problem
-</div>
-
-<div class="arrow">➡️</div>
-
-<div class="flow-box">
-Question
-</div>
-
-<div class="arrow">➡️</div>
-
-<div class="flow-box">
-Research
-</div>
-
-</div>
-
 <p>
-Now imagine this problem:
+Quantum-education research emphasizes that students can bring classical intuitions into quantum concepts,
+which is one reason conceptual teaching and carefully designed representations matter. citeturn0search2turn0search4
 </p>
-
-<div class="highlight">
-
-<strong>
-"Many phishing emails are difficult for users to identify."
-</strong>
-
-</div>
-
-<p>
-A researcher can ask:
-</p>
-
-<div class="highlight">
-
-<strong>
-"Can machine learning identify phishing emails more accurately?"
-</strong>
-
-</div>
-
-<p>
-Now the cybersecurity threat becomes a
-<strong>research problem</strong>.
-</p>
-
-</div>
-
-</div>
-
 </section>
 
-
-<!-- =====================================================
-     FINAL FORMULA
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🏆 20. Remember This Formula</h2>
-
-<div class="attack-flow">
-
-<div class="flow-box">
-👾 Threat
-</div>
-
-<div class="arrow">➡️</div>
-
-<div class="flow-box">
-🕳️ Weakness
-</div>
-
-<div class="arrow">➡️</div>
-
-<div class="flow-box">
-⚔️ Attack
-</div>
-
-<div class="arrow">➡️</div>
-
-<div class="flow-box">
-💥 Impact
-</div>
-
-<div class="arrow">➡️</div>
-
-<div class="flow-box">
-🛡️ Defence
-</div>
-
-</div>
-
-<div class="highlight">
-
-<p style="font-size:24px;text-align:center">
-
-🧠 <strong>Cyber Detective Formula</strong>
-
-</p>
-
-<p style="text-align:center;font-size:21px">
-
-<strong>
-Who can attack me?
-<br>
-↓
-<br>
-What can they attack?
-<br>
-↓
-<br>
-What weakness can they use?
-<br>
-↓
-<br>
-What could happen?
-<br>
-↓
-<br>
-How can I protect it?
-</strong>
-
-</p>
-
-</div>
-
-</div>
-
+<section class="card activity">
+<h2>🎮 Classroom Activity — Become a Bit</h2>
+<ol>
+<li>Give each student a card containing either <b>0</b> or <b>1</b>.</li>
+<li>Ask: “Can your card show anything other than 0 or 1?”</li>
+<li>Now draw a circle labelled <b>|0⟩</b> and <b>|1⟩</b> and introduce the idea of a quantum state.</li>
+<li>Ask: “What information would we need to describe this quantum state?”</li>
+<li>Use the question to introduce <b>α and β</b> without requiring students to calculate them.</li>
+</ol>
 </section>
 
+<section class="card quiz">
+<h2>🧠 Check Your Understanding</h2>
+<p><b>Which statement is the best description?</b></p>
+<label><input type="radio" name="q" value="a"> A qubit is simply a faster version of a bit.</label>
+<label><input type="radio" name="q" value="b"> A qubit is a quantum state whose basis states can be represented by |0⟩ and |1⟩.</label>
+<label><input type="radio" name="q" value="c"> A qubit always contains two classical bits.</label>
+<label><input type="radio" name="q" value="d"> A qubit automatically solves two problems at once.</label>
+<button onclick="check()">Check Answer</button>
+<div id="result" class="result"></div>
+</section>
 
-<!-- =====================================================
-     NEXT SESSION
-===================================================== -->
-
-<section>
-
-<div class="card">
-
-<h2>🚀 Coming Next — Session 3</h2>
-
-<div class="robot">
-
-<h2>🔑 Password & Authentication Security</h2>
-
-<p>
-In the next session we will learn:
-</p>
-
+<section class="card">
+<h2>🔍 Think Like an Engineer</h2>
+<p>Discuss in pairs:</p>
 <ul>
-<li>🔑 What is a password?</li>
-<li>🪪 What is authentication?</li>
-<li>🚪 What is authorization?</li>
-<li>📱 What is MFA?</li>
-<li>🔐 Password vs PIN vs OTP</li>
-<li>🧠 How attackers target weak credentials</li>
-<li>🛡️ How to create safer authentication systems</li>
-<li>🤖 How AI can help security</li>
+<li>Why can't we simply replace every classical computer with a quantum computer?</li>
+<li>What makes a qubit fundamentally different from a bit?</li>
+<li>Why do we need new algorithms if the information unit changes?</li>
 </ul>
-
-</div>
-
-</div>
-
 </section>
 
+<section class="card">
+<h2>🔗 Bridge to Session 3</h2>
+<p>
+We now know that a qubit is not an ordinary 0/1 switch. Next we ask the fascinating question:
+<b>“What does it mean for a qubit to exist in a quantum superposition?”</b>
+</p>
+<a class="back" href="session3.html">Go to Session 3 →</a>
+&nbsp;
+<a class="back" href="quantum-computing-index.html">← Course Index</a>
+</section>
 
-</div>
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
+</main>
 
 <footer>
-
-<p class="big">
-🛡️ Session 2 Completed!
-</p>
-
-<p>
-You are no longer just a computer user.
-</p>
-
-<p>
-🕵️ <strong>You are becoming a Cyber Detective.</strong>
-</p>
-
-<p>
-Learn • Question • Observe • Verify • Protect
-</p>
-
+Quantum Computing for First-Year Engineering Students • Session 02
 </footer>
 
-
+<script>
+function check(){
+ const x=document.querySelector('input[name="q"]:checked');
+ const r=document.getElementById('result');
+ if(!x){r.textContent="Choose an answer first.";return;}
+ r.textContent = x.value==="b"
+ ? "✅ Correct! A qubit is a quantum state, not simply a classical bit."
+ : "❌ Revisit the ELI10 section: a qubit is a quantum state described using amplitudes.";
+}
+</script>
 </body>
 </html>
