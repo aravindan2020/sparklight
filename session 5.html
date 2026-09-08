@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang='en'>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 5 — Network Security</title>
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:"Trebuchet MS",Arial,sans-serif;
+    line-height:1.7;
+    color:#f5f5f5;
+
+    background:
+        radial-gradient(circle at 10% 10%,rgba(239,68,68,.18),transparent 25%),
+        radial-gradient(circle at 90% 30%,rgba(220,38,38,.15),transparent 25%),
+        linear-gradient(135deg,#020202,#170303,#080808);
+
+    overflow-x:hidden;
+}
+
+/* =========================================================
+   ANIMATED BACKGROUND
+========================================================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-2;
+
+    background:
+        radial-gradient(circle at 30% 80%,rgba(255,30,0,.12),transparent 25%),
+        radial-gradient(circle at 70% 60%,rgba(255,80,0,.08),transparent 25%);
+}
+
+.particle{
+    position:fixed;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#ef4444;
+    box-shadow:
+        0 0 10px #ef4444,
+        0 0 25px #dc2626;
+    bottom:-20px;
+    opacity:.6;
+    animation:rise 10s infinite linear;
+    z-index:-1;
+}
+
+.p1{left:5%;animation-delay:1s;}
+.p2{left:15%;animation-delay:3s;}
+.p3{left:25%;animation-delay:5s;}
+.p4{left:35%;animation-delay:2s;}
+.p5{left:45%;animation-delay:7s;}
+.p6{left:55%;animation-delay:4s;}
+.p7{left:65%;animation-delay:6s;}
+.p8{left:75%;animation-delay:1s;}
+.p9{left:85%;animation-delay:8s;}
+.p10{left:95%;animation-delay:3s;}
+
+@keyframes rise{
+
+    0%{
+        transform:translateY(0) translateX(0);
+        opacity:0;
+    }
+
+    20%{
+        opacity:.8;
+    }
+
+    100%{
+        transform:translateY(-110vh) translateX(40px);
+        opacity:0;
+    }
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    min-height:550px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    position:relative;
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(70,0,0,.95),
+            rgba(20,0,0,.95),
+            rgba(50,5,5,.9)
+        );
+
+    border-bottom:3px solid #ef2b16;
+}
+
+.hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:700px;
+    height:700px;
+
+    border:2px solid rgba(239,68,68,.15);
+
+    border-radius:50%;
+
+    animation:rotate 20s linear infinite;
+}
+
+.hero::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+    height:450px;
+
+    border:2px dashed rgba(248,113,113,.18);
+
+    border-radius:50%;
+
+    animation:rotateReverse 14s linear infinite;
+}
+
+@keyframes rotate{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@keyframes rotateReverse{
+    from{transform:rotate(360deg);}
+    to{transform:rotate(0deg);}
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:1000px;
+    padding:30px;
+}
+
+.badge{
+
+    display:inline-block;
+
+    padding:10px 25px;
+
+    border:2px solid #ef4444;
+
+    border-radius:40px;
+
+    color:#ff9c8f;
+
+    background:rgba(239,68,68,.08);
+
+    box-shadow:0 0 25px rgba(239,68,68,.25);
+
+    letter-spacing:2px;
+
+    animation:glow 2s infinite;
+}
+
+@keyframes glow{
+
+    0%,100%{
+        box-shadow:0 0 10px rgba(239,68,68,.2);
+    }
+
+    50%{
+        box-shadow:0 0 35px rgba(239,68,68,.65);
+    }
+}
+
+.lock{
+
+    font-size:100px;
+
+    margin:20px;
+
+    filter:
+        drop-shadow(0 0 10px #ef4444)
+        drop-shadow(0 0 30px #dc2626);
+
+    animation:lockFloat 3s infinite ease-in-out;
+}
+
+@keyframes lockFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-15px) rotate(-3deg);
+    }
+}
+
+.hero h1{
+
+    font-size:58px;
+
+    margin:10px 0;
+
+    text-transform:uppercase;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #ffb4aa,
+            #ef4444,
+            #fff
+        );
+
+    background-size:300%;
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+    animation:titleMove 5s infinite;
+}
+
+@keyframes titleMove{
+
+    0%{background-position:0%;}
+    50%{background-position:100%;}
+    100%{background-position:0%;}
+
+}
+
+.hero p{
+
+    font-size:21px;
+
+    color:#ffc9c3;
+
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.container{
+
+    width:92%;
+    max-width:1250px;
+    margin:auto;
+
+}
+
+section{
+
+    margin:60px 0;
+
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card{
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30,8,8,.95),
+            rgba(12,12,12,.96)
+        );
+
+    border:1px solid rgba(239,68,68,.18);
+
+    border-radius:25px;
+
+    padding:32px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.5),
+        inset 0 1px rgba(255,255,255,.03);
+
+    transition:.4s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:rgba(239,68,68,.5);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.7),
+        0 0 30px rgba(239,68,68,.08);
+
+}
+
+h2{
+
+    color:#ff6b57;
+
+    font-size:34px;
+
+    text-shadow:
+        0 0 10px rgba(239,68,68,.25);
+
+}
+
+h3{
+
+    color:#ff9d91;
+
+}
+
+/* =========================================================
+   ROBOT / ELI10
+========================================================= */
+
+.robot{
+
+    position:relative;
+
+    padding:28px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(127,29,29,.25),
+            rgba(69,10,10,.2)
+        );
+
+    border-left:7px solid #ef4444;
+
+    font-size:19px;
+
+    overflow:hidden;
+
+}
+
+.robot::after{
+
+    content:"🤖";
+
+    position:absolute;
+
+    right:20px;
+
+    bottom:5px;
+
+    font-size:75px;
+
+    opacity:.10;
+
+    animation:robotMove 3s infinite ease-in-out;
+
+}
+
+@keyframes robotMove{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-12px);
+    }
+
+}
+
+/* =========================================================
+   HIGHLIGHT
+========================================================= */
+
+.highlight{
+
+    padding:20px;
+
+    margin:20px 0;
+
+    border-radius:15px;
+
+    background:rgba(245,158,11,.08);
+
+    border-left:6px solid #f59e0b;
+
+}
+
+/* =========================================================
+   SAFE
+========================================================= */
+
+.safe{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:rgba(34,197,94,.08);
+
+    border-left:6px solid #22c55e;
+
+}
+
+/* =========================================================
+   DANGER
+========================================================= */
+
+.danger{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:rgba(239,68,68,.10);
+
+    border-left:6px solid #ef4444;
+
+}
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+.table-wrapper{
+
+    overflow-x:auto;
+
+    border-radius:16px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:700px;
+
+    margin:20px 0;
+
+}
+
+th{
+
+    padding:16px;
+
+    text-align:left;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #991b1b,
+            #dc2626
+        );
+
+}
+
+td{
+
+    padding:15px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+tr{
+
+    transition:.3s;
+
+}
+
+tr:hover{
+
+    background:rgba(239,68,68,.08);
+
+}
+
+/* =========================================================
+   DIAGRAM
+========================================================= */
+
+.diagram{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin:35px 0;
+
+}
+
+.diagram-box{
+
+    min-width:170px;
+
+    padding:20px;
+
+    text-align:center;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #991b1b,
+            #450a0a
+        );
+
+    border:1px solid #ef4444;
+
+    box-shadow:
+        0 0 15px rgba(239,68,68,.15);
+
+    animation:diagramPulse 2s infinite;
+
+}
+
+.diagram-box:nth-child(1){animation-delay:.1s;}
+.diagram-box:nth-child(3){animation-delay:.4s;}
+.diagram-box:nth-child(5){animation-delay:.7s;}
+.diagram-box:nth-child(7){animation-delay:1s;}
+.diagram-box:nth-child(9){animation-delay:1.3s;}
+
+@keyframes diagramPulse{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.06);
+        box-shadow:0 0 25px rgba(239,68,68,.4);
+    }
+
+}
+
+.arrow{
+
+    font-size:32px;
+
+    color:#ff735f;
+
+    animation:arrowMove 1.5s infinite;
+
+}
+
+@keyframes arrowMove{
+
+    0%,100%{
+        transform:translateX(0);
+    }
+
+    50%{
+        transform:translateX(8px);
+    }
+
+}
+
+/* =========================================================
+   PASSWORD VISUAL
+========================================================= */
+
+.password-box{
+
+    padding:35px;
+
+    text-align:center;
+
+    border-radius:20px;
+
+    background:#050505;
+
+    border:1px solid #4b1111;
+
+}
+
+.password{
+
+    font-size:35px;
+
+    letter-spacing:8px;
+
+    color:#ff6250;
+
+    text-shadow:0 0 20px #ef4444;
+
+    animation:passwordGlow 2s infinite;
+
+}
+
+@keyframes passwordGlow{
+
+    0%,100%{
+        text-shadow:0 0 8px #ef4444;
+    }
+
+    50%{
+        text-shadow:
+            0 0 15px #ef4444,
+            0 0 35px #dc2626;
+    }
+
+}
+
+/* =========================================================
+   AUTHENTICATION FACTORS
+========================================================= */
+
+.factor-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(240px,1fr));
+
+    gap:22px;
+
+}
+
+.factor{
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:#100707;
+
+    border:1px solid #451414;
+
+    text-align:center;
+
+    transition:.4s;
+
+}
+
+.factor:hover{
+
+    transform:
+        translateY(-10px)
+        scale(1.02);
+
+    border-color:#ef4444;
+
+}
+
+.factor-icon{
+
+    font-size:60px;
+
+    animation:factorFloat 3s infinite;
+
+}
+
+@keyframes factorFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+}
+
+/* =========================================================
+   STEP CARDS
+========================================================= */
+
+.steps{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+
+    gap:18px;
+
+}
+
+.step{
+
+    position:relative;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    background:#100707;
+
+    border:1px solid #481313;
+
+    transition:.4s;
+
+}
+
+.step:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#ef4444;
+
+}
+
+.step-number{
+
+    width:45px;
+    height:45px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ef4444,
+            #7f1d1d
+        );
+
+    font-weight:bold;
+
+    margin-bottom:15px;
+
+}
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+.question{
+
+    margin:20px 0;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    background:#0e0808;
+
+    border:1px solid #461515;
+
+}
+
+.answer{
+
+    margin-top:15px;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    background:rgba(34,197,94,.08);
+
+    border-left:5px solid #22c55e;
+
+}
+
+/* =========================================================
+   EXERCISES
+========================================================= */
+
+.exercise{
+
+    padding:25px;
+
+    margin:20px 0;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(127,29,29,.20),
+            rgba(20,5,5,.9)
+        );
+
+    border:1px solid #551515;
+
+    transition:.4s;
+
+}
+
+.exercise:hover{
+
+    transform:translateX(8px);
+
+    border-color:#ef4444;
+
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    margin-top:80px;
+
+    padding:50px;
+
+    text-align:center;
+
+    background:#030303;
+
+    border-top:2px solid #4b1111;
+
+}
+
+footer strong{
+
+    color:#ff5945;
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+    .hero h1{
+        font-size:38px;
+    }
+
+    .lock{
+        font-size:70px;
+    }
+
+    .diagram{
+        flex-direction:column;
+    }
+
+    .arrow{
+        transform:rotate(90deg);
+    }
+
+}
+
+</style>
+<style>
+/* SESSION 4 ADDITIONS */
+.crypto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin:25px 0}
+.crypto-card{padding:25px;border-radius:20px;background:#100707;border:1px solid #451414;transition:.4s;text-align:center}
+.crypto-card:hover{transform:translateY(-10px) scale(1.02);border-color:#ef4444;box-shadow:0 20px 45px rgba(239,68,68,.12)}
+.crypto-icon{font-size:58px;margin-bottom:10px;display:block}
+.cipher-box{background:#050505;border:1px solid #4b1111;border-radius:18px;padding:25px;margin:20px 0}
+.cipher-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin:15px 0}
+.letter{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:#7f1d1d;border:1px solid #ef4444;font-weight:bold;font-size:20px}
+.btn{background:linear-gradient(135deg,#ef4444,#7f1d1d);border:0;color:#fff;padding:12px 20px;border-radius:10px;font-weight:bold;cursor:pointer;margin:6px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(239,68,68,.3)}
+.quiz-option{display:block;margin:10px 0;padding:13px;border:1px solid #461515;border-radius:12px;cursor:pointer;background:#0e0808}
+.quiz-option:hover{border-color:#ef4444;background:#1b0a0a}
+.answer-box{display:none;margin-top:15px;padding:15px;border-radius:12px;background:rgba(34,197,94,.08);border-left:5px solid #22c55e}
+.badge2{display:inline-block;padding:7px 14px;border-radius:30px;background:rgba(239,68,68,.12);border:1px solid #ef4444;color:#ff9d91;margin:4px}
+@media(max-width:700px){.letter{width:36px;height:36px}}
+
+/* =========================================================
+   DEEP TECHNICAL DETAIL
+========================================================= */
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:25px 0}
+.tech-card{padding:24px;border-radius:18px;background:linear-gradient(145deg,#160707,#090909);border:1px solid #5b1717}
+.tech-card h3{margin-top:0;color:#ff9d91}
+.formula{font-family:"Courier New",monospace;background:#030303;border:1px solid #531313;border-radius:14px;padding:18px;color:#a7f3d0;overflow-x:auto}
+.codebox{background:#020202;border:1px solid #3f1111;border-radius:14px;padding:20px;font-family:"Courier New",monospace;color:#d1fae5;overflow-x:auto}
+.term{display:inline-block;padding:4px 9px;border-radius:7px;background:rgba(239,68,68,.12);border:1px solid #6b1b1b;color:#ffb4aa;font-weight:bold}
+.note{background:rgba(59,130,246,.10);border-left:6px solid #60a5fa;padding:18px;border-radius:12px}
+.tech-warning{background:rgba(245,158,11,.10);border-left:6px solid #f59e0b;padding:18px;border-radius:12px}
+.layer{display:grid;grid-template-columns:80px 1fr;gap:15px;align-items:center;margin:12px 0}
+.layer-num{width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#7f1d1d;border:1px solid #ef4444;font-weight:bold}
+.small{font-size:.92em;color:#c4c4c4}
+</style>
+
+</style>
+
+<style>
+.bar{margin:12px 0;padding:10px;border-radius:10px;background:rgba(255,255,255,.06)}
+.barfill{height:10px;border-radius:10px;background:linear-gradient(90deg,#ff3b3b,#ffcc33,#00ff99);margin-top:7px;transition:width .5s}
+.survey button,.quiz button{margin:7px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.2);cursor:pointer;background:#1b1b2b;color:white}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:20px 0}
+.node{padding:15px;border-radius:14px;background:linear-gradient(135deg,#2a0b0b,#421515);border:1px solid #ff5555;box-shadow:0 0 15px rgba(255,70,70,.18)}
+.arrow{font-size:24px;color:#ff7777}
+.highlight{padding:15px;border-left:5px solid #ff4444;background:rgba(255,70,70,.08);border-radius:8px}
+</style>
+
+
+<style id="alignment-fix">
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;padding:0;min-height:100vh;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;line-height:1.7}
+main{width:min(1180px,94%);margin:0 auto;padding:28px 0 50px}
+.hero{width:min(1180px,94%);margin:28px auto 0;padding:38px 42px;border-radius:24px;text-align:center}
+.hero h1{margin:10px 0 8px;line-height:1.15}
+.hero p{max-width:900px;margin:12px auto}
+.card{width:100%;margin:24px 0;padding:28px 32px;border-radius:18px;overflow:hidden}
+.card h2{margin:0 0 18px;line-height:1.25;padding-bottom:10px}
+.card h3{margin:22px 0 10px;line-height:1.3}
+.card p{max-width:1050px;margin:0 auto 18px;text-align:left}
+.color-table{width:100%;border-collapse:separate;border-spacing:0;margin:20px 0;table-layout:fixed;overflow:hidden;border-radius:12px}
+.color-table th,.color-table td{padding:14px 16px;vertical-align:top;text-align:left;word-wrap:break-word;overflow-wrap:anywhere}
+.color-table th{font-weight:700}
+.flow{width:100%;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;padding:18px 8px}
+.node{min-width:135px;max-width:180px;text-align:center;padding:16px 12px;border-radius:14px;line-height:1.35}
+.highlight{width:100%;margin:18px 0;padding:16px 18px;line-height:1.6}
+.survey,.quiz{text-align:center}
+.survey button,.quiz button{display:inline-block;min-height:46px;margin:6px;padding:11px 18px;line-height:1.3}
+#surveyResults{width:100%;max-width:900px;margin:20px auto;text-align:left}
+.bar{width:100%;margin:12px 0;padding:11px 14px;border-radius:10px}
+.barfill{max-width:100%;margin-top:8px}
+.robot{width:100%;max-width:850px;margin:0 auto;padding:24px;text-align:left;border-radius:16px}
+.robot h2{text-align:center}
+.robot li{margin:8px 0}
+footer{width:min(1180px,94%);margin:0 auto;padding:25px 0 40px;text-align:center}
+footer p{margin:6px 0}
+@media (max-width:800px){
+main{width:96%;padding-top:15px}.hero{width:96%;padding:28px 20px;margin-top:15px}.card{padding:22px 18px;margin:18px 0}
+.color-table{font-size:.9rem;display:block;overflow-x:auto}.color-table th,.color-table td{min-width:150px}
+.flow{flex-direction:column}.arrow{transform:rotate(90deg)}.node{max-width:260px;width:80%}
+}
+@media (max-width:520px){
+.hero h1{font-size:1.8rem}.card h2{font-size:1.35rem}.card p{font-size:.96rem}
+.survey button,.quiz button{width:100%;margin:5px 0}
+}
+</style>
+
+
+<style id="session5-hero-image-fix">
+.hero{
+  width:min(1400px,96%) !important;
+  margin:18px auto 0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  overflow:hidden !important;
+}
+.hero .hero-image{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  object-fit:contain;
+  border-radius:24px;
+  margin:0 auto;
+}
+.hero .hero-accessible{
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  padding:0 !important;
+  margin:-1px !important;
+  overflow:hidden !important;
+  clip:rect(0,0,0,0) !important;
+  white-space:nowrap !important;
+  border:0 !important;
+}
+@media(max-width:700px){
+  .hero{width:98% !important}
+  .hero .hero-image{border-radius:14px}
+}
+</style>
+
+</head>
+<body>
+<header class="hero">
+  <img class="hero-image"
+       src="session5_network_security_hero.png"
+       alt="Session 5: Network Security — Protecting the Road That Carries Our Data">
+  <div class="hero-accessible">
+    <h1>Network Security</h1>
+    <p>Protecting the Road That Carries Our Data</p>
+    <p>Session 5 — Mission 05: The message is protected… but is the road safe?</p>
+  </div>
+</header>
+
+<main>
+<section class="card">
+<h2>🧭 Mission Connection: From Secret Message to Safe Network</h2>
+<p>In Session 4, imagine Alice placed an important message inside a locked digital box before sending it to Bob. Encryption helped protect the message if somebody looked at it. But Alice soon discovered a bigger problem: the message still has to travel through a network. The network contains routers, switches, wireless access points, servers, cables, and many other devices. If the road itself is poorly protected, an attacker may try to observe traffic, redirect it, overload a service, or enter a device that should never have been accessible.</p>
+<p>That is the reason cybersecurity cannot stop at passwords and cryptography. A secure system needs a secure communication environment. Network security is the collection of technologies, configurations, policies, monitoring practices, and defensive controls used to protect networked systems and the data moving through them. For a first-year engineer, think of it like protecting a city: houses need locks, but roads, gates, traffic signals, police patrols, cameras, and emergency systems are also necessary.</p>
+<p>Today we will follow a packet on its journey. We will learn what network traffic is, why attackers target networks, how firewalls decide what is allowed, how IDS and IPS work, what common network attacks look like, and how defenders monitor suspicious activity. The goal is not to memorize security-tool names. The goal is to develop the habit of asking: <strong>Who is communicating? Where is the traffic going? What is normal? What is unusual? What control should respond?</strong></p>
+</section>
+
+<section class="card">
+<h2>🎯 Learning Outcomes</h2>
+<table class="color-table">
+<tr><th>By the end of the session</th><th>Students should be able to</th></tr>
+<tr><td>🧠 Explain</td><td>Define network security, network traffic, ports, protocols, and attack surfaces.</td></tr>
+<tr><td>🔍 Analyze</td><td>Interpret simple packet-flow and network scenarios.</td></tr>
+<tr><td>🧱 Defend</td><td>Explain firewall, IDS, IPS, segmentation, and access-control concepts.</td></tr>
+<tr><td>⚠️ Identify</td><td>Recognize common defensive indicators of scanning, flooding, spoofing, and unauthorized access.</td></tr>
+<tr><td>📊 Investigate</td><td>Use a small real-time classroom survey to reason from security data.</td></tr>
+<tr><td>🔬 Research</td><td>Connect network-security observations to student research questions.</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>📖 Topic 1 — What Is Network Security?</h2>
+<h3>🏙️ Story: The University City</h3>
+<p>Imagine a university as a small city. Every classroom is a building, every student laptop is a house, and the campus server room is a highly protected government building. Roads connect all of them. Students use those roads to reach learning portals, email, cloud storage, and websites. Now imagine that anyone in the world can try to drive onto those roads. The university therefore needs rules: which vehicles can enter, which buildings they can reach, how fast they can travel, and what happens when a vehicle behaves strangely.</p>
+<p>That is the basic idea of network security. A network is not just a collection of computers. It is a communication environment in which devices exchange data. Network security attempts to preserve confidentiality, integrity, availability, authenticity, and controlled access while communication happens. A defender therefore thinks about both the endpoints and the path between them. A laptop can be perfectly patched and still become exposed if a network service is unnecessarily reachable from the Internet.</p>
+<p>Technical network security includes controls such as firewalls, secure protocols, network access control, segmentation, VPNs, IDS/IPS, secure Wi-Fi configuration, logging, monitoring, vulnerability management, and incident response. It also includes policies and architecture. Security is strongest when multiple controls work together rather than depending on one magical device. This is the principle of <strong>defense in depth</strong>: if one control fails, another control should reduce the damage.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>A network can be viewed as a set of communicating nodes and links. At a simplified level, a packet moves from a source IP address toward a destination IP address using a transport protocol such as TCP or UDP and an application protocol such as HTTP, DNS, or SSH. Each layer contributes information used for delivery and control. Security controls can inspect different parts of this communication depending on where they are deployed and what visibility they have.</p>
+<p>The <strong>attack surface</strong> is the collection of reachable entry points an attacker might attempt to abuse. Examples include open TCP/UDP ports, web applications, remote administration interfaces, wireless networks, exposed APIs, cloud services, and poorly configured network devices. Reducing unnecessary exposure is one of the simplest defensive ideas: if a service is not required, it should not be unnecessarily reachable.</p>
+<p>A useful engineering equation is: <strong>Risk ≈ Likelihood × Impact</strong>. Network security does not mean making every communication impossible. It means enabling legitimate communication while reducing the probability and impact of malicious communication. This is why security engineers balance usability, performance, availability, cost, and protection.</p>
+</section>
+
+<section class="card">
+<h2>📡 Topic 2 — Network Traffic and Packets</h2>
+<h3>🚚 Story: The Courier System</h3>
+<p>Imagine a city where people never send whole houses through the road. Instead, every delivery is placed into a small package. Each package contains information about where it came from and where it should go. Thousands of packages travel simultaneously, and road intersections decide where each package should move next. A network works in a similar way. Data is divided and transmitted as units of information, commonly called packets at the network layer.</p>
+<p>When a student opens a website, the browser does not simply “send a webpage.” It creates communication that may involve DNS resolution, TCP or QUIC communication, TLS protection, HTTP requests, and responses. Many packets can be exchanged before the page is completely displayed. A defender can study this traffic to understand normal behavior and identify suspicious patterns.</p>
+<p>For example, a normal student laptop may contact a small set of DNS resolvers, web servers, software-update services, and university systems. If that same laptop suddenly begins attempting connections to hundreds of internal hosts and thousands of ports, the pattern deserves investigation. The packet contents may be encrypted, but metadata such as source, destination, timing, protocol, port, volume, and connection patterns can still provide useful security signals.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Common network identifiers include IP addresses and port numbers. An IP address identifies a network interface at the Internet Protocol layer, while a port helps identify an application endpoint associated with transport protocols such as TCP or UDP. A simplified TCP flow is: client sends a connection request, the server responds, and the connection is established before application data is exchanged. UDP does not provide the same connection-oriented handshake.</p>
+<p>Security monitoring often studies <strong>flows</strong> rather than every packet payload. A flow record can be represented as source IP, destination IP, source port, destination port, protocol, timestamp, packet count, and byte count. This is powerful because defenders can detect behavior without necessarily reading application content. Modern networks may also use encrypted protocols, making metadata-based detection increasingly important.</p>
+<p>Network traffic has characteristics such as volume, frequency, direction, destination diversity, and protocol distribution. A sudden spike in outbound traffic may indicate data transfer or a compromised device. A sudden spike in inbound requests may indicate scanning or denial-of-service activity. A large number of short connections to many ports can resemble reconnaissance. The correct response is not to declare “attack” immediately; defenders should correlate the signal with context.</p>
+</section>
+
+<section class="card">
+<h2>🧱 Topic 3 — Firewalls: The Digital Gatekeeper</h2>
+<h3>🚪 Story: The Campus Security Gate</h3>
+<p>Picture the entrance to a university campus. A security guard checks vehicles against rules. Some vehicles are allowed to enter; some are redirected; some are denied. The guard does not need to understand everything inside every vehicle to make a basic decision. The guard can use identity, destination, time, authorization, and other information. A firewall performs a similar role for network traffic.</p>
+<p>A firewall is a security control that applies rules to network communication. The simplest mental model is: <strong>traffic arrives → rules are evaluated → traffic is allowed, denied, or otherwise handled.</strong> The rules can consider source address, destination address, protocol, port, interface, connection state, and in more advanced systems, application or identity context. The objective is to prevent unnecessary or unauthorized communication while allowing required business traffic.</p>
+<p>Suppose a university web server must accept HTTPS traffic from the Internet, but its database should only be reachable from the application server. A firewall or related network-control architecture can enforce this separation. Even if an attacker discovers the database server's IP address, the network policy can prevent direct access. This demonstrates a critical idea: security is not only about hiding information; it is about controlling reachable paths.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>A <strong>stateless packet-filtering firewall</strong> evaluates each packet against rules without maintaining detailed connection context. A <strong>stateful firewall</strong> tracks connection state and can make decisions based on whether traffic belongs to an established communication. Next-generation firewalls may add application awareness, identity integration, threat intelligence, TLS inspection capabilities, and other controls depending on deployment.</p>
+<p>A simplified firewall rule can be described as: <strong>IF source = X AND destination = Y AND service = HTTPS THEN ALLOW</strong>. Another rule might be: <strong>IF source = Internet AND destination = database AND service = database-port THEN DENY</strong>. Real production policies are much more complex, and rule ordering matters. A poorly designed “allow all” rule can undermine several carefully written rules.</p>
+<p>Firewall design also follows the principle of least privilege. Permit what is required, restrict what is not required, and document the reason. Administrators should review obsolete rules, monitor denied traffic, and avoid leaving temporary exceptions permanently enabled. A firewall is a gatekeeper, not a complete security strategy. If an attacker compromises an allowed service, additional controls such as secure coding, authentication, IDS/IPS, endpoint protection, and logging are still necessary.</p>
+</section>
+
+<section class="card">
+<h2>🕵️ Topic 4 — IDS and IPS</h2>
+<h3>🔎 Story: The Security Camera and the Automatic Guard</h3>
+<p>Imagine a warehouse with security cameras. The cameras watch activity and alert the security team when something suspicious happens. That is similar to an <strong>Intrusion Detection System (IDS)</strong>. It observes network or system activity and generates alerts. Now imagine a second system that can automatically block a suspicious connection. That resembles an <strong>Intrusion Prevention System (IPS)</strong>.</p>
+<p>The important difference is the action. Detection focuses on identifying and reporting suspicious activity, while prevention can actively interfere with traffic based on configured detection logic. This difference creates an engineering trade-off. A false positive in a detection system may annoy an analyst, but a false positive in an automated prevention system can interrupt legitimate business communication.</p>
+<p>Students should therefore think of IDS and IPS as parts of a larger detection-and-response process. An alert is not automatically proof of compromise. A security analyst needs context: the asset involved, the destination, previous behavior, authentication events, vulnerability status, and other logs. Good cybersecurity is an evidence-based investigation rather than a reaction to every unusual packet.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>IDS/IPS technologies commonly use <strong>signature-based detection</strong>, <strong>anomaly-based detection</strong>, or combinations of multiple methods. Signature detection looks for known patterns associated with threats. It can be highly effective for known behaviors but may miss previously unseen techniques. Anomaly detection establishes a model of expected behavior and identifies deviations, but unusual legitimate behavior can also trigger alerts.</p>
+<p>Placement matters. A network-based IDS can monitor traffic at strategic points, while a host-based detection system can observe activity on an individual endpoint. Network visibility can reveal scanning, suspicious connections, protocol misuse, or unusual data movement. Host visibility can reveal processes, files, command execution, authentication events, and other endpoint activity that network traffic alone may not expose.</p>
+<p>Modern security operations often correlate alerts with logs from firewalls, DNS systems, identity systems, endpoints, cloud platforms, and applications. This produces a richer investigation. For example, an unusual outbound connection becomes more important if the same endpoint also shows a new process, a suspicious login, and a recent vulnerability. The key skill is <strong>correlation</strong>.</p>
+</section>
+
+<section class="card">
+<h2>⚠️ Topic 5 — Common Network Threats</h2>
+<h3>🕵️ Story: The Five Suspicious Visitors</h3>
+<p>Imagine a campus security team notices five different visitors. The first person walks around the campus asking which doors are unlocked. The second repeatedly knocks on one door thousands of times. The third pretends to be a trusted employee. The fourth secretly listens to conversations on an insecure communication path. The fifth tries to enter a restricted building using stolen credentials. These stories represent different categories of network threats.</p>
+<p><strong>Reconnaissance and scanning</strong> are about discovering systems, services, and possible entry points. <strong>Denial-of-service</strong> attacks attempt to reduce availability by overwhelming a service or exploiting resource limitations. <strong>Spoofing</strong> involves falsifying identity-related information in communication. <strong>Man-in-the-middle</strong> attacks attempt to position an attacker between communicating parties. <strong>Credential-based attacks</strong> use stolen or guessed credentials to gain access.</p>
+<p>The defensive lesson is that the same network event can have different meanings depending on context. A vulnerability scanner operated by the university security team may legitimately contact many hosts and ports. An unknown external host performing the same activity may be suspicious. Therefore, defenders need asset inventories, approved-scanner information, baselines, logs, and human judgment.</p>
+<h3>📊 Threat Comparison</h3>
+<table class="color-table">
+<tr><th>Threat</th><th>Simple Story</th><th>Typical Signal</th><th>Defensive Focus</th></tr>
+<tr><td>🔍 Scanning</td><td>Checking many doors</td><td>Many hosts/ports contacted</td><td>Filtering, rate limits, monitoring</td></tr>
+<tr><td>🌊 DoS/DDoS</td><td>Too many visitors block the gate</td><td>Traffic/resource spike</td><td>Capacity, filtering, rate limiting</td></tr>
+<tr><td>🎭 Spoofing</td><td>Fake identity card</td><td>Unexpected identity/address behavior</td><td>Authentication and validation</td></tr>
+<tr><td>🕴️ MITM</td><td>Someone stands between two people</td><td>Unexpected interception/endpoint behavior</td><td>TLS, certificates, secure networks</td></tr>
+<tr><td>🔑 Credential Attack</td><td>Trying stolen keys</td><td>Repeated/abnormal login attempts</td><td>MFA, rate limits, monitoring</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🧩 Topic 6 — Network Segmentation</h2>
+<h3>🏢 Story: The University Building With Locked Floors</h3>
+<p>Imagine one huge building where every person can walk into every room. If one student's account is compromised, the attacker could potentially reach laboratories, finance offices, staff records, and server rooms. Now redesign the building into separate floors with controlled doors. Students can access classrooms, finance staff can access finance systems, and server administrators can access infrastructure. This is the physical analogy for network segmentation.</p>
+<p>Segmentation divides a network into separate security zones or logical areas. The purpose is not simply organization. It limits how far an attacker can move after gaining an initial foothold. If a student laptop is compromised, segmentation can prevent that device from directly communicating with sensitive database systems. The attacker may still have a problem at the first door rather than receiving a free pass to the entire building.</p>
+<p>Segmentation can be implemented through technologies and architecture such as VLANs, routing boundaries, firewall policies, network access control, and more granular zero-trust approaches. The correct design depends on the environment. The important first-year engineering concept is simple: <strong>do not assume that because two devices are connected to the same network, they should automatically trust each other.</strong></p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Segmentation creates policy boundaries. A simplified architecture might contain a user network, server network, management network, guest network, and security-monitoring network. A firewall or router can enforce communication rules between these zones. For example, users may access a web application, while only that application can reach the database on its required service port.</p>
+<p>Microsegmentation takes the idea further by applying more granular controls around workloads or identities. In cloud and modern enterprise environments, security policy can be attached to workloads, identities, applications, or security groups rather than relying only on physical network boundaries.</p>
+<p>Segmentation supports <strong>blast-radius reduction</strong>. If an attacker compromises one area, the number of additional systems reachable from that area should be minimized. This is closely connected to least privilege and defense in depth. Good architecture assumes that a compromise can happen and designs the network so that compromise does not automatically become catastrophe.</p>
+</section>
+
+<section class="card">
+<h2>📶 Topic 7 — Wi-Fi Security</h2>
+<h3>📱 Story: The Campus Wireless Notice Board</h3>
+<p>Imagine a notice board placed in the center of a campus. Anyone nearby can see that the board exists, and many people can attempt to interact with it. A wireless network is similar because radio communication travels through the air rather than through a private physical cable. That makes wireless security especially important. Students often connect laptops and phones to campus or public Wi-Fi without thinking about the security properties of the network.</p>
+<p>A secure wireless network should use modern authentication and encryption mechanisms, strong administrative credentials, appropriate configuration, and segmentation between trusted and guest users. A guest network should not automatically provide the same access as an internal staff network. This is another example of least privilege: connect users to what they need, not everything that happens to exist.</p>
+<p>Students should also learn to question suspicious wireless networks. An attacker can create a network name that looks similar to a legitimate one. Simply seeing a familiar name does not prove authenticity. Secure application protocols such as TLS remain important because network-level trust alone is not enough.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Modern Wi-Fi security commonly relies on the WPA family of standards, with enterprise deployments often using centralized authentication mechanisms. The exact configuration depends on organizational requirements and supported hardware. Strong security requires not only choosing a modern protocol but also correctly configuring authentication, encryption, certificates where applicable, network segmentation, and management interfaces.</p>
+<p>Wireless monitoring can detect unusual access points, unexpected associations, repeated authentication failures, and other anomalies. Security teams may use wireless intrusion detection capabilities to identify unauthorized infrastructure. The important engineering principle is that wireless is part of the network attack surface and must be included in security monitoring.</p>
+<p>For students, the safe rule is: do not trust a Wi-Fi network merely because its name looks familiar. Avoid entering sensitive credentials into suspicious portals, keep devices updated, use secure application protocols, and follow institutional network policies.</p>
+</section>
+
+<section class="card">
+<h2>🛡️ Topic 8 — Defense in Depth and Zero-Trust Thinking</h2>
+<h3>🏰 Story: The Castle With Many Gates</h3>
+<p>Imagine a castle with a wall, a gate, a guard, an inner gate, locked rooms, and a vault. If one guard makes a mistake, the attacker still faces another barrier. That is defense in depth. Cybersecurity uses the same philosophy. Passwords, MFA, encryption, firewalls, segmentation, endpoint security, logging, backups, and incident response each address different parts of the problem.</p>
+<p>A different idea is <strong>zero-trust thinking</strong>. Instead of saying, “This device is inside the network, therefore it is trusted,” the defender continually asks whether a particular user, device, application, and request should be allowed for a specific resource. This changes the security mindset from location-based trust to explicit verification and least privilege.</p>
+<p>For first-year students, the most important lesson is that “inside the network” does not automatically mean “safe.” A compromised laptop can become an attacker-controlled device while still physically sitting inside a university. Network architecture should therefore reduce implicit trust and make authorization decisions explicit.</p>
+<h3>🔧 Technical Deep Dive</h3>
+<p>Zero-trust architectures can involve identity-aware policies, device posture, application-level access, continuous authentication signals, segmentation, and strong logging. The exact implementation differs between organizations. The conceptual model is more important at this stage: <strong>verify explicitly, use least privilege, and assume that the environment may contain compromised components.</strong></p>
+<p>Defense in depth and zero trust are complementary rather than competing ideas. Defense in depth asks, “What multiple barriers can reduce risk?” Zero-trust thinking asks, “Why should this request be trusted, and what minimum access is required?” Together they create a stronger architecture than a single perimeter firewall.</p>
+<p>This also explains why cybersecurity is an engineering discipline. Security decisions affect performance, usability, reliability, cost, privacy, and availability. Engineers must design systems that are secure enough to resist threats while still allowing legitimate users to accomplish their work.</p>
+</section>
+
+<section class="card">
+<h2>🎨 Colorful Security Control Comparison</h2>
+<table class="color-table">
+<tr><th>Control</th><th>Primary Job</th><th>Simple Analogy</th><th>Key Question</th></tr>
+<tr><td>🧱 Firewall</td><td>Control network traffic</td><td>Gatekeeper</td><td>Should this traffic pass?</td></tr>
+<tr><td>🕵️ IDS</td><td>Detect suspicious activity</td><td>Security camera</td><td>Does this behavior look suspicious?</td></tr>
+<tr><td>🚫 IPS</td><td>Detect and block</td><td>Automatic security gate</td><td>Should this traffic be stopped?</td></tr>
+<tr><td>🧩 Segmentation</td><td>Limit reachability</td><td>Locked floors</td><td>Which zones may communicate?</td></tr>
+<tr><td>📶 Wi-Fi Security</td><td>Protect wireless access</td><td>Secure radio entrance</td><td>Who may connect?</td></tr>
+<tr><td>📊 Monitoring</td><td>Observe and investigate</td><td>Control room</td><td>What changed?</td></tr>
+<tr><td>🔐 Encryption</td><td>Protect data content</td><td>Locked message</td><td>Can outsiders understand the data?</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🧠 Packet Journey Diagram</h2>
+<div class="flow">
+<div class="node">💻 Student Device</div><div class="arrow">→</div>
+<div class="node">📶 Wi-Fi / LAN</div><div class="arrow">→</div>
+<div class="node">🧱 Firewall</div><div class="arrow">→</div>
+<div class="node">🕵️ IDS/IPS</div><div class="arrow">→</div>
+<div class="node">🌐 Internet</div><div class="arrow">→</div>
+<div class="node">🖥️ Server</div>
+</div>
+<p class="highlight">Security question at every stage: <strong>Who is communicating, what are they requesting, is the communication expected, and what evidence supports the decision?</strong></p>
+</section>
+
+<section class="card">
+<h2>⏱️ REAL-TIME CLASSROOM SURVEY — “What Would You Protect First?”</h2>
+<p>Use this section live in class. Ask every student to select one option. The counters below update instantly on the page. After voting, compare the class result with your prediction.</p>
+<div class="survey">
+<button onclick="vote('wifi')">📶 Wi-Fi</button>
+<button onclick="vote('server')">🖥️ Server</button>
+<button onclick="vote('laptop')">💻 Student Laptop</button>
+<button onclick="vote('database')">🗄️ Database</button>
+<button onclick="vote('router')">🌐 Router</button>
+</div>
+<div id="surveyResults"></div>
+<p id="surveyTotal" class="highlight">Live votes: 0</p>
+</section>
+
+<section class="card">
+<h2>📈 REAL-TIME TRAFFIC DETECTIVE</h2>
+<p>Imagine a classroom network normally has approximately 20–40 connections from one student laptop during a short observation period. Suddenly the dashboard reports:</p>
+<table class="color-table">
+<tr><th>Observation</th><th>Normal?</th><th>Student Decision</th></tr>
+<tr><td>5 connections to the university LMS</td><td>🟢 Likely normal</td><td>Continue observing</td></tr>
+<tr><td>10 DNS requests</td><td>🟢 Likely normal</td><td>Continue observing</td></tr>
+<tr><td>300 different destination ports</td><td>🔴 Suspicious</td><td>Investigate scanning behavior</td></tr>
+<tr><td>Sudden huge outbound traffic</td><td>🟠 Needs context</td><td>Check process and destination</td></tr>
+<tr><td>Repeated login failures</td><td>🟠 Needs context</td><td>Correlate with identity logs</td></tr>
+</table>
+<p>Students must not immediately label every unusual event as an attack. Instead, ask what baseline exists, whether the activity is authorized, which asset is involved, and whether multiple evidence sources agree. This is exactly how security analysts move from raw events to meaningful incidents.</p>
+</section>
+
+<section class="card">
+<h2>🧪 Hands-On Safe Activity — Build a Network Security Map</h2>
+<p>Draw a small university network on paper or a whiteboard. Include a student laptop, Wi-Fi access point, firewall, web server, database server, guest network, and Internet. Draw arrows for allowed communication. Then mark one path that should be blocked. Finally, explain what happens if the student laptop becomes compromised.</p>
+<p>Next, add three defensive layers: a firewall rule, a segmentation boundary, and a monitoring point. Ask students to explain how each layer changes the attacker's path. The objective is not to configure a real production network; it is to develop architectural reasoning using a safe classroom model.</p>
+<p>Extension challenge: ask groups to design two different architectures that provide the same learning-service access. One should prioritize simplicity and the other should prioritize stronger isolation. Students compare usability, complexity, cost, and security.</p>
+</section>
+
+<section class="card">
+<h2>🧩 Case Study — The Compromised Student Laptop</h2>
+<p>A university notices that one student's laptop has begun making connection attempts to many internal systems. The firewall records the traffic. The IDS produces a scanning alert. The endpoint log shows a new unknown process. The student says they were only browsing the Internet. What should the security team do?</p>
+<p>Students should reason through the evidence rather than immediately blaming the user. First, identify the affected asset and preserve relevant logs. Next, determine whether the scanning behavior is expected or authorized. Then assess whether the endpoint shows other suspicious activity. Depending on the organization's incident-response procedures, the device may be isolated while investigation continues.</p>
+<p>The key lesson is correlation. A single firewall denial may be normal. A single unusual process may have a legitimate explanation. But a new process plus broad internal scanning plus suspicious outbound traffic forms a much stronger signal. Security engineering is about connecting evidence and reducing uncertainty.</p>
+</section>
+
+<section class="card">
+<h2>🔬 Research Connection</h2>
+<p>Network security creates many beginner-friendly research opportunities. A student can study whether traffic features can distinguish normal university activity from scanning behavior, whether anomaly detection creates too many false positives, or whether network segmentation reduces the number of systems reachable after a simulated compromise. These are research questions because they can be measured and compared.</p>
+<p>For example, a simple student project could collect safe, authorized network-flow features such as connection count, destination diversity, protocol distribution, and bytes transferred. The student can define a baseline and evaluate whether simple statistical thresholds identify unusual activity. A later project could compare rule-based detection with machine-learning classification.</p>
+<p>Research should always use authorized and privacy-preserving data. Students should avoid capturing private payloads or testing attacks against networks without permission. A strong cybersecurity researcher studies security while respecting safety, ethics, privacy, and institutional rules.</p>
+<table class="color-table">
+<tr><th>Research Question</th><th>Possible Metric</th></tr>
+<tr><td>Can flow features detect scanning?</td><td>Precision, recall, false-positive rate</td></tr>
+<tr><td>Does segmentation reduce attack reach?</td><td>Number of reachable assets</td></tr>
+<tr><td>Which baseline detects anomalies earlier?</td><td>Detection time</td></tr>
+<tr><td>Does automated blocking improve response?</td><td>Response time vs false positives</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>📝 Quick Quiz</h2>
+<div class="quiz">
+<p><strong>1.</strong> What is the primary role of a firewall?</p>
+<button onclick="answer(this,false)">Encrypt every packet</button>
+<button onclick="answer(this,true)">Control network traffic using security rules</button>
+<button onclick="answer(this,false)">Replace all passwords</button>
+
+<p><strong>2.</strong> What is the main difference between IDS and IPS?</p>
+<button onclick="answer(this,true)">IPS can actively prevent/block based on detections</button>
+<button onclick="answer(this,false)">IDS always encrypts traffic</button>
+<button onclick="answer(this,false)">They are exactly identical</button>
+
+<p><strong>3.</strong> Why is segmentation useful?</p>
+<button onclick="answer(this,false)">It makes every device trusted</button>
+<button onclick="answer(this,true)">It limits unnecessary communication and reduces blast radius</button>
+<button onclick="answer(this,false)">It removes the need for monitoring</button>
+
+<p><strong>4.</strong> Which pattern may suggest scanning?</p>
+<button onclick="answer(this,true)">Connection attempts to many ports or hosts</button>
+<button onclick="answer(this,false)">One normal LMS request</button>
+<button onclick="answer(this,false)">A scheduled software update</button>
+
+<p id="score" class="highlight">Score: 0</p>
+</div>
+</section>
+
+<section class="card">
+<h2>🧠 Technical Mastery Checklist</h2>
+<table class="color-table">
+<tr><th>Concept</th><th>Can I explain it?</th></tr>
+<tr><td>Network security</td><td>☐</td></tr>
+<tr><td>Packet and network traffic</td><td>☐</td></tr>
+<tr><td>IP address and port</td><td>☐</td></tr>
+<tr><td>Firewall</td><td>☐</td></tr>
+<tr><td>IDS vs IPS</td><td>☐</td></tr>
+<tr><td>Network threats</td><td>☐</td></tr>
+<tr><td>Segmentation</td><td>☐</td></tr>
+<tr><td>Wi-Fi security</td><td>☐</td></tr>
+<tr><td>Defense in depth</td><td>☐</td></tr>
+<tr><td>Zero-trust thinking</td><td>☐</td></tr>
+<tr><td>Traffic monitoring and correlation</td><td>☐</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🏆 Mission Challenge</h2>
+<p><strong>Scenario:</strong> A student laptop is connected to campus Wi-Fi. The device is allowed to access the Internet and the learning-management system. It should not directly access the university database. During monitoring, the laptop attempts connections to 200 internal ports.</p>
+<p><strong>Your task:</strong> Design the first five defensive questions. For example: Is the device authorized? Is this behavior normal? Which ports were contacted? Which systems responded? Is there endpoint evidence of compromise? Then propose one firewall/segmentation control and one monitoring control.</p>
+<p class="highlight"><strong>Mission completed when you can explain not only “what attack happened,” but also “what evidence proves it, what control should respond, and how the architecture limits the damage.”</strong></p>
+</section>
+
+<section class="card">
+<h2>🚀 NEXT MISSION — SESSION 6</h2>
+<div class="robot">
+<h2>🦠 Malware & Malicious Software</h2>
+<p>We protected the network road. Next we enter the devices travelling on that road.</p>
+<ul>
+<li>🦠 What is malware?</li>
+<li>🐛 Virus, worm, trojan and ransomware</li>
+<li>🎭 How malware tricks users</li>
+<li>🔍 Malware detection</li>
+<li>🛡️ Endpoint protection</li>
+<li>🧪 Safe malware-analysis thinking</li>
+</ul>
+<div class="highlight"><strong>Next Mission:</strong> “What happens when the attacker gets inside the device?”</div>
+</div>
+</section>
+
+<footer>
+<p>🛡️ CYBER QUEST — SESSION 5</p>
+<p>Network Security • Packets • Firewalls • IDS/IPS • Threats • Segmentation • Wi-Fi • Defense in Depth</p>
+</footer>
+</main>
+
+<script>
+let votes = {wifi:0, server:0, laptop:0, database:0, router:0};
+let score = 0;
+
+function vote(type){
+  votes[type]++;
+  renderVotes();
+}
+function renderVotes(){
+  const labels = {wifi:"📶 Wi-Fi", server:"🖥️ Server", laptop:"💻 Student Laptop", database:"🗄️ Database", router:"🌐 Router"};
+  let total = Object.values(votes).reduce((a,b)=>a+b,0);
+  let html = "";
+  for(const key in votes){
+    let pct = total ? Math.round(votes[key]*100/total) : 0;
+    html += `<div class="bar"><strong>${labels[key]}</strong> — ${votes[key]} vote(s) — ${pct}%<div class="barfill" style="width:${pct}%"></div></div>`;
+  }
+  document.getElementById("surveyResults").innerHTML = html;
+  document.getElementById("surveyTotal").textContent = "Live votes: " + total + " • Updated: " + new Date().toLocaleTimeString();
+}
+function answer(btn, correct){
+  btn.style.outline = correct ? "3px solid #00ff99" : "3px solid #ff4444";
+  if(correct && !btn.dataset.done){
+    score++;
+    btn.dataset.done = "1";
+  }
+  document.getElementById("score").textContent = "Score: " + score;
+}
+</script>
+</body>
+
+</html>

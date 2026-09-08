@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cybersecurity Session 4 - Cryptography</title>
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:"Trebuchet MS",Arial,sans-serif;
+    line-height:1.7;
+    color:#f5f5f5;
+
+    background:
+        radial-gradient(circle at 10% 10%,rgba(239,68,68,.18),transparent 25%),
+        radial-gradient(circle at 90% 30%,rgba(220,38,38,.15),transparent 25%),
+        linear-gradient(135deg,#020202,#170303,#080808);
+
+    overflow-x:hidden;
+}
+
+/* =========================================================
+   ANIMATED BACKGROUND
+========================================================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-2;
+
+    background:
+        radial-gradient(circle at 30% 80%,rgba(255,30,0,.12),transparent 25%),
+        radial-gradient(circle at 70% 60%,rgba(255,80,0,.08),transparent 25%);
+}
+
+.particle{
+    position:fixed;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#ef4444;
+    box-shadow:
+        0 0 10px #ef4444,
+        0 0 25px #dc2626;
+    bottom:-20px;
+    opacity:.6;
+    animation:rise 10s infinite linear;
+    z-index:-1;
+}
+
+.p1{left:5%;animation-delay:1s;}
+.p2{left:15%;animation-delay:3s;}
+.p3{left:25%;animation-delay:5s;}
+.p4{left:35%;animation-delay:2s;}
+.p5{left:45%;animation-delay:7s;}
+.p6{left:55%;animation-delay:4s;}
+.p7{left:65%;animation-delay:6s;}
+.p8{left:75%;animation-delay:1s;}
+.p9{left:85%;animation-delay:8s;}
+.p10{left:95%;animation-delay:3s;}
+
+@keyframes rise{
+
+    0%{
+        transform:translateY(0) translateX(0);
+        opacity:0;
+    }
+
+    20%{
+        opacity:.8;
+    }
+
+    100%{
+        transform:translateY(-110vh) translateX(40px);
+        opacity:0;
+    }
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    min-height:550px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    position:relative;
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(70,0,0,.95),
+            rgba(20,0,0,.95),
+            rgba(50,5,5,.9)
+        );
+
+    border-bottom:3px solid #ef2b16;
+}
+
+.hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:700px;
+    height:700px;
+
+    border:2px solid rgba(239,68,68,.15);
+
+    border-radius:50%;
+
+    animation:rotate 20s linear infinite;
+}
+
+.hero::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+    height:450px;
+
+    border:2px dashed rgba(248,113,113,.18);
+
+    border-radius:50%;
+
+    animation:rotateReverse 14s linear infinite;
+}
+
+@keyframes rotate{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@keyframes rotateReverse{
+    from{transform:rotate(360deg);}
+    to{transform:rotate(0deg);}
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:1000px;
+    padding:30px;
+}
+
+.badge{
+
+    display:inline-block;
+
+    padding:10px 25px;
+
+    border:2px solid #ef4444;
+
+    border-radius:40px;
+
+    color:#ff9c8f;
+
+    background:rgba(239,68,68,.08);
+
+    box-shadow:0 0 25px rgba(239,68,68,.25);
+
+    letter-spacing:2px;
+
+    animation:glow 2s infinite;
+}
+
+@keyframes glow{
+
+    0%,100%{
+        box-shadow:0 0 10px rgba(239,68,68,.2);
+    }
+
+    50%{
+        box-shadow:0 0 35px rgba(239,68,68,.65);
+    }
+}
+
+.lock{
+
+    font-size:100px;
+
+    margin:20px;
+
+    filter:
+        drop-shadow(0 0 10px #ef4444)
+        drop-shadow(0 0 30px #dc2626);
+
+    animation:lockFloat 3s infinite ease-in-out;
+}
+
+@keyframes lockFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-15px) rotate(-3deg);
+    }
+}
+
+.hero h1{
+
+    font-size:58px;
+
+    margin:10px 0;
+
+    text-transform:uppercase;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #ffb4aa,
+            #ef4444,
+            #fff
+        );
+
+    background-size:300%;
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+    animation:titleMove 5s infinite;
+}
+
+@keyframes titleMove{
+
+    0%{background-position:0%;}
+    50%{background-position:100%;}
+    100%{background-position:0%;}
+
+}
+
+.hero p{
+
+    font-size:21px;
+
+    color:#ffc9c3;
+
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.container{
+
+    width:92%;
+    max-width:1250px;
+    margin:auto;
+
+}
+
+section{
+
+    margin:60px 0;
+
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card{
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30,8,8,.95),
+            rgba(12,12,12,.96)
+        );
+
+    border:1px solid rgba(239,68,68,.18);
+
+    border-radius:25px;
+
+    padding:32px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.5),
+        inset 0 1px rgba(255,255,255,.03);
+
+    transition:.4s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:rgba(239,68,68,.5);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.7),
+        0 0 30px rgba(239,68,68,.08);
+
+}
+
+h2{
+
+    color:#ff6b57;
+
+    font-size:34px;
+
+    text-shadow:
+        0 0 10px rgba(239,68,68,.25);
+
+}
+
+h3{
+
+    color:#ff9d91;
+
+}
+
+/* =========================================================
+   ROBOT / ELI10
+========================================================= */
+
+.robot{
+
+    position:relative;
+
+    padding:28px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(127,29,29,.25),
+            rgba(69,10,10,.2)
+        );
+
+    border-left:7px solid #ef4444;
+
+    font-size:19px;
+
+    overflow:hidden;
+
+}
+
+.robot::after{
+
+    content:"🤖";
+
+    position:absolute;
+
+    right:20px;
+
+    bottom:5px;
+
+    font-size:75px;
+
+    opacity:.10;
+
+    animation:robotMove 3s infinite ease-in-out;
+
+}
+
+@keyframes robotMove{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-12px);
+    }
+
+}
+
+/* =========================================================
+   HIGHLIGHT
+========================================================= */
+
+.highlight{
+
+    padding:20px;
+
+    margin:20px 0;
+
+    border-radius:15px;
+
+    background:rgba(245,158,11,.08);
+
+    border-left:6px solid #f59e0b;
+
+}
+
+/* =========================================================
+   SAFE
+========================================================= */
+
+.safe{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:rgba(34,197,94,.08);
+
+    border-left:6px solid #22c55e;
+
+}
+
+/* =========================================================
+   DANGER
+========================================================= */
+
+.danger{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:rgba(239,68,68,.10);
+
+    border-left:6px solid #ef4444;
+
+}
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+.table-wrapper{
+
+    overflow-x:auto;
+
+    border-radius:16px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:700px;
+
+    margin:20px 0;
+
+}
+
+th{
+
+    padding:16px;
+
+    text-align:left;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #991b1b,
+            #dc2626
+        );
+
+}
+
+td{
+
+    padding:15px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+tr{
+
+    transition:.3s;
+
+}
+
+tr:hover{
+
+    background:rgba(239,68,68,.08);
+
+}
+
+/* =========================================================
+   DIAGRAM
+========================================================= */
+
+.diagram{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin:35px 0;
+
+}
+
+.diagram-box{
+
+    min-width:170px;
+
+    padding:20px;
+
+    text-align:center;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #991b1b,
+            #450a0a
+        );
+
+    border:1px solid #ef4444;
+
+    box-shadow:
+        0 0 15px rgba(239,68,68,.15);
+
+    animation:diagramPulse 2s infinite;
+
+}
+
+.diagram-box:nth-child(1){animation-delay:.1s;}
+.diagram-box:nth-child(3){animation-delay:.4s;}
+.diagram-box:nth-child(5){animation-delay:.7s;}
+.diagram-box:nth-child(7){animation-delay:1s;}
+.diagram-box:nth-child(9){animation-delay:1.3s;}
+
+@keyframes diagramPulse{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.06);
+        box-shadow:0 0 25px rgba(239,68,68,.4);
+    }
+
+}
+
+.arrow{
+
+    font-size:32px;
+
+    color:#ff735f;
+
+    animation:arrowMove 1.5s infinite;
+
+}
+
+@keyframes arrowMove{
+
+    0%,100%{
+        transform:translateX(0);
+    }
+
+    50%{
+        transform:translateX(8px);
+    }
+
+}
+
+/* =========================================================
+   PASSWORD VISUAL
+========================================================= */
+
+.password-box{
+
+    padding:35px;
+
+    text-align:center;
+
+    border-radius:20px;
+
+    background:#050505;
+
+    border:1px solid #4b1111;
+
+}
+
+.password{
+
+    font-size:35px;
+
+    letter-spacing:8px;
+
+    color:#ff6250;
+
+    text-shadow:0 0 20px #ef4444;
+
+    animation:passwordGlow 2s infinite;
+
+}
+
+@keyframes passwordGlow{
+
+    0%,100%{
+        text-shadow:0 0 8px #ef4444;
+    }
+
+    50%{
+        text-shadow:
+            0 0 15px #ef4444,
+            0 0 35px #dc2626;
+    }
+
+}
+
+/* =========================================================
+   AUTHENTICATION FACTORS
+========================================================= */
+
+.factor-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(240px,1fr));
+
+    gap:22px;
+
+}
+
+.factor{
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:#100707;
+
+    border:1px solid #451414;
+
+    text-align:center;
+
+    transition:.4s;
+
+}
+
+.factor:hover{
+
+    transform:
+        translateY(-10px)
+        scale(1.02);
+
+    border-color:#ef4444;
+
+}
+
+.factor-icon{
+
+    font-size:60px;
+
+    animation:factorFloat 3s infinite;
+
+}
+
+@keyframes factorFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+}
+
+/* =========================================================
+   STEP CARDS
+========================================================= */
+
+.steps{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+
+    gap:18px;
+
+}
+
+.step{
+
+    position:relative;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    background:#100707;
+
+    border:1px solid #481313;
+
+    transition:.4s;
+
+}
+
+.step:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#ef4444;
+
+}
+
+.step-number{
+
+    width:45px;
+    height:45px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ef4444,
+            #7f1d1d
+        );
+
+    font-weight:bold;
+
+    margin-bottom:15px;
+
+}
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+.question{
+
+    margin:20px 0;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    background:#0e0808;
+
+    border:1px solid #461515;
+
+}
+
+.answer{
+
+    margin-top:15px;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    background:rgba(34,197,94,.08);
+
+    border-left:5px solid #22c55e;
+
+}
+
+/* =========================================================
+   EXERCISES
+========================================================= */
+
+.exercise{
+
+    padding:25px;
+
+    margin:20px 0;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(127,29,29,.20),
+            rgba(20,5,5,.9)
+        );
+
+    border:1px solid #551515;
+
+    transition:.4s;
+
+}
+
+.exercise:hover{
+
+    transform:translateX(8px);
+
+    border-color:#ef4444;
+
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    margin-top:80px;
+
+    padding:50px;
+
+    text-align:center;
+
+    background:#030303;
+
+    border-top:2px solid #4b1111;
+
+}
+
+footer strong{
+
+    color:#ff5945;
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+    .hero h1{
+        font-size:38px;
+    }
+
+    .lock{
+        font-size:70px;
+    }
+
+    .diagram{
+        flex-direction:column;
+    }
+
+    .arrow{
+        transform:rotate(90deg);
+    }
+
+}
+
+</style>
+<style>
+/* SESSION 4 ADDITIONS */
+.crypto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin:25px 0}
+.crypto-card{padding:25px;border-radius:20px;background:#100707;border:1px solid #451414;transition:.4s;text-align:center}
+.crypto-card:hover{transform:translateY(-10px) scale(1.02);border-color:#ef4444;box-shadow:0 20px 45px rgba(239,68,68,.12)}
+.crypto-icon{font-size:58px;margin-bottom:10px;display:block}
+.cipher-box{background:#050505;border:1px solid #4b1111;border-radius:18px;padding:25px;margin:20px 0}
+.cipher-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin:15px 0}
+.letter{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:#7f1d1d;border:1px solid #ef4444;font-weight:bold;font-size:20px}
+.btn{background:linear-gradient(135deg,#ef4444,#7f1d1d);border:0;color:#fff;padding:12px 20px;border-radius:10px;font-weight:bold;cursor:pointer;margin:6px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(239,68,68,.3)}
+.quiz-option{display:block;margin:10px 0;padding:13px;border:1px solid #461515;border-radius:12px;cursor:pointer;background:#0e0808}
+.quiz-option:hover{border-color:#ef4444;background:#1b0a0a}
+.answer-box{display:none;margin-top:15px;padding:15px;border-radius:12px;background:rgba(34,197,94,.08);border-left:5px solid #22c55e}
+.badge2{display:inline-block;padding:7px 14px;border-radius:30px;background:rgba(239,68,68,.12);border:1px solid #ef4444;color:#ff9d91;margin:4px}
+@media(max-width:700px){.letter{width:36px;height:36px}}
+
+/* =========================================================
+   DEEP TECHNICAL DETAIL
+========================================================= */
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:25px 0}
+.tech-card{padding:24px;border-radius:18px;background:linear-gradient(145deg,#160707,#090909);border:1px solid #5b1717}
+.tech-card h3{margin-top:0;color:#ff9d91}
+.formula{font-family:"Courier New",monospace;background:#030303;border:1px solid #531313;border-radius:14px;padding:18px;color:#a7f3d0;overflow-x:auto}
+.codebox{background:#020202;border:1px solid #3f1111;border-radius:14px;padding:20px;font-family:"Courier New",monospace;color:#d1fae5;overflow-x:auto}
+.term{display:inline-block;padding:4px 9px;border-radius:7px;background:rgba(239,68,68,.12);border:1px solid #6b1b1b;color:#ffb4aa;font-weight:bold}
+.note{background:rgba(59,130,246,.10);border-left:6px solid #60a5fa;padding:18px;border-radius:12px}
+.tech-warning{background:rgba(245,158,11,.10);border-left:6px solid #f59e0b;padding:18px;border-radius:12px}
+.layer{display:grid;grid-template-columns:80px 1fr;gap:15px;align-items:center;margin:12px 0}
+.layer-num{width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#7f1d1d;border:1px solid #ef4444;font-weight:bold}
+.small{font-size:.92em;color:#c4c4c4}
+</style>
+
+</style>
+</head>
+<body>
+<div class="particle p1"></div><div class="particle p2"></div><div class="particle p3"></div><div class="particle p4"></div><div class="particle p5"></div><div class="particle p6"></div><div class="particle p7"></div><div class="particle p8"></div><div class="particle p9"></div><div class="particle p10"></div>
+<header class="hero"><div class="hero-content">
+<div class="badge">🔥 CYBERSECURITY MISSION — SESSION 04 🔥</div>
+<div class="lock">🔐</div>
+<h1>CRYPTOGRAPHY</h1>
+<p>🧒 ELI10 Learning Mode</p>
+<p>“How can Alice send a secret message to Bob?”</p>
+</div></header>
+<div class="container">
+<section><div class="card"><h2>🔗 Mission Connection</h2><div class="robot"><p>In <strong>Session 3</strong>, we learned how a digital system checks <strong>WHO</strong> you are and protects your account with passwords, MFA and secure password storage.</p><p>Now we ask a new question:</p><div class="highlight"><strong>“How can we protect the information itself while it travels or is stored?”</strong></div><div class="diagram"><div class="diagram-box">👤<br>Identity</div><div class="arrow">➡️</div><div class="diagram-box">🔑<br>Authentication</div><div class="arrow">➡️</div><div class="diagram-box">🔐<br>Protect Data</div></div></div></div></section>
+<section><div class="card"><h2>🎯 What Will You Learn?</h2><div class="table-wrapper"><table><tr><th>No.</th><th>Topic</th><th>ELI10 Meaning</th><th>Learning Goal</th></tr>
+<tr><td>1</td><td>Cryptography</td><td>Protecting information using secret mathematical rules</td><td>Understand the big picture</td></tr>
+<tr><td>2</td><td>Plaintext & Ciphertext</td><td>Original message and protected message</td><td>Understand transformation</td></tr>
+<tr><td>3</td><td>Encryption</td><td>Turning readable data into protected data</td><td>Understand confidentiality</td></tr>
+<tr><td>4</td><td>Decryption</td><td>Turning protected data back into readable data</td><td>Understand recovery</td></tr>
+<tr><td>5</td><td>Keys</td><td>Secret or controlled values used by cryptographic algorithms</td><td>Understand key-based security</td></tr>
+<tr><td>6</td><td>Symmetric Encryption</td><td>Same secret key for encryption and decryption</td><td>Compare encryption models</td></tr>
+<tr><td>7</td><td>Asymmetric Encryption</td><td>A public/private key pair</td><td>Understand key pairs</td></tr>
+<tr><td>8</td><td>Hashing</td><td>One-way fingerprint of data</td><td>Understand integrity and password storage</td></tr>
+<tr><td>9</td><td>Digital Signatures</td><td>A mathematical way to show origin and integrity</td><td>Understand authenticity</td></tr>
+</table></div></div></section>
+<section><div class="card"><h2>🏠 1. ELI10 Story — The Secret Letter</h2><div class="robot"><p>Imagine Alice wants to send Bob a letter.</p><p>👩 Alice writes:</p><div class="highlight">“MEET AT THE LIBRARY”</div><p>If anyone opens the letter on the way, they can read it.</p><p>So Alice puts the message into a <strong>special lockbox</strong>.</p><div class="diagram"><div class="diagram-box">📝<br>Plaintext</div><div class="arrow">➡️</div><div class="diagram-box">🔐<br>Encryption</div><div class="arrow">➡️</div><div class="diagram-box">🔒<br>Ciphertext</div><div class="arrow">➡️</div><div class="diagram-box">🔓<br>Decryption</div><div class="arrow">➡️</div><div class="diagram-box">📖<br>Bob reads</div></div></div><div class="safe"><strong>🧠 Cybersecurity Connection:</strong> Cryptography helps protect data from being understood or changed by unauthorized people.</div></div></section>
+<section><div class="card"><h2>🔐 2. What Is Cryptography?</h2><div class="highlight"><p style="font-size:23px;text-align:center"><strong>Cryptography = protecting information using mathematics, algorithms and keys.</strong></p></div><div class="crypto-grid"><div class="crypto-card"><span class="crypto-icon">📝</span><h3>Plaintext</h3><p>The original readable message.</p></div><div class="crypto-card"><span class="crypto-icon">🔐</span><h3>Encryption</h3><p>Transforms plaintext into protected ciphertext.</p></div><div class="crypto-card"><span class="crypto-icon">🔒</span><h3>Ciphertext</h3><p>The transformed message that should not reveal the original meaning.</p></div><div class="crypto-card"><span class="crypto-icon">🔓</span><h3>Decryption</h3><p>Uses the appropriate key and algorithm to recover the message.</p></div></div></div></section>
+<section><div class="card"><h2>🧩 3. The Basic Cryptography Flow</h2><div class="diagram"><div class="diagram-box">👩 Alice<br>Message</div><div class="arrow">➡️</div><div class="diagram-box">🔐<br>Encrypt + Key</div><div class="arrow">➡️</div><div class="diagram-box">🔒<br>Ciphertext</div><div class="arrow">➡️</div><div class="diagram-box">🔓<br>Decrypt + Key</div><div class="arrow">➡️</div><div class="diagram-box">👨 Bob<br>Message</div></div><div class="table-wrapper"><table><tr><th>Term</th><th>ELI10 Meaning</th><th>Question</th></tr><tr><td>Plaintext</td><td>Readable information</td><td>What did Alice write?</td></tr><tr><td>Encryption</td><td>Protecting the message</td><td>How do we hide it?</td></tr><tr><td>Ciphertext</td><td>Encrypted information</td><td>What travels across the network?</td></tr><tr><td>Decryption</td><td>Recovering the message</td><td>How does Bob read it?</td></tr><tr><td>Key</td><td>Value used with the algorithm</td><td>What controls the transformation?</td></tr></table></div></div></section>
+<section><div class="card"><h2>🗝️ 4. What Is a Cryptographic Key?</h2><div class="robot"><p>Think about a physical lock.</p><p>🔒 The lock is the security mechanism.</p><p>🗝️ The key is what lets an authorized person operate the lock.</p><p>In cryptography, a <strong>key</strong> is data used by a cryptographic algorithm to control the transformation of information.</p></div><div class="danger"><strong>⚠️ Important:</strong> A cryptographic key is not simply “the password.” Different cryptographic systems use keys in different ways.</div></div></section>
+
+<section><div class="card">
+<h2>🧠 2A. Cryptography: The Technical View</h2>
+<div class="highlight">
+<strong>Technical definition:</strong> Cryptography is the study and application of mathematical techniques used to provide
+<strong>confidentiality, integrity, authentication and related security properties</strong>.
+</div>
+<div class="tech-grid">
+<div class="tech-card"><h3>Algorithm</h3><p>A precisely defined mathematical procedure that transforms data.</p><p class="small">Examples: AES, ChaCha20, RSA, SHA-256, Ed25519.</p></div>
+<div class="tech-card"><h3>Key</h3><p>A secret or controlled value that parameterizes a cryptographic operation.</p><p class="small">The security should depend on protecting the key, not on hiding the algorithm.</p></div>
+<div class="tech-card"><h3>Security Property</h3><p>Different primitives solve different problems.</p><p class="small">Encryption → confidentiality; hashes → integrity/fingerprints; signatures → authenticity and integrity.</p></div>
+</div>
+<div class="note"><strong>Important engineering principle:</strong> Modern cryptography normally follows the principle that the algorithm may be public while the key remains protected. Do not design a security system whose safety depends on keeping the algorithm secret.</div>
+</div></section>
+
+<section><div class="card">
+<h2>🔬 2B. Cryptographic Terminology — In Depth</h2>
+<div class="table-wrapper"><table>
+<tr><th>Term</th><th>Technical Meaning</th><th>Student-Level Meaning</th></tr>
+<tr><td>Plaintext</td><td>Input data before a cryptographic transformation.</td><td>The original readable message.</td></tr>
+<tr><td>Ciphertext</td><td>Output produced by an encryption algorithm.</td><td>The scrambled-looking protected message.</td></tr>
+<tr><td>Cryptographic primitive</td><td>A basic building block such as a cipher, hash or signature scheme.</td><td>A trusted security tool used to build bigger systems.</td></tr>
+<tr><td>Key</td><td>Parameter controlling a cryptographic operation.</td><td>The special value that controls the lock.</td></tr>
+<tr><td>Nonce / IV</td><td>A value used in many encryption modes to ensure safe and unique processing.</td><td>A fresh number used so the same message does not repeatedly produce the same result.</td></tr>
+<tr><td>Digest</td><td>Fixed-length output of a hash function.</td><td>A digital fingerprint.</td></tr>
+<tr><td>MAC</td><td>Message Authentication Code using a secret key.</td><td>A secret-key seal that helps detect tampering.</td></tr>
+<tr><td>Digital Signature</td><td>Public-key mechanism for signing and verifying data.</td><td>A mathematical signature that others can verify.</td></tr>
+</table></div>
+</div></section>
+
+<section><div class="card">
+<h2>🔐 3A. Encryption — Technical Detail</h2>
+<p>Encryption is a transformation designed so that someone without the required key cannot feasibly recover the protected plaintext.</p>
+<div class="formula">Encryption:   C = E(K, P)
+Decryption:   P = D(K, C)</div>
+<div class="tech-grid">
+<div class="tech-card"><h3>P = Plaintext</h3><p>The original data: text, image, file, database record or network payload.</p></div>
+<div class="tech-card"><h3>K = Key</h3><p>The secret or controlled cryptographic value used by the algorithm.</p></div>
+<div class="tech-card"><h3>C = Ciphertext</h3><p>The encrypted representation sent or stored.</p></div>
+<div class="tech-card"><h3>E / D</h3><p>Encryption and decryption algorithms transform between plaintext and ciphertext.</p></div>
+</div>
+<div class="tech-warning"><strong>Technical point:</strong> Encryption alone does not automatically guarantee integrity or authenticity. In modern applications, authenticated encryption such as AES-GCM or ChaCha20-Poly1305 is commonly preferred because it protects confidentiality and also authenticates the ciphertext.</div>
+</div></section>
+
+<section><div class="card">
+<h2>🧱 3B. Block Ciphers, Stream Ciphers and AEAD</h2>
+<div class="table-wrapper"><table>
+<tr><th>Concept</th><th>Explanation</th><th>Example</th></tr>
+<tr><td>Block cipher</td><td>Processes fixed-size blocks of data using a key and an encryption mode.</td><td>AES</td></tr>
+<tr><td>Stream cipher</td><td>Generates a keystream combined with plaintext, conceptually processing data as a stream.</td><td>ChaCha20</td></tr>
+<tr><td>Encryption mode</td><td>Defines how a block cipher is safely applied to messages longer than one block.</td><td>GCM, CTR, CBC</td></tr>
+<tr><td>AEAD</td><td>Authenticated Encryption with Associated Data: protects ciphertext and authenticates selected additional data.</td><td>AES-GCM, ChaCha20-Poly1305</td></tr>
+</table></div>
+<div class="note"><strong>Why modes matter:</strong> Choosing AES does not by itself define a complete secure system. The mode, nonce/IV handling, authentication, key management and implementation all matter.</div>
+</div></section>
+
+<section><div class="card">
+<h2>🗝️ 4A. Key Management — The Real Security Challenge</h2>
+<p>A strong algorithm can still fail if its keys are generated, stored or shared badly.</p>
+<div class="diagram">
+<div class="diagram-box">🎲<br>Generate Key</div><div class="arrow">➡️</div>
+<div class="diagram-box">🔐<br>Store Safely</div><div class="arrow">➡️</div>
+<div class="diagram-box">📨<br>Use Correctly</div><div class="arrow">➡️</div>
+<div class="diagram-box">🔄<br>Rotate</div><div class="arrow">➡️</div>
+<div class="diagram-box">🗑️<br>Revoke / Destroy</div>
+</div>
+<div class="table-wrapper"><table>
+<tr><th>Stage</th><th>Technical Question</th><th>ELI10 Question</th></tr>
+<tr><td>Generation</td><td>Was enough unpredictable randomness used?</td><td>Was the key really difficult to guess?</td></tr>
+<tr><td>Storage</td><td>Who can access the key?</td><td>Where did we hide the key?</td></tr>
+<tr><td>Distribution</td><td>How does the intended party receive it safely?</td><td>How do we give the key to the right person?</td></tr>
+<tr><td>Rotation</td><td>When should a key be replaced?</td><td>When should we change the lock?</td></tr>
+<tr><td>Revocation</td><td>What happens when a key is compromised?</td><td>How do we cancel a stolen key?</td></tr>
+</table></div>
+</div></section>
+
+<section><div class="card">
+<h2>⚔️ 5A. Symmetric Encryption — In Depth</h2>
+<p>Symmetric cryptography uses the same shared secret, or related secret-key material, for the communicating parties' encryption/decryption operations.</p>
+<div class="diagram">
+<div class="diagram-box">👩 Alice<br>Shared Secret K</div><div class="arrow">➡️</div>
+<div class="diagram-box">🔐<br>AES-GCM<br>Encrypt</div><div class="arrow">➡️</div>
+<div class="diagram-box">🔒<br>Ciphertext + Tag</div><div class="arrow">➡️</div>
+<div class="diagram-box">🔓<br>AES-GCM<br>Decrypt with K</div><div class="arrow">➡️</div>
+<div class="diagram-box">👨 Bob<br>Shared Secret K</div>
+</div>
+<div class="table-wrapper"><table>
+<tr><th>Advantage</th><th>Challenge</th></tr>
+<tr><td>Fast and efficient for large amounts of data.</td><td>The communicating parties need a secure way to establish the shared secret.</td></tr>
+<tr><td>Suitable for disk, database and network payload encryption.</td><td>Nonce/IV reuse can be dangerous depending on the algorithm/mode.</td></tr>
+<tr><td>Efficient on modern hardware.</td><td>Key lifecycle and access control must be managed.</td></tr>
+</table></div>
+<div class="highlight"><strong>Examples:</strong> AES-128/AES-256 and ChaCha20-based encryption are widely used modern primitives. The correct construction and mode matter as much as the algorithm name.</div>
+</div></section>
+
+<section><div class="card">
+<h2>🔑 5B. AES — A First Technical Look</h2>
+<p><strong>AES (Advanced Encryption Standard)</strong> is a symmetric block cipher with a 128-bit block size and key sizes of 128, 192 or 256 bits.</p>
+<div class="tech-grid">
+<div class="tech-card"><h3>Block Size</h3><p>128 bits = 16 bytes per block.</p></div>
+<div class="tech-card"><h3>Key Sizes</h3><p>128, 192 or 256 bits.</p></div>
+<div class="tech-card"><h3>Structure</h3><p>A substitution-permutation design operating through multiple rounds.</p></div>
+<div class="tech-card"><h3>Real System</h3><p>AES is normally used through a secure mode such as GCM rather than by simply encrypting each block independently.</p></div>
+</div>
+<div class="note"><strong>Do not teach AES as “a complicated Caesar cipher.”</strong> AES uses carefully designed mathematical transformations and has been extensively analyzed by the cryptographic community.</div>
+</div></section>
+
+<section><div class="card">
+<h2>🌐 6A. Asymmetric Cryptography — In Depth</h2>
+<p>Public-key cryptography uses a mathematically related key pair. The exact operation depends on the scheme: encryption/key establishment and signatures are different uses.</p>
+<div class="diagram">
+<div class="diagram-box">👨 Bob<br>Public Key<br>📢 Share</div><div class="arrow">➡️</div>
+<div class="diagram-box">👩 Alice<br>Uses Public Key</div><div class="arrow">➡️</div>
+<div class="diagram-box">🔒<br>Protected Result</div><div class="arrow">➡️</div>
+<div class="diagram-box">👨 Bob<br>Private Key<br>🔐 Keep Secret</div>
+</div>
+<div class="table-wrapper"><table>
+<tr><th>Key</th><th>Can be shared?</th><th>Typical role</th></tr>
+<tr><td>Public key</td><td>Yes</td><td>Verification, encryption-related operations or key establishment depending on scheme.</td></tr>
+<tr><td>Private key</td><td>No — it must be protected</td><td>Decryption-related operations or signing depending on scheme.</td></tr>
+</table></div>
+<div class="tech-warning"><strong>Important:</strong> “Public key encrypts and private key decrypts” is a useful introductory model, but it is not the complete story. Digital signatures use the private key to create a signature and the public key to verify it.</div>
+</div></section>
+
+<section><div class="card">
+<h2>🧮 6B. RSA and ECC — Why Students Should Know the Names</h2>
+<div class="tech-grid">
+<div class="tech-card"><h3>RSA</h3><p>A public-key cryptosystem based on mathematical properties of large integers and modular arithmetic.</p><p class="small">Used historically and still encountered in certificates and systems, though modern deployments often prefer elliptic-curve or modern signature schemes where appropriate.</p></div>
+<div class="tech-card"><h3>ECC</h3><p>Elliptic Curve Cryptography uses algebraic structures over finite fields.</p><p class="small">It can provide strong security with relatively compact keys compared with traditional RSA at comparable security levels.</p></div>
+<div class="tech-card"><h3>Key Establishment</h3><p>Diffie–Hellman-style protocols allow parties to establish shared secret material over an insecure channel.</p><p class="small">The shared secret can then be used with symmetric authenticated encryption.</p></div>
+</div>
+<div class="formula">High-level secure communication idea:
+Public-key mechanism → establish/agree secret
+             ↓
+Symmetric AEAD → protect bulk data efficiently</div>
+</div></section>
+
+<section><div class="card">
+<h2>🤝 6C. Diffie–Hellman — The Key Agreement Idea</h2>
+<p>Diffie–Hellman is better understood as <strong>key agreement</strong> rather than “Alice sends Bob the secret key.” Both sides contribute information and derive common secret material.</p>
+<div class="diagram">
+<div class="diagram-box">👩 Alice<br>Private value a</div><div class="arrow">➡️</div>
+<div class="diagram-box">📡 Public exchange</div><div class="arrow">➡️</div>
+<div class="diagram-box">👨 Bob<br>Private value b</div>
+</div>
+<div class="highlight"><strong>Core idea:</strong> Alice and Bob can derive the same shared secret while an observer sees the public exchange. Security depends on the underlying mathematical problem and correct protocol implementation.</div>
+<div class="danger"><strong>Critical limitation:</strong> Basic Diffie–Hellman by itself does not authenticate who is on the other side. Protocols need authentication to prevent man-in-the-middle attacks.</div>
+</div></section>
+
+<section><div class="card">
+<h2>🧬 7A. Cryptographic Hash Functions — Technical Detail</h2>
+<p>A cryptographic hash function maps an input of arbitrary length to a fixed-length digest.</p>
+<div class="formula">H : {0,1}* → {0,1}^n
+
+Example concept:
+Input:  "HELLO"
+       ↓
+SHA-256
+       ↓
+256-bit digest</div>
+<div class="tech-grid">
+<div class="tech-card"><h3>Preimage Resistance</h3><p>Given a digest, finding an input that produces it should be computationally infeasible.</p></div>
+<div class="tech-card"><h3>Second-Preimage Resistance</h3><p>Given one input, finding a different input with the same digest should be difficult.</p></div>
+<div class="tech-card"><h3>Collision Resistance</h3><p>Finding any two different inputs with the same digest should be computationally difficult.</p></div>
+<div class="tech-card"><h3>Avalanche Effect</h3><p>A small input change should cause a substantial change in the digest.</p></div>
+</div>
+<div class="note"><strong>Example:</strong> SHA-256 produces a 256-bit digest. Hashes are not “encrypted messages,” and there is no normal decrypt operation that recovers the original input.</div>
+</div></section>
+
+<section><div class="card">
+<h2>🔐 7B. Password Hashing — Why SHA-256 Alone Is Not Enough</h2>
+<p>Passwords require special treatment because users often choose low-entropy secrets and attackers can try guesses offline if a password database is stolen.</p>
+<div class="diagram">
+<div class="diagram-box">👤<br>Password</div><div class="arrow">➡️</div>
+<div class="diagram-box">🧂<br>Unique Salt</div><div class="arrow">➡️</div>
+<div class="diagram-box">🐢<br>Password KDF</div><div class="arrow">➡️</div>
+<div class="diagram-box">💾<br>Stored Verifier</div>
+</div>
+<div class="table-wrapper"><table>
+<tr><th>Technique</th><th>Purpose</th></tr>
+<tr><td>Salt</td><td>Unique random value stored with each password verifier; helps prevent precomputed/rainbow-table reuse and ensures identical passwords do not produce identical stored values.</td></tr>
+<tr><td>Password KDF</td><td>Purposefully expensive password processing to make large-scale guessing more costly.</td></tr>
+<tr><td>Examples</td><td>Argon2id, scrypt, bcrypt and PBKDF2 are password-storage schemes/KDFs used in appropriate contexts.</td></tr>
+</table></div>
+<div class="tech-warning"><strong>Important distinction:</strong> General-purpose hashes such as SHA-256 are excellent cryptographic primitives, but password storage normally requires a dedicated password hashing/KDF approach with salt and appropriate work factors.</div>
+</div></section>
+
+<section><div class="card">
+<h2>✍️ 9A. Digital Signatures — Technical View</h2>
+<p>A digital signature binds a message to a signing key. In a typical scheme, the signer computes a signature using the private key and a verifier checks it using the corresponding public key.</p>
+<div class="formula">Message
+   ↓
+Hash / message processing
+   ↓
+Sign with Private Key
+   ↓
+Digital Signature
+
+Verifier:
+Message + Signature + Public Key
+             ↓
+          Verify
+             ↓
+       Valid / Invalid</div>
+<div class="table-wrapper"><table>
+<tr><th>Property</th><th>What it means</th></tr>
+<tr><td>Integrity</td><td>Verification can detect whether the signed data has changed.</td></tr>
+<tr><td>Authenticity</td><td>Verification can establish that a valid signature was produced by the holder of the corresponding private key, assuming the public key is correctly bound to that identity.</td></tr>
+<tr><td>Non-repudiation</td><td>Often discussed as a signature property, but its legal/organizational meaning depends on the system, key control, policy and applicable law.</td></tr>
+</table></div>
+</div></section>
+
+<section><div class="card">
+<h2>🏛️ 9B. Certificates and PKI</h2>
+<p>How does a browser know that a public key belongs to the intended website? This leads to <strong>Public Key Infrastructure (PKI)</strong>.</p>
+<div class="diagram">
+<div class="diagram-box">🌐 Website<br>Public Key</div><div class="arrow">➡️</div>
+<div class="diagram-box">📜<br>Certificate</div><div class="arrow">➡️</div>
+<div class="diagram-box">🏛️<br>Certificate Authority</div><div class="arrow">➡️</div>
+<div class="diagram-box">💻<br>Browser Trust</div>
+</div>
+<div class="tech-grid">
+<div class="tech-card"><h3>Certificate</h3><p>Contains information binding an identity/domain to a public key, plus a CA signature and validity information.</p></div>
+<div class="tech-card"><h3>CA</h3><p>A trusted certificate authority signs certificates according to its issuance policies.</p></div>
+<div class="tech-card"><h3>Trust Store</h3><p>Browsers/operating systems contain trusted root certificates used to validate certificate chains.</p></div>
+</div>
+</div></section>
+
+<section><div class="card">
+<h2>🌐 10A. Cryptography in HTTPS / TLS</h2>
+<p>HTTPS is HTTP carried through a secure transport such as TLS. TLS combines several cryptographic mechanisms rather than using one algorithm for everything.</p>
+<div class="diagram">
+<div class="diagram-box">🌐 Client<br>ClientHello</div><div class="arrow">➡️</div>
+<div class="diagram-box">🖥️ Server<br>Certificate</div><div class="arrow">➡️</div>
+<div class="diagram-box">🤝<br>Key Agreement</div><div class="arrow">➡️</div>
+<div class="diagram-box">🔑<br>Session Keys</div><div class="arrow">➡️</div>
+<div class="diagram-box">🔒<br>Encrypted Data</div>
+</div>
+<div class="table-wrapper"><table>
+<tr><th>Component</th><th>Purpose</th></tr>
+<tr><td>Certificate / signature</td><td>Helps authenticate the server's public key.</td></tr>
+<tr><td>Key agreement</td><td>Establishes shared secret material.</td></tr>
+<tr><td>Symmetric AEAD</td><td>Efficiently protects application data.</td></tr>
+<tr><td>Integrity/authentication checks</td><td>Help detect modification and authenticate protected records.</td></tr>
+</table></div>
+<div class="highlight"><strong>Big idea:</strong> Modern secure protocols combine asymmetric techniques for authentication/key establishment with symmetric techniques for efficient data protection.</div>
+</div></section>
+
+<section><div class="card">
+<h2>🧩 10B. Why Cryptographic Systems Use Multiple Algorithms</h2>
+<div class="layer"><div class="layer-num">1</div><div><strong>Identity</strong><br>Certificate and public-key verification help establish who the endpoint is.</div></div>
+<div class="layer"><div class="layer-num">2</div><div><strong>Key Establishment</strong><br>A protocol establishes shared session-key material.</div></div>
+<div class="layer"><div class="layer-num">3</div><div><strong>Bulk Encryption</strong><br>A fast symmetric primitive protects large volumes of data.</div></div>
+<div class="layer"><div class="layer-num">4</div><div><strong>Integrity / Authentication</strong><br>AEAD tags or MACs help detect tampering and authenticate protected data.</div></div>
+<div class="layer"><div class="layer-num">5</div><div><strong>Key Lifecycle</strong><br>Keys are generated, stored, rotated and eventually revoked or destroyed.</div></div>
+</div></section>
+
+<section><div class="card">
+<h2>⚖️ 11A. Confidentiality vs Integrity vs Authenticity</h2>
+<div class="table-wrapper"><table>
+<tr><th>Security Goal</th><th>Question</th><th>Typical Cryptographic Mechanism</th><th>Example</th></tr>
+<tr><td>Confidentiality</td><td>Can unauthorized people read it?</td><td>Encryption / AEAD</td><td>Encrypt a private file.</td></tr>
+<tr><td>Integrity</td><td>Was it changed?</td><td>Hash, MAC or signature</td><td>Verify a downloaded file.</td></tr>
+<tr><td>Authenticity</td><td>Who/what produced it?</td><td>MAC or digital signature plus trusted key binding</td><td>Verify a signed software package.</td></tr>
+</table></div>
+<div class="danger"><strong>Remember:</strong> A plain hash does not prove who created the file. Anyone who changes the file can also calculate a new ordinary hash. Authentication requires an appropriate secret-key MAC or digital signature and a trusted key.</div>
+</div></section>
+
+<section><div class="card">
+<h2>🆚 11B. Encryption vs Hashing vs Encoding vs MAC vs Signature</h2>
+<div class="table-wrapper"><table>
+<tr><th>Technique</th><th>Secret Key?</th><th>Recover Original?</th><th>Main Purpose</th></tr>
+<tr><td>Encryption</td><td>Yes, depending on scheme</td><td>Yes, with appropriate decryption capability</td><td>Confidentiality</td></tr>
+<tr><td>Hash</td><td>No in ordinary hashing</td><td>Not by decryption</td><td>Fingerprint / integrity / verification</td></tr>
+<tr><td>Encoding</td><td>No</td><td>Yes, by decoding</td><td>Representation / transport compatibility</td></tr>
+<tr><td>MAC</td><td>Yes</td><td>Not the goal</td><td>Integrity + authentication between parties sharing a secret</td></tr>
+<tr><td>Digital Signature</td><td>Private signing key</td><td>Not the goal</td><td>Integrity + public verification of the signature</td></tr>
+</table></div>
+</div></section>
+
+<section><div class="card">
+<h2>🎲 12A. Randomness and Entropy</h2>
+<p>Cryptographic keys, salts, nonces and tokens often depend on unpredictable random values.</p>
+<div class="formula">Weak randomness
+      ↓
+Predictable key/token
+      ↓
+Attacker can guess it
+      ↓
+Cryptographic protection can fail</div>
+<div class="tech-grid">
+<div class="tech-card"><h3>CSPRNG</h3><p>A cryptographically secure pseudorandom number generator is designed for security-sensitive random values.</p></div>
+<div class="tech-card"><h3>Entropy</h3><p>Informally, the unpredictability available to an attacker. More effective entropy means a larger search space.</p></div>
+<div class="tech-card"><h3>Nonce</h3><p>Often needs uniqueness rather than secrecy; the exact requirement depends on the algorithm and protocol.</p></div>
+</div>
+<div class="tech-warning"><strong>Engineering lesson:</strong> Never invent your own random-number generator for cryptographic keys or security tokens.</div>
+</div></section>
+
+<section><div class="card">
+<h2>🧪 12B. Cryptographic Attack Concepts — Defensive Understanding</h2>
+<div class="table-wrapper"><table>
+<tr><th>Attack Concept</th><th>What the attacker tries to do</th><th>Defensive Lesson</th></tr>
+<tr><td>Brute Force</td><td>Try many possible keys/passwords.</td><td>Use sufficiently strong keys and password protection.</td></tr>
+<tr><td>Dictionary Attack</td><td>Try likely human-chosen passwords.</td><td>Use strong passwords/passphrases and password KDFs.</td></tr>
+<tr><td>Offline Guessing</td><td>Test guesses against stolen password verifiers.</td><td>Use salted, expensive password hashing.</td></tr>
+<tr><td>Man-in-the-Middle</td><td>Interfere with communication between parties.</td><td>Authenticate endpoints/keys; use secure protocols.</td></tr>
+<tr><td>Nonce Reuse</td><td>Exploit incorrect reuse of a nonce/IV where uniqueness is required.</td><td>Follow the exact requirements of the cryptographic construction.</td></tr>
+<tr><td>Key Theft</td><td>Obtain the actual secret/private key.</td><td>Use access controls, secure storage and key lifecycle management.</td></tr>
+</table></div>
+<div class="danger">These concepts are for defensive learning. Students should only test systems, accounts and cryptographic implementations they are explicitly authorized to test.</div>
+</div></section>
+
+<section><div class="card">
+<h2>💻 13A. Mini Technical Example — Hash Verification</h2>
+<p>Suppose a teacher publishes a software file and also publishes its SHA-256 digest. A student can independently calculate the digest of the downloaded file and compare the values.</p>
+<div class="codebox">File A → SHA-256 → Digest A
+Downloaded File → SHA-256 → Digest B
+
+If Digest A == Digest B:
+    No difference detected by this hash comparison
+Else:
+    The file differs</div>
+<div class="note"><strong>Important:</strong> Hash equality does not prove that the file came from the teacher. To establish authenticity, use a trusted signature or another authenticated distribution mechanism.</div>
+</div></section>
+
+<section><div class="card">
+<h2>🧠 13B. Mini Technical Example — Secure Password Verification</h2>
+<div class="codebox">Registration:
+password
+   ↓
+generate unique salt
+   ↓
+password KDF(password, salt, work factor)
+   ↓
+store salt + verifier
+
+Login:
+entered password
+   ↓
+retrieve stored salt + parameters
+   ↓
+run same password KDF
+   ↓
+compare derived verifier
+   ↓
+allow / deny</div>
+<div class="highlight"><strong>Notice:</strong> The application does not need to store the user's original password.</div>
+</div></section>
+
+<section><div class="card"><h2>⚔️ 5. Symmetric vs Asymmetric Encryption</h2><div class="crypto-grid"><div class="crypto-card"><span class="crypto-icon">🔑</span><h3>Symmetric</h3><p><strong>One shared secret key</strong> is used for encryption and decryption.</p><p>ELI10: Alice and Bob share one special key.</p></div><div class="crypto-card"><span class="crypto-icon">🔑🔑</span><h3>Asymmetric</h3><p>Uses a <strong>public key and private key</strong> that form a pair.</p><p>ELI10: One key can be shared; the private key is kept secret.</p></div></div><div class="table-wrapper"><table><tr><th>Feature</th><th>Symmetric</th><th>Asymmetric</th></tr><tr><td>Keys</td><td>Shared secret key</td><td>Public/private key pair</td></tr><tr><td>Key sharing idea</td><td>Both parties need the shared secret</td><td>Public key can be distributed</td></tr><tr><td>Typical role</td><td>Efficient bulk data protection</td><td>Key establishment, signatures and other public-key operations</td></tr><tr><td>ELI10</td><td>One shared house key</td><td>Mailbox with public opening slot + private control key</td></tr></table></div></div></section>
+<section><div class="card"><h2>🌐 6. Why Do We Need Asymmetric Cryptography?</h2><div class="robot"><p>Imagine Alice and Bob have never met.</p><p>If Alice needs a secret key shared with Bob, how can she safely get that key to him?</p><p>Public-key cryptography gives us a different model:</p><div class="diagram"><div class="diagram-box">👨 Bob<br>Public Key</div><div class="arrow">➡️</div><div class="diagram-box">👩 Alice<br>Uses Public Key</div><div class="arrow">➡️</div><div class="diagram-box">🔒<br>Protected Data</div><div class="arrow">➡️</div><div class="diagram-box">👨 Bob<br>Private Key</div></div></div><div class="highlight"><strong>Memory trick:</strong> Public key → can be shared. Private key → keep it private.</div></div></section>
+<section><div class="card"><h2>🧬 7. What Is Hashing?</h2><div class="robot"><p>Hashing is different from encryption.</p><p>Imagine putting a document into a special machine that produces a fixed-size digital fingerprint.</p><div class="diagram"><div class="diagram-box">📄<br>Data</div><div class="arrow">➡️</div><div class="diagram-box">🧬<br>Hash Function</div><div class="arrow">➡️</div><div class="diagram-box">🔢<br>Hash Value</div></div><p>A secure cryptographic hash is designed so that it is computationally difficult to recover the original input from the hash alone.</p></div><div class="table-wrapper"><table><tr><th>Property</th><th>Encryption</th><th>Hashing</th></tr><tr><td>Goal</td><td>Protect data so an authorized party can recover it</td><td>Create a digest/fingerprint</td></tr><tr><td>Designed to reverse?</td><td>Yes, with the appropriate key and algorithm</td><td>No; cryptographic hashes are designed as one-way functions</td></tr><tr><td>Common use</td><td>Confidentiality</td><td>Integrity, password-storage systems and other verification tasks</td></tr></table></div></div></section>
+<section><div class="card"><h2>🛡️ 8. Encryption vs Hashing vs Encoding</h2><div class="table-wrapper"><table><tr><th>Concept</th><th>Purpose</th><th>Secret Key?</th><th>Can original data be recovered?</th><th>Example idea</th></tr><tr><td>Encryption</td><td>Confidentiality</td><td>Yes, in key-based encryption systems</td><td>Yes, with the appropriate key</td><td>Protect a private message</td></tr><tr><td>Hashing</td><td>Fingerprint / integrity / verification</td><td>Not in the same sense as encryption</td><td>Not by simply “decrypting” the hash</td><td>Compare password-derived values</td></tr><tr><td>Encoding</td><td>Represent data in another format</td><td>No</td><td>Yes, by decoding</td><td>Base64 representation</td></tr></table></div><div class="danger">⚠️ Encoding is not encryption. A Base64 string is not automatically secret.</div></div></section>
+<section><div class="card"><h2>✍️ 9. What Is a Digital Signature?</h2><div class="robot"><p>Imagine Bob receives a digital document from Alice.</p><p>Bob wants confidence that:</p><ul><li>👤 The document came from the claimed signer.</li><li>🧾 The document was not changed after signing.</li></ul><p>A digital signature uses public-key cryptography to help provide <strong>authenticity, integrity and non-repudiation properties</strong> when properly implemented and managed.</p></div><div class="diagram"><div class="diagram-box">📄<br>Message</div><div class="arrow">➡️</div><div class="diagram-box">✍️<br>Sign</div><div class="arrow">➡️</div><div class="diagram-box">📨<br>Signed Message</div><div class="arrow">➡️</div><div class="diagram-box">🔍<br>Verify</div></div></div></section>
+<section><div class="card"><h2>🔍 10. Digital Signature — ELI10</h2><div class="table-wrapper"><table><tr><th>Stage</th><th>What happens?</th><th>ELI10 Meaning</th></tr><tr><td>1</td><td>Message is prepared</td><td>Alice writes a letter.</td></tr><tr><td>2</td><td>Signature is generated</td><td>Alice adds a special mathematical seal.</td></tr><tr><td>3</td><td>Message + signature are sent</td><td>Bob receives the letter and seal.</td></tr><tr><td>4</td><td>Signature is verified</td><td>Bob checks whether the seal matches the message and signer.</td></tr></table></div></div></section>
+<section><div class="card"><h2>🔒 11. What Does Cryptography Protect?</h2><div class="crypto-grid"><div class="crypto-card"><span class="crypto-icon">👁️</span><h3>Confidentiality</h3><p>Helps keep information from unauthorized disclosure.</p></div><div class="crypto-card"><span class="crypto-icon">🧾</span><h3>Integrity</h3><p>Helps detect whether data has been changed.</p></div><div class="crypto-card"><span class="crypto-icon">👤</span><h3>Authenticity</h3><p>Helps establish who or what a message is associated with.</p></div><div class="crypto-card"><span class="crypto-icon">📝</span><h3>Accountability</h3><p>Digital signatures can support evidence about signing actions when systems are properly designed.</p></div></div></div></section>
+<section><div class="card"><h2>🌍 12. Cryptography Around You</h2><div class="table-wrapper"><table><tr><th>Where?</th><th>What is cryptography doing?</th></tr><tr><td>🌐 HTTPS websites</td><td>Helps protect web communication using cryptographic protocols.</td></tr><tr><td>📱 Mobile apps</td><td>Can protect sensitive data and communications.</td></tr><tr><td>💳 Online banking</td><td>Cryptography is part of protecting communications, transactions and credentials.</td></tr><tr><td>📧 Secure messaging</td><td>Cryptographic techniques can protect messages and verify participants.</td></tr><tr><td>💾 Stored data</td><td>Encryption can protect data at rest.</td></tr><tr><td>🔑 Password systems</td><td>Password-storage systems use password hashing rather than storing plaintext passwords.</td></tr></table></div></div></section>
+<section><div class="card"><h2>🎮 13. Interactive Caesar Cipher Challenge</h2><div class="robot"><p>Before modern cryptography, people used simple substitution ideas such as a Caesar cipher.</p><p>For this classroom activity, shift each letter by <strong>3 positions</strong>.</p><div class="cipher-box"><p style="text-align:center">A → D &nbsp;&nbsp; B → E &nbsp;&nbsp; C → F &nbsp;&nbsp; ...</p><div class="highlight" style="text-align:center;font-size:25px"><strong>CYBER → FBEHU</strong></div><p style="text-align:center;font-size:14px">This toy cipher is for learning only; it is not secure modern encryption.</p></div><p><strong>Your mission:</strong> What does <span class="badge2">KHOOR</span> mean if the shift is 3?</p><button class="btn" onclick="showAnswer('caesarAnswer')">Reveal Answer</button><div id="caesarAnswer" class="answer-box"><strong>HELLO</strong> — move each letter back by 3.</div></div></div></section>
+<section><div class="card"><h2>🧠 14. Cryptography Detective Stories</h2><div class="question"><h3>Story 1 — Private Photo</h3><p>A student wants photos stored on a laptop to remain unreadable if someone without permission gets the device.</p><div class="answer"><strong>Think:</strong> Encryption can provide confidentiality for stored data.</div></div><div class="question"><h3>Story 2 — Changed File</h3><p>A teacher wants to check whether a downloaded file changed after it was published.</p><div class="answer"><strong>Think:</strong> A cryptographic hash can act as a fingerprint for integrity checking.</div></div><div class="question"><h3>Story 3 — Signed Certificate</h3><p>A browser needs to verify information associated with a digital certificate.</p><div class="answer"><strong>Think:</strong> Digital signatures help verify authenticity and integrity.</div></div></div></section>
+<section><div class="card"><h2>⚔️ 15. Common Cryptography Mistakes</h2><div class="table-wrapper"><table><tr><th>Mistake</th><th>Why It Is a Problem</th><th>Better Thinking</th></tr><tr><td>Using a home-made encryption algorithm</td><td>Security may fail in ways the designer did not notice.</td><td>Use well-studied, appropriate cryptographic algorithms.</td></tr><tr><td>Sharing private keys</td><td>Anyone with the private key may be able to perform protected operations.</td><td>Protect private keys carefully.</td></tr><tr><td>Thinking Base64 is encryption</td><td>Encoding does not provide secrecy.</td><td>Use encryption when confidentiality is required.</td></tr><tr><td>Storing passwords in plaintext</td><td>A database leak could directly expose passwords.</td><td>Use appropriate password hashing and secure credential practices.</td></tr><tr><td>Ignoring key management</td><td>Strong algorithms can still be undermined by poor key handling.</td><td>Design key generation, storage, rotation and access controls.</td></tr></table></div></div></section>
+<section><div class="card"><h2>🧪 16. Research Connection</h2><div class="robot"><p>Remember the research formula from earlier sessions:</p><div class="diagram"><div class="diagram-box">❓<br>Problem</div><div class="arrow">➡️</div><div class="diagram-box">📚<br>Literature</div><div class="arrow">➡️</div><div class="diagram-box">🕳️<br>Gap</div><div class="arrow">➡️</div><div class="diagram-box">💡<br>Idea</div><div class="arrow">➡️</div><div class="diagram-box">🧪<br>Experiment</div></div><div class="highlight"><strong>Example research question:</strong><br><br>“Can a lightweight cryptographic approach improve security for resource-constrained IoT devices while reducing computational overhead?”</div><p>The important step is not simply naming an algorithm. A researcher should define the problem, compare existing approaches, measure results and explain the evidence.</p></div></div></section>
+<section><div class="card"><h2>🎯 17. Student Research Activity</h2><div class="exercise"><h3>🟢 Task 1 — Compare</h3><p>Create a table comparing symmetric encryption, asymmetric cryptography and hashing.</p></div><div class="exercise"><h3>🟡 Task 2 — Design</h3><p>Design a secure communication flow for a university portal. Identify where authentication, encryption, hashing and digital signatures could be useful.</p></div><div class="exercise"><h3>🟠 Task 3 — Research Question</h3><p>Complete:</p><div class="highlight">“Can __________________ improve data security while reducing __________________?”</div></div><div class="exercise"><h3>🔴 Task 4 — Mini Investigation</h3><p>Choose one real-world application of cryptography and explain: <strong>What data is protected? Which security goal matters? What cryptographic technique is involved? What could go wrong if it is implemented poorly?</strong></p></div></div></section>
+<section><div class="card"><h2>🧩 18. Quick Classification Challenge</h2><div class="question"><strong>Q1.</strong> You want Bob to read a secret message that others cannot understand while it is being transmitted. <br><button class="btn" onclick="showAnswer('q1')">Reveal</button><div id="q1" class="answer-box">Think <strong>encryption</strong> and confidentiality.</div></div><div class="question"><strong>Q2.</strong> You want to detect whether a file changed. <br><button class="btn" onclick="showAnswer('q2')">Reveal</button><div id="q2" class="answer-box">Think <strong>cryptographic hashing</strong> and integrity.</div></div><div class="question"><strong>Q3.</strong> You want to prove a message was associated with a particular signer. <br><button class="btn" onclick="showAnswer('q3')">Reveal</button><div id="q3" class="answer-box">Think <strong>digital signatures</strong>.</div></div></div></section>
+<section><div class="card"><h2>🏆 19. One-Minute Revision</h2><div class="diagram"><div class="diagram-box">📝<br>Plaintext</div><div class="arrow">➡️</div><div class="diagram-box">🔐<br>Encryption</div><div class="arrow">➡️</div><div class="diagram-box">🔒<br>Ciphertext</div><div class="arrow">➡️</div><div class="diagram-box">🔓<br>Decryption</div></div><div class="highlight"><p style="text-align:center;font-size:21px"><strong>Encryption → Protect readable data</strong><br><br><strong>Key → Controls a cryptographic operation</strong><br><br><strong>Symmetric → Shared secret key</strong><br><br><strong>Asymmetric → Public/private key pair</strong><br><br><strong>Hashing → One-way data fingerprint</strong><br><br><strong>Digital Signature → Authenticity + integrity support</strong></p></div></div></section>
+
+<section><div class="card">
+<h2>🏆 19A. Technical Mastery Checklist</h2>
+<div class="table-wrapper"><table>
+<tr><th>Can you explain...</th><th>Target Understanding</th></tr>
+<tr><td>Plaintext vs ciphertext?</td><td>Know the input/output of an encryption process.</td></tr>
+<tr><td>Why is a key necessary?</td><td>Understand that the cryptographic operation is parameterized by key material.</td></tr>
+<tr><td>Why symmetric encryption?</td><td>Efficient bulk-data protection.</td></tr>
+<tr><td>Why asymmetric cryptography?</td><td>Public-key operations, authentication, signatures and key-establishment use cases.</td></tr>
+<tr><td>Why hashing?</td><td>Fixed-length fingerprints and integrity-related verification.</td></tr>
+<tr><td>Why salt passwords?</td><td>Make each password verifier unique and resist precomputed attacks.</td></tr>
+<tr><td>Why AEAD?</td><td>Combine confidentiality with authenticated protection of data.</td></tr>
+<tr><td>Why certificates?</td><td>Bind identities/domains to public keys through a trust system.</td></tr>
+<tr><td>Why key management?</td><td>A secure algorithm is useless if attackers obtain the keys.</td></tr>
+</table></div>
+</div></section>
+
+<section><div class="card"><h2>📝 20. Final Cyber Detective Quiz</h2><div class="question"><strong>Q1. What is encryption?</strong><label class="quiz-option">A. Turning readable information into protected ciphertext</label><label class="quiz-option">B. Deleting information</label><label class="quiz-option">C. Compressing a file</label><button class="btn" onclick="showAnswer('quiz1')">Check</button><div id="quiz1" class="answer-box">✅ A — Encryption transforms data using a cryptographic algorithm and key.</div></div><div class="question"><strong>Q2. Which model uses a public/private key pair?</strong><label class="quiz-option">A. Symmetric encryption</label><label class="quiz-option">B. Asymmetric cryptography</label><label class="quiz-option">C. Plain encoding</label><button class="btn" onclick="showAnswer('quiz2')">Check</button><div id="quiz2" class="answer-box">✅ B — Asymmetric cryptography uses a related public/private key pair.</div></div><div class="question"><strong>Q3. Which is designed as a one-way cryptographic function?</strong><label class="quiz-option">A. Hash function</label><label class="quiz-option">B. Decryption</label><label class="quiz-option">C. Encoding</label><button class="btn" onclick="showAnswer('quiz3')">Check</button><div id="quiz3" class="answer-box">✅ A — Cryptographic hash functions are designed as one-way functions.</div></div><div class="question"><strong>Q4. Is Base64 encryption?</strong><label class="quiz-option">A. Yes</label><label class="quiz-option">B. No</label><button class="btn" onclick="showAnswer('quiz4')">Check</button><div id="quiz4" class="answer-box">✅ B — Base64 is an encoding scheme, not encryption.</div></div><div class="question"><strong>Q5. What should a researcher ask?</strong><label class="quiz-option">A. Which tool looks coolest?</label><label class="quiz-option">B. What problem can I solve or understand better, and how will I measure it?</label><button class="btn" onclick="showAnswer('quiz5')">Check</button><div id="quiz5" class="answer-box">✅ B — Research begins with a meaningful problem, question, evidence and evaluation.</div></div></div></section>
+<section><div class="card"><h2>🚀 NEXT MISSION — SESSION 5</h2><div class="robot"><h2>🌐 Network Security</h2><p>Now that we know how to protect information, we will explore the network carrying that information.</p><ul><li>🌐 What is network security?</li><li>🚪 Firewall basics</li><li>📡 Network traffic</li><li>🕵️ Intrusion detection</li><li>⚠️ Common network threats</li><li>🛡️ Defensive monitoring</li></ul><div class="highlight"><strong>Next Mission:</strong> “How can we protect the road that carries our data?”</div></div></div></section>
+</div>
+<footer><p style="font-size:25px">🔐 <strong>SESSION 4 COMPLETED</strong></p><p>You learned how secret messages can be protected.</p><p>📝 Plaintext → 🔐 Encryption → 🔒 Ciphertext → 🔓 Decryption</p><p>🔑 Symmetric → Shared secret</p><p>🔑🔑 Asymmetric → Public/private pair</p><p>🧬 Hashing → Digital fingerprint</p><p>✍️ Digital Signature → Authenticity + integrity support</p><p>🧠 Technical depth: AES • AEAD • RSA/ECC • Diffie–Hellman • SHA-256 • Password KDF • Digital Signatures • PKI • TLS</p><p style="color:#ff6b57">🔥 You are one step closer to becoming a Cybersecurity Researcher!</p></footer>
+<script>function showAnswer(id){const e=document.getElementById(id);if(e)e.style.display=e.style.display==='block'?'none':'block';}</script>
+</body></html>
