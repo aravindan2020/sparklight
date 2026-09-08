@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Session 3 | Superposition</title>
+<style>
+:root{--bg:#07111f;--panel:#102746;--text:#eef7ff;--muted:#b9c9db;--cyan:#35d9ff;--purple:#a87cff;--green:#58e3a0;--yellow:#ffd166;--pink:#ff79b8;--orange:#ff9f43}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial,sans-serif;color:var(--text);line-height:1.6;background:radial-gradient(circle at 10% 10%,#12335a,transparent 32%),radial-gradient(circle at 90% 20%,#2a1649,transparent 30%),linear-gradient(145deg,var(--bg),#0b1c33)}
+.container{max-width:1150px;margin:auto;padding:24px}.hero{text-align:center;padding:42px 20px 30px}.badge{display:inline-block;padding:8px 14px;border:1px solid #ffffff22;border-radius:99px;background:#ffffff0d;color:var(--cyan);font-weight:800}
+h1{font-size:clamp(2.3rem,5vw,4rem);line-height:1.05;margin:18px 0 12px;background:linear-gradient(90deg,var(--cyan),white,var(--purple));-webkit-background-clip:text;color:transparent}.hero p{max-width:900px;margin:auto;color:var(--muted);font-size:1.08rem}
+.card{background:#ffffff09;border:1px solid #ffffff17;border-radius:20px;padding:24px;margin:20px 0;box-shadow:0 15px 35px #0004}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}.grid .card{margin:0}
+h2{margin-top:0;font-size:1.3rem}.icon{font-size:30px}.story{background:linear-gradient(135deg,#172f50,#211a43)}.quote{font-size:1.35rem;font-weight:800}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:22px 0}.node{padding:17px 20px;border-radius:15px;background:var(--panel);border:2px solid var(--cyan);min-width:125px;text-align:center}.q{border-color:var(--purple)}.g{border-color:var(--green)}.arrow{font-size:26px;color:var(--yellow)}
+table{width:100%;border-collapse:collapse;border-radius:15px;overflow:hidden}th,td{padding:14px;border:1px solid #ffffff18;text-align:left}th{background:#ffffff12;color:var(--cyan)}td{background:#ffffff07}
+.visual{display:flex;justify-content:center;gap:25px;flex-wrap:wrap;margin:25px 0}.coin{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;text-align:center;font-weight:800;font-size:1.15rem;border:4px solid var(--yellow);background:radial-gradient(circle,#ffe59a,#b88400);color:#201600}.coin.quantum{border-color:var(--purple);background:radial-gradient(circle,#e3d4ff,#6333a8);color:white;box-shadow:0 0 30px #a87cff66}
+.amplitude{font-size:1.25rem;text-align:center;background:#ffffff0a;padding:20px;border-radius:15px}.formula{font-size:1.4rem;color:var(--cyan);font-weight:800}
+.warning{border-left:5px solid var(--pink);background:#ff79660b}.activity{border-left:5px solid var(--green);background:#58e3a00b}.survey{border-top:4px solid var(--yellow)}
+.option{display:block;padding:11px;margin:8px 0;border-radius:12px;background:#ffffff0a;cursor:pointer}.option:hover{background:#ffffff15}
+button,.back{display:inline-block;border:0;border-radius:12px;padding:12px 18px;font-weight:800;text-decoration:none;cursor:pointer;background:var(--cyan);color:#07111f}.result{margin-top:12px;color:var(--green);font-weight:800}.note{color:var(--muted);font-size:.9rem}
+.barwrap{max-width:700px;margin:20px auto}.bar{height:34px;background:#ffffff0b;border-radius:10px;margin:10px 0;overflow:hidden}.bar span{display:block;height:100%;padding-left:12px;line-height:34px;font-weight:700}.b1{width:50%;background:var(--cyan);color:#07111f}.b2{width:50%;background:var(--purple);color:white}
+footer{text-align:center;color:var(--muted);padding:30px}@media(max-width:700px){.flow{flex-direction:column}.arrow{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<header class="hero">
+<span class="badge">QUANTUM COMPUTING • SESSION 03</span>
+<h1>Superposition</h1>
+<p>Can a qubit really be “0 and 1 at the same time”? Move beyond the slogan and understand what <b>superposition</b> actually means.</p>
+</header>
+
+<main class="container">
+
+<section class="grid">
+<div class="card"><div class="icon">🎯</div><h2>Session Goal</h2><p>Build an intuitive understanding of superposition and connect it to the mathematical description of a single qubit.</p></div>
+<div class="card"><div class="icon">🧒</div><h2>Prerequisite</h2><p>Students should know the difference between a classical <b>bit</b> and a <b>qubit</b> from Session 2.</p></div>
+<div class="card"><div class="icon">🔑</div><h2>Key Idea</h2><p>A qubit can be prepared in a coherent combination of the basis states |0⟩ and |1⟩ before measurement.</p></div>
+</section>
+
+<section class="card story">
+<h2>📖 Story — The Quantum Coin</h2>
+<p class="quote">“A normal coin on a table shows heads or tails. But a spinning coin gives us a useful analogy: before we stop it, the outcome is not yet known.”</p>
+<p>
+Use the spinning-coin analogy only as a bridge. A spinning classical coin is not literally a quantum superposition.
+In quantum mechanics, a qubit can be in a genuine coherent superposition of basis states.
+This distinction is important because students often confuse <b>“we don't know the answer”</b> with <b>“the system is in a quantum state.”</b>
+</p>
+</section>
+
+<section class="card">
+<h2>🧒 ELI10 — What Does Superposition Mean?</h2>
+<div class="visual">
+<div class="coin"><div>CLASSICAL<br>COIN<br><br>HEADS / TAILS</div></div>
+<div class="coin quantum"><div>QUBIT<br><br>SUPERPOSITION</div></div>
+</div>
+<p>
+Imagine two basic quantum states: <b>|0⟩</b> and <b>|1⟩</b>.
+A single qubit can be prepared in a state that combines these basis states:
+</p>
+<div class="amplitude"><span class="formula">|ψ⟩ = α|0⟩ + β|1⟩</span><br><br>
+Here α and β are amplitudes. Their squared magnitudes determine the probabilities of obtaining 0 or 1 when measured in this basis.
+</div>
+<p>
+For example, if α = 1/√2 and β = 1/√2, then the probabilities are 50% for 0 and 50% for 1 when measured in the computational basis.
+</p>
+</section>
+
+<section class="card">
+<h2>🧩 From Qubit to Measurement</h2>
+<div class="flow">
+<div class="node q">Prepare<br>|ψ⟩</div><div class="arrow">→</div>
+<div class="node q">α|0⟩ + β|1⟩</div><div class="arrow">→</div>
+<div class="node g">Measure</div><div class="arrow">→</div>
+<div class="node">0<br>or<br>1</div>
+</div>
+<p class="note" style="text-align:center">The quantum state contains amplitudes; a measurement in the computational basis gives a classical outcome.</p>
+</section>
+
+<section class="card">
+<h2>🔢 A Simple Numerical Example</h2>
+<p>Suppose a qubit is prepared as:</p>
+<div class="amplitude"><span class="formula">|ψ⟩ = √0.8 |0⟩ + √0.2 |1⟩</span></div>
+<p>
+Then, for a computational-basis measurement:
+</p>
+<div class="barwrap">
+<div><b>Result 0 — 80%</b><div class="bar"><span class="b1">80%</span></div></div>
+<div><b>Result 1 — 20%</b><div class="bar"><span class="b2">20%</span></div></div>
+</div>
+<p class="note">A single measurement gives one outcome. Repeating the same preparation and measurement many times lets us estimate the probability distribution.</p>
+</section>
+
+<section class="card">
+<h2>⚠️ Do Not Say “A Qubit Is Literally Half 0 and Half 1”</h2>
+<p>
+That phrase can be useful as a very early analogy, but it is incomplete.
+Superposition is not merely a classical coin hidden from us. Quantum amplitudes can have phase,
+and those phases become important when quantum states interfere.
+</p>
+<p><b>Better statement:</b> “A qubit can be in a coherent quantum superposition of basis states, and measurement gives outcomes according to probabilities determined by its amplitudes.”</p>
+</section>
+
+<section class="card">
+<h2>📊 Classical Uncertainty vs Quantum Superposition</h2>
+<table>
+<tr><th>Idea</th><th>Classical uncertainty</th><th>Quantum superposition</th></tr>
+<tr><td>Example</td><td>Coin is already heads or tails but we have not checked</td><td>Qubit is described by a quantum state combining basis states</td></tr>
+<tr><td>Mathematical description</td><td>Classical probabilities</td><td>Probability amplitudes</td></tr>
+<tr><td>Phase</td><td>No equivalent role in ordinary probability</td><td>Relative phase can affect interference</td></tr>
+<tr><td>Measurement</td><td>Reveals an existing classical state</td><td>Produces a quantum measurement outcome</td></tr>
+<tr><td>Why it matters</td><td>Represents incomplete knowledge</td><td>Enables interference effects used by quantum algorithms</td></tr>
+</table>
+</section>
+
+<section class="card activity">
+<h2>🎮 Classroom Activity — Human Superposition</h2>
+<ol>
+<li>Put students into two groups: <b>|0⟩</b> and <b>|1⟩</b>.</li>
+<li>Explain that the two groups represent basis states, not two classical students physically becoming one student.</li>
+<li>Draw an imaginary “state vector” that points somewhere between the two basis states.</li>
+<li>Ask: “What information would tell us how much |0⟩ and |1⟩ contribute?”</li>
+<li>Introduce the symbols <b>α</b> and <b>β</b>.</li>
+</ol>
+<p><b>Challenge:</b> If a measurement gives 0 eight times out of ten, what probability would you estimate for 0?</p>
+</section>
+
+<section class="card survey">
+<h2>🗳️ Evidence Check — What Is the Common Misconception?</h2>
+<p>
+Quantum-education research uses conceptual surveys to identify how students reason about quantum computing concepts.
+The Quantum Computing Conceptual Survey (QCCS), developed for introductory quantum information science courses,
+specifically targets conceptual understanding rather than simple vocabulary recall.
+</p>
+<p><b>Discuss before revealing the answer:</b> Which statement is scientifically most accurate?</p>
+<label class="option"><input type="radio" name="q" value="a"> A qubit is literally two classical bits at the same time.</label>
+<label class="option"><input type="radio" name="q" value="b"> Superposition means we simply do not know whether the qubit is 0 or 1.</label>
+<label class="option"><input type="radio" name="q" value="c"> A qubit can be in a coherent combination of basis states, with measurement probabilities determined by amplitudes.</label>
+<label class="option"><input type="radio" name="q" value="d"> Superposition means a quantum computer always performs two complete computations at once.</label>
+<button onclick="check()">Check</button>
+<div id="result" class="result"></div>
+<p class="note">For a live class-wide version, connect this question to your Google Forms → Google Sheets → dashboard workflow.</p>
+</section>
+
+<section class="card">
+<h2>🌍 Why Superposition Matters for Algorithms</h2>
+<p>
+Superposition by itself does not automatically provide a useful speedup. Quantum algorithms combine state preparation,
+quantum gates, interference and measurement so that useful outcomes can become more likely.
+</p>
+<div class="flow">
+<div class="node q">Superposition</div><div class="arrow">+</div>
+<div class="node q">Quantum Gates</div><div class="arrow">+</div>
+<div class="node q">Interference</div><div class="arrow">→</div>
+<div class="node g">Quantum Algorithm</div>
+</div>
+<p>
+This is why Sessions 3–8 build the concepts separately before students study algorithms such as Grover's search.
+</p>
+</section>
+
+<section class="card">
+<h2>🧠 Check Your Understanding</h2>
+<table>
+<tr><th>Question</th><th>Expected idea</th></tr>
+<tr><td>Can a qubit be prepared in a superposition?</td><td>Yes.</td></tr>
+<tr><td>Does measurement give a classical outcome?</td><td>Yes, for the computational-basis measurement discussed here, 0 or 1.</td></tr>
+<tr><td>Does superposition mean “two classical bits”?</td><td>No.</td></tr>
+<tr><td>Do amplitudes matter?</td><td>Yes; squared magnitudes determine measurement probabilities in the chosen basis.</td></tr>
+<tr><td>Is superposition alone enough for quantum advantage?</td><td>No. Useful algorithms also rely on operations and interference.</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🚪 Exit Question</h2>
+<p style="font-size:1.2rem"><b>“If a qubit is in superposition, why do we still get only 0 or 1 when we measure it?”</b></p>
+<p class="note">Use student answers to introduce Session 4: <b>Measurement & Probability</b>.</p>
+</section>
+
+<section class="card">
+<h2>🔗 Continue the Journey</h2>
+<a class="back" href="session4.html">Session 4 → Measurement & Probability</a>
+&nbsp;
+<a class="back" href="quantum-computing-index.html">← Course Index</a>
+</section>
+
+</main>
+
+<footer>Quantum Computing for First-Year Engineering Students • Session 03</footer>
+<script>
+function check(){
+ const x=document.querySelector('input[name="q"]:checked'),r=document.getElementById('result');
+ if(!x){r.textContent="Choose an answer first.";return;}
+ r.textContent=x.value==="c"
+ ? "✅ Correct! Superposition is a quantum state described by amplitudes, not simply classical uncertainty."
+ : "❌ Try again. Think about amplitudes, quantum states and measurement.";
+}
+</script>
+</body>
+</html>

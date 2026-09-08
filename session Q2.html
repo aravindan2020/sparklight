@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 2 | Bits vs Qubits</title>
+<style>
+:root{
+ --bg:#07111f;--panel:#102746;--text:#eef7ff;--muted:#b9c9db;
+ --cyan:#35d9ff;--purple:#a87cff;--green:#58e3a0;--yellow:#ffd166;--pink:#ff79b8;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;color:var(--text);line-height:1.6;
+background:radial-gradient(circle at 10% 10%,#12335a,transparent 32%),
+radial-gradient(circle at 90% 20%,#2a1649,transparent 30%),linear-gradient(145deg,var(--bg),#0b1c33)}
+.container{max-width:1150px;margin:auto;padding:24px}
+.hero{text-align:center;padding:42px 20px 30px}
+.badge{display:inline-block;padding:8px 14px;border:1px solid #ffffff22;border-radius:99px;background:#ffffff0d;color:var(--cyan);font-weight:800}
+h1{font-size:clamp(2.3rem,5vw,4rem);line-height:1.05;margin:18px 0 12px;background:linear-gradient(90deg,var(--cyan),white,var(--purple));-webkit-background-clip:text;color:transparent}
+.hero p{max-width:850px;margin:auto;color:var(--muted);font-size:1.08rem}
+.card{background:#ffffff09;border:1px solid #ffffff17;border-radius:20px;padding:24px;margin:20px 0;box-shadow:0 15px 35px #0004}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.grid .card{margin:0}
+h2{margin-top:0;font-size:1.3rem}
+.icon{font-size:30px}
+.story{background:linear-gradient(135deg,#172f50,#211a43)}
+.quote{font-size:1.35rem;font-weight:800}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:22px 0}
+.node{padding:17px 20px;border-radius:15px;background:var(--panel);border:2px solid var(--cyan);min-width:125px;text-align:center}
+.node.q{border-color:var(--purple)}.arrow{font-size:26px;color:var(--yellow)}
+table{width:100%;border-collapse:collapse;border-radius:15px;overflow:hidden}
+th,td{padding:14px;border:1px solid #ffffff18;text-align:left}
+th{background:#ffffff12;color:var(--cyan)}td{background:#ffffff07}
+.classical{border-top:4px solid var(--cyan)}.quantum{border-top:4px solid var(--purple)}
+.data{border-top:4px solid var(--green)}
+.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+.stat{background:#ffffff0b;border:1px solid #ffffff12;border-radius:16px;padding:18px;text-align:center}
+.stat b{font-size:1.7rem;color:var(--green);display:block}
+.note{color:var(--muted);font-size:.92rem}
+.misconception{background:#ff79660b;border-left:5px solid var(--pink)}
+.activity{background:#35d9ff0a;border-left:5px solid var(--cyan)}
+.quiz label{display:block;padding:13px;margin:8px 0;background:#ffffff0a;border-radius:12px;cursor:pointer}
+button,.back{display:inline-block;border:0;border-radius:12px;padding:12px 18px;font-weight:800;text-decoration:none;cursor:pointer;background:var(--cyan);color:#07111f}
+.result{margin-top:14px;color:var(--green);font-weight:800}
+.source{font-size:.86rem;color:var(--muted)}
+footer{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:700px){.statgrid{grid-template-columns:1fr}.flow{flex-direction:column}.arrow{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+<span class="badge">QUANTUM COMPUTING • SESSION 02</span>
+<h1>Bits vs Qubits</h1>
+<p>From the familiar <b>0/1 bit</b> to the quantum <b>qubit</b> — the first major conceptual jump in quantum computing.</p>
+</header>
+
+<main class="container">
+
+<section class="grid">
+<div class="card classical">
+<div class="icon">💻</div>
+<h2>Classical Starting Point</h2>
+<p>A <b>bit</b> is the basic unit of classical digital information. In a computational state, it is represented as <b>0 or 1</b>.</p>
+</div>
+
+<div class="card quantum">
+<div class="icon">⚛️</div>
+<h2>Quantum Starting Point</h2>
+<p>A <b>qubit</b> is a quantum information unit. Its state is described using quantum amplitudes for the basis states <b>|0⟩</b> and <b>|1⟩</b>.</p>
+</div>
+
+<div class="card">
+<div class="icon">🎯</div>
+<h2>Session Goal</h2>
+<p>Students should leave knowing that a qubit is <b>not simply a faster bit</b> and that quantum information follows different rules.</p>
+</div>
+</section>
+
+<section class="card story">
+<h2>📖 Story — The Two-State Switch vs the Quantum System</h2>
+<p class="quote">“Your laptop has billions of tiny switches. Every switch has a job: represent information using 0 or 1. What happens if we build information processing from the rules of the quantum world?”</p>
+<p>
+Ask students to imagine an ordinary light switch. At the classical level, we use the simple analogy:
+<b>OFF → 0</b> and <b>ON → 1</b>.
+Now introduce a quantum system. It is not correctly described as an ordinary switch that is merely “half ON.” 
+A qubit is a quantum state that can be expressed as a combination of the basis states |0⟩ and |1⟩.
+</p>
+</section>
+
+<section class="card">
+<h2>🧒 ELI10 — What is a Qubit?</h2>
+<p>
+Think of a bit as a card with one of two labels:
+</p>
+<div class="flow">
+<div class="node">BIT<br><b>0</b></div>
+<div class="node">OR</div>
+<div class="node">BIT<br><b>1</b></div>
+</div>
+<p>
+A qubit is different. Its state can be represented as
+<b>|ψ⟩ = α|0⟩ + β|1⟩</b>,
+where α and β are complex probability amplitudes satisfying
+<b>|α|² + |β|² = 1</b>.
+You do <b>not</b> need the mathematics yet. The important first-year idea is:
+</p>
+<p style="font-size:1.2rem;text-align:center"><b>“A qubit is a quantum state, not just a classical 0/1 switch.”</b></p>
+</section>
+
+<section class="card">
+<h2>🧩 Diagram — Bit → Qubit</h2>
+<div class="flow">
+<div class="node">Classical<br>Information</div>
+<div class="arrow">→</div>
+<div class="node">BIT<br>0 / 1</div>
+<div class="arrow">→</div>
+<div class="node q">Quantum<br>Information</div>
+<div class="arrow">→</div>
+<div class="node q">QUBIT<br>|ψ⟩ = α|0⟩ + β|1⟩</div>
+</div>
+<p class="note" style="text-align:center">Session 3 will unpack the meaning of this quantum combination through superposition.</p>
+</section>
+
+<section class="card">
+<h2>📊 Colorful Difference Table</h2>
+<table>
+<tr><th>Feature</th><th>💻 Bit</th><th>⚛️ Qubit</th></tr>
+<tr><td>Information unit</td><td>Bit</td><td>Qubit</td></tr>
+<tr><td>Basis states</td><td>0 or 1</td><td>|0⟩ or |1⟩ as basis states</td></tr>
+<tr><td>General state</td><td>One classical value</td><td>α|0⟩ + β|1⟩</td></tr>
+<tr><td>Underlying model</td><td>Classical digital logic</td><td>Quantum mechanics</td></tr>
+<tr><td>Operations</td><td>Classical logic gates</td><td>Quantum gates</td></tr>
+<tr><td>Measurement</td><td>Reads a classical state</td><td>Produces an outcome according to quantum probabilities</td></tr>
+<tr><td>Key learning idea</td><td>0 or 1</td><td>Quantum state with amplitudes</td></tr>
+</table>
+</section>
+
+<section class="card data">
+<h2>🌎 Real Research Data — What Do Students Find Difficult?</h2>
+<p>
+Instead of inventing classroom percentages, this session uses published quantum-education research as the evidence layer.
+The <b>Quantum Computing Conceptual Survey (QCCS)</b> was developed as a research-based assessment of student conceptual understanding
+in introductory quantum computing. Its 2026 validation study reports pilot data from <b>more than 50 courses and 700 students</b>.
+</p>
+
+<div class="statgrid">
+<div class="stat"><b>700+</b>students in pilot data</div>
+<div class="stat"><b>50+</b>courses</div>
+<div class="stat"><b>QCCS</b>research-based assessment</div>
+</div>
+
+<p>
+The survey is designed to examine conceptual understanding rather than merely whether students can remember terminology.
+This makes it useful for discussing why <b>“qubit = a bit that is 0 and 1 at the same time”</b> is an incomplete explanation.
+</p>
+<p class="source">
+Source: Meyer, Griston, Passante, Pollock & Wilcox, “Measuring student understanding in quantum computing:
+Development and validation of the Quantum Computing Conceptual Survey,” 2026.
+</p>
+<p class="source">
+The study reports evidence supporting use of the QCCS for introductory QIS courses. citeturn0academia17
+</p>
+</section>
+
+
+<section class="card">
+<h2>🧮 Algorithm Thinking — From Problem to Answer</h2>
+<p>
+Before learning quantum algorithms, understand what an <b>algorithm</b> means.
+An algorithm is a step-by-step recipe for solving a problem.
+</p>
+
+<div class="flow">
+<div class="node">🎯 Problem</div>
+<div class="arrow">→</div>
+<div class="node">📝 Algorithm</div>
+<div class="arrow">→</div>
+<div class="node">⚙️ Operations</div>
+<div class="arrow">→</div>
+<div class="node">✅ Answer</div>
+</div>
+
+<p><b>ELI10 example — Finding a Student</b></p>
+<p>
+Suppose there are 8 student names and we need to find <b>Arun</b>.
+A simple classical method is to check names one by one until the required name is found.
+The important point is that the computer follows a defined sequence of operations.
+</p>
+
+<div class="flow">
+<div class="node">Student 1</div>
+<div class="arrow">→</div>
+<div class="node">Student 2</div>
+<div class="arrow">→</div>
+<div class="node">Student 3</div>
+<div class="arrow">→</div>
+<div class="node">🎯 Arun?</div>
+</div>
+</section>
+
+<section class="card quantum">
+<h2>⚛️ What Makes a Quantum Algorithm Different?</h2>
+<p>
+A <b>quantum algorithm</b> is an algorithm designed to run using quantum information and quantum operations.
+It does not mean that every step is magically performed faster.
+The algorithm must exploit useful quantum effects to obtain an advantage for a particular problem.
+</p>
+
+<div class="flow">
+<div class="node q">🎯 Problem</div>
+<div class="arrow">→</div>
+<div class="node q">⚛️ Prepare Qubits</div>
+<div class="arrow">→</div>
+<div class="node q">🔀 Quantum Gates</div>
+<div class="arrow">→</div>
+<div class="node q">🌊 Interference</div>
+<div class="arrow">→</div>
+<div class="node q">📏 Measure</div>
+</div>
+
+<p>
+Students will learn these individual building blocks in later sessions. For now, remember:
+<b>qubits provide the information representation; quantum gates manipulate that information; algorithms organize those operations to solve a problem.</b>
+</p>
+</section>
+
+<section class="card">
+<h2>📊 Classical Algorithm vs Quantum Algorithm</h2>
+<table>
+<tr><th>Feature</th><th>💻 Classical Algorithm</th><th>⚛️ Quantum Algorithm</th></tr>
+<tr><td>Information unit</td><td>Bits</td><td>Qubits</td></tr>
+<tr><td>Operations</td><td>Classical operations / logic gates</td><td>Quantum gates</td></tr>
+<tr><td>Important principles</td><td>Logic, arithmetic, data structures</td><td>Superposition, interference, entanglement where useful</td></tr>
+<tr><td>Output</td><td>Classical computational result</td><td>Measurement produces classical outcomes</td></tr>
+<tr><td>Example</td><td>Binary search</td><td>Grover's search</td></tr>
+<tr><td>Best lesson</td><td>Algorithm depends on the problem</td><td>Quantum advantage also depends on the problem and algorithm</td></tr>
+</table>
+</section>
+
+<section class="card story">
+<h2>🔎 Story — Searching for a Lost Student ID</h2>
+<p class="quote">“Your teacher has 1,000 student IDs. One ID is marked. How would you find it?”</p>
+<p>
+Ask students to first design a classical strategy. Then introduce the idea that quantum computing has specialized algorithms
+for certain search problems. <b>Grover's algorithm</b> is a famous example: for an unstructured search space of size N,
+it can find a marked item using roughly O(√N) oracle queries, compared with O(N) in the straightforward classical approach.
+</p>
+<p class="note">
+This is not a claim that a quantum computer simply searches every item simultaneously and instantly.
+The advantage comes from how the quantum algorithm uses amplitudes and interference to increase the probability of the desired result.
+</p>
+</section>
+
+<section class="card">
+<h2>🧠 Algorithm Vocabulary for First-Year Students</h2>
+<table>
+<tr><th>Term</th><th>Simple Meaning</th></tr>
+<tr><td>Algorithm</td><td>A step-by-step method for solving a problem.</td></tr>
+<tr><td>Qubit</td><td>The basic unit used to represent quantum information.</td></tr>
+<tr><td>Quantum gate</td><td>An operation that changes a quantum state.</td></tr>
+<tr><td>Quantum circuit</td><td>A sequence of quantum gates applied to qubits.</td></tr>
+<tr><td>Amplitude</td><td>A mathematical quantity used to describe a quantum state's probabilities.</td></tr>
+<tr><td>Measurement</td><td>The process that produces a classical outcome from a quantum state.</td></tr>
+<tr><td>Quantum algorithm</td><td>A problem-solving procedure designed around quantum computation.</td></tr>
+</table>
+</section>
+
+<section class="card activity">
+<h2>🎮 Mini Activity — Design an Algorithm</h2>
+<p><b>Challenge:</b> Your team must find one particular name from a list of 16 names.</p>
+<ol>
+<li>Design a classical strategy.</li>
+<li>Draw the steps as a flowchart.</li>
+<li>Identify what information the computer needs.</li>
+<li>Now ask: “If our information unit becomes a qubit, what new possibilities become available?”</li>
+<li>Do not try to solve the quantum problem yet — write down your questions.</li>
+</ol>
+<p><b>Expected transition:</b> Students should become curious about how superposition, gates and interference can be combined into algorithms.</p>
+</section>
+
+<section class="card">
+<h2>🗺️ Where Algorithms Fit in Our 15 Sessions</h2>
+<div class="flow">
+<div class="node">01<br>Quantum World</div><div class="arrow">→</div>
+<div class="node q">02<br>Bits & Qubits</div><div class="arrow">→</div>
+<div class="node q">03<br>Superposition</div><div class="arrow">→</div>
+<div class="node q">06<br>Gates</div><div class="arrow">→</div>
+<div class="node q">07<br>Circuits</div><div class="arrow">→</div>
+<div class="node q">11<br>Algorithms</div>
+</div>
+</section>
+
+<section class="card misconception">
+<h2>⚠️ Stop the Misconception</h2>
+<p><b>Common statement:</b> “A qubit is just a bit that is both 0 and 1.”</p>
+<p>
+For first-year students, this is a useful starting analogy but should not become the final definition.
+A qubit is a quantum state described by amplitudes. When measured in the computational basis,
+the outcome is 0 or 1 with probabilities determined by those amplitudes.
+</p>
+<p>
+Quantum-education research emphasizes that students can bring classical intuitions into quantum concepts,
+which is one reason conceptual teaching and carefully designed representations matter. citeturn0search2turn0search4
+</p>
+</section>
+
+<section class="card activity">
+<h2>🎮 Classroom Activity — Become a Bit</h2>
+<ol>
+<li>Give each student a card containing either <b>0</b> or <b>1</b>.</li>
+<li>Ask: “Can your card show anything other than 0 or 1?”</li>
+<li>Now draw a circle labelled <b>|0⟩</b> and <b>|1⟩</b> and introduce the idea of a quantum state.</li>
+<li>Ask: “What information would we need to describe this quantum state?”</li>
+<li>Use the question to introduce <b>α and β</b> without requiring students to calculate them.</li>
+</ol>
+</section>
+
+<section class="card quiz">
+<h2>🧠 Check Your Understanding</h2>
+<p><b>Which statement is the best description?</b></p>
+<label><input type="radio" name="q" value="a"> A qubit is simply a faster version of a bit.</label>
+<label><input type="radio" name="q" value="b"> A qubit is a quantum state whose basis states can be represented by |0⟩ and |1⟩.</label>
+<label><input type="radio" name="q" value="c"> A qubit always contains two classical bits.</label>
+<label><input type="radio" name="q" value="d"> A qubit automatically solves two problems at once.</label>
+<button onclick="check()">Check Answer</button>
+<div id="result" class="result"></div>
+</section>
+
+<section class="card">
+<h2>🔍 Think Like an Engineer</h2>
+<p>Discuss in pairs:</p>
+<ul>
+<li>Why can't we simply replace every classical computer with a quantum computer?</li>
+<li>What makes a qubit fundamentally different from a bit?</li>
+<li>Why do we need new algorithms if the information unit changes?</li>
+</ul>
+</section>
+
+<section class="card">
+<h2>🔗 Bridge to Session 3</h2>
+<p>
+We now know that a qubit is not an ordinary 0/1 switch. Next we ask the fascinating question:
+<b>“What does it mean for a qubit to exist in a quantum superposition?”</b>
+</p>
+<a class="back" href="session3.html">Go to Session 3 →</a>
+&nbsp;
+<a class="back" href="quantum-computing-index.html">← Course Index</a>
+</section>
+
+</main>
+
+<footer>
+Quantum Computing for First-Year Engineering Students • Session 02
+</footer>
+
+<script>
+function check(){
+ const x=document.querySelector('input[name="q"]:checked');
+ const r=document.getElementById('result');
+ if(!x){r.textContent="Choose an answer first.";return;}
+ r.textContent = x.value==="b"
+ ? "✅ Correct! A qubit is a quantum state, not simply a classical bit."
+ : "❌ Revisit the ELI10 section: a qubit is a quantum state described using amplitudes.";
+}
+</script>
+</body>
+</html>

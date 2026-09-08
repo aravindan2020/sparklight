@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Session 4 | Measurement & Probability</title>
+<style>
+:root{--bg:#07111f;--panel:#102746;--text:#eef7ff;--muted:#b9c9db;--cyan:#35d9ff;--purple:#a87cff;--green:#58e3a0;--yellow:#ffd166;--pink:#ff79b8;--orange:#ff9f43}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial,sans-serif;color:var(--text);line-height:1.6;background:radial-gradient(circle at 10% 10%,#12335a,transparent 32%),radial-gradient(circle at 90% 20%,#2a1649,transparent 30%),linear-gradient(145deg,var(--bg),#0b1c33)}
+.container{max-width:1150px;margin:auto;padding:24px}.hero{text-align:center;padding:42px 20px 30px}.badge{display:inline-block;padding:8px 14px;border:1px solid #ffffff22;border-radius:99px;background:#ffffff0d;color:var(--cyan);font-weight:800}
+h1{font-size:clamp(2.3rem,5vw,4rem);line-height:1.05;margin:18px 0 12px;background:linear-gradient(90deg,var(--cyan),white,var(--purple));-webkit-background-clip:text;color:transparent}.hero p{max-width:900px;margin:auto;color:var(--muted);font-size:1.08rem}
+.card{background:#ffffff09;border:1px solid #ffffff17;border-radius:20px;padding:24px;margin:20px 0;box-shadow:0 15px 35px #0004}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}.grid .card{margin:0}
+h2{margin-top:0;font-size:1.3rem}.icon{font-size:30px}.story{background:linear-gradient(135deg,#172f50,#211a43)}.quote{font-size:1.35rem;font-weight:800}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:22px 0}.node{padding:17px 20px;border-radius:15px;background:var(--panel);border:2px solid var(--cyan);min-width:125px;text-align:center}.q{border-color:var(--purple)}.g{border-color:var(--green)}.y{border-color:var(--yellow)}.arrow{font-size:26px;color:var(--yellow)}
+table{width:100%;border-collapse:collapse;border-radius:15px;overflow:hidden}th,td{padding:14px;border:1px solid #ffffff18;text-align:left}th{background:#ffffff12;color:var(--cyan)}td{background:#ffffff07}
+.amplitude{font-size:1.3rem;text-align:center;background:#ffffff0a;padding:20px;border-radius:15px}.formula{font-size:1.4rem;color:var(--cyan);font-weight:800}
+.warning{border-left:5px solid var(--pink);background:#ff79660b}.activity{border-left:5px solid var(--green);background:#58e3a00b}.survey{border-top:4px solid var(--yellow)}
+.option{display:block;padding:11px;margin:8px 0;border-radius:12px;background:#ffffff0a;cursor:pointer}.option:hover{background:#ffffff15}
+button,.back{display:inline-block;border:0;border-radius:12px;padding:12px 18px;font-weight:800;text-decoration:none;cursor:pointer;background:var(--cyan);color:#07111f}.result{margin-top:12px;color:var(--green);font-weight:800}.note{color:var(--muted);font-size:.9rem}
+.chart{max-width:720px;margin:20px auto}.bar{height:36px;border-radius:10px;background:#ffffff0b;margin:12px 0;overflow:hidden}.bar span{display:block;height:100%;line-height:36px;padding-left:12px;font-weight:800}.b80{width:80%;background:var(--cyan);color:#07111f}.b20{width:20%;background:var(--purple);color:white}
+.dice{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:20px}.face{width:55px;height:55px;border-radius:12px;background:#ffffff12;border:1px solid #ffffff22;display:grid;place-items:center;font-size:1.4rem}
+footer{text-align:center;color:var(--muted);padding:30px}@media(max-width:700px){.flow{flex-direction:column}.arrow{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<header class="hero">
+<span class="badge">QUANTUM COMPUTING • SESSION 04</span>
+<h1>Measurement & Probability</h1>
+<p>What happens when we finally <b>look at a qubit</b>? Understand measurement, probabilities, repeated experiments, and why quantum answers are not usually deterministic.</p>
+</header>
+
+<main class="container">
+
+<section class="grid">
+<div class="card"><div class="icon">🎯</div><h2>Session Goal</h2><p>Connect a quantum state to measurable outcomes and build an intuitive understanding of probability through repeated measurements.</p></div>
+<div class="card"><div class="icon">🧠</div><h2>Key Question</h2><p>If a qubit is prepared in a superposition, why does one measurement give a definite classical result?</p></div>
+<div class="card"><div class="icon">🔑</div><h2>Key Terms</h2><p>Measurement • Probability • Amplitude • Basis • Outcome • Repeated trials</p></div>
+</section>
+
+<section class="card story">
+<h2>📖 Story — The Mystery Box</h2>
+<p class="quote">“There is a mysterious box. Every time you run the experiment, the box gives one visible answer. But when you repeat the experiment many times, a pattern appears.”</p>
+<p>
+Connect this to a qubit. A quantum state contains information that lets us calculate probabilities for different measurement outcomes.
+When we measure in the computational basis, a single qubit produces either <b>0</b> or <b>1</b>.
+The probability model predicts the distribution we see over many repeated preparations and measurements.
+</p>
+</section>
+
+<section class="card">
+<h2>🧒 ELI10 — What is Measurement?</h2>
+<p>
+Imagine a quiz machine that has a hidden quantum state. Before measurement, we describe the state using amplitudes.
+When we measure it, the machine gives us a classical result.
+</p>
+<div class="flow">
+<div class="node q">Quantum State<br>|ψ⟩</div>
+<div class="arrow">→</div>
+<div class="node y">MEASURE</div>
+<div class="arrow">→</div>
+<div class="node">0</div>
+<div class="arrow">or</div>
+<div class="node">1</div>
+</div>
+<p>
+For a state <b>|ψ⟩ = α|0⟩ + β|1⟩</b>, measurement in the computational basis gives:
+</p>
+<div class="amplitude">
+P(0) = |α|² &nbsp;&nbsp;&nbsp; and &nbsp;&nbsp;&nbsp; P(1) = |β|²
+<br><br>
+<span class="note">with |α|² + |β|² = 1</span>
+</div>
+</section>
+
+<section class="card">
+<h2>🎯 Example — A Qubit with an 80/20 Distribution</h2>
+<p>Suppose:</p>
+<div class="amplitude"><span class="formula">|ψ⟩ = √0.8|0⟩ + √0.2|1⟩</span></div>
+<p>Then each measurement produces one outcome, but repeated measurements should approach this distribution:</p>
+<div class="chart">
+<div><b>Outcome 0 — 80%</b><div class="bar"><span class="b80">80%</span></div></div>
+<div><b>Outcome 1 — 20%</b><div class="bar"><span class="b20">20%</span></div></div>
+</div>
+<p class="note">These percentages describe the probability predicted by the quantum state, not a guarantee about any single measurement.</p>
+</section>
+
+<section class="card">
+<h2>🔁 Why Do We Repeat the Experiment?</h2>
+<p>One measurement tells us only one outcome. To estimate a probability distribution, we repeat the same preparation and measurement many times.</p>
+<div class="dice">
+<div class="face">0</div><div class="face">0</div><div class="face">1</div><div class="face">0</div>
+<div class="face">0</div><div class="face">1</div><div class="face">0</div><div class="face">0</div>
+<div class="face">0</div><div class="face">1</div>
+</div>
+<p style="text-align:center"><b>Example: 7 zeros + 3 ones → observed frequencies 70% / 30%</b></p>
+<p class="note" style="text-align:center">With more trials, observed frequencies generally become more stable around the underlying probabilities.</p>
+</section>
+
+<section class="card">
+<h2>📊 Classical Probability vs Quantum Measurement</h2>
+<table>
+<tr><th>Feature</th><th>🎲 Classical Probability</th><th>⚛️ Quantum Measurement</th></tr>
+<tr><td>Possible outcome</td><td>Depends on the classical experiment</td><td>For computational-basis measurement of one qubit: 0 or 1</td></tr>
+<tr><td>Probability source</td><td>Classical probability model</td><td>Squared magnitude of quantum amplitudes</td></tr>
+<tr><td>State description</td><td>Classical probabilities / hidden variables depending on model</td><td>Quantum state vector or density matrix</td></tr>
+<tr><td>Repeated trials</td><td>Reveal an empirical frequency</td><td>Reveal the quantum measurement distribution</td></tr>
+<tr><td>Key concept</td><td>Chance / uncertainty</td><td>Quantum state + measurement rule</td></tr>
+</table>
+</section>
+
+<section class="card warning">
+<h2>⚠️ Important Misconception</h2>
+<p><b>Wrong:</b> “Quantum computers give random answers.”</p>
+<p>
+Better: A quantum algorithm prepares and transforms a quantum state so that measurement has a useful probability distribution.
+The algorithm is designed so that desired answers can be made more likely or otherwise extracted efficiently.
+</p>
+<p><b>Example:</b> In a successful quantum algorithm, we may repeat the circuit many times and identify the outcome that appears with high probability.</p>
+</section>
+
+<section class="card">
+<h2>🧩 Measurement Pipeline</h2>
+<div class="flow">
+<div class="node q">Initialize<br>Qubit</div><div class="arrow">→</div>
+<div class="node q">Superposition</div><div class="arrow">→</div>
+<div class="node q">Quantum Gates</div><div class="arrow">→</div>
+<div class="node y">Measure</div><div class="arrow">→</div>
+<div class="node g">Classical Data</div><div class="arrow">→</div>
+<div class="node g">Analyze Results</div>
+</div>
+</section>
+
+<section class="card activity">
+<h2>🎮 Classroom Activity — Quantum Coin Experiment</h2>
+<ol>
+<li>Imagine a qubit prepared with a 50% probability of measuring 0 and 50% probability of measuring 1.</li>
+<li>Students predict the result of 10 measurements.</li>
+<li>Collect everyone's predicted sequences on the board.</li>
+<li>Compare the different sequences.</li>
+<li>Discuss: “Can two correct experiments produce different sequences?”</li>
+<li>Combine the class results and calculate the overall frequency of 0 and 1.</li>
+</ol>
+<p><b>Learning point:</b> Individual outcomes can vary even when the underlying probability distribution is the same.</p>
+</section>
+
+<section class="card survey">
+<h2>🗳️ Evidence-Based Concept Check</h2>
+<p>
+Quantum-education researchers use conceptual surveys to identify student reasoning and misconceptions about quantum computing.
+The Quantum Computing Conceptual Survey (QCCS) was designed for introductory quantum information science courses and focuses on conceptual understanding.
+</p>
+<p><b>Ask students before teaching the answer:</b></p>
+<p style="font-size:1.1rem"><b>“If a qubit has a 70% probability of measuring 0, what happens during one measurement?”</b></p>
+<label class="option"><input type="radio" name="q" value="a"> It must produce 0.</label>
+<label class="option"><input type="radio" name="q" value="b"> It produces 0 exactly 70% of the time in every group of 10 measurements.</label>
+<label class="option"><input type="radio" name="q" value="c"> One measurement produces one outcome; repeated measurements reveal a distribution approaching the predicted probability.</label>
+<label class="option"><input type="radio" name="q" value="d"> It produces both 0 and 1 in the same measurement.</label>
+<button onclick="check()">Check</button>
+<div id="result" class="result"></div>
+<p class="note">For your classroom, this can be connected to your Google Forms → Google Sheets → dashboard system to display live student responses.</p>
+</section>
+
+<section class="card">
+<h2>🧮 Connection to Quantum Algorithms</h2>
+<p>
+Measurement is the final bridge between a quantum computation and ordinary information.
+A simplified quantum-algorithm pipeline looks like this:
+</p>
+<div class="flow">
+<div class="node">Problem</div><div class="arrow">→</div>
+<div class="node q">Prepare Qubits</div><div class="arrow">→</div>
+<div class="node q">Apply Gates</div><div class="arrow">→</div>
+<div class="node q">Engineer Interference</div><div class="arrow">→</div>
+<div class="node y">Measure</div><div class="arrow">→</div>
+<div class="node g">Classical Answer</div>
+</div>
+<p>
+Students should now see why <b>superposition alone is not an algorithm</b>. A useful quantum algorithm must control the quantum state and extract information through measurement.
+</p>
+</section>
+
+<section class="card">
+<h2>🧠 Quick Review</h2>
+<table>
+<tr><th>Question</th><th>Key Answer</th></tr>
+<tr><td>What does measurement produce?</td><td>A classical outcome.</td></tr>
+<tr><td>Can one measurement show a probability?</td><td>No. One run gives one outcome.</td></tr>
+<tr><td>How do we estimate probabilities?</td><td>Repeat the preparation and measurement and analyze frequencies.</td></tr>
+<tr><td>For |ψ⟩ = α|0⟩ + β|1⟩, what is P(0)?</td><td>|α|² in the computational basis.</td></tr>
+<tr><td>Why is measurement important?</td><td>It converts quantum information into observable classical data.</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>🚪 Exit Question</h2>
+<p style="font-size:1.2rem"><b>“If measurement gives us only a classical answer, why not simply use a classical computer?”</b></p>
+<p class="note">Use this question to create curiosity for Session 5: <b>Quantum Entanglement</b>.</p>
+</section>
+
+<section class="card">
+<h2>🔗 Continue the Journey</h2>
+<a class="back" href="session5.html">Session 5 → Quantum Entanglement</a>
+&nbsp;
+<a class="back" href="quantum-computing-index.html">← Course Index</a>
+</section>
+
+</main>
+
+<footer>Quantum Computing for First-Year Engineering Students • Session 04</footer>
+<script>
+function check(){
+ const x=document.querySelector('input[name="q"]:checked'),r=document.getElementById('result');
+ if(!x){r.textContent="Choose an answer first.";return;}
+ r.textContent=x.value==="c"
+ ? "✅ Correct! A single measurement gives one outcome; repeated runs reveal the probability distribution."
+ : "❌ Think about the difference between one measurement and many repeated measurements.";
+}
+</script>
+</body>
+</html>
