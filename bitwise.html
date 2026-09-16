@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Bitwise Shift Animation</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;padding:20px;background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;font-family:Arial,sans-serif}
+.container{max-width:1100px;margin:auto;background:#111827;border-radius:20px;padding:28px;box-shadow:0 0 30px #0008;text-align:center}
+h1{margin:0;color:#38bdf8}.subtitle{color:#cbd5e1;margin:8px 0 25px}
+.controls{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;align-items:end}
+.group{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+label{font-size:13px;color:#94a3b8}
+input,select{width:150px;padding:11px;border:1px solid #475569;border-radius:8px;background:#1e293b;color:#fff;font-size:16px}
+button{padding:11px 18px;border:0;border-radius:8px;color:#fff;font-weight:bold;font-size:15px;cursor:pointer}
+button:hover{transform:scale(1.04)}button:disabled{opacity:.4;cursor:not-allowed;transform:none}
+#startBtn{background:#16a34a}#nextBtn{background:#f59e0b}#resetBtn{background:#dc2626}
+.operation{font-size:30px;color:#facc15;font-weight:bold;margin:25px 0 8px}
+.direction{font-size:19px;color:#facc15;min-height:28px}
+.bit-labels,.bit-row{display:flex;justify-content:center;gap:8px;margin:12px 0}
+.bit-label{width:65px;color:#94a3b8;font-size:12px}
+.bit{width:65px;height:65px;border:2px solid #64748b;border-radius:10px;background:#334155;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:bold;transition:.45s}
+.bit.one{background:#2563eb;border-color:#60a5fa}
+.bit.moving{transform:translateY(-9px);border-color:#facc15;box-shadow:0 0 18px #facc15}
+.bit.inserted-zero{color:#ff4d4d;background:#450a0a;border-color:#ef4444;box-shadow:0 0 18px #ef4444}
+.result,.explanation{margin-top:22px;padding:18px;border-radius:12px;background:#1e293b}
+.result{font-size:19px;line-height:1.8}.result span{color:#4ade80;font-weight:bold}
+.explanation{text-align:left;line-height:1.6;border-left:5px solid #38bdf8;color:#cbd5e1}
+.history{text-align:left;margin-top:22px}.history h3{color:#38bdf8}
+.history-item{padding:10px;margin:7px 0;background:#1e293b;border-radius:8px;font-family:monospace;font-size:16px}
+.history-item.current{border-left:4px solid #facc15;color:#facc15}
+.legend{margin-top:18px;color:#cbd5e1;font-size:14px}
+.red{color:#ff4d4d;font-weight:bold}
+@media(max-width:650px){
+.container{padding:15px}.bit-label,.bit{width:35px}.bit{height:45px;font-size:20px}.bit-labels,.bit-row{gap:4px}
+.operation{font-size:23px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>⚡ Java Bitwise Shift Animation</h1>
+<div class="subtitle">Watch one bitwise shift at a time</div>
+
+<div class="controls">
+  <div class="group">
+    <label>Input number (0–255)</label>
+    <input id="numberInput" type="number" min="0" max="255" value="5">
+  </div>
+  <div class="group">
+    <label>Choose operator</label>
+    <select id="operator">
+      <option value="left">Left Shift (&lt;&lt;)</option>
+      <option value="right">Right Shift (&gt;&gt;)</option>
+    </select>
+  </div>
+  <div class="group">
+    <label>Number of shifts (n)</label>
+    <input id="shiftInput" type="number" min="1" max="8" value="3">
+  </div>
+  <button id="startBtn">▶ Start</button>
+  <button id="nextBtn" disabled>⏭ Next Shift</button>
+  <button id="resetBtn">↺ Reset</button>
+</div>
+
+<div class="operation" id="operationDisplay">5 &lt;&lt; 3</div>
+<div class="direction" id="directionDisplay">Choose an operation and press Start</div>
+
+<div class="bit-labels">
+  <div class="bit-label">Bit 7</div><div class="bit-label">Bit 6</div>
+  <div class="bit-label">Bit 5</div><div class="bit-label">Bit 4</div>
+  <div class="bit-label">Bit 3</div><div class="bit-label">Bit 2</div>
+  <div class="bit-label">Bit 1</div><div class="bit-label">Bit 0</div>
+</div>
+<div class="bit-row" id="bitRow"></div>
+
+<div class="result">
+  Shift: <span id="currentShift">0</span><br>
+  Binary: <span id="binaryResult">00000101</span><br>
+  Decimal: <span id="decimalResult">5</span>
+</div>
+
+<div class="legend">
+  <span class="red">■ Red zeros</span> = zeros introduced by the shifts |
+  <span style="color:#facc15">■ Yellow glow</span> = moving bits
+</div>
+
+<div class="explanation" id="explanation">
+  <b>How to use:</b><br>
+  Enter a number, choose an operator, enter n, press Start, and then press Next Shift.
+</div>
+
+<div class="history">
+  <h3>📜 Shift History</h3>
+  <div id="historyList"></div>
+</div>
+</div>
+
+<script>
+let originalValue=5;
+let currentValue=5;
+let shiftCount=0;
+let totalShifts=3;
+let direction="left";
+let isRunning=false;
+let animating=false;
+
+const $ = id => document.getElementById(id);
+
+function toBinary8(num){
+  return (num & 255).toString(2).padStart(8,"0");
+}
+
+function renderBits(binary, insertedPositions=[], movingPositions=[]){
+  $("bitRow").innerHTML="";
+  for(let i=0;i<8;i++){
+    const bit=document.createElement("div");
+    bit.className="bit " + (binary[i]==="1" ? "one" : "zero");
+    if(insertedPositions.includes(i)) bit.classList.add("inserted-zero");
+    if(movingPositions.includes(i)) bit.classList.add("moving");
+    bit.textContent=binary[i];
+    $("bitRow").appendChild(bit);
+  }
+}
+
+function updateStaticDisplay(){
+  const binary=toBinary8(currentValue);
+  renderBits(binary);
+  $("operationDisplay").textContent =
+    `${originalValue} ${direction==="left" ? "<<" : ">>"} ${totalShifts}`;
+  $("currentShift").textContent=shiftCount;
+  $("binaryResult").textContent=binary;
+  $("decimalResult").textContent=currentValue;
+}
+
+function startAnimation(){
+  const num=Number($("numberInput").value);
+  const shifts=Number($("shiftInput").value);
+
+  if(!Number.isInteger(num) || num<0 || num>255){
+    alert("Enter an integer between 0 and 255."); return;
+  }
+  if(!Number.isInteger(shifts) || shifts<1 || shifts>8){
+    alert("Enter the number of shifts between 1 and 8."); return;
+  }
+
+  originalValue=num;
+  currentValue=num;
+  shiftCount=0;
+  totalShifts=shifts;
+  direction=$("operator").value;
+  isRunning=true;
+  animating=false;
+
+  $("startBtn").disabled=true;
+  $("nextBtn").disabled=false;
+  $("historyList").innerHTML="";
+  $("directionDisplay").textContent =
+    direction==="left"
+    ? "⬅ Bits will move LEFT; zeros enter from the RIGHT"
+    : "➡ Bits will move RIGHT; zeros enter from the LEFT";
+
+  updateStaticDisplay();
+  addHistory();
+  $("explanation").innerHTML =
+    `<b>Initial value:</b> ${toBinary8(currentValue)} = ${currentValue}<br>
+     Press <b>Next Shift</b> to perform exactly one shift.`;
+}
+
+function nextShift(){
+  if(!isRunning || animating || shiftCount>=totalShifts) return;
+
+  animating=true;
+  const oldBinary=toBinary8(currentValue);
+
+  // Highlight the bits that move during this one-position shift.
+  const movingPositions = direction==="left"
+    ? [0,1,2,3,4,5,6]
+    : [1,2,3,4,5,6,7];
+
+  renderBits(oldBinary,[],movingPositions);
+  $("directionDisplay").textContent =
+    direction==="left"
+    ? "⬅ Moving LEFT... a zero enters from the RIGHT"
+    : "➡ Moving RIGHT... a zero enters from the LEFT";
+
+  setTimeout(()=>{
+    // Perform one logical 8-bit shift.
+    currentValue = direction==="left"
+      ? (currentValue << 1) & 255
+      : currentValue >>> 1;
+
+    shiftCount++;
+
+    // IMPORTANT: highlight ALL zeros introduced so far.
+    // Left shift: rightmost shiftCount positions.
+    // Right shift: leftmost shiftCount positions.
+    const insertedPositions=[];
+    if(direction==="left"){
+      for(let i=8-shiftCount;i<8;i++) insertedPositions.push(i);
+    }else{
+      for(let i=0;i<shiftCount;i++) insertedPositions.push(i);
+    }
+
+    const newBinary=toBinary8(currentValue);
+    renderBits(newBinary,insertedPositions,[]);
+    $("currentShift").textContent=shiftCount;
+    $("binaryResult").textContent=newBinary;
+    $("decimalResult").textContent=currentValue;
+
+    $("directionDisplay").textContent =
+      direction==="left"
+      ? `⬅ Shift ${shiftCount} completed — ${shiftCount} red zero(s) on the RIGHT`
+      : `➡ Shift ${shiftCount} completed — ${shiftCount} red zero(s) on the LEFT`;
+
+    $("explanation").innerHTML =
+      `<b>Shift ${shiftCount} completed!</b><br>
+       ${oldBinary} → ${newBinary}<br>
+       Every bit moved one position ${direction==="left" ? "LEFT" : "RIGHT"}.<br>
+       <b class="red">${shiftCount} zero(s) introduced so far are highlighted in red.</b>`;
+
+    addHistory();
+    animating=false;
+
+    if(shiftCount>=totalShifts){
+      isRunning=false;
+      $("nextBtn").disabled=true;
+      $("startBtn").disabled=false;
+      $("explanation").innerHTML +=
+        `<br><br><b>🎉 All shifts completed!</b><br>
+         ${originalValue} ${direction==="left" ? "<<" : ">>"} ${totalShifts} = ${currentValue}`;
+    }
+  },650);
+}
+
+function addHistory(){
+  const item=document.createElement("div");
+  item.className="history-item";
+  if(shiftCount===totalShifts) item.classList.add("current");
+  item.textContent=`Shift ${shiftCount}: ${toBinary8(currentValue)} = ${currentValue}`;
+  $("historyList").appendChild(item);
+}
+
+function resetAnimation(){
+  originalValue=5; currentValue=5; shiftCount=0; totalShifts=3;
+  direction="left"; isRunning=false; animating=false;
+  $("numberInput").value=5;
+  $("shiftInput").value=3;
+  $("operator").value="left";
+  $("startBtn").disabled=false;
+  $("nextBtn").disabled=true;
+  $("historyList").innerHTML="";
+  updateStaticDisplay();
+  $("directionDisplay").textContent="Choose an operation and press Start";
+  $("explanation").innerHTML =
+    "<b>How to use:</b><br>Enter a number, choose an operator, enter n, press Start, and then press Next Shift.";
+}
+
+$("startBtn").addEventListener("click",startAnimation);
+$("nextBtn").addEventListener("click",nextShift);
+$("resetBtn").addEventListener("click",resetAnimation);
+updateStaticDisplay();
+</script>
+</body>
+</html>
